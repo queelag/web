@@ -21,7 +21,6 @@ export function Button() {
   const [props] = useState<ButtonProps>({})
 
   const onClick = async (event: PointerEvent) => {
-    console.log(event)
     await sleep(1000)
   }
 

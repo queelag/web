@@ -23,3 +23,8 @@ export interface IconElementAttributes extends BaseElementAttributes {
   strokeWidth?: string | number
   width?: string | number
 }
+
+export interface ImageElementAttributes extends BaseElementAttributes {
+  alt?: string
+  src: string
+}

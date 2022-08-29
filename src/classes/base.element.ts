@@ -34,6 +34,11 @@ function Mixin<T extends Constructor<LitElement>>(_LitElement: T) {
       this.qid = ID.generate({ alphabet: ID_ALPHABET_HEX_LOWERCASE, prefix: name, size: 16 })
     }
 
+    connectedCallback(): void {
+      super.connectedCallback()
+      this.setAttribute('qid', this.qid)
+    }
+
     attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
       super.attributeChangedCallback(name, _old, value)
 

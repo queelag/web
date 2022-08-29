@@ -1,4 +1,4 @@
-import { Fetch, FetchResponse, isStringURL, tcp } from '@queelag/core'
+import { Fetch, FetchResponse, isStringURL, rvp, sleep, tcp } from '@queelag/core'
 import { sanitize } from 'isomorphic-dompurify'
 import { html, svg, TemplateResult } from 'lit'
 import { customElement } from 'lit/decorators/custom-element.js'
@@ -57,18 +57,22 @@ export class IconElement extends BaseElement {
     }
 
     if (value === null) {
+      ElementLogger.warn(this.qid, 'attributeChangedCallback', `The src property is null.`, [value])
       return this.parse_svg_string(DEFAULT_ICON_SVG_STRING)
     }
 
     if (isStringURL(value)) {
+      ElementLogger.verbose(this.qid, 'attributeChangedCallback', `The src property is an URL, will try to fetch.`, [value])
       this.fetch_source()
       return
     }
 
     if (isStringSVG(value)) {
+      ElementLogger.verbose(this.qid, 'attributeChangedCallback', `The src property is a SVG, will try to parse.`, [value])
       return this.parse_svg_string(value)
     }
 
+    ElementLogger.warn(this.qid, 'attributeChangedCallback', `The value is nor URL nor SVG, falling back to empty SVG.`, [value])
     this.parse_svg_string(DEFAULT_ICON_SVG_STRING)
   }
 
@@ -76,16 +80,29 @@ export class IconElement extends BaseElement {
     let cache: string | undefined, response: FetchResponse<string> | Error, text: string | Error
 
     cache = CACHE_ICONS.get(this.src)
-    if (cache) return this.parse_svg_string(cache)
+    if (cache === 'fetching') {
+      ElementLogger.verbose(this.qid, 'fetch_source', `This src is being fetched by another icon, will try again in 100ms.`, [this.src])
+      await sleep(100)
+
+      return this.fetch_source()
+    }
+
+    if (typeof cache === 'string') {
+      ElementLogger.verbose(this.qid, 'fetch_source', `Cached SVG found for this src, will parse.`, [this.src, cache])
+      return this.parse_svg_string(cache)
+    }
+
+    CACHE_ICONS.set(this.src, 'fetching')
+    ElementLogger.verbose(this.qid, 'fetch_source', `The src cache value has been set to "fetching".`, [this.src])
 
     response = await Fetch.get(this.src, { parse: false })
-    if (response instanceof Error) return
+    if (response instanceof Error) return rvp(() => CACHE_ICONS.delete(this.src))
 
     text = await tcp(() => (response as FetchResponse).text())
-    if (text instanceof Error) return
+    if (text instanceof Error) return rvp(() => CACHE_ICONS.delete(this.src))
 
     CACHE_ICONS.set(this.src, text)
-    ElementLogger.verbose(this.qid, 'fetch_source', `The icon has been cached.`)
+    ElementLogger.verbose(this.qid, 'fetch_source', `The icon has been cached.`, [this.src, text])
 
     this.parse_svg_string(text)
   }
@@ -97,7 +114,7 @@ export class IconElement extends BaseElement {
     document = parser.parseFromString(sanitize(string, this.sanitize), 'text/html')
 
     element = document.querySelector('svg')
-    if (!element) return
+    if (!element) return ElementLogger.error(this.qid, 'parse_svg_string', `Failed to find the svg element.`, document)
 
     this.svg_element = element
     ElementLogger.verbose(this.qid, 'parse_svg_string', `The svg element has been set.`, this.svg_element)

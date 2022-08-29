@@ -41,11 +41,14 @@ export class ButtonElement extends BaseElement {
 
     this.disabled = true
     this.spinning = true
+    ElementLogger.verbose(this.qid, 'onClick', `The disabled and spinning properties have been set to true.`)
 
     await tcp(() => this._onClick(event))
+    ElementLogger.verbose(this.qid, 'onClick', `The ${this._onClick} function has been executed.`)
 
     this.spinning = false
     this.disabled = false
+    ElementLogger.verbose(this.qid, 'onClick', `The disabled and spinning properties have been set to false.`)
   }
 
   render() {
