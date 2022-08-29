@@ -1,0 +1,9 @@
+queelag-button,
+queelag-icon {
+  opacity: 0;
+}
+
+queelag-button:defined,
+queelag-icon:defined {
+  opacity: 1;
+}

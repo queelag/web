@@ -1,0 +1,51 @@
+{
+  "author": "Dario Sechi",
+  "dependencies": {
+    "isomorphic-dompurify": "^0.22.0"
+  },
+  "devDependencies": {
+    "@astrojs/lit": "^1.0.0",
+    "@astrojs/preact": "^1.0.2",
+    "@astrojs/tailwind": "^1.0.0",
+    "@babel/core": "^7.18.13",
+    "@microsoft/api-extractor": "^7.29.3",
+    "@queelag/core": "^1.1.3",
+    "@rollup/plugin-typescript": "^8.3.4",
+    "@types/jest": "^28.1.7",
+    "@types/react": "^18.0.17",
+    "@webcomponents/template-shadowroot": "^0.1.0",
+    "astro": "^1.1.1",
+    "babel-loader": "^8.2.5",
+    "jest": "^28.1.3",
+    "lit": "^2.3.1",
+    "lit-html": "^2.3.1",
+    "preact": "^10.10.6",
+    "prettier": "^2.7.1",
+    "rollup": "^2.78.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "ts-jest": "^28.0.8",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.4.0",
+    "typedoc": "^0.23.10",
+    "typescript": "4.7.4"
+  },
+  "license": "MIT",
+  "main": "index.cjs",
+  "module": "index.js",
+  "name": "@queelag/web",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": "https://github.com/queelag/web",
+  "scripts": {
+    "test": "yarn jest --coverage",
+    "build": "rm -rf dist && yarn rollup -c && yarn api-extractor run --local",
+    "tarball": "yarn version && cp package.json dist/. && cd dist && yarn pack",
+    "deploy": "yarn test && yarn build && yarn tarball && yarn publish dist/*.tgz --access public",
+    "playground:dev": "yarn astro dev --root ./playground",
+    "playground:build": "yarn astro build --root ./playground",
+    "playground:preview": "yarn astro preview --root ./playground"
+  },
+  "sideEffects": false,
+  "version": "1.0.0"
+}

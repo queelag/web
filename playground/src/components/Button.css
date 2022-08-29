@@ -1,0 +1,15 @@
+queelag-button {
+  @apply relative;
+}
+
+queelag-button[spinning] span:first-child {
+  @apply opacity-0;
+}
+
+queelag-button span[slot='spinning'] {
+  @apply absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center opacity-0;
+}
+
+queelag-button[spinning] span[slot='spinning'] {
+  @apply opacity-100;
+}
