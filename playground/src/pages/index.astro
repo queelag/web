@@ -1,6 +1,9 @@
 ---
+import { Avatar } from '../components/Avatar'
 import { Button } from '../components/Button'
 import { Icon } from '../components/Icon'
+import { Image } from '../components/Image'
+import { Input } from '../components/Input'
 import './index.css'
 ---
 
@@ -13,7 +16,11 @@ import './index.css'
     <title>Queelag Web - Playground</title>
   </head>
   <body class='flex flex-col gap-4 p-4'>
+    <Avatar client:load />
     <Button client:load />
+    <!-- <CheckBox client:load /> -->
     <Icon client:load />
+    <Image client:load />
+    <Input client:load />
   </body>
 </html>

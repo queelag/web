@@ -1,6 +1,6 @@
 import { createDocumentElement } from '@queelag/core'
 import type { RefObject } from 'preact'
-import { useReducer, useRef } from 'preact/hooks'
+import { useEffect, useReducer, useRef } from 'preact/hooks'
 import { useEventListener } from './use.event.listener'
 
 interface ReturnInterface<K extends keyof HTMLElementTagNameMap> {
@@ -12,7 +12,8 @@ export function useQueelagElement<K extends keyof HTMLElementTagNameMap>(tagName
   const ref = useRef(createDocumentElement(tagName))
   const [, dispatch] = useReducer(() => ({}), {})
 
-  useEventListener(ref, 'attributechanged', dispatch)
+  useEventListener(ref, 'attributechanged', () => dispatch({}), [ref.current])
+  useEffect(() => dispatch({}), [ref.current])
 
   return { element: ref.current, ref }
 }

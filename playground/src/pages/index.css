@@ -1,9 +1,13 @@
+queelag-avatar,
 queelag-button,
-queelag-icon {
+queelag-icon,
+queelag-image {
   opacity: 0;
 }
 
+queelag-avatar:defined,
 queelag-button:defined,
-queelag-icon:defined {
+queelag-icon:defined,
+queelag-image:defined {
   opacity: 1;
 }

@@ -3,7 +3,7 @@ export function getElementStyleCompatibleValue(value: any): string | undefined {
     case 'number':
       return value + 'px'
     case 'string':
-      if (/^[0-9.]{1,32}$/) {
+      if (/^[0-9.]{1,32}$/.test(value)) {
         return value + 'px'
       }
 

@@ -29,10 +29,30 @@ export type Direction = 'down' | 'left' | 'right' | 'up'
 export type DirectionHorizontal = 'left' | 'right'
 export type DirectionVertical = 'down' | 'up'
 export type FeedbackType = 'error' | 'information' | 'success' | 'warning'
+
+export type ImageCrossOrigin = 'anonymous' | 'use-credentials'
+export type ImageStatus = 'idle' | 'fetching' | 'loaded' | 'error'
+
 export type InputMode = 'multiple' | 'single'
 export type InputFileMode = InputMode
 export type InputTouchTrigger = 'blur' | 'change' | 'none'
-export type InputType = 'buffer' | 'date' | 'date_time' | 'email' | 'month' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'time' | 'url' | 'week'
+
+export type InputType =
+  | 'buffer'
+  | 'color'
+  | 'date'
+  | 'datetime-local'
+  | 'email'
+  | 'month'
+  | 'number'
+  | 'password'
+  | 'search'
+  | 'tel'
+  | 'text'
+  | 'time'
+  | 'url'
+  | 'week'
+
 export type Layer = 0 | 1 | 2 | 3
 export type Orientation = 'horizontal' | 'vertical'
 export type SelectMode = InputMode

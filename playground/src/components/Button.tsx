@@ -4,7 +4,6 @@ import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import type { ButtonElement, ButtonElementAttributes } from '../../../src'
 import '../../../src/elements/button.element'
 import { useQueelagElement } from '../hooks/use.queelag.element'
-import './Button.css'
 
 declare global {
   namespace JSX {
@@ -27,7 +26,7 @@ export function Button() {
   return (
     <div>
       <queelag-button {...props} ref={ref} _onClick={onClick}>
-        {element.spinning ? 'Spinning' : 'Button'}
+        <span>{element.spinning ? 'Spinning' : 'Button'}</span>
       </queelag-button>
     </div>
   )

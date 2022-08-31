@@ -1,59 +1,73 @@
 import { noop, tcp } from '@queelag/core'
-import { html } from 'lit'
-import { customElement } from 'lit/decorators/custom-element.js'
-import { property } from 'lit/decorators/property.js'
-import { ifDefined } from 'lit/directives/if-defined.js'
+import { css, CSSResult, html } from 'lit'
 import { BaseElement } from '../classes/base.element'
+import { CustomElement } from '../decorators/custom.element'
+import { Property } from '../decorators/property'
 import { ElementName } from '../definitions/enums'
 import { ButtonType, ButtonVariant } from '../definitions/types'
+import { ifdef } from '../directives/if.defined'
 import { ElementLogger } from '../loggers/element.logger'
 
-@customElement('queelag-button')
+@CustomElement('queelag-button')
 export class ButtonElement extends BaseElement {
-  @property({ type: Boolean, reflect: true })
-  disabled: boolean = false
+  @Property({ type: Boolean, reflect: true })
+  disabled?: boolean
 
-  @property({ type: Boolean, reflect: true })
-  icon: boolean = false
+  @Property({ type: Boolean, reflect: true })
+  normalized?: boolean
 
-  @property({ type: Boolean, reflect: true })
-  spinning: boolean = false
+  @Property({ type: Boolean, reflect: true })
+  spinning?: boolean
 
-  @property({ type: String, reflect: true })
+  @Property({ type: String, reflect: true })
   type?: ButtonType
 
-  @property({ type: String })
+  @Property({ type: String, reflect: true })
   variant?: ButtonVariant
 
-  @property({ type: Object })
+  @Property({ type: Object })
   _onClick: Function = noop
 
-  constructor() {
-    super()
-    this.construct(ElementName.BUTTON)
-  }
-
-  async onClick(event: PointerEvent) {
+  async on_click(event: PointerEvent) {
     if (this.disabled) {
-      ElementLogger.warn(this.qid, 'onClick', `Execution stopped, this button is disabled.`)
+      ElementLogger.warn(this.uid, 'onClick', `Execution stopped, this button is disabled.`)
       return
     }
 
     this.disabled = true
     this.spinning = true
-    ElementLogger.verbose(this.qid, 'onClick', `The disabled and spinning properties have been set to true.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The disabled and spinning properties have been set to true.`)
 
     await tcp(() => this._onClick(event))
-    ElementLogger.verbose(this.qid, 'onClick', `The ${this._onClick} function has been executed.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The ${this._onClick} function has been executed.`)
 
     this.spinning = false
     this.disabled = false
-    ElementLogger.verbose(this.qid, 'onClick', `The disabled and spinning properties have been set to false.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The disabled and spinning properties have been set to false.`)
   }
 
   render() {
-    return html`<button ?disabled="${this.disabled}" @click="${this.onClick}" type="${ifDefined(this.type)}">
-      <slot></slot>
-    </button>`
+    return html`
+      <button @click=${this.on_click} ?disabled=${this.disabled || this.spinning} style=${this.style_map} type=${ifdef(this.type)}>
+        <slot></slot>
+      </button>
+      ${this.shape_html}
+    `
   }
+
+  get name(): ElementName {
+    return ElementName.BUTTON
+  }
+
+  static styles = [
+    BaseElement.styles as CSSResult,
+    css`
+      :host([normalized]) button {
+        appearance: none;
+        background: none;
+        border: none;
+        padding: 0;
+      }
+    `
+  ]
 }

@@ -1,8 +1,14 @@
 export enum ElementName {
+  AVATAR = 'avatar',
   BUTTON = 'button',
-  ICON = 'icon'
+  CHECKBOX = 'checkbox',
+  ICON = 'icon',
+  IMAGE = 'image',
+  INPUT = 'input',
+  SQUIRCLE = 'squircle'
 }
 
 export enum LoggerName {
-  COMPONENT = 'WEB_COMPONENT'
+  ELEMENT = 'WEB_ELEMENT',
+  UTIL = 'WEB_UTIL'
 }

@@ -15,7 +15,7 @@ declare global {
 interface IconProps extends IconElementAttributes, DetailedHTMLProps<HTMLAttributes<IconElement>, IconElement> {}
 
 export function Icon() {
-  const { ref } = useQueelagElement('queelag-icon')
+  const { element, ref } = useQueelagElement('queelag-icon')
   const [props] = useState<IconProps>({ src: '' })
 
   return (
