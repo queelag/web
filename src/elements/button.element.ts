@@ -68,6 +68,10 @@ export class ButtonElement extends BaseElement {
         border: none;
         padding: 0;
       }
+
+      * {
+        cursor: pointer;
+      }
     `
   ]
 }

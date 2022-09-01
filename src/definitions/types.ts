@@ -35,7 +35,7 @@ export type ImageStatus = 'idle' | 'fetching' | 'loaded' | 'error'
 
 export type InputMode = 'multiple' | 'single'
 export type InputFileMode = InputMode
-export type InputTouchTrigger = 'blur' | 'change' | 'none'
+export type InputTouchTrigger = 'blur' | 'change'
 
 export type InputType =
   | 'buffer'

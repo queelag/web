@@ -20,25 +20,25 @@ import { getImageElementBase64 } from '../utils/image.utils'
 
 @CustomElement('queelag-image')
 export class ImageElement extends BaseElement {
-  @Property({ type: String })
+  @Property({ type: String, reflect: true })
   alt?: string
 
-  @Property({ type: Boolean })
+  @Property({ type: Boolean, reflect: true })
   cache?: boolean
 
   @Property({ type: Object })
   cacheOptions?: ImageCacheOptions
 
-  @Property({ type: String })
+  @Property({ type: String, reflect: true })
   crossOrigin?: ImageCrossOrigin
 
-  @Property({ type: String })
+  @Property({ type: String, reflect: true })
   height?: string
 
-  @Property({ type: String })
+  @Property({ type: String, reflect: true })
   src: string = DEFAULT_IMAGE_SRC
 
-  @Property({ type: String })
+  @Property({ type: String, reflect: true })
   width?: string
 
   @Query('img')
@@ -86,6 +86,7 @@ export class ImageElement extends BaseElement {
     }
 
     if (this.img_element_src.isResolved) {
+      ElementLogger.verbose(this.uid, 'try_to_load_from_cache', `The src was already resolved.`, [this.src])
       return
     }
 

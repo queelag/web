@@ -28,16 +28,15 @@ function FormFieldElementMixin<T extends Constructor<LitElement & BaseElementInt
     @Property({ type: Boolean, reflect: true })
     disabled?: boolean
 
-    @Property({ type: String })
+    @Property({ type: String, reflect: true })
     path: string = ''
 
-    @Property({ type: Object })
-    schema?: Struct
+    private _schema?: Struct
 
     @Property({ type: Object })
     target: Record<PropertyKey, any> = {}
 
-    @Property({ type: Boolean })
+    @Property({ type: Boolean, reflect: true })
     touched?: boolean
 
     @State()
@@ -67,6 +66,15 @@ function FormFieldElementMixin<T extends Constructor<LitElement & BaseElementInt
       }
 
       return this.validation[0]?.message
+    }
+
+    @Property({ type: Object })
+    get schema(): Struct | undefined {
+      return this._schema
+    }
+
+    set schema(schema: Struct | undefined) {
+      this._schema = schema
     }
 
     get value(): any {

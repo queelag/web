@@ -5,7 +5,8 @@ export enum ElementName {
   ICON = 'icon',
   IMAGE = 'image',
   INPUT = 'input',
-  SQUIRCLE = 'squircle'
+  SQUIRCLE = 'squircle',
+  TEXTAREA = 'textarea'
 }
 
 export enum LoggerName {

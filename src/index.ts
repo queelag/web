@@ -4,12 +4,11 @@ import type { CheckBoxElement } from './elements/check.box.element'
 import type { IconElement } from './elements/icon.element'
 import type { ImageElement } from './elements/image.element'
 import type { InputElement } from './elements/input.element'
-import type { AttributeChangedEvent } from './events/attribute.changed.event'
 
 declare global {
-  interface ElementEventMap {
-    attributechanged: AttributeChangedEvent
-  }
+  // interface ElementEventMap {
+  //   attributechanged: AttributeChangedEvent
+  // }
   interface HTMLElementTagNameMap {
     'queelag-avatar': AvatarElement
     'queelag-button': ButtonElement

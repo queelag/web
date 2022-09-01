@@ -1,4 +1,4 @@
-import { Fetch, FetchResponse, isStringURL, rvp, sleep, tcp } from '@queelag/core'
+import { Fetch, FetchResponse, isStringURL, rvp, tcp } from '@queelag/core'
 import { sanitize } from 'isomorphic-dompurify'
 import { html, svg, TemplateResult } from 'lit'
 import { DirectiveResult } from 'lit-html/directive'
@@ -22,25 +22,25 @@ export class IconElement extends BaseElement {
   @Property({ type: String, reflect: true })
   color?: Color
 
-  @Property({ type: String })
+  @Property({ type: String, reflect: true })
   fill?: string
 
-  @Property({ type: String })
+  @Property({ type: String, reflect: true })
   height?: string
 
   @Property({ type: Object })
   sanitize: IconElementSanitizeConfig = { RETURN_DOM: false, RETURN_DOM_FRAGMENT: false }
 
-  @Property({ type: String })
+  @Property({ type: String, reflect: true })
   src: string = ''
 
-  @Property({ type: String })
+  @Property({ type: String, reflect: true })
   stroke?: string
 
-  @Property({ type: String })
+  @Property({ type: String, reflect: true })
   strokeWidth?: string
 
-  @Property({ type: String })
+  @Property({ type: String, reflect: true })
   width?: string
 
   @State()
@@ -85,18 +85,18 @@ export class IconElement extends BaseElement {
   private async fetch_source(): Promise<void> {
     let cache: string | undefined, response: FetchResponse<string> | Error, text: string | Error
 
-    if (FETCHING_ICONS.has(this.src)) {
-      ElementLogger.verbose(this.uid, 'fetch_source', `The src is already being fetched, will try again in 100ms.`, [this.src])
-      await sleep(100)
+    // if (FETCHING_ICONS.has(this.src)) {
+    //   ElementLogger.verbose(this.uid, 'fetch_source', `The src is already being fetched, will try again in 100ms.`, [this.src])
+    //   await sleep(100)
 
-      return this.fetch_source()
-    }
+    //   return this.fetch_source()
+    // }
 
-    cache = CACHE_ICONS.get(this.src)
-    if (typeof cache === 'string') {
-      ElementLogger.verbose(this.uid, 'fetch_source', `Cached SVG found for this src, will parse.`, [this.src, cache])
-      return this.parse_svg_string(cache)
-    }
+    // cache = CACHE_ICONS.get(this.src)
+    // if (typeof cache === 'string') {
+    //   ElementLogger.verbose(this.uid, 'fetch_source', `Cached SVG found for this src, will parse.`, [this.src, cache])
+    //   return this.parse_svg_string(cache)
+    // }
 
     FETCHING_ICONS.add(this.src)
     ElementLogger.verbose(this.uid, 'fetch_source', `The src has been marked as fetching.`, [this.src])

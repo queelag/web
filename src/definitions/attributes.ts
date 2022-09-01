@@ -1,6 +1,6 @@
 import type { Struct } from 'superstruct'
 import { ImageCacheOptions, ShapeOptions } from './interfaces'
-import { ButtonType, ButtonVariant, InputType, Layer, Shape, Size } from './types'
+import { ButtonType, ButtonVariant, InputTouchTrigger, InputType, Layer, Shape, Size } from './types'
 
 export interface AvatarElementAttributes extends BaseElementAttributes {}
 
@@ -50,6 +50,9 @@ export interface ImageElementAttributes extends BaseElementAttributes {
 }
 
 export interface InputElementAttributes extends FormFieldElementAttributes {
+  multiple?: boolean
   obscured?: boolean
+  placeholder?: string
+  touchtrigger?: InputTouchTrigger
   type: InputType
 }

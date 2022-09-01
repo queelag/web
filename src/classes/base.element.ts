@@ -38,7 +38,7 @@ export declare class BaseElementInterface {
 
 export function BaseElementMixin<T extends Constructor<LitElement>>(_: T) {
   class BaseElement extends _ {
-    @Property({ type: String })
+    @Property({ type: String, reflect: true })
     background?: string
 
     @Property({ type: Number, reflect: true })
