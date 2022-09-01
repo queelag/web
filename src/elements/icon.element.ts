@@ -3,7 +3,6 @@ import { sanitize } from 'isomorphic-dompurify'
 import { html, svg, TemplateResult } from 'lit'
 import { DirectiveResult } from 'lit-html/directive'
 import { StyleMapDirective } from 'lit-html/directives/style-map'
-import { BaseElement } from '../classes/base.element'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { State } from '../decorators/state'
@@ -14,6 +13,7 @@ import { Color } from '../definitions/types'
 import { stylemap } from '../directives/style.map'
 import { unsafeSVG } from '../directives/unsafe.svg'
 import { ElementLogger } from '../loggers/element.logger'
+import { BaseElement } from '../mixins/base.element'
 import { getElementStyleCompatibleValue } from '../utils/dom.utils'
 import { isStringSVG } from '../utils/string.utils'
 
@@ -25,9 +25,6 @@ export class IconElement extends BaseElement {
   @Property({ type: String, reflect: true })
   fill?: string
 
-  @Property({ type: String, reflect: true })
-  height?: string
-
   @Property({ type: Object })
   sanitize: IconElementSanitizeConfig = { RETURN_DOM: false, RETURN_DOM_FRAGMENT: false }
 
@@ -37,11 +34,8 @@ export class IconElement extends BaseElement {
   @Property({ type: String, reflect: true })
   stroke?: string
 
-  @Property({ type: String, reflect: true })
-  strokeWidth?: string
-
-  @Property({ type: String, reflect: true })
-  width?: string
+  @Property({ type: String, attribute: 'stroke-width', reflect: true })
+  stroke_width?: string
 
   @State()
   private svg_element: SVGSVGElement = document.createElementNS(SVG_NAMESPACE_URI, 'svg')
@@ -133,7 +127,7 @@ export class IconElement extends BaseElement {
     return html`<svg
       fill=${this.fill}
       stroke=${this.stroke}
-      stroke-width=${this.strokeWidth}
+      stroke-width=${this.stroke_width}
       style=${this.svg_element_style}
       viewBox=${this.svg_element_viewbox}
       xmlns=${SVG_NAMESPACE_URI}

@@ -13,6 +13,7 @@ export function useQueelagElement<K extends keyof HTMLElementTagNameMap>(tagName
   const [, dispatch] = useReducer(() => ({}), {})
 
   useEventListener(ref, 'attributechanged', () => dispatch({}), [ref.current])
+  useEventListener(ref, 'statechanged', () => dispatch({}), [ref.current])
   useEffect(() => dispatch({}), [ref.current])
 
   return { element: ref.current, ref }

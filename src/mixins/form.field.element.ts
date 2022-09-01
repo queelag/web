@@ -1,26 +1,30 @@
 import { LitElement } from 'lit'
-import { Struct, StructError } from 'superstruct'
 import { Property } from '../decorators/property'
 import { State } from '../decorators/state'
-import { Constructor } from '../definitions/types'
+import { Constructor, FormFieldElementSchema, FormFieldElementValidation } from '../definitions/types'
+import { StateChangedEvent } from '../events/state.changed.event'
 import { ElementLogger } from '../loggers/element.logger'
 import { BaseElement, BaseElementInterface } from './base.element'
 
 export declare class FormFieldElementInterface {
   disabled?: boolean
+  focused?: boolean
   path: string
-  schema?: Struct
   target: Record<PropertyKey, any>
   touched?: boolean
-  validation?: [StructError | undefined, any]
+  validation?: FormFieldElementValidation
 
   touch(): void
   validate(): void
 
   get error(): string
+  get schema(): FormFieldElementSchema
   get value(): any
 
+  set schema(schema: FormFieldElementSchema)
   set value(value: any)
+
+  get isErrorVisible(): boolean
 }
 
 function FormFieldElementMixin<T extends Constructor<LitElement & BaseElementInterface>>(_: T) {
@@ -28,19 +32,25 @@ function FormFieldElementMixin<T extends Constructor<LitElement & BaseElementInt
     @Property({ type: Boolean, reflect: true })
     disabled?: boolean
 
-    @Property({ type: String, reflect: true })
-    path: string = ''
+    @Property({ type: Boolean, reflect: true })
+    focused?: boolean
 
-    private _schema?: Struct
+    @Property({ type: String, reflect: true })
+    path?: string
+
+    private _schema?: FormFieldElementSchema
 
     @Property({ type: Object })
-    target: Record<PropertyKey, any> = {}
+    target?: Record<PropertyKey, any>
 
     @Property({ type: Boolean, reflect: true })
     touched?: boolean
 
     @State()
-    validation?: [StructError | undefined, any]
+    validation?: FormFieldElementValidation
+
+    @State()
+    private _value: any
 
     touch(): void {
       if (!this.touched) {
@@ -57,7 +67,7 @@ function FormFieldElementMixin<T extends Constructor<LitElement & BaseElementInt
       }
 
       this.validation = this.schema.validate(this.value)
-      ElementLogger.verbose(this.uid, 'validate', `The value has been validated against the schema.`, this.validation, this.schema, [this.value])
+      ElementLogger.verbose(this.uid, 'validate', `The value has been validated against the schema.`, this.validation)
     }
 
     get error(): string | undefined {
@@ -69,23 +79,38 @@ function FormFieldElementMixin<T extends Constructor<LitElement & BaseElementInt
     }
 
     @Property({ type: Object })
-    get schema(): Struct | undefined {
+    get schema(): FormFieldElementSchema | undefined {
       return this._schema
     }
 
-    set schema(schema: Struct | undefined) {
+    set schema(schema: FormFieldElementSchema | undefined) {
       this._schema = schema
     }
 
     get value(): any {
-      return this.target[this.path]
+      if (this.target && typeof this.path === 'string') {
+        return this.target[this.path]
+      }
+
+      return this._value
     }
 
     set value(value: any) {
-      this.target[this.path] = value
+      let old: any = this.value
+
+      if (this.target && typeof this.path === 'string') {
+        this.target[this.path] = value
+      }
+
+      this._value = value
       ElementLogger.verbose(this.uid, 'set_value', `The value has been set.`, [value])
 
       this.validate()
+      this.dispatchEvent(new StateChangedEvent('value', old, value))
+    }
+
+    get isErrorVisible(): boolean {
+      return typeof this.error === 'string' && this.touched === true
     }
   }
 

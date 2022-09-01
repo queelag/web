@@ -1,58 +1,91 @@
 import type { Struct } from 'superstruct'
 import { ImageCacheOptions, ShapeOptions } from './interfaces'
-import { ButtonType, ButtonVariant, InputTouchTrigger, InputType, Layer, Shape, Size } from './types'
+import { ButtonType, ButtonVariant, InputTouchTrigger, InputType, Layer, Orientation, Shape, Size, TextAreaResize } from './types'
 
 export interface AvatarElementAttributes extends BaseElementAttributes {}
 
+export interface BadgeElementAttributes extends BaseElementAttributes {
+  maximum?: number
+  minimum?: number
+  value?: number | string
+}
+
 export interface BaseElementAttributes {
   background?: string
+  height?: number | string
   layer?: Layer
   shape?: Shape
-  shapeOptions?: ShapeOptions
+  'shape-options'?: ShapeOptions
   size?: Size
+  width?: number | string
 }
 
 export interface ButtonElementAttributes extends BaseElementAttributes {
   disabled?: boolean
   icon?: boolean
   normalized?: boolean
-  _onClick?: Function
   spinning?: boolean
   type?: ButtonType
   variant?: ButtonVariant
 }
 
-export interface FormFieldElementAttributes {
+export interface CheckBoxElementAttributes extends FormFieldElementAttributes {
+  custom?: boolean
+  normalized?: boolean
+}
+
+export interface DividerElementAttributes extends BaseElementAttributes {
+  orientation?: Orientation
+}
+
+export interface FormFieldElementAttributes extends BaseElementAttributes {
   disabled?: boolean
   path?: string
-  schema?: Struct
+  schema?: Struct<any, any>
   target?: Record<PropertyKey, any>
   touched?: boolean
 }
 
 export interface IconElementAttributes extends BaseElementAttributes {
   fill?: string
-  height?: string | number
   src: string
   stroke?: string
-  strokeWidth?: string | number
-  width?: string | number
+  'stroke-width'?: string | number
 }
 
 export interface ImageElementAttributes extends BaseElementAttributes {
   alt?: string
   cache?: boolean
-  cacheOptions?: ImageCacheOptions
-  crossOrigin?: string
-  height?: string | number
+  'cache-options'?: ImageCacheOptions
+  'cross-origin'?: string
   src: string
-  width?: string | number
 }
 
 export interface InputElementAttributes extends FormFieldElementAttributes {
+  autofocus?: boolean
   multiple?: boolean
+  normalized?: boolean
   obscured?: boolean
+  padding?: string
   placeholder?: string
-  touchtrigger?: InputTouchTrigger
+  'touch-trigger'?: InputTouchTrigger
   type: InputType
+}
+
+export interface MeterElementAttributes extends BaseElementAttributes {
+  low?: number
+  high?: number
+  maximum?: number
+  minimum?: number
+  native?: boolean
+  optimum?: number
+  round?: boolean
+  value?: number
+}
+
+export interface TextAreaElementAttributes extends Omit<InputElementAttributes, 'obscured' | 'type'> {
+  autosize?: boolean
+  cols?: number
+  resize?: TextAreaResize
+  rows?: number
 }

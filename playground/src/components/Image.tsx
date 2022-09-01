@@ -22,7 +22,7 @@ export function Image() {
     <div>
       <queelag-image
         {...props}
-        cacheOptions={{ type: 'image/jpeg', quality: 0 }}
+        cache-options={{ type: 'image/jpeg', quality: 0 }}
         ref={ref}
         shape='squircle'
         size={128}

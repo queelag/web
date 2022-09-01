@@ -2,7 +2,6 @@ import { DeferredPromise, sleep } from '@queelag/core'
 import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive'
 import { StyleMapDirective } from 'lit-html/directives/style-map'
-import { BaseElement } from '../classes/base.element'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { Query } from '../decorators/query'
@@ -15,6 +14,7 @@ import { ifdef } from '../directives/if.defined'
 import { stylemap } from '../directives/style.map'
 import { until } from '../directives/until'
 import { ElementLogger } from '../loggers/element.logger'
+import { BaseElement } from '../mixins/base.element'
 import { getElementStyleCompatibleValue } from '../utils/dom.utils'
 import { getImageElementBase64 } from '../utils/image.utils'
 
@@ -26,20 +26,14 @@ export class ImageElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   cache?: boolean
 
-  @Property({ type: Object })
-  cacheOptions?: ImageCacheOptions
+  @Property({ type: Object, attribute: 'cache-options' })
+  cache_options?: ImageCacheOptions
 
-  @Property({ type: String, reflect: true })
-  crossOrigin?: ImageCrossOrigin
-
-  @Property({ type: String, reflect: true })
-  height?: string
+  @Property({ type: String, attribute: 'cross-origin', reflect: true })
+  cross_origin?: ImageCrossOrigin
 
   @Property({ type: String, reflect: true })
   src: string = DEFAULT_IMAGE_SRC
-
-  @Property({ type: String, reflect: true })
-  width?: string
 
   @Query('img')
   private img_element!: HTMLImageElement
@@ -124,7 +118,7 @@ export class ImageElement extends BaseElement {
     //   return
     // }
 
-    base64 = getImageElementBase64(this.img_element, this.cacheOptions)
+    base64 = getImageElementBase64(this.img_element, this.cache_options)
     if (!base64) return ElementLogger.warn(this.uid, 'on_load', `The base64 is empty.`, [base64])
 
     CACHE_IMAGES.set(this.src, base64)
@@ -146,8 +140,8 @@ export class ImageElement extends BaseElement {
   }
 
   private get img_element_crossorigin(): ImageCrossOrigin | undefined {
-    if (this.crossOrigin) {
-      return this.crossOrigin
+    if (this.cross_origin) {
+      return this.cross_origin
     }
 
     if (this.cache) {

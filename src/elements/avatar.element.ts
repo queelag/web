@@ -1,8 +1,8 @@
 import { css, CSSResult } from 'lit'
 import { html } from 'lit-html'
-import { BaseElement } from '../classes/base.element'
 import { CustomElement } from '../decorators/custom.element'
 import { ElementName } from '../definitions/enums'
+import { BaseElement } from '../mixins/base.element'
 
 @CustomElement('queelag-avatar')
 export class AvatarElement extends BaseElement {

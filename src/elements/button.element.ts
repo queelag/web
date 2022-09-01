@@ -1,12 +1,12 @@
-import { noop, tcp } from '@queelag/core'
 import { css, CSSResult, html } from 'lit'
-import { BaseElement } from '../classes/base.element'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { ElementName } from '../definitions/enums'
 import { ButtonType, ButtonVariant } from '../definitions/types'
 import { ifdef } from '../directives/if.defined'
+import { ClickAsyncEvent } from '../events/click.async.event'
 import { ElementLogger } from '../loggers/element.logger'
+import { BaseElement } from '../mixins/base.element'
 
 @CustomElement('queelag-button')
 export class ButtonElement extends BaseElement {
@@ -25,25 +25,24 @@ export class ButtonElement extends BaseElement {
   @Property({ type: String, reflect: true })
   variant?: ButtonVariant
 
-  @Property({ type: Object })
-  _onClick: Function = noop
-
-  async on_click(event: PointerEvent) {
+  private on_click() {
     if (this.disabled) {
-      ElementLogger.warn(this.uid, 'onClick', `Execution stopped, this button is disabled.`)
+      ElementLogger.warn(this.uid, 'on_click', `Execution stopped, this button is disabled.`)
       return
     }
 
     this.disabled = true
     this.spinning = true
-    ElementLogger.verbose(this.uid, 'onClick', `The disabled and spinning properties have been set to true.`)
+    ElementLogger.verbose(this.uid, 'on_click', `The disabled and spinning properties have been set to true.`)
 
-    await tcp(() => this._onClick(event))
-    ElementLogger.verbose(this.uid, 'onClick', `The ${this._onClick} function has been executed.`)
+    this.dispatchEvent(new ClickAsyncEvent(this.finalize))
+    ElementLogger.verbose(this.uid, 'on_click', `The "clickasync" event has been dispatched.`)
+  }
 
+  finalize = (): void => {
     this.spinning = false
     this.disabled = false
-    ElementLogger.verbose(this.uid, 'onClick', `The disabled and spinning properties have been set to false.`)
+    ElementLogger.verbose(this.uid, 'finalize', `The disabled and spinning properties have been set to false.`)
   }
 
   render() {
@@ -60,11 +59,12 @@ export class ButtonElement extends BaseElement {
   }
 
   static styles = [
-    BaseElement.styles as CSSResult,
+    super.styles as CSSResult,
     css`
       :host([normalized]) button {
         appearance: none;
         background: none;
+        display: inline-flex;
         border: none;
         padding: 0;
       }

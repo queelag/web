@@ -1,3 +1,5 @@
+import type { Struct, StructError } from 'superstruct'
+
 export type ButtonType = 'button' | 'menu' | 'reset' | 'submit'
 export type ButtonVariant = 'contained' | 'opacity' | 'outline' | 'text'
 
@@ -30,11 +32,12 @@ export type DirectionHorizontal = 'left' | 'right'
 export type DirectionVertical = 'down' | 'up'
 export type FeedbackType = 'error' | 'information' | 'success' | 'warning'
 
+export type FormFieldElementSchema = Struct<any, any> | undefined
+export type FormFieldElementValidation = [StructError | undefined, any]
+
 export type ImageCrossOrigin = 'anonymous' | 'use-credentials'
 export type ImageStatus = 'idle' | 'fetching' | 'loaded' | 'error'
 
-export type InputMode = 'multiple' | 'single'
-export type InputFileMode = InputMode
 export type InputTouchTrigger = 'blur' | 'change'
 
 export type InputType =
@@ -53,11 +56,15 @@ export type InputType =
   | 'url'
   | 'week'
 
+export type InputValue = Date | number | string | string[] | undefined | Uint8Array
+
 export type Layer = 0 | 1 | 2 | 3
 export type Orientation = 'horizontal' | 'vertical'
-export type SelectMode = InputMode
 export type Shape = 'circle' | 'rectangle' | 'square' | 'squircle'
 export type Size = 'small' | 'medium' | 'large' | string | number
-export type TextAreaMode = InputMode
+
 export type TextAreaTouchTrigger = InputTouchTrigger
+export type TextAreaValue = string | string[] | undefined
+export type TextAreaResize = 'both' | 'horizontal' | 'vertical' | 'none'
+
 export type Theme = 'dark' | 'light' | 'system'

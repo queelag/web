@@ -18,11 +18,13 @@ export declare class BaseElementInterface {
    * Properties
    */
   background?: string
+  height?: number | string
   layer?: Layer
   shape?: Shape
-  shapeOptions?: ShapeOptions
+  shape_options?: ShapeOptions
   size?: Size
   uid: string
+  width?: number | string
   /**
    * Getters
    */
@@ -32,6 +34,7 @@ export declare class BaseElementInterface {
   get shape_style_map(): DirectiveResult
   get size_style_info(): StyleInfo
   get size_style_map(): DirectiveResult
+  get style_info(): StyleInfo
   get style_map(): DirectiveResult
   get isShapeCircle(): boolean
 }
@@ -41,17 +44,23 @@ export function BaseElementMixin<T extends Constructor<LitElement>>(_: T) {
     @Property({ type: String, reflect: true })
     background?: string
 
+    @Property({ type: String, reflect: true })
+    height?: string
+
     @Property({ type: Number, reflect: true })
     layer?: Layer
 
     @Property({ type: String, reflect: true })
     shape?: Shape
 
-    @Property({ type: Object })
-    shapeOptions?: ShapeOptions
+    @Property({ type: Object, attribute: 'shape-options' })
+    shape_options?: ShapeOptions
 
     @Property({ type: String, reflect: true })
     size?: Size
+
+    @Property({ type: String, reflect: true })
+    width?: string
 
     private _squircle_id: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.SQUIRCLE })
     private _uid: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.name })
@@ -76,11 +85,13 @@ export function BaseElementMixin<T extends Constructor<LitElement>>(_: T) {
         return
       }
 
-      return getSquircleHTML(this._squircle_id, this.shapeOptions?.squircle?.size || this.size_as_number, { curvature: this.shapeOptions?.squircle?.curvature })
+      return getSquircleHTML(this._squircle_id, this.shape_options?.squircle?.size || this.size_as_number, {
+        curvature: this.shape_options?.squircle?.curvature
+      })
     }
 
     get shape_style_info(): StyleInfo {
-      return getShapeStyleInfo(this.shape, { ...this.shapeOptions, squircle: { id: this._squircle_id } })
+      return getShapeStyleInfo(this.shape, { ...this.shape_options, squircle: { id: this._squircle_id } })
     }
 
     get shape_style_map(): DirectiveResult {
@@ -89,8 +100,8 @@ export function BaseElementMixin<T extends Constructor<LitElement>>(_: T) {
 
     get size_style_info(): StyleInfo {
       return {
-        height: getElementStyleCompatibleValue(this.size),
-        width: getElementStyleCompatibleValue(this.size)
+        height: getElementStyleCompatibleValue(this.height || this.size),
+        width: getElementStyleCompatibleValue(this.width || this.size)
       }
     }
 
@@ -98,8 +109,12 @@ export function BaseElementMixin<T extends Constructor<LitElement>>(_: T) {
       return stylemap(this.size_style_info)
     }
 
+    get style_info(): StyleInfo {
+      return { ...this.shape_style_info, ...this.size_style_info, background: this.background }
+    }
+
     get style_map(): DirectiveResult {
-      return stylemap({ ...this.shape_style_info, ...this.size_style_info, background: this.background })
+      return stylemap(this.style_info)
     }
 
     // @ts-ignore
