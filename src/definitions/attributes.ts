@@ -31,12 +31,15 @@ export interface ButtonElementAttributes extends BaseElementAttributes {
 
 export interface CheckBoxElementAttributes extends FormFieldElementAttributes {
   custom?: boolean
+  native?: boolean
   normalized?: boolean
 }
 
 export interface DividerElementAttributes extends BaseElementAttributes {
   orientation?: Orientation
 }
+
+export interface FormElementAttributes extends BaseElementAttributes {}
 
 export interface FormFieldElementAttributes extends BaseElementAttributes {
   disabled?: boolean

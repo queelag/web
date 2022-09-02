@@ -33,6 +33,7 @@ export type DirectionVertical = 'down' | 'up'
 export type FeedbackType = 'error' | 'information' | 'success' | 'warning'
 
 export type FormFieldElementSchema = Struct<any, any> | undefined
+export type FormFieldElementTarget = Record<PropertyKey, any>
 export type FormFieldElementValidation = [StructError | undefined, any]
 
 export type ImageCrossOrigin = 'anonymous' | 'use-credentials'

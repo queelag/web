@@ -1,4 +1,4 @@
-import { useState } from 'preact/hooks'
+import { useRef, useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import { size, string } from 'superstruct'
 import type { InputElement, InputElementAttributes } from '../../../src'
@@ -18,11 +18,20 @@ interface InputProps extends InputElementAttributes, DetailedHTMLProps<HTMLAttri
 export function Input() {
   const { element, ref } = useQueelagElement('queelag-input')
   const [props] = useState<InputProps>({ type: 'text' })
+  const target = useRef({ name: '' })
 
   return (
     <div className='flex flex-col gap-1'>
       <div className='flex items-center gap-2'>
-        <queelag-input {...props} ref={ref} placeholder='placeholder' schema={size(string(), 0, 5)} touch-trigger='change' />
+        <queelag-input
+          {...props}
+          path='name'
+          target={target.current}
+          ref={ref}
+          placeholder='placeholder'
+          schema={size(string(), 0, 5)}
+          touch-trigger='change'
+        />
         <queelag-button normalized>
           <queelag-icon
             fill='none'

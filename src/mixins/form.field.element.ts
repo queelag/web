@@ -1,30 +1,32 @@
 import { LitElement } from 'lit'
 import { Property } from '../decorators/property'
 import { State } from '../decorators/state'
-import { Constructor, FormFieldElementSchema, FormFieldElementValidation } from '../definitions/types'
+import { Constructor, FormFieldElementSchema, FormFieldElementTarget, FormFieldElementValidation } from '../definitions/types'
 import { StateChangedEvent } from '../events/state.changed.event'
 import { ElementLogger } from '../loggers/element.logger'
+import { FormFieldElementCollector } from '../modules/form.field.element.collector'
 import { BaseElement, BaseElementInterface } from './base.element'
 
 export declare class FormFieldElementInterface {
   disabled?: boolean
   focused?: boolean
-  path: string
-  target: Record<PropertyKey, any>
+  path?: string
+  target?: FormFieldElementTarget
   touched?: boolean
   validation?: FormFieldElementValidation
 
   touch(): void
   validate(): void
 
-  get error(): string
-  get schema(): FormFieldElementSchema
+  get error(): string | undefined
+  get schema(): FormFieldElementSchema | undefined
   get value(): any
 
-  set schema(schema: FormFieldElementSchema)
+  set schema(schema: FormFieldElementSchema | undefined)
   set value(value: any)
 
   get isErrorVisible(): boolean
+  get isValid(): boolean
 }
 
 function FormFieldElementMixin<T extends Constructor<LitElement & BaseElementInterface>>(_: T) {
@@ -39,9 +41,7 @@ function FormFieldElementMixin<T extends Constructor<LitElement & BaseElementInt
     path?: string
 
     private _schema?: FormFieldElementSchema
-
-    @Property({ type: Object })
-    target?: Record<PropertyKey, any>
+    private _target?: FormFieldElementTarget
 
     @Property({ type: Boolean, reflect: true })
     touched?: boolean
@@ -51,6 +51,16 @@ function FormFieldElementMixin<T extends Constructor<LitElement & BaseElementInt
 
     @State()
     private _value: any
+
+    connectedCallback(): void {
+      super.connectedCallback()
+      FormFieldElementCollector.set(this)
+    }
+
+    disconnectedCallback(): void {
+      super.disconnectedCallback()
+      FormFieldElementCollector.delete(this)
+    }
 
     touch(): void {
       if (!this.touched) {
@@ -87,7 +97,26 @@ function FormFieldElementMixin<T extends Constructor<LitElement & BaseElementInt
       this._schema = schema
     }
 
+    get target(): FormFieldElementTarget | undefined {
+      return this._target
+    }
+
+    set target(target: FormFieldElementTarget | undefined) {
+      let old: FormFieldElementTarget | undefined
+
+      FormFieldElementCollector.delete(this)
+
+      old = this._target
+      this._target = target
+
+      FormFieldElementCollector.set(this)
+
+      this.requestUpdate('target')
+    }
+
     get value(): any {
+      FormFieldElementCollector.set(this)
+
       if (this.target && typeof this.path === 'string') {
         return this.target[this.path]
       }
@@ -111,6 +140,10 @@ function FormFieldElementMixin<T extends Constructor<LitElement & BaseElementInt
 
     get isErrorVisible(): boolean {
       return typeof this.error === 'string' && this.touched === true
+    }
+
+    get isValid(): boolean {
+      return typeof this.error === 'undefined'
     }
   }
 

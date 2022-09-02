@@ -3,6 +3,7 @@ import type { BadgeElement } from './elements/badge.element'
 import type { ButtonElement } from './elements/button.element'
 import type { CheckBoxElement } from './elements/check.box.element'
 import type { DividerElement } from './elements/divider.element'
+import type { FormElement } from './elements/form.element'
 import type { IconElement } from './elements/icon.element'
 import type { ImageElement } from './elements/image.element'
 import type { InputElement } from './elements/input.element'
@@ -19,6 +20,7 @@ declare global {
     'queelag-button': ButtonElement
     'queelag-checkbox': CheckBoxElement
     'queelag-divider': DividerElement
+    'queelag-form': FormElement
     'queelag-icon': IconElement
     'queelag-image': ImageElement
     'queelag-input': InputElement
@@ -35,9 +37,13 @@ export * from './elements/badge.element'
 export * from './elements/button.element'
 export * from './elements/check.box.element'
 export * from './elements/divider.element'
+export * from './elements/form.element'
 export * from './elements/icon.element'
 export * from './elements/image.element'
 export * from './elements/input.element'
 export * from './elements/meter.element'
 export * from './elements/text.area.element'
 export * from './events/attribute.changed.event'
+export * from './events/click.async.event'
+export * from './events/state.changed.event'
+export * from './events/submit.async.event'

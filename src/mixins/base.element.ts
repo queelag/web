@@ -9,6 +9,7 @@ import { ShapeOptions } from '../definitions/interfaces'
 import { Constructor, Layer, Shape, Size } from '../definitions/types'
 import { stylemap } from '../directives/style.map'
 import { AttributeChangedEvent } from '../events/attribute.changed.event'
+import { ElementCollector } from '../modules/element.collector'
 import { getElementStyleCompatibleValue } from '../utils/dom.utils'
 import { getShapeStyleInfo } from '../utils/shape.utils'
 import { getSquircleHTML } from '../utils/squircle.utils'
@@ -29,7 +30,7 @@ export declare class BaseElementInterface {
    * Getters
    */
   get name(): ElementName
-  get shape_html(): TemplateResult
+  get shape_html(): TemplateResult | undefined
   get shape_style_info(): StyleInfo
   get shape_style_map(): DirectiveResult
   get size_style_info(): StyleInfo
@@ -68,6 +69,13 @@ export function BaseElementMixin<T extends Constructor<LitElement>>(_: T) {
     connectedCallback(): void {
       super.connectedCallback()
       this.setAttribute('uid', this.uid)
+
+      ElementCollector.set(this)
+    }
+
+    disconnectedCallback(): void {
+      super.disconnectedCallback()
+      ElementCollector.delete(this)
     }
 
     attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
@@ -79,6 +87,9 @@ export function BaseElementMixin<T extends Constructor<LitElement>>(_: T) {
 
       this.dispatchEvent(new AttributeChangedEvent(name, _old, value))
     }
+
+    // @ts-ignore
+    get name(): ElementName {}
 
     get shape_html(): TemplateResult | undefined {
       if (this.shape !== 'squircle') {
@@ -116,9 +127,6 @@ export function BaseElementMixin<T extends Constructor<LitElement>>(_: T) {
     get style_map(): DirectiveResult {
       return stylemap(this.style_info)
     }
-
-    // @ts-ignore
-    get name(): ElementName {}
 
     get uid(): string {
       return this._uid

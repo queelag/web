@@ -2,6 +2,7 @@ export enum ElementName {
   AVATAR = 'avatar',
   BUTTON = 'button',
   CHECKBOX = 'checkbox',
+  FORM = 'form',
   ICON = 'icon',
   IMAGE = 'image',
   INPUT = 'input',
