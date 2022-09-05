@@ -23,15 +23,7 @@ export function Input() {
   return (
     <div className='flex flex-col gap-1'>
       <div className='flex items-center gap-2'>
-        <queelag-input
-          {...props}
-          path='name'
-          target={target.current}
-          ref={ref}
-          placeholder='placeholder'
-          schema={size(string(), 0, 5)}
-          touch-trigger='change'
-        />
+        <queelag-input {...props} path='name' target={target.current} ref={ref} placeholder='input' schema={size(string(), 0, 5)} touch-trigger='change' />
         <queelag-button normalized>
           <queelag-icon
             fill='none'

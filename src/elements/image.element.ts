@@ -11,7 +11,7 @@ import { ElementName } from '../definitions/enums'
 import { ImageCacheOptions } from '../definitions/interfaces'
 import { ImageCrossOrigin } from '../definitions/types'
 import { ifdef } from '../directives/if.defined'
-import { stylemap } from '../directives/style.map'
+import { styleMap } from '../directives/style.map'
 import { until } from '../directives/until'
 import { ElementLogger } from '../loggers/element.logger'
 import { BaseElement } from '../mixins/base.element'
@@ -43,7 +43,7 @@ export class ImageElement extends BaseElement {
 
   connectedCallback(): void {
     super.connectedCallback()
-    this.try_to_load_from_cache()
+    this.load()
   }
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
@@ -53,58 +53,58 @@ export class ImageElement extends BaseElement {
       return
     }
 
-    this.try_to_load_from_cache()
+    this.load()
   }
 
-  private async try_to_load_from_cache(): Promise<void> {
+  private async load(): Promise<void> {
     let cache: string | undefined
 
     if (this.src === null) {
-      ElementLogger.warn(this.uid, 'try_to_load_from_cache', `The src property is null.`, [this.src])
+      ElementLogger.warn(this.uid, 'load', `The src property is null.`, [this.src])
       return
     }
 
     if (FETCHING_IMAGES.has(this.src)) {
       await sleep(100)
-      ElementLogger.verbose(this.uid, 'try_to_load_from_cache', `The src is already being fetched, will try again in 100ms.`, [this.src])
+      ElementLogger.verbose(this.uid, 'load', `The src is already being fetched, will try again in 100ms.`, [this.src])
 
-      return this.try_to_load_from_cache()
+      return this.load()
     }
 
     cache = CACHE_IMAGES.get(this.src)
     if (typeof cache === 'string') {
       this.img_element_src.resolve(cache)
-      ElementLogger.verbose(this.uid, 'try_to_load_from_cache', `Cached base64 found for this image, will use it.`, [this.src, cache])
+      ElementLogger.verbose(this.uid, 'load', `Cached base64 found for this image, will use it.`, [this.src, cache])
 
       return
     }
 
     if (this.img_element_src.isResolved) {
-      ElementLogger.verbose(this.uid, 'try_to_load_from_cache', `The src was already resolved.`, [this.src])
+      ElementLogger.verbose(this.uid, 'load', `The src was already resolved.`, [this.src])
       return
     }
 
     FETCHING_IMAGES.add(this.src)
-    ElementLogger.verbose(this.uid, 'try_to_load_from_cache', `The src has been marked as fetching.`, [this.src])
+    ElementLogger.verbose(this.uid, 'load', `The src has been marked as fetching.`, [this.src])
 
     this.img_element_src.resolve(this.src)
   }
 
-  private on_error(event: ErrorEvent): void {
+  private onError(event: ErrorEvent): void {
     FETCHING_IMAGES.delete(this.src)
-    ElementLogger.verbose(this.uid, 'on_error', `The src has been unmarked as fetching.`, [this.src])
+    ElementLogger.verbose(this.uid, 'onError', `The src has been unmarked as fetching.`, [this.src])
 
     this.img_element_src = new DeferredPromise()
     this.img_element_src.resolve(DEFAULT_IMAGE_SRC)
 
-    ElementLogger.error(this.uid, 'on_error', `Falling back to the default img src.`, event)
+    ElementLogger.error(this.uid, 'onError', `Falling back to the default img src.`, event)
   }
 
-  private on_load(): void {
+  private onLoad(): void {
     let base64: string
 
     FETCHING_IMAGES.delete(this.src)
-    ElementLogger.verbose(this.uid, 'on_load', `The src has been unmarked as fetching.`, [this.src])
+    ElementLogger.verbose(this.uid, 'onLoad', `The src has been unmarked as fetching.`, [this.src])
 
     if (!this.cache) {
       return
@@ -119,10 +119,10 @@ export class ImageElement extends BaseElement {
     // }
 
     base64 = getImageElementBase64(this.img_element, this.cache_options)
-    if (!base64) return ElementLogger.warn(this.uid, 'on_load', `The base64 is empty.`, [base64])
+    if (!base64) return ElementLogger.warn(this.uid, 'onLoad', `The base64 is empty.`, [base64])
 
     CACHE_IMAGES.set(this.src, base64)
-    ElementLogger.verbose(this.uid, 'on_load', `The image has been cached.`, [this.src, base64])
+    ElementLogger.verbose(this.uid, 'onLoad', `The image has been cached.`, [this.src, base64])
   }
 
   render() {
@@ -130,8 +130,8 @@ export class ImageElement extends BaseElement {
       <img
         alt=${ifdef(this.alt)}
         crossorigin=${ifdef(this.img_element_crossorigin)}
-        @error=${this.on_error}
-        @load=${this.on_load}
+        @error=${this.onError}
+        @load=${this.onLoad}
         src=${until(this.img_element_src.instance)}
         style=${this.img_element_style}
       />
@@ -150,7 +150,7 @@ export class ImageElement extends BaseElement {
   }
 
   private get img_element_style(): DirectiveResult<typeof StyleMapDirective> {
-    return stylemap({
+    return styleMap({
       ...this.shape_style_info,
       height: getElementStyleCompatibleValue(this.height || this.size || DEFAULT_IMAGE_SIZE),
       maxHeight: getElementStyleCompatibleValue(this.height || this.size),

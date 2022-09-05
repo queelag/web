@@ -29,7 +29,7 @@ export class FormElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   spinning?: boolean
 
-  on_key_down(event: KeyboardEvent): void {
+  private onKeyDown(event: KeyboardEvent): void {
     if (event.key !== KeyboardEventKey.ENTER) {
       return
     }
@@ -37,14 +37,14 @@ export class FormElement extends BaseElement {
     this.form_element.requestSubmit()
   }
 
-  on_submit(event: SubmitEvent): void {
+  private onSubmit(event: SubmitEvent): void {
     let valid: boolean = true
 
     event.preventDefault()
     event.stopPropagation()
 
     if (this.disabled) {
-      return ElementLogger.warn(this.uid, 'on_submit', `Execution stopped, this form is disabled.`)
+      return ElementLogger.warn(this.uid, 'onSubmit', `Execution stopped, this form is disabled.`)
     }
 
     for (let element of this.slot_elements) {
@@ -55,10 +55,10 @@ export class FormElement extends BaseElement {
     if (valid) {
       this.disabled = true
       this.spinning = true
-      ElementLogger.verbose(this.uid, 'on_submit', `The disabled and spinning properties has been set to true.`)
+      ElementLogger.verbose(this.uid, 'onSubmit', `The disabled and spinning properties has been set to true.`)
 
       this.dispatchEvent(new SubmitAsyncEvent(this.finalize))
-      ElementLogger.verbose(this.uid, 'on_submit', `The "submitasync" event has been dispatched.`)
+      ElementLogger.verbose(this.uid, 'onSubmit', `The "submitasync" event has been dispatched.`)
     }
   }
 
@@ -70,7 +70,7 @@ export class FormElement extends BaseElement {
 
   render() {
     return html`
-      <form @keydown=${this.on_key_down} @submit=${this.on_submit} novalidate>
+      <form @keydown=${this.onKeyDown} @submit=${this.onSubmit} novalidate>
         <slot></slot>
       </form>
     `
@@ -80,7 +80,7 @@ export class FormElement extends BaseElement {
     return ElementName.FORM
   }
 
-  get slot_elements(): (LitElement & FormFieldElementInterface)[] {
+  private get slot_elements(): (LitElement & FormFieldElementInterface)[] {
     return [...this.slot_checkbox_elements, ...this.slot_input_elements]
   }
 }

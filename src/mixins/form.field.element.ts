@@ -111,7 +111,7 @@ function FormFieldElementMixin<T extends Constructor<LitElement & BaseElementInt
 
       FormFieldElementCollector.set(this)
 
-      this.requestUpdate('target')
+      this.requestUpdate('target', old)
     }
 
     get value(): any {
@@ -132,7 +132,7 @@ function FormFieldElementMixin<T extends Constructor<LitElement & BaseElementInt
       }
 
       this._value = value
-      ElementLogger.verbose(this.uid, 'set_value', `The value has been set.`, [value])
+      ElementLogger.verbose(this.uid, 'set value', `The value has been set.`, [value])
 
       this.validate()
       this.dispatchEvent(new StateChangedEvent('value', old, value))

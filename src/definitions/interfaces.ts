@@ -10,6 +10,11 @@ export interface ImageCacheOptions {
   type?: 'image/jpeg' | 'image/png' | 'image/webp'
 }
 
+export interface SelectOption {
+  label?: string
+  value: any
+}
+
 export interface ShapeOptions {
   rectangle?: {
     radius?: string

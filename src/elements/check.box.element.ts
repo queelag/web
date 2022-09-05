@@ -9,33 +9,26 @@ import { FormFieldElement } from '../mixins/form.field.element'
 @CustomElement('queelag-checkbox')
 export class CheckBoxElement extends FormFieldElement {
   @Property({ type: Boolean, reflect: true })
-  checked?: boolean
-
-  @Property({ type: Boolean, reflect: true })
   native?: boolean
 
   @Property({ type: Boolean, reflect: true })
   normalized?: boolean
 
-  private on_change(): void {
+  private onChange(): void {
     this.value = !this.value
-    this.checked = this.value
-
     this.touch()
   }
 
-  private on_click(): void {
+  private onClick(): void {
     if (this.disabled) {
-      return ElementLogger.warn(this.id, 'on_click', `Execution stopped, disabled is truthy.`)
+      return ElementLogger.warn(this.id, 'onClick', `Execution stopped, disabled is truthy.`)
     }
 
     this.value = !this.value
-    this.checked = this.value
-
     this.touch()
   }
 
-  private on_key_down(event: KeyboardEvent): void {
+  private onKeyDown(event: KeyboardEvent): void {
     if (event.key !== KeyboardEventKey.SPACE) {
       return
     }
@@ -43,23 +36,16 @@ export class CheckBoxElement extends FormFieldElement {
     event.preventDefault()
     event.stopPropagation()
 
-    this.on_click()
+    this.onClick()
   }
 
   render() {
     if (this.native) {
-      return html`<input @change=${this.on_change} ?checked=${this.checked} ?disabled=${this.disabled} type="checkbox" />`
+      return html`<input @change=${this.onChange} ?checked=${this.value} ?disabled=${this.disabled} type="checkbox" />`
     }
 
     return html`
-      <div
-        aria-checked=${this.div_element_aria_checked}
-        @click=${this.on_click}
-        @keydown=${this.on_key_down}
-        role="checkbox"
-        style=${this.style_map}
-        tabindex="0"
-      >
+      <div aria-checked=${this.div_element_aria_checked} @click=${this.onClick} @keydown=${this.onKeyDown} role="checkbox" style=${this.style_map} tabindex="0">
         <slot></slot>
       </div>
       ${this.shape_html}
@@ -67,11 +53,23 @@ export class CheckBoxElement extends FormFieldElement {
   }
 
   private get div_element_aria_checked(): 'false' | 'true' {
-    return this.checked ? 'true' : 'false'
+    return this.value ? 'true' : 'false'
+  }
+
+  get checked(): boolean {
+    return this.value === true
   }
 
   get name(): ElementName {
     return ElementName.CHECKBOX
+  }
+
+  get value(): boolean | undefined {
+    return super.value
+  }
+
+  set value(value: boolean | undefined) {
+    super.value = value
   }
 
   static styles = [

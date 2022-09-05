@@ -20,7 +20,7 @@ export function TextArea() {
 
   return (
     <div className='flex items-center gap-2'>
-      <queelag-textarea {...props} ref={ref} placeholder='placeholder' autosize />
+      <queelag-textarea {...props} ref={ref} placeholder='textarea' autosize />
       <queelag-button normalized>
         <queelag-icon
           fill='none'

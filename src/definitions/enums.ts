@@ -6,6 +6,7 @@ export enum ElementName {
   ICON = 'icon',
   IMAGE = 'image',
   INPUT = 'input',
+  SELECT = 'select',
   SQUIRCLE = 'squircle',
   TEXTAREA = 'textarea'
 }

@@ -41,9 +41,6 @@ export async function cacheImageSrc(src: string, options?: ImageCacheOptions): P
   return promise.instance
 }
 
-/**
- * Draws an already loaded image element to a canvas and exports it as a base64 data URL.
- */
 export function getImageElementBase64(image: HTMLImageElement, options?: ImageCacheOptions): string {
   let canvas: HTMLCanvasElement, context: CanvasRenderingContext2D | null
 

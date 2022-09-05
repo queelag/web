@@ -8,6 +8,8 @@ import type { IconElement } from './elements/icon.element'
 import type { ImageElement } from './elements/image.element'
 import type { InputElement } from './elements/input.element'
 import type { MeterElement } from './elements/meter.element'
+import type { SelectElement } from './elements/select.element'
+import type { SwitchElement } from './elements/switch.element'
 import type { TextAreaElement } from './elements/text.area.element'
 
 declare global {
@@ -25,12 +27,15 @@ declare global {
     'queelag-image': ImageElement
     'queelag-input': InputElement
     'queelag-meter': MeterElement
+    'queelag-select': SelectElement
+    'queelag-switch': SwitchElement
     'queelag-textarea': TextAreaElement
   }
 }
 
 export * from './definitions/attributes'
 export { LoggerName as WebLoggerName } from './definitions/enums'
+export * from './definitions/interfaces'
 export * from './definitions/types'
 export * from './elements/avatar.element'
 export * from './elements/badge.element'
@@ -42,8 +47,16 @@ export * from './elements/icon.element'
 export * from './elements/image.element'
 export * from './elements/input.element'
 export * from './elements/meter.element'
+export * from './elements/select.element'
+export * from './elements/switch.element'
 export * from './elements/text.area.element'
 export * from './events/attribute.changed.event'
 export * from './events/click.async.event'
 export * from './events/state.changed.event'
 export * from './events/submit.async.event'
+export * from './utils/dom.utils'
+export * from './utils/element.utils'
+export * from './utils/image.utils'
+export * from './utils/shape.utils'
+export * from './utils/squircle.utils'
+export * from './utils/string.utils'

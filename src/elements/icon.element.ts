@@ -10,7 +10,7 @@ import { CACHE_ICONS, DEFAULT_ICON_SVG_STRING, FETCHING_ICONS, SVG_NAMESPACE_URI
 import { ElementName } from '../definitions/enums'
 import { IconElementSanitizeConfig } from '../definitions/interfaces'
 import { Color } from '../definitions/types'
-import { stylemap } from '../directives/style.map'
+import { styleMap } from '../directives/style.map'
 import { unsafeSVG } from '../directives/unsafe.svg'
 import { ElementLogger } from '../loggers/element.logger'
 import { BaseElement } from '../mixins/base.element'
@@ -42,7 +42,7 @@ export class IconElement extends BaseElement {
 
   connectedCallback(): void {
     super.connectedCallback()
-    this.generate_svg_element()
+    this.fetchSource()
   }
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
@@ -52,31 +52,31 @@ export class IconElement extends BaseElement {
       return
     }
 
-    this.generate_svg_element()
+    this.generateSVGElement()
   }
 
-  private generate_svg_element(): void {
+  private generateSVGElement(): void {
     if (this.src === null) {
-      ElementLogger.warn(this.uid, 'attributeChangedCallback', `The src property is null.`, [this.src])
-      return this.parse_svg_string(DEFAULT_ICON_SVG_STRING)
+      ElementLogger.warn(this.uid, 'generateSVGElement', `The src property is null.`, [this.src])
+      return this.parseSVGString(DEFAULT_ICON_SVG_STRING)
     }
 
     if (isStringURL(this.src)) {
-      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The src property is an URL, will try to fetch.`, [this.src])
-      this.fetch_source()
+      ElementLogger.verbose(this.uid, 'generateSVGElement', `The src property is an URL, will try to fetch.`, [this.src])
+      this.fetchSource()
       return
     }
 
     if (isStringSVG(this.src)) {
-      ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The src property is a SVG, will try to parse.`, [this.src])
-      return this.parse_svg_string(this.src)
+      ElementLogger.verbose(this.uid, 'generateSVGElement', `The src property is a SVG, will try to parse.`, [this.src])
+      return this.parseSVGString(this.src)
     }
 
-    ElementLogger.warn(this.uid, 'attributeChangedCallback', `The value is nor URL nor SVG, falling back to empty SVG.`, [this.src])
-    this.parse_svg_string(DEFAULT_ICON_SVG_STRING)
+    ElementLogger.warn(this.uid, 'generateSVGElement', `The value is nor URL nor SVG, falling back to empty SVG.`, [this.src])
+    this.parseSVGString(DEFAULT_ICON_SVG_STRING)
   }
 
-  private async fetch_source(): Promise<void> {
+  private async fetchSource(): Promise<void> {
     let cache: string | undefined, response: FetchResponse<string> | Error, text: string | Error
 
     // if (FETCHING_ICONS.has(this.src)) {
@@ -93,34 +93,34 @@ export class IconElement extends BaseElement {
     // }
 
     FETCHING_ICONS.add(this.src)
-    ElementLogger.verbose(this.uid, 'fetch_source', `The src has been marked as fetching.`, [this.src])
+    ElementLogger.verbose(this.uid, 'fetchSource', `The src has been marked as fetching.`, [this.src])
 
     response = await Fetch.get(this.src, { parse: false })
     if (response instanceof Error) return rvp(() => FETCHING_ICONS.delete(this.src))
 
     FETCHING_ICONS.delete(this.src)
-    ElementLogger.verbose(this.uid, 'fetch_source', `The src has been unmarked as fetching.`, [this.src])
+    ElementLogger.verbose(this.uid, 'fetchSource', `The src has been unmarked as fetching.`, [this.src])
 
     text = await tcp(() => (response as FetchResponse).text())
     if (text instanceof Error) return rvp(() => CACHE_ICONS.delete(this.src))
 
     CACHE_ICONS.set(this.src, text)
-    ElementLogger.verbose(this.uid, 'fetch_source', `The icon has been cached.`, [this.src, text])
+    ElementLogger.verbose(this.uid, 'fetchSource', `The icon has been cached.`, [this.src, text])
 
-    this.parse_svg_string(text)
+    this.parseSVGString(text)
   }
 
-  private parse_svg_string(string: string): void {
+  private parseSVGString(string: string): void {
     let parser: DOMParser, document: Document, element: SVGSVGElement | null
 
     parser = new DOMParser()
     document = parser.parseFromString(sanitize(string, this.sanitize), 'text/html')
 
     element = document.querySelector('svg')
-    if (!element) return ElementLogger.error(this.uid, 'parse_svg_string', `Failed to find the svg element.`, document)
+    if (!element) return ElementLogger.error(this.uid, 'parseSVGString', `Failed to find the svg element.`, document)
 
     this.svg_element = element
-    ElementLogger.verbose(this.uid, 'parse_svg_string', `The svg element has been set.`, this.svg_element)
+    ElementLogger.verbose(this.uid, 'parseSVGString', `The svg element has been set.`, this.svg_element)
   }
 
   render() {
@@ -141,7 +141,7 @@ export class IconElement extends BaseElement {
   }
 
   private get svg_element_style(): DirectiveResult<typeof StyleMapDirective> {
-    return stylemap({
+    return styleMap({
       height: getElementStyleCompatibleValue(this.height || this.size),
       maxHeight: getElementStyleCompatibleValue(this.height || this.size),
       maxWidth: getElementStyleCompatibleValue(this.width || this.size),

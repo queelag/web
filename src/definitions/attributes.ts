@@ -1,5 +1,5 @@
 import type { Struct } from 'superstruct'
-import { ImageCacheOptions, ShapeOptions } from './interfaces'
+import { ImageCacheOptions, SelectOption, ShapeOptions } from './interfaces'
 import { ButtonType, ButtonVariant, InputTouchTrigger, InputType, Layer, Orientation, Shape, Size, TextAreaResize } from './types'
 
 export interface AvatarElementAttributes extends BaseElementAttributes {}
@@ -84,6 +84,17 @@ export interface MeterElementAttributes extends BaseElementAttributes {
   optimum?: number
   round?: boolean
   value?: number
+}
+
+export interface SelectElementAttributes extends FormFieldElementAttributes {
+  multiple?: boolean
+  native?: boolean
+  normalized?: boolean
+  options?: SelectOption[]
+}
+
+export interface SwitchElementAttributes extends FormFieldElementAttributes {
+  native?: boolean
 }
 
 export interface TextAreaElementAttributes extends Omit<InputElementAttributes, 'obscured' | 'type'> {

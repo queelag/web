@@ -25,18 +25,18 @@ export class ButtonElement extends BaseElement {
   @Property({ type: String, reflect: true })
   variant?: ButtonVariant
 
-  private on_click() {
+  private onClick() {
     if (this.disabled) {
-      ElementLogger.warn(this.uid, 'on_click', `Execution stopped, this button is disabled.`)
+      ElementLogger.warn(this.uid, 'onClick', `Execution stopped, this button is disabled.`)
       return
     }
 
     this.disabled = true
     this.spinning = true
-    ElementLogger.verbose(this.uid, 'on_click', `The disabled and spinning properties have been set to true.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The disabled and spinning properties have been set to true.`)
 
     this.dispatchEvent(new ClickAsyncEvent(this.finalize))
-    ElementLogger.verbose(this.uid, 'on_click', `The "clickasync" event has been dispatched.`)
+    ElementLogger.verbose(this.uid, 'onClick', `The "clickasync" event has been dispatched.`)
   }
 
   finalize = (): void => {
@@ -47,7 +47,7 @@ export class ButtonElement extends BaseElement {
 
   render() {
     return html`
-      <button @click=${this.on_click} ?disabled=${this.disabled || this.spinning} style=${this.style_map} type=${ifdef(this.type)}>
+      <button @click=${this.onClick} ?disabled=${this.disabled || this.spinning} style=${this.style_map} type=${ifdef(this.type)}>
         <slot></slot>
       </button>
       ${this.shape_html}

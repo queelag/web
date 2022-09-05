@@ -7,7 +7,7 @@ import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
 import { ElementName } from '../definitions/enums'
 import { ShapeOptions } from '../definitions/interfaces'
 import { Constructor, Layer, Shape, Size } from '../definitions/types'
-import { stylemap } from '../directives/style.map'
+import { styleMap } from '../directives/style.map'
 import { AttributeChangedEvent } from '../events/attribute.changed.event'
 import { ElementCollector } from '../modules/element.collector'
 import { getElementStyleCompatibleValue } from '../utils/dom.utils'
@@ -37,7 +37,6 @@ export declare class BaseElementInterface {
   get size_style_map(): DirectiveResult
   get style_info(): StyleInfo
   get style_map(): DirectiveResult
-  get isShapeCircle(): boolean
 }
 
 export function BaseElementMixin<T extends Constructor<LitElement>>(_: T) {
@@ -106,7 +105,7 @@ export function BaseElementMixin<T extends Constructor<LitElement>>(_: T) {
     }
 
     get shape_style_map(): DirectiveResult {
-      return stylemap(this.shape_style_info)
+      return styleMap(this.shape_style_info)
     }
 
     get size_style_info(): StyleInfo {
@@ -117,7 +116,7 @@ export function BaseElementMixin<T extends Constructor<LitElement>>(_: T) {
     }
 
     get size_style_map(): DirectiveResult {
-      return stylemap(this.size_style_info)
+      return styleMap(this.size_style_info)
     }
 
     get style_info(): StyleInfo {
@@ -125,7 +124,7 @@ export function BaseElementMixin<T extends Constructor<LitElement>>(_: T) {
     }
 
     get style_map(): DirectiveResult {
-      return stylemap(this.style_info)
+      return styleMap(this.style_info)
     }
 
     get uid(): string {
@@ -143,10 +142,6 @@ export function BaseElementMixin<T extends Constructor<LitElement>>(_: T) {
         default:
           return 0
       }
-    }
-
-    get isShapeCircle(): boolean {
-      return this.shape === 'circle'
     }
 
     static styles = css`

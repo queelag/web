@@ -1,3 +1,2 @@
-import { styleMap } from 'lit/directives/style-map.js'
-
-export const stylemap: typeof styleMap = styleMap
+import { styleMap as _ } from 'lit/directives/style-map.js'
+export const styleMap: typeof _ = _
