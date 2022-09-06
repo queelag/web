@@ -1,7 +1,7 @@
 import type { Struct, StructError } from 'superstruct'
 
 export type ButtonType = 'button' | 'menu' | 'reset' | 'submit'
-export type ButtonVariant = 'contained' | 'opacity' | 'outline' | 'text'
+export type ButtonVariant = 'fill' | 'fill-tonal' | 'opacity' | 'outline' | 'text'
 
 export type Color =
   | 'amber'

@@ -1,13 +1,37 @@
 queelag-avatar,
+queelag-badge,
+queelag-bottom-navigation,
+queelag-bottom-navigation-item,
 queelag-button,
+queelag-checkbox,
+queelag-divider,
+queelag-form,
 queelag-icon,
-queelag-image {
+queelag-image,
+queelag-input,
+queelag-input-file,
+queelag-meter,
+queelag-select,
+queelag-switch,
+queelag-textarea {
   opacity: 0;
 }
 
 queelag-avatar:defined,
+queelag-badge:defined,
+queelag-bottom-navigation:defined,
+queelag-bottom-navigation-item:defined,
 queelag-button:defined,
+queelag-checkbox:defined,
+queelag-divider:defined,
+queelag-form:defined,
 queelag-icon:defined,
-queelag-image:defined {
+queelag-image:defined,
+queelag-input:defined,
+queelag-input-file:defined,
+queelag-meter:defined,
+queelag-select:defined,
+queelag-switch:defined,
+queelag-textarea:defined {
   opacity: 1;
 }

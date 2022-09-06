@@ -28,6 +28,7 @@ export function Image() {
         size={128}
         src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg'
         cache
+        eager
       />
       {/* <queelag-image
         {...props}

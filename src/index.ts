@@ -1,5 +1,6 @@
 import type { AvatarElement } from './elements/avatar.element'
 import type { BadgeElement } from './elements/badge.element'
+import { BottomNavigationElement, BottomNavigationItemElement } from './elements/bottom.navigation.element'
 import type { ButtonElement } from './elements/button.element'
 import type { CheckBoxElement } from './elements/check.box.element'
 import type { DividerElement } from './elements/divider.element'
@@ -20,6 +21,8 @@ declare global {
   interface HTMLElementTagNameMap {
     'queelag-avatar': AvatarElement
     'queelag-badge': BadgeElement
+    'queelag-bottom-navigation': BottomNavigationElement
+    'queelag-bottom-navigation-item': BottomNavigationItemElement
     'queelag-button': ButtonElement
     'queelag-checkbox': CheckBoxElement
     'queelag-divider': DividerElement
@@ -35,12 +38,15 @@ declare global {
   }
 }
 
+export * from './collectors/element.collector'
+export * from './collectors/form.field.element.collector'
 export * from './definitions/attributes'
 export { LoggerName as WebLoggerName } from './definitions/enums'
 export * from './definitions/interfaces'
 export * from './definitions/types'
 export * from './elements/avatar.element'
 export * from './elements/badge.element'
+export * from './elements/bottom.navigation.element'
 export * from './elements/button.element'
 export * from './elements/check.box.element'
 export * from './elements/divider.element'

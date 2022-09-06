@@ -32,6 +32,12 @@ export class ImageElement extends BaseElement {
   @Property({ type: String, attribute: 'cross-origin', reflect: true })
   cross_origin?: ImageCrossOrigin
 
+  @Property({ type: Boolean, reflect: true })
+  eager?: boolean
+
+  @Property({ type: Boolean, reflect: true })
+  lazy?: boolean
+
   @Property({ type: String, reflect: true })
   src: string = DEFAULT_IMAGE_SRC
 
@@ -132,6 +138,7 @@ export class ImageElement extends BaseElement {
         crossorigin=${ifdef(this.img_element_crossorigin)}
         @error=${this.onError}
         @load=${this.onLoad}
+        loading=${this.img_element_loading}
         src=${until(this.img_element_src.instance)}
         style=${this.img_element_style}
       />
@@ -147,6 +154,18 @@ export class ImageElement extends BaseElement {
     if (this.cache) {
       return 'anonymous'
     }
+  }
+
+  private get img_element_loading(): 'auto' | 'eager' | 'lazy' {
+    if (this.eager) {
+      return 'eager'
+    }
+
+    if (this.lazy) {
+      return 'lazy'
+    }
+
+    return 'auto'
   }
 
   private get img_element_style(): DirectiveResult<typeof StyleMapDirective> {

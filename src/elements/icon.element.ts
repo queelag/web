@@ -1,5 +1,5 @@
 import { Fetch, FetchResponse, isStringURL, rvp, sleep, tcp } from '@queelag/core'
-import { sanitize } from 'isomorphic-dompurify'
+import DOMPurify from 'isomorphic-dompurify'
 import { html, svg, TemplateResult } from 'lit'
 import { DirectiveResult } from 'lit-html/directive'
 import { StyleMapDirective } from 'lit-html/directives/style-map'
@@ -114,7 +114,7 @@ export class IconElement extends BaseElement {
     let parser: DOMParser, document: Document, element: SVGSVGElement | null
 
     parser = new DOMParser()
-    document = parser.parseFromString(sanitize(string, this.sanitize), 'text/html')
+    document = parser.parseFromString(DOMPurify.sanitize(string, this.sanitize), 'text/html')
 
     element = document.querySelector('svg')
     if (!element) return ElementLogger.error(this.uid, 'parseSVGString', `Failed to find the svg element.`, document)

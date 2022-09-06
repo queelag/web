@@ -83,7 +83,6 @@ export class TextAreaElement extends FormFieldElement {
       this.touch()
     }
 
-    this.validate()
     this.computeHeight()
   }
 

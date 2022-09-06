@@ -99,8 +99,6 @@ export class InputElement extends FormFieldElement {
     if (this.touch_trigger === 'change') {
       this.touch()
     }
-
-    this.validate()
   }
 
   private onKeyUp(event: KeyboardEvent): void {

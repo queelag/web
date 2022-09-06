@@ -1,5 +1,7 @@
 export enum ElementName {
   AVATAR = 'avatar',
+  BOTTOM_NAVIGATION = 'bottom_navigation',
+  BOTTOM_NAVIGATION_ITEM = 'bottom_navigation_item',
   BUTTON = 'button',
   CHECKBOX = 'checkbox',
   FORM = 'form',

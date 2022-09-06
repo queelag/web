@@ -23,6 +23,12 @@ export interface BaseElementAttributes {
   width?: number | string
 }
 
+export interface BottomNavigationElementAttributes extends BaseElementAttributes {
+  'active-item'?: string
+}
+
+export interface BottomNavigationItemElementAttributes extends BaseElementAttributes {}
+
 export interface ButtonElementAttributes extends BaseElementAttributes {
   disabled?: boolean
   icon?: boolean
@@ -64,6 +70,8 @@ export interface ImageElementAttributes extends BaseElementAttributes {
   cache?: boolean
   'cache-options'?: ImageCacheOptions
   'cross-origin'?: string
+  eager?: boolean
+  lazy?: boolean
   src: string
 }
 
