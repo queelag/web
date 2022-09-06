@@ -35,7 +35,7 @@ export class SelectElement extends FormFieldElement {
     }
 
     // @ts-ignore
-    option = this.find_option_by_value(event.target.value)
+    option = this.findOptionByValue(event.target.value)
     if (!option) return
 
     this.onClickOption(option)
@@ -48,16 +48,26 @@ export class SelectElement extends FormFieldElement {
       this.value = this.value || []
       this.value = this.value.includes(option.value) ? removeArrayItems(this.value, [option.value]) : [...this.value, option.value]
 
+      ElementLogger.verbose(
+        this.uid,
+        'onClickOption',
+        `The option has been ${this.value.includes(option.value) ? 'pushed to' : 'removed from'} the value.`,
+        option,
+        this.value
+      )
+
       return
     }
 
     this.value = option.value
+    ElementLogger.verbose(this.uid, 'onClickOption', `The value has been set.`, option, this.value)
   }
 
   onClickRemoveOption(option: SelectOption): void {
     if (this.multiple) {
       this.value = this.value || []
       this.value = removeArrayItems(this.value, [option])
+      ElementLogger.verbose(this.uid, 'onClickRemoveOption', `The option has been removed.`, option, this.value)
 
       return
     }
@@ -67,10 +77,12 @@ export class SelectElement extends FormFieldElement {
 
   onCollapse(): void {
     this.search_value = ''
+    ElementLogger.verbose(this.uid, 'onCollapse', `The search value has been reset.`)
   }
 
   onEscape(): void {
     this.search_value = ''
+    ElementLogger.verbose(this.uid, 'onEscape', `The search value has been reset.`)
   }
 
   onSearchInput = (event: Event): void => {

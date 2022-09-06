@@ -56,7 +56,7 @@ export class TextAreaElement extends FormFieldElement {
 
   private onBlur(): void {
     this.focused = false
-    ElementLogger.verbose(this.uid, 'onBlur', `The focused property has been set to false.`)
+    ElementLogger.verbose(this.uid, 'onBlur', `The textarea has been blurred.`)
 
     if (this.touch_trigger === 'blur') {
       this.touch()
@@ -65,7 +65,7 @@ export class TextAreaElement extends FormFieldElement {
 
   private onFocus(): void {
     this.focused = true
-    ElementLogger.verbose(this.uid, 'onFocus', `The focused property has been set to true.`)
+    ElementLogger.verbose(this.uid, 'onFocus', `The textarea has been focused.`)
   }
 
   private onInput(): void {
@@ -97,7 +97,10 @@ export class TextAreaElement extends FormFieldElement {
     }
 
     this.value = [...(this.value as string[]), this.temporary_value]
+    ElementLogger.verbose(this.uid, 'onKeyUp', `The item has been pushed.`, [this.temporary_value], this.value)
+
     this.textarea_element.value = ''
+    ElementLogger.verbose(this.uid, 'onKeyUp', `The textarea element value has been reset.`)
 
     this.touch()
   }
@@ -136,10 +139,16 @@ export class TextAreaElement extends FormFieldElement {
 
   clear(): void {
     this.value = this.multiple ? [] : ''
+    ElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
 
     this.computed_height = undefined
+    ElementLogger.verbose(this.uid, 'clear', `The computed height has unset.`)
+
     this.textarea_element.value = ''
+    ElementLogger.verbose(this.uid, 'clear', `The textarea element value has been reset.`)
+
     this.textarea_element.focus()
+    ElementLogger.verbose(this.uid, 'clear', `The textarea element has been focused.`)
 
     this.touch()
   }

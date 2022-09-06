@@ -1,4 +1,5 @@
 import { IDGenerateOptions, ID_ALPHABET_HEX_LOWERCASE } from '@queelag/core'
+import { QueelagFile } from '../classes/queelag.file'
 
 /**
  * Elements
@@ -19,6 +20,11 @@ export const CACHE_IMAGES: Map<string, string> = new Map()
 export const DEFAULT_IMAGE_SIZE: string = '100%'
 export const DEFAULT_IMAGE_SRC: string = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
 export const FETCHING_IMAGES: Set<string> = new Set()
+
+/**
+ * InputFileElement
+ */
+export const EMPTY_QUEELAG_FILE: () => QueelagFile = () => new QueelagFile(new File([], ''))
 
 /**
  * Squircle

@@ -53,8 +53,17 @@ export function BaseElementMixin<T extends Constructor<LitElement>>(_: T) {
     @Property({ type: String, reflect: true })
     shape?: Shape
 
-    @Property({ type: Object, attribute: 'shape-options' })
-    shape_options?: ShapeOptions
+    @Property({ type: Number, attribute: 'shape-rectangle-radius', reflect: true })
+    shape_rectangle_radius?: number
+
+    @Property({ type: Number, attribute: 'shape-square-radius', reflect: true })
+    shape_square_radius?: number
+
+    @Property({ type: Number, attribute: 'shape-squircle-curvature', reflect: true })
+    shape_squircle_curvature?: number
+
+    @Property({ type: Number, attribute: 'shape-squircle-size', reflect: true })
+    shape_squircle_size?: number
 
     @Property({ type: String, reflect: true })
     size?: Size
@@ -95,13 +104,17 @@ export function BaseElementMixin<T extends Constructor<LitElement>>(_: T) {
         return
       }
 
-      return getSquircleHTML(this._squircle_id, this.shape_options?.squircle?.size || this.size_as_number, {
-        curvature: this.shape_options?.squircle?.curvature
+      return getSquircleHTML(this._squircle_id, this.shape_squircle_size || this.size_as_number, {
+        curvature: this.shape_squircle_curvature
       })
     }
 
     get shape_style_info(): StyleInfo {
-      return getShapeStyleInfo(this.shape, { ...this.shape_options, squircle: { id: this._squircle_id } })
+      return getShapeStyleInfo(this.shape, {
+        rectangle: { radius: this.shape_rectangle_radius },
+        square: { radius: this.shape_square_radius },
+        squircle: { id: this._squircle_id }
+      })
     }
 
     get shape_style_map(): DirectiveResult {

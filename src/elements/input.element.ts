@@ -112,18 +112,25 @@ export class InputElement extends FormFieldElement {
       return ElementLogger.warn(this.uid, 'onKeyUp', `The temporary value is empty.`)
     }
 
+    this.value = this.value || []
     this.value = [...(this.value as string[]), this.temporary_value]
+    ElementLogger.verbose(this.uid, 'onKeyUp', `The item has been pushed.`, [this.temporary_value], this.value)
+
     this.input_element.value = ''
+    ElementLogger.verbose(this.uid, 'onKeyUp', `The input element value has been reset.`)
 
     this.touch()
   }
 
-  removeItem(item: string): void {
+  onClickRemoveItem(item: string): void {
     if (this.type !== 'text' || !this.multiple) {
       return
     }
 
+    this.value = this.value || []
     this.value = removeArrayItems(this.value as string[], [item])
+    ElementLogger.verbose(this.uid, 'onClickRemoveItem', `The item has been removed.`, [item], this.value)
+
     this.touch()
   }
 
@@ -160,8 +167,13 @@ export class InputElement extends FormFieldElement {
         break
     }
 
+    ElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
+
     this.input_element.value = ''
+    ElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`)
+
     this.input_element.focus()
+    ElementLogger.verbose(this.uid, 'clear', `The input element has been focused.`)
 
     this.touch()
   }
@@ -171,6 +183,7 @@ export class InputElement extends FormFieldElement {
     ElementLogger.verbose(this.uid, 'obscure', `The obscured property has been set to true.`)
 
     this.input_element.focus()
+    ElementLogger.verbose(this.uid, 'obscure', `The input element has been focused.`)
   }
 
   reveal(): void {
@@ -178,6 +191,7 @@ export class InputElement extends FormFieldElement {
     ElementLogger.verbose(this.uid, 'reveal', `The obscured property has been set to false.`)
 
     this.input_element.focus()
+    ElementLogger.verbose(this.uid, 'reveal', `The input element has been focused.`)
   }
 
   render() {

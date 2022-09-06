@@ -1,5 +1,5 @@
 import type { Struct } from 'superstruct'
-import { ImageCacheOptions, SelectOption, ShapeOptions } from './interfaces'
+import { ImageCacheOptions, SelectOption } from './interfaces'
 import { ButtonType, ButtonVariant, InputTouchTrigger, InputType, Layer, Orientation, Shape, Size, TextAreaResize } from './types'
 
 export interface AvatarElementAttributes extends BaseElementAttributes {}
@@ -15,7 +15,10 @@ export interface BaseElementAttributes {
   height?: number | string
   layer?: Layer
   shape?: Shape
-  'shape-options'?: ShapeOptions
+  'shape-rectangle-radius'?: number
+  'shape-square-radius'?: number
+  'shape-squircle-curvature'?: number
+  'shape-squircle-size'?: number
   size?: Size
   width?: number | string
 }
@@ -73,6 +76,13 @@ export interface InputElementAttributes extends FormFieldElementAttributes {
   placeholder?: string
   'touch-trigger'?: InputTouchTrigger
   type: InputType
+}
+
+export interface InputFileElementAttributes extends FormFieldElementAttributes {
+  'deserialize-file-resolve-array-buffer'?: boolean
+  'deserialize-file-resolve-text'?: boolean
+  multiple?: boolean
+  native?: boolean
 }
 
 export interface MeterElementAttributes extends BaseElementAttributes {

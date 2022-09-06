@@ -1,5 +1,12 @@
 import { Config as SanitizeConfig } from 'isomorphic-dompurify'
 
+export interface DeserializeFileOptions {
+  resolve?: {
+    array_buffer?: boolean
+    text?: boolean
+  }
+}
+
 export interface IconElementSanitizeConfig extends SanitizeConfig {
   RETURN_DOM?: false | undefined
   RETURN_DOM_FRAGMENT?: false | undefined
@@ -17,10 +24,10 @@ export interface SelectOption {
 
 export interface ShapeOptions {
   rectangle?: {
-    radius?: string
+    radius?: number
   }
   square?: {
-    radius?: string
+    radius?: number
   }
   squircle?: {
     curvature?: number

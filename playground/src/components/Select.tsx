@@ -28,7 +28,7 @@ export function Select() {
       <queelag-select {...props} ref={ref} options={options} native>
         <div className='flex flex-col gap-2'>
           <queelag-input onInput={(event: FormEvent) => element.onSearchInput(event.nativeEvent)} placeholder='search options' type='text' />
-          <div className='flex flex-col divide-y rounded-sm border border-gray-500 divide-gray-500'>
+          <div className='flex flex-col divide-y rounded-sm border border-gray-400 divide-gray-400'>
             {element.options_filtered_by_search_value?.map((option: SelectOption) => (
               <div
                 className={joinElementClasses('flex justify-between items-center px-2 py-1.5 cursor-pointer', option.value === element.value && 'bg-gray-100')}

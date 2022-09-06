@@ -11,6 +11,8 @@ import { BaseElement } from '../mixins/base.element'
 import { FormFieldElementInterface } from '../mixins/form.field.element'
 import type { CheckBoxElement } from './check.box.element'
 import type { InputElement } from './input.element'
+import type { InputFileElement } from './input.file.element'
+import type { SwitchElement } from './switch.element'
 
 @CustomElement('queelag-form')
 export class FormElement extends BaseElement {
@@ -25,6 +27,12 @@ export class FormElement extends BaseElement {
 
   @QueryAssignedElements({ selector: 'queelag-input' })
   private slot_input_elements!: InputElement[]
+
+  @QueryAssignedElements({ selector: 'queelag-input-file' })
+  private slot_input_file_elements!: InputFileElement[]
+
+  @QueryAssignedElements({ selector: 'queelag-switch' })
+  private slot_switch_elements!: SwitchElement[]
 
   @Property({ type: Boolean, reflect: true })
   spinning?: boolean
@@ -81,6 +89,6 @@ export class FormElement extends BaseElement {
   }
 
   private get slot_elements(): (LitElement & FormFieldElementInterface)[] {
-    return [...this.slot_checkbox_elements, ...this.slot_input_elements]
+    return [...this.slot_checkbox_elements, ...this.slot_input_elements, ...this.slot_input_file_elements, ...this.slot_switch_elements]
   }
 }

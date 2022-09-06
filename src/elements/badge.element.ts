@@ -26,12 +26,12 @@ export class BadgeElement extends BaseElement {
   }
 
   @Property({ type: String, reflect: true })
-  get value(): string | undefined {
+  get value(): string {
     if (this.is_number) {
       return getLimitedNumber(parseNumber(this._value || '0'), this.minimum, this.maximum).toString()
     }
 
-    return this._value
+    return this._value || ''
   }
 
   set value(value: string | undefined) {

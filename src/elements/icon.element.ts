@@ -1,4 +1,4 @@
-import { Fetch, FetchResponse, isStringURL, rvp, tcp } from '@queelag/core'
+import { Fetch, FetchResponse, isStringURL, rvp, sleep, tcp } from '@queelag/core'
 import { sanitize } from 'isomorphic-dompurify'
 import { html, svg, TemplateResult } from 'lit'
 import { DirectiveResult } from 'lit-html/directive'
@@ -42,7 +42,7 @@ export class IconElement extends BaseElement {
 
   connectedCallback(): void {
     super.connectedCallback()
-    this.fetchSource()
+    this.generateSVGElement()
   }
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
@@ -79,18 +79,18 @@ export class IconElement extends BaseElement {
   private async fetchSource(): Promise<void> {
     let cache: string | undefined, response: FetchResponse<string> | Error, text: string | Error
 
-    // if (FETCHING_ICONS.has(this.src)) {
-    //   ElementLogger.verbose(this.uid, 'fetch_source', `The src is already being fetched, will try again in 100ms.`, [this.src])
-    //   await sleep(100)
+    if (FETCHING_ICONS.has(this.src)) {
+      ElementLogger.verbose(this.uid, 'fetch_source', `The src is already being fetched, will try again in 100ms.`, [this.src])
+      await sleep(100)
 
-    //   return this.fetch_source()
-    // }
+      return this.fetchSource()
+    }
 
-    // cache = CACHE_ICONS.get(this.src)
-    // if (typeof cache === 'string') {
-    //   ElementLogger.verbose(this.uid, 'fetch_source', `Cached SVG found for this src, will parse.`, [this.src, cache])
-    //   return this.parse_svg_string(cache)
-    // }
+    cache = CACHE_ICONS.get(this.src)
+    if (typeof cache === 'string') {
+      ElementLogger.verbose(this.uid, 'fetch_source', `Cached SVG found for this src, will parse.`, [this.src, cache])
+      return this.parseSVGString(cache)
+    }
 
     FETCHING_ICONS.add(this.src)
     ElementLogger.verbose(this.uid, 'fetchSource', `The src has been marked as fetching.`, [this.src])

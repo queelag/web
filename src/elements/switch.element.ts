@@ -2,6 +2,7 @@ import { css, CSSResult } from 'lit'
 import { html } from 'lit-html'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
+import { ElementLogger } from '../loggers/element.logger'
 import { FormFieldElement } from '../mixins/form.field.element'
 
 @CustomElement('queelag-switch')
@@ -12,10 +13,12 @@ export class SwitchElement extends FormFieldElement {
   private onChange(event: Event): void {
     // @ts-ignore
     this.value = event.target.value === '1'
+    ElementLogger.verbose(this.uid, 'onChange', `The switch has been turned ${this.value ? 'on' : 'off'}.`)
   }
 
   onClick = (): void => {
     this.value = !this.value
+    ElementLogger.verbose(this.uid, 'onClick', `The switch has been turned ${this.value ? 'on' : 'off'}.`)
   }
 
   render() {

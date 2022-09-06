@@ -70,7 +70,7 @@ export class MeterElement extends BaseElement {
   }
 
   @Property({ type: Number, reflect: true })
-  get value(): number | undefined {
+  get value(): number {
     return getLimitedNumber(this._value || 0, this.minimum, this.maximum)
   }
 

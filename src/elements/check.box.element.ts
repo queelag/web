@@ -25,6 +25,8 @@ export class CheckBoxElement extends FormFieldElement {
     }
 
     this.value = !this.value
+    ElementLogger.verbose(this.uid, 'onClick', `The checkbox has been ${this.value ? 'checked' : 'unchecked'}.`)
+
     this.touch()
   }
 
