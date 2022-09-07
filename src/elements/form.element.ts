@@ -14,6 +14,12 @@ import type { InputElement } from './input.element'
 import type { InputFileElement } from './input.file.element'
 import type { SwitchElement } from './switch.element'
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'queelag-form': FormElement
+  }
+}
+
 @CustomElement('queelag-form')
 export class FormElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })

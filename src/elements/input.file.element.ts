@@ -11,6 +11,12 @@ import { ElementLogger } from '../loggers/element.logger'
 import { FormFieldElement } from '../mixins/form.field.element'
 import { deserializeFile } from '../utils/file.utils'
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'queelag-input-file': InputFileElement
+  }
+}
+
 @CustomElement('queelag-input-file')
 export class InputFileElement extends FormFieldElement {
   @Property({ type: Boolean, attribute: 'deserialize-file-resolve-array-buffer', reflect: true })

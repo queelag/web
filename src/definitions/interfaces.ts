@@ -1,4 +1,5 @@
 import { Config as SanitizeConfig } from 'isomorphic-dompurify'
+import { CanvasDataURLType } from './types'
 
 export interface DeserializeFileOptions {
   resolve?: {
@@ -7,14 +8,14 @@ export interface DeserializeFileOptions {
   }
 }
 
+export interface GetImageElementBase64Options {
+  quality?: number
+  type?: CanvasDataURLType
+}
+
 export interface IconElementSanitizeConfig extends SanitizeConfig {
   RETURN_DOM?: false | undefined
   RETURN_DOM_FRAGMENT?: false | undefined
-}
-
-export interface ImageCacheOptions {
-  quality?: number
-  type?: 'image/jpeg' | 'image/png' | 'image/webp'
 }
 
 export interface SelectOption {

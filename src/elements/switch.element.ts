@@ -5,6 +5,12 @@ import { Property } from '../decorators/property'
 import { ElementLogger } from '../loggers/element.logger'
 import { FormFieldElement } from '../mixins/form.field.element'
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'queelag-switch': SwitchElement
+  }
+}
+
 @CustomElement('queelag-switch')
 export class SwitchElement extends FormFieldElement {
   @Property({ type: Boolean, reflect: true })

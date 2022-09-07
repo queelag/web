@@ -22,12 +22,13 @@ export function Image() {
     <div>
       <queelag-image
         {...props}
-        cache-options={{ type: 'image/jpeg', quality: 0 }}
+        cache-quality={0}
+        cache-type='image/jpeg'
         ref={ref}
         shape='squircle'
         size={128}
-        src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg'
-        cache
+        src='https://media.wired.co.uk/photos/60c8730fa81eb7f50b44037e/1:1/w_256,h_256,c_limit/1521-WIRED-Cat.jpeg'
+        // cache
         eager
       />
       {/* <queelag-image

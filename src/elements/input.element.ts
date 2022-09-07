@@ -7,11 +7,17 @@ import { Property } from '../decorators/property'
 import { Query } from '../decorators/query'
 import { State } from '../decorators/state'
 import { ElementName } from '../definitions/enums'
-import { InputTouchTrigger, InputType, InputValue } from '../definitions/types'
+import { InputElementTouchTrigger, InputElementType, InputElementValue } from '../definitions/types'
 import { ifdef } from '../directives/if.defined'
 import { styleMap } from '../directives/style.map'
 import { ElementLogger } from '../loggers/element.logger'
 import { FormFieldElement } from '../mixins/form.field.element'
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'queelag-input': InputElement
+  }
+}
 
 @CustomElement('queelag-input')
 export class InputElement extends FormFieldElement {
@@ -34,10 +40,10 @@ export class InputElement extends FormFieldElement {
   private temporary_value: string = ''
 
   @Property({ type: String, attribute: 'touch-trigger', reflect: true })
-  touch_trigger?: InputTouchTrigger
+  touch_trigger?: InputElementTouchTrigger
 
   @Property({ type: String, reflect: true })
-  type: InputType = 'text'
+  type: InputElementType = 'text'
 
   @Query('input')
   private input_element!: HTMLInputElement
@@ -257,7 +263,7 @@ export class InputElement extends FormFieldElement {
     return ElementName.INPUT
   }
 
-  get value(): InputValue {
+  get value(): InputElementValue {
     switch (this.type) {
       case 'buffer':
         return undefined
@@ -285,7 +291,7 @@ export class InputElement extends FormFieldElement {
     }
   }
 
-  set value(value: InputValue) {
+  set value(value: InputElementValue) {
     super.value = value
   }
 

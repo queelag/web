@@ -27,10 +27,10 @@ export function Input() {
         <queelag-button normalized>
           <queelag-icon
             fill='none'
-            onClick={() => (element.obscured ? element.reveal() : element.obscure())}
+            onClick={() => (element?.obscured ? element.reveal() : element?.obscure())}
             size={12}
             src={
-              element.obscured
+              element?.obscured
                 ? 'https://raw.githubusercontent.com/feathericons/feather/master/icons/eye.svg'
                 : 'https://raw.githubusercontent.com/feathericons/feather/master/icons/eye-off.svg'
             }
@@ -41,7 +41,7 @@ export function Input() {
         <queelag-button normalized>
           <queelag-icon
             fill='none'
-            onClick={() => element.clear()}
+            onClick={() => element?.clear()}
             size={16}
             src='https://raw.githubusercontent.com/feathericons/feather/master/icons/x.svg'
             stroke='black'
@@ -49,7 +49,7 @@ export function Input() {
           />
         </queelag-button>
       </div>
-      {element.isErrorVisible && <span className='text-xs text-red-500'>{element.error}</span>}
+      {element?.isErrorVisible && <span className='text-xs text-red-500'>{element.error}</span>}
     </div>
   )
 }

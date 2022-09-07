@@ -29,7 +29,7 @@ export function Button() {
   return (
     <div>
       <queelag-button {...props} ref={ref}>
-        <span>{element.spinning ? 'Spinning' : 'Button'}</span>
+        <span>{element?.spinning ? 'Spinning' : 'Button'}</span>
       </queelag-button>
     </div>
   )

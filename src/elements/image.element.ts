@@ -8,8 +8,7 @@ import { Query } from '../decorators/query'
 import { State } from '../decorators/state'
 import { CACHE_IMAGES, DEFAULT_IMAGE_SIZE, DEFAULT_IMAGE_SRC, FETCHING_IMAGES } from '../definitions/constants'
 import { ElementName } from '../definitions/enums'
-import { ImageCacheOptions } from '../definitions/interfaces'
-import { ImageCrossOrigin } from '../definitions/types'
+import { ImageElementCacheType, ImageElementCrossOrigin } from '../definitions/types'
 import { ifdef } from '../directives/if.defined'
 import { styleMap } from '../directives/style.map'
 import { until } from '../directives/until'
@@ -17,6 +16,12 @@ import { ElementLogger } from '../loggers/element.logger'
 import { BaseElement } from '../mixins/base.element'
 import { getElementStyleCompatibleValue } from '../utils/dom.utils'
 import { getImageElementBase64 } from '../utils/image.utils'
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'queelag-image': ImageElement
+  }
+}
 
 @CustomElement('queelag-image')
 export class ImageElement extends BaseElement {
@@ -26,11 +31,14 @@ export class ImageElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   cache?: boolean
 
-  @Property({ type: Object, attribute: 'cache-options' })
-  cache_options?: ImageCacheOptions
+  @Property({ type: Number, attribute: 'cache-quality', reflect: true })
+  cache_quality?: number
+
+  @Property({ type: String, attribute: 'cache-type', reflect: true })
+  cache_type?: ImageElementCacheType
 
   @Property({ type: String, attribute: 'cross-origin', reflect: true })
-  cross_origin?: ImageCrossOrigin
+  cross_origin?: ImageElementCrossOrigin
 
   @Property({ type: Boolean, reflect: true })
   eager?: boolean
@@ -124,7 +132,7 @@ export class ImageElement extends BaseElement {
     //   return
     // }
 
-    base64 = getImageElementBase64(this.img_element, this.cache_options)
+    base64 = getImageElementBase64(this.img_element, { quality: this.cache_quality, type: this.cache_type })
     if (!base64) return ElementLogger.warn(this.uid, 'onLoad', `The base64 is empty.`, [base64])
 
     CACHE_IMAGES.set(this.src, base64)
@@ -146,7 +154,7 @@ export class ImageElement extends BaseElement {
     `
   }
 
-  private get img_element_crossorigin(): ImageCrossOrigin | undefined {
+  private get img_element_crossorigin(): ImageElementCrossOrigin | undefined {
     if (this.cross_origin) {
       return this.cross_origin
     }

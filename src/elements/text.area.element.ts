@@ -7,11 +7,17 @@ import { Property } from '../decorators/property'
 import { Query } from '../decorators/query'
 import { State } from '../decorators/state'
 import { ElementName } from '../definitions/enums'
-import { TextAreaResize, TextAreaTouchTrigger, TextAreaValue } from '../definitions/types'
+import { TextAreaElementResize, TextAreaElementTouchTrigger, TextAreaElementValue } from '../definitions/types'
 import { ifdef } from '../directives/if.defined'
 import { styleMap } from '../directives/style.map'
 import { ElementLogger } from '../loggers/element.logger'
 import { FormFieldElement } from '../mixins/form.field.element'
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'queelag-textarea': TextAreaElement
+  }
+}
 
 @CustomElement('queelag-textarea')
 export class TextAreaElement extends FormFieldElement {
@@ -37,7 +43,7 @@ export class TextAreaElement extends FormFieldElement {
   placeholder?: string
 
   @Property({ type: String, reflect: true })
-  resize?: TextAreaResize
+  resize?: TextAreaElementResize
 
   @Property({ type: Number, reflect: true })
   rows?: number
@@ -52,7 +58,7 @@ export class TextAreaElement extends FormFieldElement {
   temporary_value: string = ''
 
   @Property({ type: String, attribute: 'touch-trigger', reflect: true })
-  touch_trigger?: TextAreaTouchTrigger
+  touch_trigger?: TextAreaElementTouchTrigger
 
   private onBlur(): void {
     this.focused = false
@@ -187,7 +193,7 @@ export class TextAreaElement extends FormFieldElement {
     return super.value
   }
 
-  get value(): TextAreaValue {
+  get value(): TextAreaElementValue {
     if (this.multiple) {
       return super.value || []
     }
@@ -195,7 +201,7 @@ export class TextAreaElement extends FormFieldElement {
     return super.value
   }
 
-  set value(value: TextAreaValue) {
+  set value(value: TextAreaElementValue) {
     super.value = value
   }
 

@@ -8,10 +8,22 @@ import { ClickAsyncEvent } from '../events/click.async.event'
 import { ElementLogger } from '../loggers/element.logger'
 import { BaseElement } from '../mixins/base.element'
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'queelag-button': ButtonElement
+  }
+}
+
 @CustomElement('queelag-button')
 export class ButtonElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   disabled?: boolean
+
+  @Property({ type: String, reflect: true })
+  icon?: string
+
+  @Property({ type: String, reflect: true })
+  label?: string
 
   @Property({ type: Boolean, reflect: true })
   normalized?: boolean
@@ -47,8 +59,14 @@ export class ButtonElement extends BaseElement {
 
   render() {
     return html`
-      <button @click=${this.onClick} ?disabled=${this.disabled || this.spinning} style=${this.style_map} type=${ifdef(this.type)}>
-        <slot></slot>
+      <button
+        aria-label=${ifdef(this.label)}
+        @click=${this.onClick}
+        ?disabled=${this.disabled || this.spinning}
+        style=${this.style_map}
+        type=${ifdef(this.type)}
+      >
+        <slot>${this.label}</slot>
       </button>
       ${this.shape_html}
     `

@@ -26,9 +26,9 @@ export function InputFile() {
           <span>File Dropzone</span>
         </div>
       </queelag-input-file>
-      {!element.native && element.isFilesNotEmpty && (
+      {!element?.native && element?.isFilesNotEmpty && (
         <div className='flex gap-1 p-1 rounded-sm border border-gray-400'>
-          {element.files.map((file: QueelagFile) => (
+          {element?.files.map((file: QueelagFile) => (
             <div className='flex items-center gap-2 px-2 py-1 border border-gray-400' key={file.id}>
               <span className='text-xs'>{file.name}</span>
               <queelag-icon

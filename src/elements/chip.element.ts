@@ -1,18 +1,18 @@
-import { css, CSSResult } from 'lit'
 import { html } from 'lit-html'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { ElementName } from '../definitions/enums'
+import { ChipElementVariant } from '../definitions/types'
 import { BaseElement } from '../mixins/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-avatar': AvatarElement
+    'queelag-chip': ChipElement
   }
 }
 
-@CustomElement('queelag-avatar')
-export class AvatarElement extends BaseElement {
+@CustomElement('queelag-chip')
+export class ChipElement extends BaseElement {
   @Property({ type: String, reflect: true })
   icon?: string
 
@@ -20,30 +20,22 @@ export class AvatarElement extends BaseElement {
   image?: string
 
   @Property({ type: String, reflect: true })
-  text?: string
+  label?: string
+
+  @Property({ type: String, attribute: 'leading-icon', reflect: true })
+  leading_icon?: string
+
+  @Property({ type: String, attribute: 'trailing-icon', reflect: true })
+  trailing_icon?: string
+
+  @Property({ type: String, reflect: true })
+  variant?: ChipElementVariant
 
   render() {
-    return html`
-      <div style=${this.style_map}>
-        <slot></slot>
-      </div>
-      ${this.shape_html}
-    `
+    return html`<slot></slot>`
   }
 
   get name(): ElementName {
-    return ElementName.AVATAR
+    return ElementName.CHIP
   }
-
-  static styles = [
-    super.styles as CSSResult,
-    css`
-      div {
-        align-items: center;
-        display: inline-flex;
-        justify-content: center;
-        overflow: hidden;
-      }
-    `
-  ]
 }

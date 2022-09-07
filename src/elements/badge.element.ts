@@ -5,6 +5,12 @@ import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { BaseElement } from '../mixins/base.element'
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'queelag-badge': BadgeElement
+  }
+}
+
 @CustomElement('queelag-badge')
 export class BadgeElement extends BaseElement {
   @Property({ type: Boolean, attribute: 'is-number', reflect: true })

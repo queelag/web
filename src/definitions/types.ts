@@ -3,8 +3,13 @@ import type { Struct, StructError } from 'superstruct'
 export type ButtonType = 'button' | 'menu' | 'reset' | 'submit'
 export type ButtonVariant = 'fill' | 'fill-tonal' | 'opacity' | 'outline' | 'text'
 
+export type CanvasDataURLType = 'image/jpeg' | 'image/png' | 'image/webp'
+
+export type ChipElementVariant = 'assist' | 'filter' | 'input' | 'suggestion'
+
 export type Color =
   | 'amber'
+  | 'black'
   | 'blue'
   | 'cyan'
   | 'emerald'
@@ -13,8 +18,6 @@ export type Color =
   | 'green'
   | 'indigo'
   | 'lime'
-  | 'mono'
-  | 'mono_inverted'
   | 'orange'
   | 'pink'
   | 'purple'
@@ -23,6 +26,7 @@ export type Color =
   | 'teal'
   | 'violet'
   | 'yellow'
+  | 'white'
   | string
 
 export type Constructor<T> = new (...args: any[]) => T
@@ -36,12 +40,13 @@ export type FormFieldElementSchema = Struct<any, any> | undefined
 export type FormFieldElementTarget = Record<PropertyKey, any>
 export type FormFieldElementValidation = [StructError | undefined, any]
 
-export type ImageCrossOrigin = 'anonymous' | 'use-credentials'
-export type ImageStatus = 'idle' | 'fetching' | 'loaded' | 'error'
+export type ImageElementCacheType = CanvasDataURLType
+export type ImageElementCrossOrigin = 'anonymous' | 'use-credentials'
+export type ImageElementStatus = 'idle' | 'fetching' | 'loaded' | 'error'
 
-export type InputTouchTrigger = 'blur' | 'change'
+export type InputElementTouchTrigger = 'blur' | 'change'
 
-export type InputType =
+export type InputElementType =
   | 'buffer'
   | 'color'
   | 'date'
@@ -57,15 +62,15 @@ export type InputType =
   | 'url'
   | 'week'
 
-export type InputValue = Date | number | string | string[] | undefined | Uint8Array
+export type InputElementValue = Date | number | string | string[] | Uint8Array | undefined
 
 export type Layer = 0 | 1 | 2 | 3
 export type Orientation = 'horizontal' | 'vertical'
 export type Shape = 'circle' | 'rectangle' | 'square' | 'squircle'
 export type Size = 'small' | 'medium' | 'large' | string | number
 
-export type TextAreaTouchTrigger = InputTouchTrigger
-export type TextAreaValue = string | string[] | undefined
-export type TextAreaResize = 'both' | 'horizontal' | 'vertical' | 'none'
+export type TextAreaElementTouchTrigger = InputElementTouchTrigger
+export type TextAreaElementValue = string | string[] | undefined
+export type TextAreaElementResize = 'both' | 'horizontal' | 'vertical' | 'none'
 
 export type Theme = 'dark' | 'light' | 'system'

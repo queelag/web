@@ -5,6 +5,12 @@ import { Property } from '../decorators/property'
 import { ifdef } from '../directives/if.defined'
 import { BaseElement } from '../mixins/base.element'
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'queelag-meter': MeterElement
+  }
+}
+
 @CustomElement('queelag-meter')
 export class MeterElement extends BaseElement {
   @Property({ type: Number, reflect: true })

@@ -22,7 +22,7 @@ export function CheckBox() {
     <div className='flex items-center gap-2'>
       <queelag-checkbox {...props} ref={ref} native normalized>
         <div className='w-8 h-8 flex justify-center items-center rounded border border-gray-200'>
-          {element.checked && (
+          {element?.checked && (
             <queelag-icon
               fill='none'
               size={16}

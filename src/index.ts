@@ -1,61 +1,24 @@
-import type { AvatarElement } from './elements/avatar.element'
-import type { BadgeElement } from './elements/badge.element'
-import { BottomNavigationElement, BottomNavigationItemElement } from './elements/bottom.navigation.element'
-import type { ButtonElement } from './elements/button.element'
-import type { CheckBoxElement } from './elements/check.box.element'
-import type { DividerElement } from './elements/divider.element'
-import type { FormElement } from './elements/form.element'
-import type { IconElement } from './elements/icon.element'
-import type { ImageElement } from './elements/image.element'
-import type { InputElement } from './elements/input.element'
-import type { InputFileElement } from './elements/input.file.element'
-import type { MeterElement } from './elements/meter.element'
-import type { SelectElement } from './elements/select.element'
-import type { SwitchElement } from './elements/switch.element'
-import type { TextAreaElement } from './elements/text.area.element'
-
-declare global {
-  // interface ElementEventMap {
-  //   attributechanged: AttributeChangedEvent
-  // }
-  interface HTMLElementTagNameMap {
-    'queelag-avatar': AvatarElement
-    'queelag-badge': BadgeElement
-    'queelag-bottom-navigation': BottomNavigationElement
-    'queelag-bottom-navigation-item': BottomNavigationItemElement
-    'queelag-button': ButtonElement
-    'queelag-checkbox': CheckBoxElement
-    'queelag-divider': DividerElement
-    'queelag-form': FormElement
-    'queelag-icon': IconElement
-    'queelag-image': ImageElement
-    'queelag-input': InputElement
-    'queelag-input-file': InputFileElement
-    'queelag-meter': MeterElement
-    'queelag-select': SelectElement
-    'queelag-switch': SwitchElement
-    'queelag-textarea': TextAreaElement
-  }
-}
-
 export * from './collectors/element.collector'
 export * from './collectors/form.field.element.collector'
 export * from './definitions/attributes'
 export { LoggerName as WebLoggerName } from './definitions/enums'
 export * from './definitions/interfaces'
 export * from './definitions/types'
+export * from './elements/alert.dialog.element'
 export * from './elements/avatar.element'
 export * from './elements/badge.element'
-export * from './elements/bottom.navigation.element'
 export * from './elements/button.element'
 export * from './elements/check.box.element'
+export * from './elements/chip.element'
 export * from './elements/divider.element'
 export * from './elements/form.element'
 export * from './elements/icon.element'
 export * from './elements/image.element'
 export * from './elements/input.element'
 export * from './elements/input.file.element'
+export * from './elements/list.element'
 export * from './elements/meter.element'
+export * from './elements/navigation.bar.element'
 export * from './elements/select.element'
 export * from './elements/switch.element'
 export * from './elements/text.area.element'

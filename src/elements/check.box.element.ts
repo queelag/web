@@ -6,6 +6,12 @@ import { ElementName, KeyboardEventKey } from '../definitions/enums'
 import { ElementLogger } from '../loggers/element.logger'
 import { FormFieldElement } from '../mixins/form.field.element'
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'queelag-checkbox': CheckBoxElement
+  }
+}
+
 @CustomElement('queelag-checkbox')
 export class CheckBoxElement extends FormFieldElement {
   @Property({ type: Boolean, reflect: true })

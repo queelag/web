@@ -1,14 +1,25 @@
 import { html } from 'lit-html'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
+import { NavigationRailItemElementAttributes } from '../definitions/attributes'
 import { ElementName } from '../definitions/enums'
 import { ElementLogger } from '../loggers/element.logger'
 import { BaseElement } from '../mixins/base.element'
 
-@CustomElement('queelag-bottom-navigation')
-export class BottomNavigationElement extends BaseElement {
+declare global {
+  interface HTMLElementTagNameMap {
+    'queelag-navigation-rail': NavigationRailElement
+    'queelag-navigation-rail-item': NavigationRailItemElement
+  }
+}
+
+@CustomElement('queelag-navigation-rail')
+export class NavigationRailElement extends BaseElement {
   @Property({ type: String, attribute: 'active-item', reflect: true })
   active_item?: string
+
+  @Property({ type: Object })
+  items?: NavigationRailItemElementAttributes[]
 
   activateItem(item: string): void {
     this.active_item = item
@@ -19,13 +30,17 @@ export class BottomNavigationElement extends BaseElement {
     return html`<slot></slot>`
   }
 
+  isItemActive(item: string): boolean {
+    return item === this.active_item
+  }
+
   get name(): ElementName {
-    return ElementName.BOTTOM_NAVIGATION
+    return ElementName.NAVIGATION_RAIL
   }
 }
 
-@CustomElement('queelag-bottom-navigation-item')
-export class BottomNavigationItemElement extends BaseElement {
+@CustomElement('queelag-navigation-rail-item')
+export class NavigationRailItemElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   active?: boolean
 
@@ -34,6 +49,6 @@ export class BottomNavigationItemElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.BOTTOM_NAVIGATION_ITEM
+    return ElementName.NAVIGATION_RAIL_ITEM
   }
 }

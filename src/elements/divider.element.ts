@@ -5,6 +5,12 @@ import { Orientation } from '../definitions/types'
 import { choose } from '../directives/choose'
 import { BaseElement } from '../mixins/base.element'
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'queelag-divider': DividerElement
+  }
+}
+
 @CustomElement('queelag-divider')
 export class DividerElement extends BaseElement {
   @Property({ type: String, reflect: true })

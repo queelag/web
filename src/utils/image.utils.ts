@@ -1,14 +1,14 @@
 import { DeferredPromise } from '@queelag/core'
 import { CACHE_IMAGES } from '../definitions/constants'
-import { ImageCacheOptions } from '../definitions/interfaces'
+import { GetImageElementBase64Options } from '../definitions/interfaces'
 import { UtilLogger } from '../loggers/util.logger'
 
-export function cacheImageElement(image: HTMLImageElement, options?: ImageCacheOptions): void {
+export function cacheImageElement(image: HTMLImageElement, options?: GetImageElementBase64Options): void {
   CACHE_IMAGES.set(image.src, getImageElementBase64(image, options))
   UtilLogger.verbose('ImageUtils', 'cacheImageSrc', `The image has been cached.`, image)
 }
 
-export async function cacheImageSrc(src: string, options?: ImageCacheOptions): Promise<boolean> {
+export async function cacheImageSrc(src: string, options?: GetImageElementBase64Options): Promise<boolean> {
   let promise: DeferredPromise<boolean>, element: HTMLImageElement
 
   promise = new DeferredPromise()
@@ -41,7 +41,7 @@ export async function cacheImageSrc(src: string, options?: ImageCacheOptions): P
   return promise.instance
 }
 
-export function getImageElementBase64(image: HTMLImageElement, options?: ImageCacheOptions): string {
+export function getImageElementBase64(image: HTMLImageElement, options?: GetImageElementBase64Options): string {
   let canvas: HTMLCanvasElement, context: CanvasRenderingContext2D | null
 
   canvas = document.createElement('canvas')

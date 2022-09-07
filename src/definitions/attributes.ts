@@ -1,8 +1,39 @@
 import type { Struct } from 'superstruct'
-import { ImageCacheOptions, SelectOption } from './interfaces'
-import { ButtonType, ButtonVariant, InputTouchTrigger, InputType, Layer, Orientation, Shape, Size, TextAreaResize } from './types'
+import { SelectOption } from './interfaces'
+import {
+  ButtonType,
+  ButtonVariant,
+  ChipElementVariant,
+  ImageElementCacheType,
+  InputElementTouchTrigger,
+  InputElementType,
+  Layer,
+  Orientation,
+  Shape,
+  Size,
+  TextAreaElementResize
+} from './types'
 
-export interface AvatarElementAttributes extends BaseElementAttributes {}
+export interface AlertElementAttributes extends BaseElementAttributes {
+  closable?: boolean
+  headline?: string
+  icon?: string
+  text?: string
+}
+
+export interface AlertDialogElementAttributes extends BaseElementAttributes {
+  description?: boolean | string
+  label?: boolean | string
+}
+
+export interface AlertDialogDescriptionElementAttributes extends BaseElementAttributes {}
+export interface AlertDialogLabelElementAttributes extends BaseElementAttributes {}
+
+export interface AvatarElementAttributes extends BaseElementAttributes {
+  icon?: string
+  image?: string
+  text?: string
+}
 
 export interface BadgeElementAttributes extends BaseElementAttributes {
   maximum?: number
@@ -23,15 +54,10 @@ export interface BaseElementAttributes {
   width?: number | string
 }
 
-export interface BottomNavigationElementAttributes extends BaseElementAttributes {
-  'active-item'?: string
-}
-
-export interface BottomNavigationItemElementAttributes extends BaseElementAttributes {}
-
 export interface ButtonElementAttributes extends BaseElementAttributes {
   disabled?: boolean
   icon?: boolean
+  label?: string
   normalized?: boolean
   spinning?: boolean
   type?: ButtonType
@@ -42,6 +68,15 @@ export interface CheckBoxElementAttributes extends FormFieldElementAttributes {
   custom?: boolean
   native?: boolean
   normalized?: boolean
+}
+
+export interface ChipElementAttributes extends BaseElementAttributes {
+  icon?: string
+  image?: string
+  label?: string
+  'leading-icon'?: string
+  'trailing-icon'?: string
+  variant?: ChipElementVariant
 }
 
 export interface DividerElementAttributes extends BaseElementAttributes {
@@ -68,7 +103,8 @@ export interface IconElementAttributes extends BaseElementAttributes {
 export interface ImageElementAttributes extends BaseElementAttributes {
   alt?: string
   cache?: boolean
-  'cache-options'?: ImageCacheOptions
+  'cache-quality'?: number
+  'cache-type'?: ImageElementCacheType
   'cross-origin'?: string
   eager?: boolean
   lazy?: boolean
@@ -82,8 +118,8 @@ export interface InputElementAttributes extends FormFieldElementAttributes {
   obscured?: boolean
   padding?: string
   placeholder?: string
-  'touch-trigger'?: InputTouchTrigger
-  type: InputType
+  'touch-trigger'?: InputElementTouchTrigger
+  type: InputElementType
 }
 
 export interface InputFileElementAttributes extends FormFieldElementAttributes {
@@ -104,6 +140,28 @@ export interface MeterElementAttributes extends BaseElementAttributes {
   value?: number
 }
 
+export interface NavigationBarElementAttributes extends BaseElementAttributes {
+  'active-item'?: string
+  items?: NavigationBarItemElementAttributes[]
+}
+
+export interface NavigationBarItemElementAttributes extends BaseElementAttributes {
+  active?: boolean
+  label?: string
+  icon?: string
+}
+
+export interface NavigationRailElementAttributes extends BaseElementAttributes {
+  'active-item'?: string
+  items?: NavigationRailItemElementAttributes[]
+}
+
+export interface NavigationRailItemElementAttributes extends BaseElementAttributes {
+  active?: boolean
+  label?: string
+  icon?: string
+}
+
 export interface SelectElementAttributes extends FormFieldElementAttributes {
   multiple?: boolean
   native?: boolean
@@ -118,6 +176,6 @@ export interface SwitchElementAttributes extends FormFieldElementAttributes {
 export interface TextAreaElementAttributes extends Omit<InputElementAttributes, 'obscured' | 'type'> {
   autosize?: boolean
   cols?: number
-  resize?: TextAreaResize
+  resize?: TextAreaElementResize
   rows?: number
 }

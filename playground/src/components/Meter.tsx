@@ -22,7 +22,7 @@ export function Meter() {
     <div>
       <queelag-meter {...props} ref={ref} height={16} minimum={0} maximum={100} value={50} width={256} native>
         <div className='w-full h-full rounded overflow-hidden bg-gray-200'>
-          <div className='h-full bg-green-500' style={{ width: element.percentage + '%' }} />
+          <div className='h-full bg-green-500' style={{ width: element?.percentage + '%' }} />
         </div>
       </queelag-meter>
     </div>

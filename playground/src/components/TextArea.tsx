@@ -24,7 +24,7 @@ export function TextArea() {
       <queelag-button normalized>
         <queelag-icon
           fill='none'
-          onClick={() => element.clear()}
+          onClick={() => element?.clear()}
           size={16}
           src='https://raw.githubusercontent.com/feathericons/feather/master/icons/x.svg'
           stroke='black'

@@ -17,6 +17,12 @@ import { BaseElement } from '../mixins/base.element'
 import { getElementStyleCompatibleValue } from '../utils/dom.utils'
 import { isStringSVG } from '../utils/string.utils'
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'queelag-icon': IconElement
+  }
+}
+
 @CustomElement('queelag-icon')
 export class IconElement extends BaseElement {
   @Property({ type: String, reflect: true })
@@ -29,7 +35,7 @@ export class IconElement extends BaseElement {
   sanitize: IconElementSanitizeConfig = { RETURN_DOM: false, RETURN_DOM_FRAGMENT: false }
 
   @Property({ type: String, reflect: true })
-  src: string = ''
+  src!: string
 
   @Property({ type: String, reflect: true })
   stroke?: string

@@ -10,6 +10,12 @@ import { StateChangedEvent } from '../events/state.changed.event'
 import { ElementLogger } from '../loggers/element.logger'
 import { FormFieldElement } from '../mixins/form.field.element'
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'queelag-select': SelectElement
+  }
+}
+
 @CustomElement('queelag-select')
 export class SelectElement extends FormFieldElement {
   @Property({ type: Boolean, reflect: true })

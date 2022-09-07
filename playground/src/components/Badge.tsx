@@ -26,7 +26,7 @@ export function Badge() {
         </queelag-avatar>
         <queelag-badge {...props} ref={ref} background='red' className='absolute -top-0.5 -right-0.5' shape='circle' size={12} value={7}>
           <span className='text-white' style={{ fontSize: 8 }}>
-            {element.value}
+            {element?.value}
           </span>
         </queelag-badge>
       </div>

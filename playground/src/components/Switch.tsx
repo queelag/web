@@ -21,8 +21,8 @@ export function Switch() {
   return (
     <div className='flex'>
       <queelag-switch {...props} ref={ref} className='w-16 h-8' native>
-        <div className='w-full p-px border rounded-sm border-gray-400' onClick={element.onClick}>
-          <div className={joinElementClasses('w-1/2 h-full', element.on ? 'translate-x-full bg-green-700' : 'bg-red-700')} />
+        <div className='w-full p-px border rounded-sm border-gray-400' onClick={element?.onClick}>
+          <div className={joinElementClasses('w-1/2 h-full', element?.on ? 'translate-x-full bg-green-700' : 'bg-red-700')} />
         </div>
       </queelag-switch>
     </div>
