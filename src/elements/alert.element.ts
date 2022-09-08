@@ -1,3 +1,4 @@
+import { css, html } from 'lit'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { ElementName } from '../definitions/enums'
@@ -23,7 +24,26 @@ export class AlertElement extends BaseElement {
   @Property({ type: String, reflect: true })
   text?: string
 
+  render() {
+    return html`
+      <div role="alert">
+        <slot></slot>
+      </div>
+    `
+  }
+
   get name(): ElementName {
     return ElementName.ALERT
   }
+
+  static styles = [
+    super.styles,
+    css`
+      div {
+        display: inline-flex;
+        height: 100%;
+        width: 100%;
+      }
+    `
+  ]
 }

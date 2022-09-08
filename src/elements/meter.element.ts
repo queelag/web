@@ -68,7 +68,7 @@ export class MeterElement extends BaseElement {
   }
 
   private get div_element_role(): any {
-    return 'role'
+    return 'meter'
   }
 
   get percentage(): number {
