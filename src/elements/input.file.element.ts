@@ -8,8 +8,8 @@ import { Query } from '../decorators/query'
 import { EMPTY_QUEELAG_FILE } from '../definitions/constants'
 import { DeserializeFileOptions } from '../definitions/interfaces'
 import { ElementLogger } from '../loggers/element.logger'
-import { FormFieldElement } from '../mixins/form.field.element'
 import { deserializeFile } from '../utils/file.utils'
+import { FormFieldElement } from './form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -89,11 +89,11 @@ export class InputFileElement extends FormFieldElement {
 
   render() {
     if (this.native) {
-      return html`<input @change=${this.onChange} ?multiple=${this.multiple} type="file" />`
+      return html`<input @change=${this.onChange} ?disabled=${this.disabled} ?multiple=${this.multiple} ?readonly=${this.readonly} type="file" />`
     }
 
     return html`
-      <input @change=${this.onChange} ?multiple=${this.multiple} type="file" />
+      <input @change=${this.onChange} ?disabled=${this.disabled} ?multiple=${this.multiple} ?readonly=${this.readonly} type="file" />
       <slot></slot>
     `
   }

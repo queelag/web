@@ -24,7 +24,7 @@ export function Input() {
     <div className='flex flex-col gap-1'>
       <div className='flex items-center gap-2'>
         <queelag-input {...props} path='name' target={target.current} ref={ref} placeholder='input' schema={size(string(), 0, 5)} touch-trigger='change' />
-        <queelag-button normalized>
+        <queelag-button native normalized>
           <queelag-icon
             fill='none'
             onClick={() => (element?.obscured ? element.reveal() : element?.obscure())}
@@ -38,7 +38,7 @@ export function Input() {
             stroke-width={2.5}
           />
         </queelag-button>
-        <queelag-button normalized>
+        <queelag-button native normalized>
           <queelag-icon
             fill='none'
             onClick={() => element?.clear()}

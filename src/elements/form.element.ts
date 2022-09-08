@@ -1,4 +1,3 @@
-import { LitElement } from 'lit'
 import { html } from 'lit-html'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
@@ -7,9 +6,9 @@ import { QueryAssignedElements } from '../decorators/query.assigned.elements'
 import { ElementName, KeyboardEventKey } from '../definitions/enums'
 import { SubmitAsyncEvent } from '../events/submit.async.event'
 import { ElementLogger } from '../loggers/element.logger'
-import { BaseElement } from '../mixins/base.element'
-import { FormFieldElementInterface } from '../mixins/form.field.element'
+import { BaseElement } from './base.element'
 import type { CheckBoxElement } from './check.box.element'
+import type { FormFieldElement } from './form.field.element'
 import type { InputElement } from './input.element'
 import type { InputFileElement } from './input.file.element'
 import type { SwitchElement } from './switch.element'
@@ -94,7 +93,7 @@ export class FormElement extends BaseElement {
     return ElementName.FORM
   }
 
-  private get slot_elements(): (LitElement & FormFieldElementInterface)[] {
+  private get slot_elements(): FormFieldElement[] {
     return [...this.slot_checkbox_elements, ...this.slot_input_elements, ...this.slot_input_file_elements, ...this.slot_switch_elements]
   }
 }

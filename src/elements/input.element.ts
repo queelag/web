@@ -11,7 +11,7 @@ import { InputElementTouchTrigger, InputElementType, InputElementValue } from '.
 import { ifdef } from '../directives/if.defined'
 import { styleMap } from '../directives/style.map'
 import { ElementLogger } from '../loggers/element.logger'
-import { FormFieldElement } from '../mixins/form.field.element'
+import { FormFieldElement } from './form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -208,6 +208,7 @@ export class InputElement extends FormFieldElement {
         @input=${this.onInput}
         @keyup=${this.onKeyUp}
         placeholder=${ifdef(this.placeholder)}
+        ?readonly=${this.readonly}
         style=${this.input_element_style}
         type=${this.input_element_type}
         value=${ifdef(this.input_element_value)}

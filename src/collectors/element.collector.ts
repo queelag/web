@@ -1,7 +1,4 @@
-import type { LitElement } from 'lit'
-import type { BaseElementInterface } from '../mixins/base.element'
-
-type BaseElement = LitElement & BaseElementInterface
+import type { BaseElement } from '../elements/base.element'
 
 export class ElementCollector {
   private static map_by_id: Map<string, any> = new Map()

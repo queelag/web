@@ -1,9 +1,9 @@
-import { css, CSSResult } from 'lit'
+import { css } from 'lit'
 import { html } from 'lit-html'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { ElementName } from '../definitions/enums'
-import { BaseElement } from '../mixins/base.element'
+import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -36,7 +36,7 @@ export class AvatarElement extends BaseElement {
   }
 
   static styles = [
-    super.styles as CSSResult,
+    super.styles,
     css`
       div {
         align-items: center;

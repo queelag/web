@@ -3,7 +3,7 @@ import { css, CSSResult } from 'lit'
 import { html } from 'lit-html'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
-import { BaseElement } from '../mixins/base.element'
+import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {

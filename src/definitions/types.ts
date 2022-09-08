@@ -1,3 +1,4 @@
+import type { FocusTargetValueOrFalse, KeyboardEventToBoolean, MouseEventToBoolean } from 'focus-trap'
 import type { Struct, StructError } from 'superstruct'
 
 export type ButtonType = 'button' | 'menu' | 'reset' | 'submit'
@@ -34,7 +35,20 @@ export type Constructor<T> = new (...args: any[]) => T
 export type Direction = 'down' | 'left' | 'right' | 'up'
 export type DirectionHorizontal = 'left' | 'right'
 export type DirectionVertical = 'down' | 'up'
+
+export type ElementAttributeValue = string | null | undefined
+export type ElementAttributes = Record<string, ElementAttributeValue>
+
 export type FeedbackType = 'error' | 'information' | 'success' | 'warning'
+
+export type FocusTrapAllowOutsideClick = boolean | MouseEventToBoolean
+export type FocusTrapCheckCanFocusTrap = (containers: Array<HTMLElement | SVGElement>) => Promise<void>
+export type FocusTrapCheckCanReturnFocus = (trigger: HTMLElement | SVGElement) => Promise<void>
+export type FocusTrapClickOutsideDeactivates = boolean | MouseEventToBoolean
+export type FocusTrapDisplayCheck = 'full' | 'legacy-full' | 'non-zero-area' | 'none'
+export type FocusTrapEscapeDeactivates = boolean | KeyboardEventToBoolean
+export type FocusTrapGetShadowRoot = boolean | ((node: HTMLElement | SVGElement) => ShadowRoot | boolean | undefined)
+export type FocusTrapSetReturnFocus = FocusTargetValueOrFalse | ((nodeFocusedBeforeActivation: HTMLElement | SVGElement) => FocusTargetValueOrFalse)
 
 export type FormFieldElementSchema = Struct<any, any> | undefined
 export type FormFieldElementTarget = Record<PropertyKey, any>

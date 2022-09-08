@@ -1,0 +1,147 @@
+import { ID, parseNumber } from '@queelag/core'
+import { css, CSSResultGroup, html, LitElement, TemplateResult } from 'lit'
+import { DirectiveResult } from 'lit-html/directive'
+import { StyleInfo } from 'lit-html/directives/style-map'
+import { ElementCollector } from '../collectors/element.collector'
+import { Property } from '../decorators/property'
+import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
+import { ElementName } from '../definitions/enums'
+import { Layer, Shape, Size } from '../definitions/types'
+import { styleMap } from '../directives/style.map'
+import { AttributeChangedEvent } from '../events/attribute.changed.event'
+import { getElementStyleCompatibleValue } from '../utils/dom.utils'
+import { setImmutableElementAttribute } from '../utils/element.utils'
+import { getShapeStyleInfo } from '../utils/shape.utils'
+import { getSquircleHTML } from '../utils/squircle.utils'
+
+export class BaseElement extends LitElement {
+  @Property({ type: String, reflect: true })
+  background?: string
+
+  @Property({ type: String, reflect: true })
+  height?: string
+
+  @Property({ type: Number, reflect: true })
+  layer?: Layer
+
+  @Property({ type: String, reflect: true })
+  shape?: Shape
+
+  @Property({ type: Number, attribute: 'shape-rectangle-radius', reflect: true })
+  shape_rectangle_radius?: number
+
+  @Property({ type: Number, attribute: 'shape-square-radius', reflect: true })
+  shape_square_radius?: number
+
+  @Property({ type: Number, attribute: 'shape-squircle-curvature', reflect: true })
+  shape_squircle_curvature?: number
+
+  @Property({ type: Number, attribute: 'shape-squircle-size', reflect: true })
+  shape_squircle_size?: number
+
+  @Property({ type: String, reflect: true })
+  size?: Size
+
+  protected squircle_id: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.SQUIRCLE })
+  uid!: string
+
+  @Property({ type: String, reflect: true })
+  width?: string
+
+  connectedCallback(): void {
+    super.connectedCallback()
+    setImmutableElementAttribute(this, 'uid', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.name }))
+
+    ElementCollector.set(this)
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+    ElementCollector.delete(this)
+  }
+
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    super.attributeChangedCallback(name, _old, value)
+
+    if (Object.is(_old, value)) {
+      return
+    }
+
+    this.dispatchEvent(new AttributeChangedEvent(name, _old, value))
+  }
+
+  onSlotChange(): void {}
+
+  render() {
+    return html`<slot @slotchange=${this.onSlotChange}></slot>`
+  }
+
+  // @ts-ignore
+  get name(): ElementName {}
+
+  get shape_html(): TemplateResult | undefined {
+    if (this.shape !== 'squircle') {
+      return
+    }
+
+    return getSquircleHTML(this.squircle_id, this.shape_squircle_size || this.size_as_number, {
+      curvature: this.shape_squircle_curvature
+    })
+  }
+
+  get shape_style_info(): StyleInfo {
+    return getShapeStyleInfo(this.shape, {
+      rectangle: { radius: this.shape_rectangle_radius },
+      square: { radius: this.shape_square_radius },
+      squircle: { id: this.squircle_id }
+    })
+  }
+
+  get shape_style_map(): DirectiveResult {
+    return styleMap(this.shape_style_info)
+  }
+
+  get size_style_info(): StyleInfo {
+    return {
+      height: getElementStyleCompatibleValue(this.height || this.size),
+      width: getElementStyleCompatibleValue(this.width || this.size)
+    }
+  }
+
+  get size_style_map(): DirectiveResult {
+    return styleMap(this.size_style_info)
+  }
+
+  get style_info(): StyleInfo {
+    return { ...this.shape_style_info, ...this.size_style_info, background: this.background }
+  }
+
+  get style_map(): DirectiveResult {
+    return styleMap(this.style_info)
+  }
+
+  private get size_as_number(): number {
+    switch (typeof this.size) {
+      case 'number':
+        return this.size
+      case 'string':
+        return parseNumber(this.size)
+      default:
+        return 0
+    }
+  }
+
+  static styles: CSSResultGroup = css`
+    :host {
+      display: inline-flex;
+    }
+
+    svg.squircle {
+      height: 0;
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      width: 0;
+    }
+  `
+}

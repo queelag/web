@@ -1,9 +1,5 @@
-import { LitElement } from 'lit'
 import { FormFieldElementTarget } from '../definitions/types'
-import { BaseElementInterface } from '../mixins/base.element'
-import { FormFieldElementInterface } from '../mixins/form.field.element'
-
-type FormFieldElement = LitElement & BaseElementInterface & FormFieldElementInterface
+import type { FormFieldElement } from '../elements/form.field.element'
 
 export class FormFieldElementCollector {
   private static map_by_id: Map<string, any> = new Map()

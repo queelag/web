@@ -13,9 +13,9 @@ import { Color } from '../definitions/types'
 import { styleMap } from '../directives/style.map'
 import { unsafeSVG } from '../directives/unsafe.svg'
 import { ElementLogger } from '../loggers/element.logger'
-import { BaseElement } from '../mixins/base.element'
 import { getElementStyleCompatibleValue } from '../utils/dom.utils'
 import { isStringSVG } from '../utils/string.utils'
+import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {

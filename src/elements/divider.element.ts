@@ -3,7 +3,7 @@ import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { Orientation } from '../definitions/types'
 import { choose } from '../directives/choose'
-import { BaseElement } from '../mixins/base.element'
+import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {

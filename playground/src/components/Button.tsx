@@ -28,7 +28,7 @@ export function Button() {
 
   return (
     <div>
-      <queelag-button {...props} ref={ref}>
+      <queelag-button {...props} ref={ref} async native>
         <span>{element?.spinning ? 'Spinning' : 'Button'}</span>
       </queelag-button>
     </div>

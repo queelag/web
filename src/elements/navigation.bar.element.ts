@@ -1,10 +1,9 @@
-import { html } from 'lit-html'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { NavigationBarItemElementAttributes } from '../definitions/attributes'
 import { ElementName } from '../definitions/enums'
 import { ElementLogger } from '../loggers/element.logger'
-import { BaseElement } from '../mixins/base.element'
+import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -26,10 +25,6 @@ export class NavigationBarElement extends BaseElement {
     ElementLogger.verbose(this.uid, 'activateItem', `The active item has been set.`, [this.active_item])
   }
 
-  render() {
-    return html`<slot></slot>`
-  }
-
   isItemActive(item: string): boolean {
     return item === this.active_item
   }
@@ -49,10 +44,6 @@ export class NavigationBarItemElement extends BaseElement {
 
   @Property({ type: String, reflect: true })
   icon?: string
-
-  render() {
-    return html`<slot></slot>`
-  }
 
   get name(): ElementName {
     return ElementName.NAVIGATION_BAR_ITEM

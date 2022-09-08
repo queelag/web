@@ -1,8 +1,7 @@
-import { html } from 'lit-html'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { ElementName } from '../definitions/enums'
-import { BaseElement } from '../mixins/base.element'
+import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -15,10 +14,6 @@ declare global {
 export class ListElement extends BaseElement {
   @Property({ type: Object })
   items?: any[]
-
-  render() {
-    return html`<slot></slot>`
-  }
 
   get name(): ElementName {
     return ElementName.LIST
@@ -46,10 +41,6 @@ export class ListItemElement extends BaseElement {
 
   @Property({ type: String, reflect: true })
   text?: string
-
-  render() {
-    return html`<slot></slot>`
-  }
 
   get name(): ElementName {
     return ElementName.LIST_ITEM

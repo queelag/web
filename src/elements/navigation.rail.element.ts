@@ -1,10 +1,9 @@
-import { html } from 'lit-html'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { NavigationRailItemElementAttributes } from '../definitions/attributes'
 import { ElementName } from '../definitions/enums'
 import { ElementLogger } from '../loggers/element.logger'
-import { BaseElement } from '../mixins/base.element'
+import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -26,10 +25,6 @@ export class NavigationRailElement extends BaseElement {
     ElementLogger.verbose(this.uid, 'activateItem', `The active item has been set.`, [this.active_item])
   }
 
-  render() {
-    return html`<slot></slot>`
-  }
-
   isItemActive(item: string): boolean {
     return item === this.active_item
   }
@@ -43,10 +38,6 @@ export class NavigationRailElement extends BaseElement {
 export class NavigationRailItemElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   active?: boolean
-
-  render() {
-    return html`<slot></slot>`
-  }
 
   get name(): ElementName {
     return ElementName.NAVIGATION_RAIL_ITEM

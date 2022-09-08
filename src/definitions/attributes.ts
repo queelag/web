@@ -1,9 +1,18 @@
+import { FocusTarget, FocusTargetOrFalse } from 'focus-trap'
 import type { Struct } from 'superstruct'
 import { SelectOption } from './interfaces'
 import {
   ButtonType,
   ButtonVariant,
   ChipElementVariant,
+  FocusTrapAllowOutsideClick,
+  FocusTrapCheckCanFocusTrap,
+  FocusTrapCheckCanReturnFocus,
+  FocusTrapClickOutsideDeactivates,
+  FocusTrapDisplayCheck,
+  FocusTrapEscapeDeactivates,
+  FocusTrapGetShadowRoot,
+  FocusTrapSetReturnFocus,
   ImageElementCacheType,
   InputElementTouchTrigger,
   InputElementType,
@@ -21,13 +30,9 @@ export interface AlertElementAttributes extends BaseElementAttributes {
   text?: string
 }
 
-export interface AlertDialogElementAttributes extends BaseElementAttributes {
-  description?: boolean | string
-  label?: boolean | string
-}
-
-export interface AlertDialogDescriptionElementAttributes extends BaseElementAttributes {}
-export interface AlertDialogLabelElementAttributes extends BaseElementAttributes {}
+export interface AlertDialogElementAttributes extends DialogElementAttributes {}
+export interface AlertDialogDescriptionElementAttributes extends DialogDescriptionElementAttributes {}
+export interface AlertDialogLabelElementAttributes extends DialogLabelElementAttributes {}
 
 export interface AvatarElementAttributes extends BaseElementAttributes {
   icon?: string
@@ -55,11 +60,14 @@ export interface BaseElementAttributes {
 }
 
 export interface ButtonElementAttributes extends BaseElementAttributes {
+  async?: boolean
   disabled?: boolean
   icon?: boolean
   label?: string
+  native?: boolean
   normalized?: boolean
   spinning?: boolean
+  'tab-index'?: number
   type?: ButtonType
   variant?: ButtonVariant
 }
@@ -79,8 +87,34 @@ export interface ChipElementAttributes extends BaseElementAttributes {
   variant?: ChipElementVariant
 }
 
+export interface DialogElementAttributes extends FocusTrapElementAttributes {
+  description?: string
+  label?: string
+  visible?: boolean
+}
+
+export interface DialogDescriptionElementAttributes extends BaseElementAttributes {}
+export interface DialogLabelElementAttributes extends BaseElementAttributes {}
+
 export interface DividerElementAttributes extends BaseElementAttributes {
   orientation?: Orientation
+}
+
+export interface FocusTrapElementAttributes extends BaseElementAttributes {
+  'focus-trap-allow-outside-click'?: FocusTrapAllowOutsideClick
+  'focus-trap-check-can-focus-trap'?: FocusTrapCheckCanFocusTrap
+  'focus-trap-check-can-return-focus'?: FocusTrapCheckCanReturnFocus
+  'focus-trap-click-outside-deactivates'?: FocusTrapClickOutsideDeactivates
+  'focus-trap-delay-initial-focus'?: boolean
+  'focus-trap-display-check'?: FocusTrapDisplayCheck
+  'focus-trap-document'?: Document
+  'focus-trap-escape-deactivates'?: FocusTrapEscapeDeactivates
+  'focus-trap-fallback-focus'?: FocusTarget
+  'focus-trap-get-shadow-root'?: FocusTrapGetShadowRoot
+  'focus-trap-initial-focus'?: FocusTargetOrFalse
+  'focus-trap-prevent-scroll'?: boolean
+  'focus-trap-return-focus-on-deactivate'?: boolean
+  'focus-trap-set-return-focus'?: FocusTrapSetReturnFocus
 }
 
 export interface FormElementAttributes extends BaseElementAttributes {}
@@ -88,6 +122,7 @@ export interface FormElementAttributes extends BaseElementAttributes {}
 export interface FormFieldElementAttributes extends BaseElementAttributes {
   disabled?: boolean
   path?: string
+  readonly?: boolean
   schema?: Struct<any, any>
   target?: Record<PropertyKey, any>
   touched?: boolean

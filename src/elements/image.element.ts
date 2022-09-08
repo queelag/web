@@ -13,9 +13,9 @@ import { ifdef } from '../directives/if.defined'
 import { styleMap } from '../directives/style.map'
 import { until } from '../directives/until'
 import { ElementLogger } from '../loggers/element.logger'
-import { BaseElement } from '../mixins/base.element'
 import { getElementStyleCompatibleValue } from '../utils/dom.utils'
 import { getImageElementBase64 } from '../utils/image.utils'
+import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {

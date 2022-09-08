@@ -41,7 +41,9 @@ export function InputFile() {
               />
             </div>
           ))}
-          <queelag-button onClick={element.clear}>Clear</queelag-button>
+          <queelag-button onClick={element.clear} native>
+            Clear
+          </queelag-button>
         </div>
       )}
     </div>

@@ -4,7 +4,7 @@ import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { ElementName, KeyboardEventKey } from '../definitions/enums'
 import { ElementLogger } from '../loggers/element.logger'
-import { FormFieldElement } from '../mixins/form.field.element'
+import { FormFieldElement } from './form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -26,7 +26,7 @@ export class CheckBoxElement extends FormFieldElement {
   }
 
   private onClick(): void {
-    if (this.disabled) {
+    if (this.disabled || this.readonly) {
       return ElementLogger.warn(this.id, 'onClick', `Execution stopped, disabled is truthy.`)
     }
 
@@ -49,11 +49,20 @@ export class CheckBoxElement extends FormFieldElement {
 
   render() {
     if (this.native) {
-      return html`<input @change=${this.onChange} ?checked=${this.value} ?disabled=${this.disabled} type="checkbox" />`
+      return html`<input @change=${this.onChange} ?checked=${this.value} ?disabled=${this.disabled} ?readonly=${this.readonly} type="checkbox" />`
     }
 
     return html`
-      <div aria-checked=${this.div_element_aria_checked} @click=${this.onClick} @keydown=${this.onKeyDown} role="checkbox" style=${this.style_map} tabindex="0">
+      <div
+        aria-checked=${this.div_element_aria_checked}
+        aria-disabled=${this.div_element_aria_disabled}
+        aria-readonly=${this.div_element_aria_readonly}
+        @click=${this.onClick}
+        @keydown=${this.onKeyDown}
+        role="checkbox"
+        style=${this.style_map}
+        tabindex="0"
+      >
         <slot></slot>
       </div>
       ${this.shape_html}
@@ -83,13 +92,18 @@ export class CheckBoxElement extends FormFieldElement {
   static styles = [
     super.styles as CSSResult,
     css`
+      * {
+        cursor: pointer;
+      }
+
       :host([normalized]) input {
         margin: 0;
       }
 
-      div,
-      input {
-        cursor: pointer;
+      div {
+        display: inline-flex;
+        height: 100%;
+        width: 100%;
       }
     `
   ]

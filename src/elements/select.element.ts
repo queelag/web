@@ -8,7 +8,7 @@ import { SelectOption } from '../definitions/interfaces'
 import { map } from '../directives/map'
 import { StateChangedEvent } from '../events/state.changed.event'
 import { ElementLogger } from '../loggers/element.logger'
-import { FormFieldElement } from '../mixins/form.field.element'
+import { FormFieldElement } from './form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -121,7 +121,7 @@ export class SelectElement extends FormFieldElement {
   render() {
     if (this.native) {
       return html`
-        <select @change=${this.onChange}>
+        <select @change=${this.onChange} ?disabled=${this.disabled || this.readonly}>
           ${map(
             this.options || [],
             (option: SelectOption) => html` <option ?selected=${option.value === this.value} value=${option.value}>${option.label || option.value}</option> `
