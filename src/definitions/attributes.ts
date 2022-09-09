@@ -197,6 +197,15 @@ export interface LinkElementAttributes extends BaseElementAttributes {
   target?: string
 }
 
+export interface ListBoxElementAttributes extends BaseElementAttributes {
+  multiple?: boolean
+  'select-on-focus'?: boolean
+}
+
+export interface ListBoxOptionElementAttributes extends BaseElementAttributes {
+  selected?: boolean
+}
+
 export interface MeterElementAttributes extends BaseElementAttributes {
   low?: number
   high?: number

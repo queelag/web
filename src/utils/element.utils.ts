@@ -4,6 +4,13 @@ export function joinElementClasses(...classes: any[]): string {
   return classes.filter(Boolean).join(' ')
 }
 
+export function setElementAttribute<T extends Element>(element: T, name: string, value: ElementAttributeValue): void {
+  if (typeof value !== 'string') {
+    return element.removeAttribute(name)
+  }
+
+  element.setAttribute(name, value)
+}
 export function setImmutableElementAttribute<T extends Element>(element: T, name: string, value: ElementAttributeValue): void {
   if (typeof value !== 'string') {
     return removeImmutableElementAttribute(element, name)

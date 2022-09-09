@@ -27,6 +27,8 @@ export enum ElementName {
   LINK = 'link',
   LIST = 'list',
   LIST_ITEM = 'list-item',
+  LISTBOX = 'listbox',
+  LISTBOX_OPTION = 'listbox_option',
   NAVIGATION_BAR = 'navigation_bar',
   NAVIGATION_BAR_ITEM = 'navigation_bar_item',
   NAVIGATION_RAIL = 'navigation_rail',
