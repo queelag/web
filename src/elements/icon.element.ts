@@ -25,6 +25,9 @@ declare global {
 
 @CustomElement('queelag-icon')
 export class IconElement extends BaseElement {
+  @Property({ type: Boolean, reflect: true })
+  cache?: boolean
+
   @Property({ type: String, reflect: true })
   color?: Color
 
@@ -41,10 +44,10 @@ export class IconElement extends BaseElement {
   stroke?: string
 
   @Property({ type: String, attribute: 'stroke-width', reflect: true })
-  stroke_width?: string
+  strokeWidth?: string
 
   @State()
-  private svg_element: SVGSVGElement = document.createElementNS(SVG_NAMESPACE_URI, 'svg')
+  private svgElement: SVGSVGElement = document.createElementNS(SVG_NAMESPACE_URI, 'svg')
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -86,7 +89,7 @@ export class IconElement extends BaseElement {
     let cache: string | undefined, response: FetchResponse<string> | Error, text: string | Error
 
     if (FETCHING_ICONS.has(this.src)) {
-      ElementLogger.verbose(this.uid, 'fetch_source', `The src is already being fetched, will try again in 100ms.`, [this.src])
+      ElementLogger.verbose(this.uid, 'fetchSource', `The src is already being fetched, will try again in 100ms.`, [this.src])
       await sleep(100)
 
       return this.fetchSource()
@@ -94,7 +97,7 @@ export class IconElement extends BaseElement {
 
     cache = CACHE_ICONS.get(this.src)
     if (typeof cache === 'string') {
-      ElementLogger.verbose(this.uid, 'fetch_source', `Cached SVG found for this src, will parse.`, [this.src, cache])
+      ElementLogger.verbose(this.uid, 'fetchSource', `Cached SVG found for this src, will parse.`, [this.src, cache])
       return this.parseSVGString(cache)
     }
 
@@ -110,8 +113,10 @@ export class IconElement extends BaseElement {
     text = await tcp(() => (response as FetchResponse).text())
     if (text instanceof Error) return rvp(() => CACHE_ICONS.delete(this.src))
 
-    CACHE_ICONS.set(this.src, text)
-    ElementLogger.verbose(this.uid, 'fetchSource', `The icon has been cached.`, [this.src, text])
+    if (this.cache) {
+      CACHE_ICONS.set(this.src, text)
+      ElementLogger.verbose(this.uid, 'fetchSource', `The icon has been cached.`, [this.src, text])
+    }
 
     this.parseSVGString(text)
   }
@@ -125,28 +130,28 @@ export class IconElement extends BaseElement {
     element = document.querySelector('svg')
     if (!element) return ElementLogger.error(this.uid, 'parseSVGString', `Failed to find the svg element.`, document)
 
-    this.svg_element = element
-    ElementLogger.verbose(this.uid, 'parseSVGString', `The svg element has been set.`, this.svg_element)
+    this.svgElement = element
+    ElementLogger.verbose(this.uid, 'parseSVGString', `The svg element has been set.`, this.svgElement)
   }
 
   render() {
     return html`<svg
       fill=${this.fill}
       stroke=${this.stroke}
-      stroke-width=${this.stroke_width}
-      style=${this.svg_element_style}
-      viewBox=${this.svg_element_viewbox}
+      stroke-width=${this.strokeWidth}
+      style=${this.svgElementStyle}
+      viewBox=${this.svgElementViewBox}
       xmlns=${SVG_NAMESPACE_URI}
     >
-      ${this.svg_element_template}
+      ${this.svgElementTemplate}
     </svg>`
   }
 
-  private get svg_element_inner_html(): string {
-    return this.svg_element.innerHTML
+  private get svgElementInnerHTML(): string {
+    return this.svgElement.innerHTML
   }
 
-  private get svg_element_style(): DirectiveResult<typeof StyleMapDirective> {
+  private get svgElementStyle(): DirectiveResult<typeof StyleMapDirective> {
     return styleMap({
       height: getElementStyleCompatibleValue(this.height || this.size),
       maxHeight: getElementStyleCompatibleValue(this.height || this.size),
@@ -157,12 +162,12 @@ export class IconElement extends BaseElement {
     })
   }
 
-  private get svg_element_template(): TemplateResult {
-    return svg`${unsafeSVG(this.svg_element_inner_html)}`
+  private get svgElementTemplate(): TemplateResult {
+    return svg`${unsafeSVG(this.svgElementInnerHTML)}`
   }
 
-  private get svg_element_viewbox(): string {
-    return this.svg_element.getAttribute('viewbox') || this.svg_element.getAttribute('viewBox') || '0 0 0 0'
+  private get svgElementViewBox(): string {
+    return this.svgElement.getAttribute('viewbox') || this.svgElement.getAttribute('viewBox') || '0 0 0 0'
   }
 
   get name(): ElementName {

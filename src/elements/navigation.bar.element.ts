@@ -15,18 +15,18 @@ declare global {
 @CustomElement('queelag-navigation-bar')
 export class NavigationBarElement extends BaseElement {
   @Property({ type: String, attribute: 'active-item', reflect: true })
-  active_item?: string
+  activeItem?: string
 
   @Property({ type: Object })
   items?: NavigationBarItemElementAttributes[]
 
   activateItem(item: string): void {
-    this.active_item = item
-    ElementLogger.verbose(this.uid, 'activateItem', `The active item has been set.`, [this.active_item])
+    this.activeItem = item
+    ElementLogger.verbose(this.uid, 'activateItem', `The active item has been set.`, [this.activeItem])
   }
 
   isItemActive(item: string): boolean {
-    return item === this.active_item
+    return item === this.activeItem
   }
 
   get name(): ElementName {

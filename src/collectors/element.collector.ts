@@ -1,22 +1,22 @@
 import type { BaseElement } from '../elements/base.element'
 
 export class ElementCollector {
-  private static map_by_id: Map<string, any> = new Map()
-  private static map_by_uid: Map<string, any> = new Map()
+  private static mapByID: Map<string, any> = new Map()
+  private static mapByUID: Map<string, any> = new Map()
 
   static set<T extends BaseElement>(element: T): void {
-    element.id && this.map_by_id.set(element.id, element)
-    element.uid && this.map_by_uid.set(element.uid, element)
+    element.id && this.mapByID.set(element.id, element)
+    element.uid && this.mapByUID.set(element.uid, element)
   }
 
   static get<T extends BaseElement>(id: string): T | undefined
   static get<T extends BaseElement>(uid: string): T | undefined
   static get<T extends BaseElement>(...args: any[]): T | undefined {
-    return this.map_by_id.get(args[0]) || this.map_by_uid.get(args[0])
+    return this.mapByID.get(args[0]) || this.mapByUID.get(args[0])
   }
 
   static delete<T extends BaseElement>(element: T): void {
-    this.map_by_id.delete(element.id)
-    this.map_by_uid.delete(element.uid)
+    this.mapByID.delete(element.id)
+    this.mapByUID.delete(element.uid)
   }
 }

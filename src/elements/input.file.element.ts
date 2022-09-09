@@ -4,7 +4,7 @@ import { html } from 'lit-html'
 import { QueelagFile } from '../classes/queelag.file'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
-import { Query } from '../decorators/query'
+import { QueryShadow } from '../decorators/query.shadow'
 import { EMPTY_QUEELAG_FILE } from '../definitions/constants'
 import { DeserializeFileOptions } from '../definitions/interfaces'
 import { ElementLogger } from '../loggers/element.logger'
@@ -20,13 +20,13 @@ declare global {
 @CustomElement('queelag-input-file')
 export class InputFileElement extends FormFieldElement {
   @Property({ type: Boolean, attribute: 'deserialize-file-resolve-array-buffer', reflect: true })
-  deserialize_file_resolve_array_buffer?: boolean
+  deserializeFileResolveArrayBuffer?: boolean
 
   @Property({ type: Boolean, attribute: 'deserialize-file-resolve-text', reflect: true })
-  deserialize_file_resolve_text?: boolean
+  deserializeFileResolveText?: boolean
 
-  @Query('input')
-  private input_element!: HTMLInputElement
+  @QueryShadow('input')
+  private inputElement!: HTMLInputElement
 
   @Property({ type: Boolean, reflect: true })
   multiple?: boolean
@@ -38,7 +38,7 @@ export class InputFileElement extends FormFieldElement {
     let files: QueelagFile[] = []
 
     for (let file of event.target.files) {
-      files.push(await deserializeFile(file, this.deserialize_file_options))
+      files.push(await deserializeFile(file, this.deserializeFileOptions))
       ElementLogger.verbose(this.uid, 'onChange', `The file have been deserialized.`, files)
     }
 
@@ -56,7 +56,7 @@ export class InputFileElement extends FormFieldElement {
   }
 
   removeFile(file: QueelagFile): void {
-    this.input_element.value = ''
+    this.inputElement.value = ''
     ElementLogger.verbose(this.uid, 'removeFile', `The input element value has been reset.`)
 
     if (this.multiple) {
@@ -77,14 +77,14 @@ export class InputFileElement extends FormFieldElement {
     this.value = this.multiple ? [] : EMPTY_QUEELAG_FILE()
     ElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, this.value)
 
-    this.input_element.value = ''
+    this.inputElement.value = ''
     ElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`)
 
     this.touch()
   }
 
   open = (): void => {
-    this.input_element.click()
+    this.inputElement.click()
   }
 
   render() {
@@ -106,11 +106,11 @@ export class InputFileElement extends FormFieldElement {
     return (this.value as QueelagFile)?.name ? [this.value as QueelagFile] : []
   }
 
-  private get deserialize_file_options(): DeserializeFileOptions {
+  private get deserializeFileOptions(): DeserializeFileOptions {
     return {
       resolve: {
-        array_buffer: this.deserialize_file_resolve_array_buffer,
-        text: this.deserialize_file_resolve_text
+        arrayBuffer: this.deserializeFileResolveArrayBuffer,
+        text: this.deserializeFileResolveText
       }
     }
   }

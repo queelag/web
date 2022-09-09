@@ -24,10 +24,10 @@ export class AvatarElement extends BaseElement {
 
   render() {
     return html`
-      <div style=${this.style_map}>
+      <div style=${this.styleMap}>
         <slot></slot>
       </div>
-      ${this.shape_html}
+      ${this.shapeHTML}
     `
   }
 

@@ -4,7 +4,7 @@ import { DeserializeFileOptions } from '../definitions/interfaces'
 export async function deserializeFile(file: File, options?: DeserializeFileOptions): Promise<QueelagFile> {
   let item: QueelagFile = new QueelagFile(file)
 
-  if (options?.resolve?.array_buffer) {
+  if (options?.resolve?.arrayBuffer) {
     await item.resolveArrayBuffer()
   }
 

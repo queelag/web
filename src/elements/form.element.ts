@@ -1,8 +1,8 @@
 import { html } from 'lit-html'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
-import { Query } from '../decorators/query'
 import { QueryAssignedElements } from '../decorators/query.assigned.elements'
+import { QueryShadow } from '../decorators/query.shadow'
 import { ElementName, KeyboardEventKey } from '../definitions/enums'
 import { SubmitAsyncEvent } from '../events/submit.async.event'
 import { ElementLogger } from '../loggers/element.logger'
@@ -24,20 +24,20 @@ export class FormElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   disabled?: boolean
 
-  @Query('form')
-  private form_element!: HTMLFormElement
+  @QueryShadow('form')
+  private formElement!: HTMLFormElement
 
   @QueryAssignedElements({ selector: 'queelag-checkbox' })
-  private slot_checkbox_elements!: CheckBoxElement[]
+  private slotCheckBoxElements!: CheckBoxElement[]
 
   @QueryAssignedElements({ selector: 'queelag-input' })
-  private slot_input_elements!: InputElement[]
+  private slotInputElements!: InputElement[]
 
   @QueryAssignedElements({ selector: 'queelag-input-file' })
-  private slot_input_file_elements!: InputFileElement[]
+  private slotInputFileElements!: InputFileElement[]
 
   @QueryAssignedElements({ selector: 'queelag-switch' })
-  private slot_switch_elements!: SwitchElement[]
+  private slowSwitchElements!: SwitchElement[]
 
   @Property({ type: Boolean, reflect: true })
   spinning?: boolean
@@ -47,7 +47,7 @@ export class FormElement extends BaseElement {
       return
     }
 
-    this.form_element.requestSubmit()
+    this.formElement.requestSubmit()
   }
 
   private onSubmit(event: SubmitEvent): void {
@@ -60,7 +60,7 @@ export class FormElement extends BaseElement {
       return ElementLogger.warn(this.uid, 'onSubmit', `Execution stopped, this form is disabled.`)
     }
 
-    for (let element of this.slot_elements) {
+    for (let element of this.slotElements) {
       element.touch()
       valid = valid && element.isValid
     }
@@ -93,7 +93,7 @@ export class FormElement extends BaseElement {
     return ElementName.FORM
   }
 
-  private get slot_elements(): FormFieldElement[] {
-    return [...this.slot_checkbox_elements, ...this.slot_input_elements, ...this.slot_input_file_elements, ...this.slot_switch_elements]
+  private get slotElements(): FormFieldElement[] {
+    return [...this.slotCheckBoxElements, ...this.slotInputElements, ...this.slotInputFileElements, ...this.slowSwitchElements]
   }
 }

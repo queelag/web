@@ -1,4 +1,3 @@
-import { noop } from '@queelag/core'
 import { ElementAttributes, ElementAttributeValue } from '../definitions/types'
 
 export function joinElementClasses(...classes: any[]): string {
@@ -10,7 +9,7 @@ export function setImmutableElementAttribute<T extends Element>(element: T, name
     return removeImmutableElementAttribute(element, name)
   }
 
-  Object.defineProperty(element, name, { configurable: true, get: () => value, set: noop })
+  Object.defineProperty(element, name, { configurable: true, get: () => value, set: () => undefined })
   element.setAttribute(name, value)
 }
 

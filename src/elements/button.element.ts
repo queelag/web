@@ -1,12 +1,12 @@
 import { css, CSSResult, html } from 'lit'
+import { AriaButtonController } from '../controllers/aria.button.controller'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { ElementName, KeyboardEventKey } from '../definitions/enums'
-import { ButtonType, ButtonVariant, ElementAttributes } from '../definitions/types'
+import { ButtonPressed, ButtonType, ButtonVariant } from '../definitions/types'
 import { ifdef } from '../directives/if.defined'
 import { ClickAsyncEvent } from '../events/click.async.event'
 import { ElementLogger } from '../loggers/element.logger'
-import { setImmutableElementAttributes } from '../utils/element.utils'
 import { BaseElement } from './base.element'
 
 declare global {
@@ -17,6 +17,8 @@ declare global {
 
 @CustomElement('queelag-button')
 export class ButtonElement extends BaseElement {
+  protected aria: AriaButtonController = new AriaButtonController(this)
+
   @Property({ type: Boolean, reflect: true })
   async?: boolean
 
@@ -35,11 +37,11 @@ export class ButtonElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   normalized?: boolean
 
+  @Property({ type: String, reflect: true })
+  pressed?: ButtonPressed
+
   @Property({ type: Boolean, reflect: true })
   spinning?: boolean
-
-  @Property({ type: Number, attribute: 'tab-index', reflect: true })
-  tab_index?: number
 
   @Property({ type: String, reflect: true })
   type?: ButtonType
@@ -52,8 +54,6 @@ export class ButtonElement extends BaseElement {
 
     this.addEventListener('click', this.onClick)
     this.addEventListener('keydown', this.onKeyDown)
-
-    setImmutableElementAttributes(this, this.aria_attributes)
   }
 
   disconnectedCallback(): void {
@@ -63,24 +63,28 @@ export class ButtonElement extends BaseElement {
     this.removeEventListener('keydown', this.onKeyDown)
   }
 
-  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
-    super.attributeChangedCallback(name, _old, value)
-
-    if (Object.is(_old, value)) {
-      return
-    }
-
-    setImmutableElementAttributes(this, this.aria_attributes)
-  }
-
-  private onClick = (): void => {
+  onClick = (): void => {
     if (this.async) {
       this.onClickAsync()
     }
   }
 
-  private onKeyDown = (event: KeyboardEvent): void => {
-    if (event.key !== KeyboardEventKey.ENTER) {
+  onClickAsync(): void {
+    if (this.isNotClickable) {
+      ElementLogger.warn(this.uid, 'onClickAsync', `The element is disabled or spinning.`)
+      return
+    }
+
+    this.disabled = true
+    this.spinning = true
+    ElementLogger.verbose(this.uid, 'onClickAsync', `The disabled and spinning properties have been set to true.`)
+
+    this.dispatchEvent(new ClickAsyncEvent(this.finalize))
+    ElementLogger.verbose(this.uid, 'onClickAsync', `The "clickasync" event has been dispatched.`)
+  }
+
+  onKeyDown = (event: KeyboardEvent): void => {
+    if (event.key !== KeyboardEventKey.ENTER && event.key !== KeyboardEventKey.SPACE) {
       return
     }
 
@@ -95,45 +99,36 @@ export class ButtonElement extends BaseElement {
     }
   }
 
-  private onClickAsync(): void {
-    if (this.isNotClickable) {
-      ElementLogger.warn(this.uid, 'onClickAsync', `The element is disabled or spinning.`)
-      return
-    }
-
-    this.disabled = true
-    this.spinning = true
-    ElementLogger.verbose(this.uid, 'onClickAsync', `The disabled and spinning properties have been set to true.`)
-
-    this.dispatchEvent(new ClickAsyncEvent(this.finalize))
-    ElementLogger.verbose(this.uid, 'onClickAsync', `The "clickasync" event has been dispatched.`)
-  }
-
   finalize = (): void => {
     this.spinning = false
     this.disabled = false
+
     ElementLogger.verbose(this.uid, 'finalize', `The disabled and spinning properties have been set to false.`)
   }
 
   render() {
     if (this.native) {
       return html`
-        <button aria-label=${ifdef(this.label)} ?disabled=${this.disabled} style=${this.style_map} tabindex="-1" type=${ifdef(this.type)}>
+        <button
+          aria-label=${ifdef(this.label)}
+          aria-pressed=${ifdef(this.pressed)}
+          ?disabled=${this.disabled}
+          style=${this.styleMap}
+          tabindex="-1"
+          type=${ifdef(this.type)}
+        >
           <slot>${this.label}</slot>
         </button>
-        ${this.shape_html}
+        ${this.shapeHTML}
       `
     }
 
     return html`
-      <div aria-label=${ifdef(this.label)} aria-disabled=${this.disabled ? 'true' : 'false'} role="button">
+      <div style=${this.styleMap}>
         <slot>${this.label}</slot>
       </div>
+      ${this.shapeHTML}
     `
-  }
-
-  get aria_attributes(): ElementAttributes {
-    return { tabindex: this.tab_index?.toString() || '0' }
   }
 
   get name(): ElementName {
@@ -160,11 +155,15 @@ export class ButtonElement extends BaseElement {
         background: none;
         display: inline-flex;
         border: none;
+        height: 100%;
         padding: 0;
+        width: 100%;
       }
 
       div {
         display: inline-flex;
+        height: 100%;
+        width: 100%;
       }
     `
   ]

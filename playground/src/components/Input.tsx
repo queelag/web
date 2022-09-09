@@ -24,10 +24,9 @@ export function Input() {
     <div className='flex flex-col gap-1'>
       <div className='flex items-center gap-2'>
         <queelag-input {...props} path='name' target={target.current} ref={ref} placeholder='input' schema={size(string(), 0, 5)} touch-trigger='change' />
-        <queelag-button native normalized>
+        <queelag-button onClick={() => (element?.obscured ? element.reveal() : element?.obscure())} native normalized>
           <queelag-icon
             fill='none'
-            onClick={() => (element?.obscured ? element.reveal() : element?.obscure())}
             size={12}
             src={
               element?.obscured
@@ -38,15 +37,8 @@ export function Input() {
             stroke-width={2.5}
           />
         </queelag-button>
-        <queelag-button native normalized>
-          <queelag-icon
-            fill='none'
-            onClick={() => element?.clear()}
-            size={16}
-            src='https://raw.githubusercontent.com/feathericons/feather/master/icons/x.svg'
-            stroke='black'
-            stroke-width={2}
-          />
+        <queelag-button onClick={() => element?.clear()} native normalized>
+          <queelag-icon fill='none' size={16} src='https://raw.githubusercontent.com/feathericons/feather/master/icons/x.svg' stroke='black' stroke-width={2} />
         </queelag-button>
       </div>
       {element?.isErrorVisible && <span className='text-xs text-red-500'>{element.error}</span>}

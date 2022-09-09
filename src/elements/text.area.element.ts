@@ -4,7 +4,7 @@ import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
-import { Query } from '../decorators/query'
+import { QueryShadow } from '../decorators/query.shadow'
 import { State } from '../decorators/state'
 import { ElementName } from '../definitions/enums'
 import { TextAreaElementResize, TextAreaElementTouchTrigger, TextAreaElementValue } from '../definitions/types'
@@ -28,7 +28,7 @@ export class TextAreaElement extends FormFieldElement {
   cols?: number
 
   @State()
-  private computed_height?: string
+  private computedHeight?: string
 
   @Property({ type: Boolean, reflect: true })
   multiple?: boolean
@@ -48,23 +48,23 @@ export class TextAreaElement extends FormFieldElement {
   @Property({ type: Number, reflect: true })
   rows?: number
 
-  @Query('span')
-  private span_element!: HTMLSpanElement
+  @QueryShadow('span')
+  private spanElement!: HTMLSpanElement
 
-  @Query('textarea')
-  private textarea_element!: HTMLTextAreaElement
+  @QueryShadow('textarea')
+  private textAreaElement!: HTMLTextAreaElement
 
   @State()
-  temporary_value: string = ''
+  temporaryValue: string = ''
 
   @Property({ type: String, attribute: 'touch-trigger', reflect: true })
-  touch_trigger?: TextAreaElementTouchTrigger
+  touchTrigger?: TextAreaElementTouchTrigger
 
   private onBlur(): void {
     this.focused = false
     ElementLogger.verbose(this.uid, 'onBlur', `The textarea has been blurred.`)
 
-    if (this.touch_trigger === 'blur') {
+    if (this.touchTrigger === 'blur') {
       this.touch()
     }
   }
@@ -76,16 +76,16 @@ export class TextAreaElement extends FormFieldElement {
 
   private onInput(): void {
     if (this.multiple) {
-      this.temporary_value = this.textarea_element.value
-      ElementLogger.verbose(this.uid, 'onInput', `The temporary value has been set.`, [this.temporary_value])
+      this.temporaryValue = this.textAreaElement.value
+      ElementLogger.verbose(this.uid, 'onInput', `The temporary value has been set.`, [this.temporaryValue])
     }
 
     if (!this.multiple) {
-      this.value = this.textarea_element.value
+      this.value = this.textAreaElement.value
       ElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
     }
 
-    if (this.touch_trigger === 'change') {
+    if (this.touchTrigger === 'change') {
       this.touch()
     }
 
@@ -97,62 +97,61 @@ export class TextAreaElement extends FormFieldElement {
       return
     }
 
-    if (this.temporary_value.length <= 0) {
+    if (this.temporaryValue.length <= 0) {
       return ElementLogger.warn(this.uid, 'onKeyUp', `The temporary value is empty.`)
     }
 
-    this.value = [...(this.value as string[]), this.temporary_value]
-    ElementLogger.verbose(this.uid, 'onKeyUp', `The item has been pushed.`, [this.temporary_value], this.value)
+    this.value = [...(this.value as string[]), this.temporaryValue]
+    ElementLogger.verbose(this.uid, 'onKeyUp', `The item has been pushed.`, [this.temporaryValue], this.value)
 
-    this.textarea_element.value = ''
+    this.textAreaElement.value = ''
     ElementLogger.verbose(this.uid, 'onKeyUp', `The textarea element value has been reset.`)
 
     this.touch()
   }
 
   private computeHeight(): void {
-    let textarea_computed_style: CSSStyleDeclaration
+    let style: CSSStyleDeclaration
 
     if (!this.autosize) {
       return
     }
 
-    textarea_computed_style = getComputedStyle(this.textarea_element)
+    style = getComputedStyle(this.textAreaElement)
 
-    if (typeof this.computed_height === 'undefined') {
-      for (let property in textarea_computed_style) {
-        this.span_element.style.cssText += `${property}:${textarea_computed_style[property]};`
+    if (typeof this.computedHeight === 'undefined') {
+      for (let property in style) {
+        this.spanElement.style.cssText += `${property}:${style[property]};`
       }
 
-      this.span_element.style.minHeight = textarea_computed_style.height
-      this.span_element.style.opacity = '0'
-      this.span_element.style.pointerEvents = 'none'
-      this.span_element.style.position = 'absolute'
-      this.span_element.style.whiteSpace = 'pre-wrap'
-      this.span_element.style.wordBreak = 'break-all'
+      this.spanElement.style.minHeight = style.height
+      this.spanElement.style.opacity = '0'
+      this.spanElement.style.pointerEvents = 'none'
+      this.spanElement.style.position = 'absolute'
+      this.spanElement.style.whiteSpace = 'pre-wrap'
+      this.spanElement.style.wordBreak = 'break-all'
     }
 
-    this.span_element.innerText = this.textarea_element.value + 'a'
-    this.span_element.style.height = 'auto'
-    this.span_element.style.maxHeight = 'auto'
-    this.span_element.style.maxWidth =
-      parseNumber(textarea_computed_style.width) + parseNumber(textarea_computed_style.paddingLeft) + parseNumber(textarea_computed_style.paddingRight) + 'px'
+    this.spanElement.innerText = this.textAreaElement.value + 'a'
+    this.spanElement.style.height = 'auto'
+    this.spanElement.style.maxHeight = 'auto'
+    this.spanElement.style.maxWidth = parseNumber(style.width) + parseNumber(style.paddingLeft) + parseNumber(style.paddingRight) + 'px'
 
-    this.computed_height = getComputedStyle(this.span_element).height
-    ElementLogger.verbose(this.uid, 'computeHeight', `The height has been computed.`, [this.computed_height])
+    this.computedHeight = getComputedStyle(this.spanElement).height
+    ElementLogger.verbose(this.uid, 'computeHeight', `The height has been computed.`, [this.computedHeight])
   }
 
   clear(): void {
     this.value = this.multiple ? [] : ''
     ElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
 
-    this.computed_height = undefined
+    this.computedHeight = undefined
     ElementLogger.verbose(this.uid, 'clear', `The computed height has unset.`)
 
-    this.textarea_element.value = ''
+    this.textAreaElement.value = ''
     ElementLogger.verbose(this.uid, 'clear', `The textarea element value has been reset.`)
 
-    this.textarea_element.focus()
+    this.textAreaElement.focus()
     ElementLogger.verbose(this.uid, 'clear', `The textarea element has been focused.`)
 
     this.touch()
@@ -170,8 +169,8 @@ export class TextAreaElement extends FormFieldElement {
         @keyup=${this.onKeyUp}
         placeholder=${ifdef(this.placeholder)}
         rows=${ifdef(this.rows)}
-        style=${this.textarea_element_style}
-        value=${ifdef(this.textarea_element_value)}
+        style=${this.textAreaElementStyle}
+        value=${ifdef(this.textAreaElementValue)}
       ></textarea>
       <span></span>
     `
@@ -181,13 +180,13 @@ export class TextAreaElement extends FormFieldElement {
     return ElementName.TEXTAREA
   }
 
-  private get textarea_element_style(): DirectiveResult {
-    return styleMap({ ...this.style_info, minHeight: this.computed_height, padding: this.padding, resize: this.resize })
+  private get textAreaElementStyle(): DirectiveResult {
+    return styleMap({ ...this.styleInfo, minHeight: this.computedHeight, padding: this.padding, resize: this.resize })
   }
 
-  private get textarea_element_value(): string | undefined {
+  private get textAreaElementValue(): string | undefined {
     if (this.multiple) {
-      return this.temporary_value
+      return this.temporaryValue
     }
 
     return super.value

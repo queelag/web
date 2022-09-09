@@ -17,9 +17,13 @@ export class DividerElement extends BaseElement {
   orientation?: Orientation
 
   render() {
-    return choose(this.orientation, [
-      ['horizontal', () => html`<slot name="horizontal"></slot>`],
-      ['vertical', () => html`<slot name="vertical"></slot>`]
-    ])
+    return choose(
+      this.orientation,
+      [
+        ['horizontal', () => html`<slot name="horizontal"></slot>`],
+        ['vertical', () => html`<slot name="vertical"></slot>`]
+      ],
+      () => html`<slot></slot>`
+    )
   }
 }

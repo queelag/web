@@ -28,21 +28,21 @@ export class BaseElement extends LitElement {
   shape?: Shape
 
   @Property({ type: Number, attribute: 'shape-rectangle-radius', reflect: true })
-  shape_rectangle_radius?: number
+  shapeRectangleRadius?: number
 
   @Property({ type: Number, attribute: 'shape-square-radius', reflect: true })
-  shape_square_radius?: number
+  shapeSquareRadius?: number
 
   @Property({ type: Number, attribute: 'shape-squircle-curvature', reflect: true })
-  shape_squircle_curvature?: number
+  shapeSquircleCurvature?: number
 
   @Property({ type: Number, attribute: 'shape-squircle-size', reflect: true })
-  shape_squircle_size?: number
+  shapeSquircleSize?: number
 
   @Property({ type: String, reflect: true })
   size?: Size
 
-  protected squircle_id: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.SQUIRCLE })
+  squircleID: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.SQUIRCLE })
   uid!: string
 
   @Property({ type: String, reflect: true })
@@ -72,55 +72,47 @@ export class BaseElement extends LitElement {
 
   onSlotChange(): void {}
 
-  render() {
+  render(): unknown {
     return html`<slot @slotchange=${this.onSlotChange}></slot>`
   }
 
   // @ts-ignore
   get name(): ElementName {}
 
-  get shape_html(): TemplateResult | undefined {
+  get shapeHTML(): TemplateResult | undefined {
     if (this.shape !== 'squircle') {
       return
     }
 
-    return getSquircleHTML(this.squircle_id, this.shape_squircle_size || this.size_as_number, {
-      curvature: this.shape_squircle_curvature
+    return getSquircleHTML(this.squircleID, this.shapeSquircleSize || this.numericSize, {
+      curvature: this.shapeSquircleCurvature
     })
   }
 
-  get shape_style_info(): StyleInfo {
+  get shapeStyleInfo(): StyleInfo {
     return getShapeStyleInfo(this.shape, {
-      rectangle: { radius: this.shape_rectangle_radius },
-      square: { radius: this.shape_square_radius },
-      squircle: { id: this.squircle_id }
+      rectangle: { radius: this.shapeRectangleRadius },
+      square: { radius: this.shapeSquareRadius },
+      squircle: { id: this.squircleID }
     })
   }
 
-  get shape_style_map(): DirectiveResult {
-    return styleMap(this.shape_style_info)
-  }
-
-  get size_style_info(): StyleInfo {
+  get sizeStyleInfo(): StyleInfo {
     return {
       height: getElementStyleCompatibleValue(this.height || this.size),
       width: getElementStyleCompatibleValue(this.width || this.size)
     }
   }
 
-  get size_style_map(): DirectiveResult {
-    return styleMap(this.size_style_info)
+  get styleInfo(): StyleInfo {
+    return { ...this.shapeStyleInfo, ...this.sizeStyleInfo, background: this.background }
   }
 
-  get style_info(): StyleInfo {
-    return { ...this.shape_style_info, ...this.size_style_info, background: this.background }
+  get styleMap(): DirectiveResult {
+    return styleMap(this.styleInfo)
   }
 
-  get style_map(): DirectiveResult {
-    return styleMap(this.style_info)
-  }
-
-  private get size_as_number(): number {
+  private get numericSize(): number {
     switch (typeof this.size) {
       case 'number':
         return this.size

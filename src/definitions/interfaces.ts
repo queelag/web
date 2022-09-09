@@ -3,7 +3,7 @@ import { CanvasDataURLType } from './types'
 
 export interface DeserializeFileOptions {
   resolve?: {
-    array_buffer?: boolean
+    arrayBuffer?: boolean
     text?: boolean
   }
 }

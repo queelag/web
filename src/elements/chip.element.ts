@@ -22,10 +22,10 @@ export class ChipElement extends BaseElement {
   label?: string
 
   @Property({ type: String, attribute: 'leading-icon', reflect: true })
-  leading_icon?: string
+  leadingIcon?: string
 
   @Property({ type: String, attribute: 'trailing-icon', reflect: true })
-  trailing_icon?: string
+  trailingIcon?: string
 
   @Property({ type: String, reflect: true })
   variant?: ChipElementVariant

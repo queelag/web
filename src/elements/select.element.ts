@@ -31,7 +31,7 @@ export class SelectElement extends FormFieldElement {
   options?: SelectOption[]
 
   @State()
-  private search_value: string = ''
+  private searchValue: string = ''
 
   private onChange(event: InputEvent): void {
     let option: SelectOption | undefined
@@ -48,7 +48,7 @@ export class SelectElement extends FormFieldElement {
   }
 
   onClickOption(option: SelectOption): void {
-    this.search_value = ''
+    this.searchValue = ''
 
     if (this.multiple) {
       this.value = this.value || []
@@ -82,27 +82,27 @@ export class SelectElement extends FormFieldElement {
   }
 
   onCollapse(): void {
-    this.search_value = ''
+    this.searchValue = ''
     ElementLogger.verbose(this.uid, 'onCollapse', `The search value has been reset.`)
   }
 
   onEscape(): void {
-    this.search_value = ''
+    this.searchValue = ''
     ElementLogger.verbose(this.uid, 'onEscape', `The search value has been reset.`)
   }
 
   onSearchInput = (event: Event): void => {
-    let old: string = this.search_value
+    let old: string = this.searchValue
 
     // @ts-ignore
-    this.search_value = event.target.value
-    ElementLogger.verbose(this.uid, 'onSearchInput', `The search value has been set.`, [this.search_value])
+    this.searchValue = event.target.value
+    ElementLogger.verbose(this.uid, 'onSearchInput', `The search value has been set.`, [this.searchValue])
 
-    this.dispatchEvent(new StateChangedEvent('search_value', old, this.search_value))
+    this.dispatchEvent(new StateChangedEvent('searchValue', old, this.searchValue))
   }
 
   clear(): void {
-    this.search_value = ''
+    this.searchValue = ''
     this.value = this.multiple ? [] : ''
   }
 
@@ -115,7 +115,7 @@ export class SelectElement extends FormFieldElement {
   }
 
   filterOptionsBySearchValue(options?: SelectOption[]): SelectOption[] | undefined {
-    return options?.filter((option: SelectOption) => String(option.label).includes(this.search_value) || String(option.value).includes(this.search_value))
+    return options?.filter((option: SelectOption) => String(option.label).includes(this.searchValue) || String(option.value).includes(this.searchValue))
   }
 
   render() {
@@ -137,11 +137,11 @@ export class SelectElement extends FormFieldElement {
     return ElementName.SELECT
   }
 
-  get options_filtered_by_search_value(): SelectOption[] | undefined {
+  get optionsFilteredBySearchValue(): SelectOption[] | undefined {
     return this.filterOptionsBySearchValue(this.options)
   }
 
-  private get selected_option(): SelectOption | undefined {
+  get selectedOption(): SelectOption | undefined {
     return this.findOptionByValue(this.value)
   }
 

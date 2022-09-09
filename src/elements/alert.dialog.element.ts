@@ -1,4 +1,5 @@
 import { ID } from '@queelag/core'
+import { AriaDialogController } from '../controllers/aria.dialog.controller'
 import { CustomElement } from '../decorators/custom.element'
 import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
 import { ElementName } from '../definitions/enums'
@@ -17,15 +18,9 @@ export class AlertDialogElement extends DialogElement {
   constructor() {
     super()
 
-    this.description_id = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.ALERT_DIALOG_DESCRIPTION })
-    this.label_id = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.ALERT_DIALOG_LABEL })
-  }
-
-  get aria_attributes(): Record<string, any> {
-    return {
-      ...super.aria_attributes,
-      role: 'alertdialog'
-    }
+    this.aria = new AriaDialogController(this, true)
+    this.descriptionID = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.ALERT_DIALOG_DESCRIPTION })
+    this.labelID = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.ALERT_DIALOG_LABEL })
   }
 
   get name(): ElementName {

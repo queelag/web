@@ -59,14 +59,6 @@ export class FormFieldElement extends BaseElement {
     ElementLogger.verbose(this.uid, 'validate', `The value has been validated against the schema.`, this.validation)
   }
 
-  protected get div_element_aria_disabled(): 'true' | 'false' {
-    return this.disabled ? 'true' : 'false'
-  }
-
-  protected get div_element_aria_readonly(): 'true' | 'false' {
-    return this.readonly ? 'true' : 'false'
-  }
-
   get error(): string | undefined {
     if (!this.validation) {
       return

@@ -1,6 +1,7 @@
 import type { FocusTargetValueOrFalse, KeyboardEventToBoolean, MouseEventToBoolean } from 'focus-trap'
 import type { Struct, StructError } from 'superstruct'
 
+export type ButtonPressed = 'false' | 'mixed' | 'true'
 export type ButtonType = 'button' | 'menu' | 'reset' | 'submit'
 export type ButtonVariant = 'fill' | 'fill-tonal' | 'opacity' | 'outline' | 'text'
 
@@ -53,6 +54,8 @@ export type FocusTrapSetReturnFocus = FocusTargetValueOrFalse | ((nodeFocusedBef
 export type FormFieldElementSchema = Struct<any, any> | undefined
 export type FormFieldElementTarget = Record<PropertyKey, any>
 export type FormFieldElementValidation = [StructError | undefined, any]
+
+export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
 
 export type ImageElementCacheType = CanvasDataURLType
 export type ImageElementCrossOrigin = 'anonymous' | 'use-credentials'

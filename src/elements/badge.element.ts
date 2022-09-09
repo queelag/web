@@ -13,27 +13,27 @@ declare global {
 
 @CustomElement('queelag-badge')
 export class BadgeElement extends BaseElement {
-  @Property({ type: Boolean, attribute: 'is-number', reflect: true })
-  is_number?: boolean
-
   @Property({ type: Number, reflect: true })
   maximum?: number
 
   @Property({ type: Number, reflect: true })
   minimum?: number
 
+  @Property({ type: Boolean, reflect: true })
+  numeric?: boolean
+
   private _value?: string
 
   render() {
     return html`
-      <div style=${this.style_map}><slot>${this.value}</slot></div>
-      ${this.shape_html}
+      <div style=${this.styleMap}><slot>${this.value}</slot></div>
+      ${this.shapeHTML}
     `
   }
 
   @Property({ type: String, reflect: true })
   get value(): string {
-    if (this.is_number) {
+    if (this.numeric) {
       return getLimitedNumber(parseNumber(this._value || '0'), this.minimum, this.maximum).toString()
     }
 

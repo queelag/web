@@ -2,7 +2,7 @@ import { Base64, ID, tcp } from '@queelag/core'
 import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
 
 export class QueelagFile {
-  private _array_buffer?: ArrayBuffer
+  private _arrayBuffer?: ArrayBuffer
   private _base64?: string
   private readonly file: File
   readonly id: string
@@ -19,7 +19,7 @@ export class QueelagFile {
     buffer = await tcp(() => this.file.arrayBuffer())
     if (buffer instanceof Error) return
 
-    this._array_buffer = buffer
+    this._arrayBuffer = buffer
   }
 
   async resolveText(): Promise<void> {
@@ -41,8 +41,8 @@ export class QueelagFile {
     return this.file.stream()
   }
 
-  get array_buffer(): ArrayBuffer {
-    return this._array_buffer || new ArrayBuffer(0)
+  get arrayBuffer(): ArrayBuffer {
+    return this._arrayBuffer || new ArrayBuffer(0)
   }
 
   get base64(): string {
@@ -52,17 +52,17 @@ export class QueelagFile {
       return this._base64
     }
 
-    base64 = Base64.encode(this.uint8_array)
+    base64 = Base64.encode(this.uInt8Array)
     this._base64 = base64
 
     return this._base64
   }
 
-  get last_modified(): number {
+  get lastModified(): number {
     return this.file.lastModified
   }
 
-  get last_modified_date(): Date {
+  get lastModifiedDate(): Date {
     return new Date(this.file.lastModified)
   }
 
@@ -82,11 +82,11 @@ export class QueelagFile {
     return this.file.type || 'application/octet-stream'
   }
 
-  get uint8_array(): Uint8Array {
-    return new Uint8Array(this.array_buffer)
+  get uInt8Array(): Uint8Array {
+    return new Uint8Array(this.arrayBuffer)
   }
 
-  get webkit_relative_path(): string {
+  get webkitRelativePath(): string {
     return this.file.webkitRelativePath
   }
 }

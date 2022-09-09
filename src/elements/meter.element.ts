@@ -45,7 +45,7 @@ export class MeterElement extends BaseElement {
           low=${ifdef(this.low)}
           high=${ifdef(this.high)}
           optimum=${ifdef(this.optimum)}
-          style=${this.style_map}
+          style=${this.styleMap}
           value=${ifdef(this._value)}
         >
           <slot></slot>
@@ -54,21 +54,11 @@ export class MeterElement extends BaseElement {
     }
 
     return html`
-      <div
-        aria-valuemax=${ifdef(this.maximum)}
-        aria-valuemin=${ifdef(this.minimum)}
-        aria-valuenow=${ifdef(this.value)}
-        role=${this.div_element_role}
-        style=${this.style_map}
-      >
+      <div style=${this.styleMap}>
         <slot></slot>
       </div>
-      ${this.shape_html}
+      ${this.shapeHTML}
     `
-  }
-
-  private get div_element_role(): any {
-    return 'meter'
   }
 
   get percentage(): number {

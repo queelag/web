@@ -53,33 +53,25 @@ export class SwitchElement extends FormFieldElement {
         ?readonly=${this.readonly}
         step="1"
         type="range"
-        value=${this.input_element_value}
+        value=${this.on ? 1 : 0}
       />`
     }
 
     return html`
       <div
-        aria-checked=${this.div_element_aria_checked}
-        aria-disabled=${this.div_element_aria_disabled}
-        aria-readonly=${this.div_element_aria_readonly}
+        aria-checked=${String(this.on) as any}
+        aria-disabled=${String(this.disabled) as any}
+        aria-readonly=${String(this.readonly) as any}
         @click=${this.onClick}
         @keydown=${this.onKeyDown}
         role="switch"
-        style=${this.style_map}
+        style=${this.styleMap}
         tabindex="0"
       >
         <slot></slot>
       </div>
-      ${this.shape_html}
+      ${this.shapeHTML}
     `
-  }
-
-  private get div_element_aria_checked(): 'false' | 'true' {
-    return this.value ? 'true' : 'false'
-  }
-
-  private get input_element_value(): number {
-    return this.value ? 1 : 0
   }
 
   get on(): boolean {

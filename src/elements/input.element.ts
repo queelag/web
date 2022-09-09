@@ -4,7 +4,7 @@ import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
-import { Query } from '../decorators/query'
+import { QueryShadow } from '../decorators/query.shadow'
 import { State } from '../decorators/state'
 import { ElementName } from '../definitions/enums'
 import { InputElementTouchTrigger, InputElementType, InputElementValue } from '../definitions/types'
@@ -21,6 +21,9 @@ declare global {
 
 @CustomElement('queelag-input')
 export class InputElement extends FormFieldElement {
+  @QueryShadow('input')
+  private inputElement!: HTMLInputElement
+
   @Property({ type: Boolean, reflect: true })
   multiple?: boolean
 
@@ -37,22 +40,19 @@ export class InputElement extends FormFieldElement {
   placeholder?: string
 
   @State()
-  private temporary_value: string = ''
+  private temporaryValue: string = ''
 
   @Property({ type: String, attribute: 'touch-trigger', reflect: true })
-  touch_trigger?: InputElementTouchTrigger
+  touchTrigger?: InputElementTouchTrigger
 
   @Property({ type: String, reflect: true })
   type: InputElementType = 'text'
-
-  @Query('input')
-  private input_element!: HTMLInputElement
 
   private onBlur(): void {
     this.focused = false
     ElementLogger.verbose(this.uid, 'onBlur', `The focused property has been set to false.`)
 
-    if (this.touch_trigger === 'blur') {
+    if (this.touchTrigger === 'blur') {
       this.touch()
     }
   }
@@ -65,7 +65,7 @@ export class InputElement extends FormFieldElement {
   private onInput(): void {
     switch (this.type) {
       case 'buffer':
-        this.value = TextCodec.encode(this.input_element.value)
+        this.value = TextCodec.encode(this.inputElement.value)
         ElementLogger.verbose(this.uid, 'onInput', `The value has been encoded and set.`, this.value)
         break
       case 'color':
@@ -77,32 +77,32 @@ export class InputElement extends FormFieldElement {
       case 'time':
       case 'url':
       case 'week':
-        this.value = this.input_element.value
+        this.value = this.inputElement.value
         ElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
         break
       case 'date':
       case 'datetime-local':
-        this.value = this.input_element.valueAsDate || undefined
+        this.value = this.inputElement.valueAsDate || undefined
         ElementLogger.verbose(this.uid, 'onInput', `The value has been set as a date.`, this.value)
         break
       case 'number':
-        this.value = this.input_element.valueAsNumber
+        this.value = this.inputElement.valueAsNumber
         ElementLogger.verbose(this.uid, 'onInput', `The value has been set as a number.`, [this.value])
         break
       case 'text':
         if (this.multiple) {
-          this.temporary_value = this.input_element.value
-          ElementLogger.verbose(this.uid, 'onInput', `The temporary value has been set.`, [this.temporary_value])
+          this.temporaryValue = this.inputElement.value
+          ElementLogger.verbose(this.uid, 'onInput', `The temporary value has been set.`, [this.temporaryValue])
           break
         }
 
-        this.value = this.input_element.value
+        this.value = this.inputElement.value
         ElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
 
         break
     }
 
-    if (this.touch_trigger === 'change') {
+    if (this.touchTrigger === 'change') {
       this.touch()
     }
   }
@@ -112,15 +112,15 @@ export class InputElement extends FormFieldElement {
       return
     }
 
-    if (this.temporary_value.length <= 0) {
+    if (this.temporaryValue.length <= 0) {
       return ElementLogger.warn(this.uid, 'onKeyUp', `The temporary value is empty.`)
     }
 
     this.value = this.value || []
-    this.value = [...(this.value as string[]), this.temporary_value]
-    ElementLogger.verbose(this.uid, 'onKeyUp', `The item has been pushed.`, [this.temporary_value], this.value)
+    this.value = [...(this.value as string[]), this.temporaryValue]
+    ElementLogger.verbose(this.uid, 'onKeyUp', `The item has been pushed.`, [this.temporaryValue], this.value)
 
-    this.input_element.value = ''
+    this.inputElement.value = ''
     ElementLogger.verbose(this.uid, 'onKeyUp', `The input element value has been reset.`)
 
     this.touch()
@@ -173,10 +173,10 @@ export class InputElement extends FormFieldElement {
 
     ElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, [this.value])
 
-    this.input_element.value = ''
+    this.inputElement.value = ''
     ElementLogger.verbose(this.uid, 'clear', `The input element value has been reset.`)
 
-    this.input_element.focus()
+    this.inputElement.focus()
     ElementLogger.verbose(this.uid, 'clear', `The input element has been focused.`)
 
     this.touch()
@@ -186,7 +186,7 @@ export class InputElement extends FormFieldElement {
     this.obscured = true
     ElementLogger.verbose(this.uid, 'obscure', `The obscured property has been set to true.`)
 
-    this.input_element.focus()
+    this.inputElement.focus()
     ElementLogger.verbose(this.uid, 'obscure', `The input element has been focused.`)
   }
 
@@ -194,7 +194,7 @@ export class InputElement extends FormFieldElement {
     this.obscured = false
     ElementLogger.verbose(this.uid, 'reveal', `The obscured property has been set to false.`)
 
-    this.input_element.focus()
+    this.inputElement.focus()
     ElementLogger.verbose(this.uid, 'reveal', `The input element has been focused.`)
   }
 
@@ -209,18 +209,18 @@ export class InputElement extends FormFieldElement {
         @keyup=${this.onKeyUp}
         placeholder=${ifdef(this.placeholder)}
         ?readonly=${this.readonly}
-        style=${this.input_element_style}
-        type=${this.input_element_type}
-        value=${ifdef(this.input_element_value)}
+        style=${this.inputElementStyle}
+        type=${this.inputElementType}
+        value=${ifdef(this.inputElementValue)}
       />
     `
   }
 
-  private get input_element_style(): DirectiveResult {
-    return styleMap({ ...this.style_info, padding: this.padding })
+  private get inputElementStyle(): DirectiveResult {
+    return styleMap({ ...this.styleInfo, padding: this.padding })
   }
 
-  private get input_element_type(): any {
+  private get inputElementType(): any {
     if (this.obscured) {
       return 'password'
     }
@@ -232,7 +232,7 @@ export class InputElement extends FormFieldElement {
     return this.type
   }
 
-  private get input_element_value(): string | undefined {
+  private get inputElementValue(): string | undefined {
     switch (this.type) {
       case 'buffer':
         return undefined
@@ -253,7 +253,7 @@ export class InputElement extends FormFieldElement {
         return super.value?.toString()
       case 'text':
         if (this.multiple) {
-          return this.temporary_value
+          return this.temporaryValue
         }
 
         return super.value

@@ -13,6 +13,7 @@ import {
   FocusTrapEscapeDeactivates,
   FocusTrapGetShadowRoot,
   FocusTrapSetReturnFocus,
+  HeadingLevel,
   ImageElementCacheType,
   InputElementTouchTrigger,
   InputElementType,
@@ -22,6 +23,22 @@ import {
   Size,
   TextAreaElementResize
 } from './types'
+
+export interface AccordionElementAttributes extends BaseElementAttributes {}
+
+export interface AccordionHeaderElementAttributes extends BaseElementAttributes {
+  level?: HeadingLevel
+}
+
+export interface AccordionHeaderButtonElementAttributes extends BaseElementAttributes {}
+export interface AccordionPanelElementAttributes extends BaseElementAttributes {}
+
+export interface AccordionSectionElementAttributes extends BaseElementAttributes {
+  collapsable?: boolean
+  expanded?: boolean
+  'header-button-id'?: string
+  'panel-id'?: string
+}
 
 export interface AlertElementAttributes extends BaseElementAttributes {
   closable?: boolean
@@ -59,6 +76,15 @@ export interface BaseElementAttributes {
   width?: number | string
 }
 
+export interface BreadcrumbElementAttributes extends BaseElementAttributes {}
+
+export interface BreadcrumbAnchorElementAttributes extends LinkElementAttributes {
+  current?: boolean
+}
+
+export interface BreadcrumbListElementAttributes extends BaseElementAttributes {}
+export interface BreadcrumbListItemElementAttributes extends BaseElementAttributes {}
+
 export interface ButtonElementAttributes extends BaseElementAttributes {
   async?: boolean
   disabled?: boolean
@@ -66,6 +92,7 @@ export interface ButtonElementAttributes extends BaseElementAttributes {
   label?: string
   native?: boolean
   normalized?: boolean
+  pressed?: boolean
   spinning?: boolean
   'tab-index'?: number
   type?: ButtonType
@@ -162,6 +189,12 @@ export interface InputFileElementAttributes extends FormFieldElementAttributes {
   'deserialize-file-resolve-text'?: boolean
   multiple?: boolean
   native?: boolean
+}
+
+export interface LinkElementAttributes extends BaseElementAttributes {
+  href?: string
+  'tab-index'?: number
+  target?: string
 }
 
 export interface MeterElementAttributes extends BaseElementAttributes {
