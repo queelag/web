@@ -89,4 +89,8 @@ export class QueelagFile {
   get webkitRelativePath(): string {
     return this.file.webkitRelativePath
   }
+
+  static get EMPTY(): QueelagFile {
+    return new QueelagFile(new File([], ''))
+  }
 }

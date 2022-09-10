@@ -1,8 +1,10 @@
+import { AriaBreadcrumbAnchorController } from '../controllers/aria.breadcrumb.anchor.controller'
+import { AriaBreadcrumbController } from '../controllers/aria.breadcrumb.controller'
+import { AriaBreadcrumbListController } from '../controllers/aria.breadcrumb.list.controller'
+import { AriaBreadcrumbListItemController } from '../controllers/aria.breadcrumb.list.item.controller'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { ElementName } from '../definitions/enums'
-import { ElementAttributes } from '../definitions/types'
-import { setImmutableElementAttributes } from '../utils/element.utils'
 import { BaseElement } from './base.element'
 import { LinkElement } from './link.element'
 
@@ -17,14 +19,7 @@ declare global {
 
 @CustomElement('queelag-breadcrumb')
 export class BreadcrumbElement extends BaseElement {
-  connectedCallback(): void {
-    super.connectedCallback()
-    setImmutableElementAttributes(this, this.aria_attributes)
-  }
-
-  get aria_attributes(): ElementAttributes {
-    return { 'aria-label': 'Breadcrumb', role: 'navigation' }
-  }
+  protected aria: AriaBreadcrumbController = new AriaBreadcrumbController(this)
 
   get name(): ElementName {
     return ElementName.BREADCRUMB
@@ -33,14 +28,7 @@ export class BreadcrumbElement extends BaseElement {
 
 @CustomElement('queelag-breadcrumb-list')
 export class BreadcrumbListElement extends BaseElement {
-  connectedCallback(): void {
-    super.connectedCallback()
-    setImmutableElementAttributes(this, this.aria_attributes)
-  }
-
-  get aria_attributes(): ElementAttributes {
-    return { role: 'list' }
-  }
+  protected aria: AriaBreadcrumbListController = new AriaBreadcrumbListController(this)
 
   get name(): ElementName {
     return ElementName.BREADCRUMB_LIST
@@ -49,14 +37,7 @@ export class BreadcrumbListElement extends BaseElement {
 
 @CustomElement('queelag-breadcrumb-list-item')
 export class BreadcrumbListItemElement extends BaseElement {
-  connectedCallback(): void {
-    super.connectedCallback()
-    setImmutableElementAttributes(this, this.aria_attributes)
-  }
-
-  get aria_attributes(): ElementAttributes {
-    return { role: 'listitem' }
-  }
+  protected aria: AriaBreadcrumbListItemController = new AriaBreadcrumbListItemController(this)
 
   get name(): ElementName {
     return ElementName.BREADCRUMB_LIST_ITEM
@@ -65,22 +46,10 @@ export class BreadcrumbListItemElement extends BaseElement {
 
 @CustomElement('queelag-breadcrumb-anchor')
 export class BreadcrumbAnchorElement extends LinkElement {
+  protected aria2: AriaBreadcrumbAnchorController = new AriaBreadcrumbAnchorController(this)
+
   @Property({ type: Boolean, reflect: true })
   current?: boolean
-
-  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
-    super.attributeChangedCallback(name, _old, value)
-
-    if (name !== 'current' || Object.is(_old, value)) {
-      return
-    }
-
-    setImmutableElementAttributes(this, this.aria_attributes)
-  }
-
-  get aria_attributes(): ElementAttributes {
-    return { ...super.aria_attributes, 'aria-current': this.current ? 'page' : undefined }
-  }
 
   get name(): ElementName {
     return ElementName.BREADCRUMB_ANCHOR

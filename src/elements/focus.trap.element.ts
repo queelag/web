@@ -105,7 +105,7 @@ export class FocusTrapElement extends BaseElement {
     let options: Options
 
     options = {
-      allowOutsideClick: this.allowOutsideClick || true,
+      allowOutsideClick: typeof this.allowOutsideClick !== 'undefined' ? this.allowOutsideClick : true,
       checkCanFocusTrap: this.checkCanFocusTrap,
       checkCanReturnFocus: this.checkCanReturnFocus,
       clickOutsideDeactivates: this.clickOutsideDeactivates,
@@ -121,7 +121,11 @@ export class FocusTrapElement extends BaseElement {
       preventScroll: this.preventScroll,
       returnFocusOnDeactivate: this.returnFocusOnDeactivate,
       setReturnFocus: this.setReturnFocus,
-      tabbableOptions: { displayCheck: this.displayCheck, getShadowRoot: true }
+      tabbableOptions: {
+        displayCheck: this.displayCheck,
+        // getShadowRoot: typeof this.getShadowRoot !== 'undefined' ? this.getShadowRoot : true
+        getShadowRoot: true
+      }
     }
 
     for (let key in options) {

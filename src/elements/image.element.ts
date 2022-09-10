@@ -13,7 +13,7 @@ import { ifdef } from '../directives/if.defined'
 import { styleMap } from '../directives/style.map'
 import { until } from '../directives/until'
 import { ElementLogger } from '../loggers/element.logger'
-import { getElementStyleCompatibleValue } from '../utils/dom.utils'
+import { getElementStyleCompatibleValue } from '../utils/element.utils'
 import { getImageElementBase64 } from '../utils/image.utils'
 import { BaseElement } from './base.element'
 

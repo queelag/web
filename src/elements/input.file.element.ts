@@ -5,7 +5,6 @@ import { QueelagFile } from '../classes/queelag.file'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { QueryShadow } from '../decorators/query.shadow'
-import { EMPTY_QUEELAG_FILE } from '../definitions/constants'
 import { DeserializeFileOptions } from '../definitions/interfaces'
 import { ElementLogger } from '../loggers/element.logger'
 import { deserializeFile } from '../utils/file.utils'
@@ -67,14 +66,14 @@ export class InputFileElement extends FormFieldElement {
       return
     }
 
-    this.value = EMPTY_QUEELAG_FILE()
+    this.value = QueelagFile.EMPTY
     ElementLogger.verbose(this.uid, 'onClickRemoveFile', `The value has been emptied.`, this.value)
 
     this.touch()
   }
 
   clear = (): void => {
-    this.value = this.multiple ? [] : EMPTY_QUEELAG_FILE()
+    this.value = this.multiple ? [] : QueelagFile.EMPTY
     ElementLogger.verbose(this.uid, 'clear', `The value has been reset.`, this.value)
 
     this.inputElement.value = ''

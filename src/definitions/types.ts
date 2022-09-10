@@ -31,6 +31,8 @@ export type Color =
   | 'white'
   | string
 
+export type ComboBoxElementAutoComplete = 'none' | 'inline' | 'list' | 'both'
+
 export type Constructor<T> = new (...args: any[]) => T
 
 export type Direction = 'down' | 'left' | 'right' | 'up'

@@ -1,6 +1,6 @@
 import { css } from 'lit'
+import { AriaTooltipContentController } from '../controllers/aria.tooltip.content.controller'
 import { AriaTooltipController } from '../controllers/aria.tooltip.controller'
-import { AriaTooltipElementController } from '../controllers/aria.tooltip.element.controller'
 import { AriaTooltipTriggerController } from '../controllers/aria.tooltip.trigger.controller'
 import { Closest } from '../decorators/closest'
 import { CustomElement } from '../decorators/custom.element'
@@ -92,20 +92,21 @@ export class TooltipArrowElement extends BaseElement {
 
 @CustomElement('queelag-tooltip-content')
 export class TooltipContentElement extends FloatingElement {
-  protected aria: AriaTooltipElementController = new AriaTooltipElementController(this)
+  protected aria: AriaTooltipContentController = new AriaTooltipContentController(this)
 
   @Closest('queelag-tooltip')
   tooltipElement!: TooltipElement
 
-  connectedCallback(): void {
-    super.connectedCallback()
-
-    this.arrowElement = this.tooltipElement.arrowElement
-    this.referenceElement = this.tooltipElement.triggerElement
+  get arrowElement(): TooltipArrowElement | undefined {
+    return this.querySelector('queelag-tooltip-arrow') || undefined
   }
 
   get name(): ElementName {
     return ElementName.TOOLTIP_CONTENT
+  }
+
+  get referenceElement(): TooltipTriggerElement | undefined {
+    return this.tooltipElement.triggerElement
   }
 
   static styles = [

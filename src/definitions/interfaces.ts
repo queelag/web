@@ -25,10 +25,10 @@ export interface SelectOption {
 
 export interface ShapeOptions {
   rectangle?: {
-    radius?: number
+    radius?: string | number
   }
   square?: {
-    radius?: number
+    radius?: string | number
   }
   squircle?: {
     curvature?: number

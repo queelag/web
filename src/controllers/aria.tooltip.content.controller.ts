@@ -4,7 +4,7 @@ import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
 import { ElementName } from '../definitions/enums'
 import { setImmutableElementAttribute } from '../utils/element.utils'
 
-export class AriaTooltipElementController implements ReactiveController {
+export class AriaTooltipContentController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & HTMLElement) {
     this.host.addController(this)
   }
