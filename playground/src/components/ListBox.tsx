@@ -19,11 +19,11 @@ interface ListBoxOptionProps extends ListBoxOptionElementAttributes, DetailedHTM
 export function ListBox() {
   const { element, ref } = useQueelagElement('queelag-listbox')
   const [props] = useState<ListBoxProps>({})
-  const [options] = useState<string[]>(['A', 'B', 'C', 'D'])
+  const [options] = useState<string[]>(['Lion', 'Giraffe', 'Zebra', 'Buffalo'])
 
   return (
     <div>
-      <queelag-listbox {...props} ref={ref} className='w-64 flex flex-col rounded-sm border divide-y border-gray-400 divide-gray-400'>
+      <queelag-listbox {...props} ref={ref} multiple className='w-64 flex flex-col rounded-sm border divide-y border-gray-400 divide-gray-400'>
         {options.map((option: string) => (
           <ListBoxOption key={option} name={option} />
         ))}
@@ -44,7 +44,7 @@ export function ListBoxOption({ name }: any) {
         element?.selected && 'bg-gray-200'
       )}
     >
-      <span className='text-xs'>Option {name}</span>
+      <span className='text-xs'>{name}</span>
       {element?.selected && (
         <queelag-icon
           fill='none'

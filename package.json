@@ -1,6 +1,7 @@
 {
   "author": "Dario Sechi",
   "dependencies": {
+    "@floating-ui/dom": "^1.0.1",
     "focus-trap": "^7.0.0",
     "isomorphic-dompurify": "^0.22.0"
   },

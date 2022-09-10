@@ -20,6 +20,7 @@ export class AriaListBoxController implements ReactiveController {
 
   setAttributes(): void {
     setImmutableElementAttribute(this.host, 'aria-activedescendant', this.host.focusedOptionElement?.id)
+    setImmutableElementAttribute(this.host, 'aria-multiselectable', this.host.multiple ? 'true' : undefined)
     setImmutableElementAttribute(this.host, 'role', 'listbox')
     setImmutableElementAttribute(this.host, 'tabindex', '0')
 

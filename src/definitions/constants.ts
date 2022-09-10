@@ -9,7 +9,7 @@ export const ELEMENT_UID_GENERATE_OPTIONS: IDGenerateOptions = { alphabet: ID_AL
 /**
  * IconElement
  */
-export const CACHE_ICONS: Map<string, 'fetching' | string> = new Map()
+export const CACHE_ICONS: Map<string, string> = new Map()
 export const DEFAULT_ICON_SVG_STRING: string = '<svg viewBox="0 0 0 0"></svg>'
 export const FETCHING_ICONS: Set<string> = new Set()
 
@@ -36,4 +36,9 @@ export const SQUIRCLES_CONTAINER_ID: string = 'squircles'
 /**
  * SVG
  */
-export const SVG_NAMESPACE_URI = 'http://www.w3.org/2000/svg'
+export const SVG_NAMESPACE_URI: string = 'http://www.w3.org/2000/svg'
+
+/**
+ * Typeahead
+ */
+export const DEFAULT_TYPEAHEAD_DEBOUNCE_TIME: number = 200
