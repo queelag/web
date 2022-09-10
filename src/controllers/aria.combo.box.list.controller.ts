@@ -1,8 +1,9 @@
 import { ReactiveController, ReactiveControllerHost } from 'lit'
+import type { ComboBoxListElement } from '../elements/combo.box.element'
 import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaComboBoxListController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & HTMLElement) {
+  constructor(private host: ReactiveControllerHost & ComboBoxListElement) {
     this.host.addController(this)
   }
 
@@ -15,6 +16,14 @@ export class AriaComboBoxListController implements ReactiveController {
   }
 
   setAttributes(): void {
+    switch (this.host.rootElement.autocomplete) {
+      case 'both':
+      case 'inline':
+      case 'list':
+        setImmutableElementAttribute(this.host, 'aria-label', 'Previous Searches')
+        break
+    }
+
     setImmutableElementAttribute(this.host, 'role', 'listbox')
   }
 }

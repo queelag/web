@@ -6,6 +6,7 @@ import {
   ButtonType,
   ButtonVariant,
   ChipElementVariant,
+  ComboBoxElementAutoComplete,
   FocusTrapAllowOutsideClick,
   FocusTrapCheckCanFocusTrap,
   FocusTrapCheckCanReturnFocus,
@@ -111,6 +112,20 @@ export interface ChipElementAttributes extends BaseElementAttributes {
   'leading-icon'?: string
   'trailing-icon'?: string
   variant?: ChipElementVariant
+}
+
+export interface ComboBoxElementAttributes extends BaseElementAttributes {
+  autocomplete?: ComboBoxElementAutoComplete
+  expanded?: boolean
+}
+
+export interface ComboBoxButtonElementAttributes extends BaseElementAttributes {}
+export interface ComboBoxGroupElementAttributes extends BaseElementAttributes {}
+export interface ComboBoxInputElementAttributes extends BaseElementAttributes {}
+export interface ComboBoxListElementAttributes extends FloatingElementAttributes {}
+
+export interface ComboBoxListOptionElementAttributes extends BaseElementAttributes {
+  selected?: boolean
 }
 
 export interface DialogElementAttributes extends FocusTrapElementAttributes {

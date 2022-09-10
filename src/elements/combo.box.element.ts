@@ -1,6 +1,7 @@
+import { AriaComboBoxButtonController } from '../controllers/aria.combo.box.button.controller'
+import { AriaComboBoxInputController } from '../controllers/aria.combo.box.input.controller'
 import { AriaComboBoxListController } from '../controllers/aria.combo.box.list.controller'
 import { AriaComboBoxListOptionController } from '../controllers/aria.combo.box.list.option.controller'
-import { AriaComboBoxController } from '../controllers/aria.combobox.controller'
 import { Closest } from '../decorators/closest'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
@@ -25,8 +26,6 @@ declare global {
 
 @CustomElement('queelag-combobox')
 export class ComboBoxElement extends BaseElement {
-  protected aria: AriaComboBoxController = new AriaComboBoxController(this)
-
   @Property({ type: String, reflect: true })
   autocomplete?: ComboBoxElementAutoComplete
 
@@ -66,6 +65,11 @@ export class ComboBoxGroupElement extends BaseElement {
 
 @CustomElement('queelag-combobox-button')
 export class ComboBoxButtonElement extends BaseElement {
+  protected aria: AriaComboBoxButtonController = new AriaComboBoxButtonController(this)
+
+  @Closest('queelag-combobox')
+  rootElement!: ComboBoxElement
+
   get name(): ElementName {
     return ElementName.COMBOBOX_BUTTON
   }
@@ -73,6 +77,14 @@ export class ComboBoxButtonElement extends BaseElement {
 
 @CustomElement('queelag-combobox-input')
 export class ComboBoxInputElement extends BaseElement {
+  protected aria: AriaComboBoxInputController = new AriaComboBoxInputController(this)
+
+  @Query('input')
+  inputElement!: HTMLInputElement
+
+  @Closest('queelag-combobox')
+  rootElement!: ComboBoxElement
+
   get name(): ElementName {
     return ElementName.COMBOBOX_INPUT
   }
