@@ -23,7 +23,7 @@ export function ListBox() {
 
   return (
     <div>
-      <queelag-listbox {...props} ref={ref} multiple className='w-64 flex flex-col rounded-sm border divide-y border-gray-400 divide-gray-400'>
+      <queelag-listbox {...props} ref={ref} className='w-64 flex flex-col rounded-sm border divide-y border-gray-400 divide-gray-400'>
         {options.map((option: string) => (
           <ListBoxOption key={option} name={option} />
         ))}

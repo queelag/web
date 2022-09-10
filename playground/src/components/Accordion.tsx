@@ -65,10 +65,10 @@ function AccordionSection({ number }: any) {
           <span>Accordion Header {number}</span>
           <queelag-icon
             fill='none'
-            size={24}
+            size={16}
             src={`https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-${element?.expanded ? 'up' : 'down'}.svg`}
             stroke='black'
-            stroke-width={1.5}
+            stroke-width={2}
           />
         </queelag-accordion-header-button>
       </queelag-accordion-header>

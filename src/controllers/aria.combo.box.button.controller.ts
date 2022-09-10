@@ -20,18 +20,13 @@ export class AriaComboBoxButtonController implements ReactiveController {
       case 'both':
       case 'inline':
       case 'list':
-        setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement.listElement?.id)
-        setImmutableElementAttribute(this.host, 'aria-expanded', String(this.host.rootElement.expanded))
         setImmutableElementAttribute(this.host, 'aria-label', 'Previous Searches')
         setImmutableElementAttribute(this.host, 'role', 'button')
 
         break
       default:
-        // setImmutableElementAttribute(this.host, 'aria-labelledby', '')
-        setImmutableElementAttribute(this.host, 'aria-activedescendant', this.host.rootElement.focusedListOptionElement?.id)
-        setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement.listElement?.id)
-        setImmutableElementAttribute(this.host, 'aria-expanded', String(this.host.rootElement.expanded))
         setImmutableElementAttribute(this.host, 'role', 'combobox')
+        setImmutableElementAttribute(this.host, 'tabindex', '0')
 
         break
     }

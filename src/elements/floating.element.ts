@@ -133,7 +133,7 @@ export class FloatingElement extends BaseElement {
     let options: Partial<ComputePositionConfig>
 
     options = {
-      middleware: this.middlewares,
+      middleware: this.middlewares || [],
       placement: this.placement,
       platform: this.platform,
       strategy: this.strategy

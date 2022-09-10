@@ -18,10 +18,6 @@ export class AriaComboBoxInputController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host.inputElement, 'aria-activedescendant', this.host.rootElement.focusedListOptionElement?.id)
-    setImmutableElementAttribute(this.host.inputElement, 'aria-autocomplete', this.host.rootElement.autocomplete)
-    setImmutableElementAttribute(this.host.inputElement, 'aria-controls', this.host.rootElement.listElement?.id)
-    setImmutableElementAttribute(this.host.inputElement, 'aria-expanded', String(this.host.rootElement.expanded))
     setImmutableElementAttribute(this.host.inputElement, 'role', 'combobox')
 
     if (this.host.inputElement.id.length <= 0) {
