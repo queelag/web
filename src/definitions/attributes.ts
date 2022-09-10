@@ -1,4 +1,5 @@
-import { FocusTarget, FocusTargetOrFalse } from 'focus-trap'
+import type { Middleware, Placement, Platform, Strategy } from '@floating-ui/dom'
+import type { FocusTarget, FocusTargetOrFalse } from 'focus-trap'
 import type { Struct } from 'superstruct'
 import { SelectOption } from './interfaces'
 import {
@@ -11,7 +12,6 @@ import {
   FocusTrapClickOutsideDeactivates,
   FocusTrapDisplayCheck,
   FocusTrapEscapeDeactivates,
-  FocusTrapGetShadowRoot,
   FocusTrapSetReturnFocus,
   HeadingLevel,
   ImageElementCacheType,
@@ -94,7 +94,6 @@ export interface ButtonElementAttributes extends BaseElementAttributes {
   normalized?: boolean
   pressed?: boolean
   spinning?: boolean
-  'tab-index'?: number
   type?: ButtonType
   variant?: ButtonVariant
 }
@@ -127,21 +126,33 @@ export interface DividerElementAttributes extends BaseElementAttributes {
   orientation?: Orientation
 }
 
+export interface FloatingElementAttributes extends BaseElementAttributes {
+  'ancestor-scroll'?: boolean
+  'ancestor-resize'?: boolean
+  'animation-frame'?: boolean
+  'arrow-padding'?: number
+  'element-resize'?: boolean
+  middlewares?: Middleware[]
+  placement?: Placement
+  platform?: Platform
+  strategy?: Strategy
+}
+
 export interface FocusTrapElementAttributes extends BaseElementAttributes {
-  'focus-trap-allow-outside-click'?: FocusTrapAllowOutsideClick
-  'focus-trap-check-can-focus-trap'?: FocusTrapCheckCanFocusTrap
-  'focus-trap-check-can-return-focus'?: FocusTrapCheckCanReturnFocus
-  'focus-trap-click-outside-deactivates'?: FocusTrapClickOutsideDeactivates
-  'focus-trap-delay-initial-focus'?: boolean
-  'focus-trap-display-check'?: FocusTrapDisplayCheck
-  'focus-trap-document'?: Document
-  'focus-trap-escape-deactivates'?: FocusTrapEscapeDeactivates
-  'focus-trap-fallback-focus'?: FocusTarget
-  'focus-trap-get-shadow-root'?: FocusTrapGetShadowRoot
-  'focus-trap-initial-focus'?: FocusTargetOrFalse
-  'focus-trap-prevent-scroll'?: boolean
-  'focus-trap-return-focus-on-deactivate'?: boolean
-  'focus-trap-set-return-focus'?: FocusTrapSetReturnFocus
+  'allow-outside-click'?: FocusTrapAllowOutsideClick
+  'check-can-focus-trap'?: FocusTrapCheckCanFocusTrap
+  'check-can-return-focus'?: FocusTrapCheckCanReturnFocus
+  'click-outside-deactivates'?: FocusTrapClickOutsideDeactivates
+  'delay-initial-focus'?: boolean
+  'display-check'?: FocusTrapDisplayCheck
+  // document?: Document
+  'escape-deactivates'?: FocusTrapEscapeDeactivates
+  'fallback-focus'?: FocusTarget
+  // get-shadow-root?: FocusTrapGetShadowRoot
+  'initial-focus'?: FocusTargetOrFalse
+  'prevent-scroll'?: boolean
+  'return-focus-on-deactivate'?: boolean
+  'set-return-focus'?: FocusTrapSetReturnFocus
 }
 
 export interface FormElementAttributes extends BaseElementAttributes {}
@@ -193,7 +204,6 @@ export interface InputFileElementAttributes extends FormFieldElementAttributes {
 
 export interface LinkElementAttributes extends BaseElementAttributes {
   href?: string
-  'tab-index'?: number
   target?: string
 }
 
@@ -256,3 +266,12 @@ export interface TextAreaElementAttributes extends Omit<InputElementAttributes, 
   resize?: TextAreaElementResize
   rows?: number
 }
+
+export interface TooltipElementAttributes extends BaseElementAttributes {
+  focusable?: boolean
+  visible?: boolean
+}
+
+export interface TooltipArrowElementAttributes extends BaseElementAttributes {}
+export interface TooltipContentElementAttributes extends FloatingElementAttributes {}
+export interface TooltipTriggerElementAttributes extends BaseElementAttributes {}

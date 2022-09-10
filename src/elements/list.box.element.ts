@@ -1,6 +1,7 @@
 import { css } from 'lit'
 import { AriaListBoxController } from '../controllers/aria.list.box.controller'
 import { AriaListBoxOptionController } from '../controllers/aria.list.box.option.controller'
+import { Closest } from '../decorators/closest'
 import { CustomElement } from '../decorators/custom.element'
 import { Internal } from '../decorators/internal'
 import { Property } from '../decorators/property'
@@ -245,6 +246,9 @@ export class ListBoxOptionElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   focused?: boolean
 
+  @Closest('queelag-listbox')
+  listBoxElement!: ListBoxElement
+
   @Property({ type: Boolean, reflect: true })
   selected?: boolean
 
@@ -287,15 +291,6 @@ export class ListBoxOptionElement extends BaseElement {
 
   get name(): ElementName {
     return ElementName.LISTBOX_OPTION
-  }
-
-  get listBoxElement(): ListBoxElement {
-    let element: ListBoxElement | null
-
-    element = this.closest('queelag-listbox')
-    if (!element) ElementLogger.error(this.uid, 'get listBoxElement', `Failed to find the closest queelag-listbox element.`)
-
-    return element as ListBoxElement
   }
 
   static styles = [

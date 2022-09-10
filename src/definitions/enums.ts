@@ -35,7 +35,11 @@ export enum ElementName {
   NAVIGATION_RAIL_ITEM = 'navigation_rail_item',
   SELECT = 'select',
   SQUIRCLE = 'squircle',
-  TEXTAREA = 'textarea'
+  TEXTAREA = 'textarea',
+  TOOLTIP = 'tooltip',
+  TOOLTIP_ARROW = 'tooltip_arrow',
+  TOOLTIP_CONTENT = 'tooltip_content',
+  TOOLTIP_TRIGGER = 'tooltip_trigger'
 }
 
 export enum KeyboardEventKey {

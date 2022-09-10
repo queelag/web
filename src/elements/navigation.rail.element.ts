@@ -17,7 +17,7 @@ export class NavigationRailElement extends BaseElement {
   @Property({ type: String, attribute: 'active-item', reflect: true })
   activeItem?: string
 
-  @Property({ type: Object })
+  @Property({ type: Array })
   items?: NavigationRailItemElementAttributes[]
 
   activateItem(item: string): void {

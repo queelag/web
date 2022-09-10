@@ -27,7 +27,7 @@ export class SelectElement extends FormFieldElement {
   @Property({ type: Boolean, reflect: true })
   normalized?: boolean
 
-  @Property({ type: Object })
+  @Property({ type: Array })
   options?: SelectOption[]
 
   @State()

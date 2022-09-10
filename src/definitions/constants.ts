@@ -36,7 +36,7 @@ export const SQUIRCLES_CONTAINER_ID: string = 'squircles'
 /**
  * SVG
  */
-export const SVG_NAMESPACE_URI: string = 'http://www.w3.org/2000/svg'
+export const SVG_NAMESPACE_URI: 'http://www.w3.org/2000/svg' = 'http://www.w3.org/2000/svg'
 
 /**
  * Typeahead

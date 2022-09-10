@@ -12,7 +12,7 @@ declare global {
 
 @CustomElement('queelag-list')
 export class ListElement extends BaseElement {
-  @Property({ type: Object })
+  @Property({ type: Array })
   items?: any[]
 
   get name(): ElementName {
