@@ -17,6 +17,7 @@ import {
   joinElementClasses
 } from '../../../src'
 import '../../../src/elements/combo.box.element'
+import { FRUITS } from '../definitions/constants'
 import { useQueelagElement } from '../hooks/use.queelag.element'
 
 declare global {
@@ -42,19 +43,17 @@ interface ComboBoxOptionProps extends ComboBoxOptionElementAttributes, DetailedH
 export function ComboBox() {
   const { element, ref } = useQueelagElement('queelag-combobox')
   const [props] = useState<ComboBoxProps>({})
-  const [options] = useState<string[]>(['Lion', 'Giraffe', 'Zebra', 'Buffalo'])
+  const [options] = useState<string[]>(FRUITS)
 
   return (
     <div>
       <queelag-combobox {...props} ref={ref} autocomplete='list' className='w-64'>
         <queelag-combobox-group className='w-full rounded-sm border border-gray-400'>
-          <queelag-combobox-input className='w-full'>
+          {/* <queelag-combobox-input className='w-full'>
             <input className='appearance-none w-full h-8 px-2 text-xs' placeholder='Pick an animal (combobox)' type='text' />
-          </queelag-combobox-input>
-          {/* <queelag-combobox-button className='w-full flex justify-between items-center p-2'>
-            <span className='text-xs'>
-              {element?.selectedOptionElement ? options[element.selectedOptionElementIndex] : 'Pick an animal (combobox)'}
-            </span>
+          </queelag-combobox-input> */}
+          <queelag-combobox-button className='w-full flex justify-between items-center p-2'>
+            <span className='text-xs'>{element?.selectedOptionElement ? options[element.selectedOptionElementIndex] : 'Pick an animal (combobox)'}</span>
             <queelag-icon
               fill='none'
               size={16}
@@ -66,11 +65,11 @@ export function ComboBox() {
               stroke='black'
               stroke-width={2}
             />
-          </queelag-combobox-button> */}
+          </queelag-combobox-button>
         </queelag-combobox-group>
         <queelag-combobox-list
           className={joinElementClasses(
-            'flex flex-col rounded-sm border divide-y border-gray-400 divide-gray-400 bg-white',
+            'max-h-64 flex flex-col rounded-sm border divide-y border-gray-400 divide-gray-400 bg-white',
             !element?.expanded && 'opacity-0 pointer-events-none'
           )}
           middlewares={[offset(4)]}

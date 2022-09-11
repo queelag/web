@@ -17,6 +17,7 @@ import { ComboBoxElementAutoComplete } from '../definitions/types'
 import { StateChangedEvent } from '../events/state.changed.event'
 import { ElementLogger } from '../loggers/element.logger'
 import { Typeahead } from '../modules/Typeahead'
+import { scrollElementIntoView } from '../utils/element.utils'
 import { BaseElement } from './base.element'
 import { FloatingElement } from './floating.element'
 
@@ -82,11 +83,6 @@ export class ComboBoxElement extends BaseElement {
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
-
-    if (name === 'expanded' && value !== null) {
-      this.focusSelectedOptionElement()
-    }
-
     this.listElement?.computePosition && this.listElement.computePosition()
   }
 
@@ -101,23 +97,37 @@ export class ComboBoxElement extends BaseElement {
       case KeyboardEventKey.SPACE:
         event.preventDefault()
         event.stopPropagation()
-
-        break
     }
+
+    // switch (event.key) {
+    //   case KeyboardEventKey.ARROW_DOWN:
+    //   case KeyboardEventKey.ARROW_UP:
+    //   case KeyboardEventKey.END:
+    //   case KeyboardEventKey.ENTER:
+    //   case KeyboardEventKey.HOME:
+    //   case KeyboardEventKey.SPACE:
+    //     if (this.collapsed) {
+    //       this.expand()
+    //       ElementLogger.verbose(this.uid, 'onKeyDown', 'ANY', `The combobox has been expanded.`)
+    //     }
+
+    //     break
+    // }
 
     switch (event.key) {
       case KeyboardEventKey.ARROW_DOWN:
       case KeyboardEventKey.ARROW_UP:
-      case KeyboardEventKey.END:
-      case KeyboardEventKey.ENTER:
-      case KeyboardEventKey.HOME:
-      case KeyboardEventKey.SPACE:
         if (this.collapsed) {
           this.expand()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ANY', `The combobox has been expanded.`)
-        }
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The combobox has been expanded.`)
 
-        break
+          if (this.selectedOptionElement) {
+            this.focusSelectedOptionElement()
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The selected option has been focused.`)
+          }
+
+          return
+        }
     }
 
     switch (event.key) {
@@ -140,16 +150,6 @@ export class ComboBoxElement extends BaseElement {
 
         break
       case KeyboardEventKey.ARROW_UP:
-        if (event.altKey) {
-          this.selectFocusedOptionElement()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The focused option has been selected.`)
-
-          this.collapse()
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The combobox has been collapsed.`)
-
-          break
-        }
-
         if (this.focusedOptionElementIndex <= 0) {
           if (this.inputElement) {
             this.blurFocusedOptionElement()
@@ -168,17 +168,29 @@ export class ComboBoxElement extends BaseElement {
 
         break
       case KeyboardEventKey.END:
+        if (this.collapsed) {
+          this.expand()
+        }
+
         this.optionElements[this.optionElements.length - 1].focused = true
         ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last option has been focused.`)
 
         break
       case KeyboardEventKey.HOME:
+        if (this.collapsed) {
+          this.expand()
+        }
+
         this.optionElements[0].focused = true
         ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first option has been focused.`)
 
         break
       case KeyboardEventKey.ENTER:
       case KeyboardEventKey.SPACE:
+        if (this.collapsed) {
+          this.expand()
+        }
+
         if (this.focusedOptionElement) {
           this.focusedOptionElement?.click()
           break
@@ -191,17 +203,11 @@ export class ComboBoxElement extends BaseElement {
 
         break
       case KeyboardEventKey.ESCAPE:
-        if (this.focusedOptionElement) {
-          this.unselectSelectedOptionElement()
-          this.selectFocusedOptionElement()
-          this.blurFocusedOptionElement()
-
-          ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The focused option has been selected and blurred.`)
-        }
-
         if (this.expanded) {
           this.collapse()
           ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The combobox has been collapsed.`)
+
+          this.blurFocusedOptionElement()
         }
 
         break
@@ -338,13 +344,19 @@ export class ComboBoxButtonElement extends BaseElement {
       ElementLogger.verbose(this.uid, 'onBlur', `The focused option has been selected && blurred.`)
     }
 
-    this.rootElement.collapse()
-    ElementLogger.verbose(this.uid, 'onBlur', `The combobox has been collapsed.`)
+    if (this.rootElement.expanded) {
+      this.rootElement.collapse()
+      ElementLogger.verbose(this.uid, 'onBlur', `The combobox has been collapsed.`)
+    }
   }
 
   onClick = (): void => {
     this.rootElement.expanded = !this.rootElement.expanded
     ElementLogger.verbose(this.uid, 'onClick', `The combobox has been ${this.rootElement.expanded ? 'expanded' : 'collapsed'}.`)
+
+    if (this.rootElement.expanded) {
+      this.rootElement.focusSelectedOptionElement()
+    }
   }
 
   get name(): ElementName {
@@ -445,6 +457,7 @@ export class ComboBoxListElement extends FloatingElement {
     css`
       :host {
         left: 0;
+        overflow-y: auto;
         position: absolute;
         right: 0;
         z-index: 1;
@@ -462,6 +475,9 @@ export class ComboBoxOptionElement extends BaseElement {
 
   @Closest('queelag-combobox')
   rootElement!: ComboBoxElement
+
+  @Property({ type: Object, attribute: 'scroll-into-view-options' })
+  scrollIntoViewOptions?: ScrollIntoViewOptions
 
   @Property({ type: Boolean, reflect: true })
   selected?: boolean
@@ -482,6 +498,14 @@ export class ComboBoxOptionElement extends BaseElement {
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
+
+    if (name === 'focused' && value !== null) {
+      // this.rootElement.listElement?.scrollTo({ top: this.offsetTop - parseNumber(getComputedStyle(this).height) })
+      // this.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      if (this.rootElement.listElement) {
+        scrollElementIntoView(this.rootElement.listElement, this)
+      }
+    }
 
     if (name === 'selected' && value !== null) {
       if (this.rootElement.inputElement?.inputElement) {

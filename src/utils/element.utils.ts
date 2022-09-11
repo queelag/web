@@ -1,3 +1,4 @@
+import { parseNumber } from '@queelag/core'
 import { ElementAttributes, ElementAttributeValue } from '../definitions/types'
 
 export function joinElementClasses(...classes: any[]): string {
@@ -48,4 +49,13 @@ export function removeImmutableElementAttribute<T extends Element>(element: T, n
   }
 
   element.removeAttribute(name)
+}
+
+export function scrollElementIntoView<T extends Element, U extends HTMLElement>(parent: T, element: U, behavior?: ScrollBehavior): void {
+  let pstyle: CSSStyleDeclaration, estyle: CSSStyleDeclaration
+
+  pstyle = getComputedStyle(parent)
+  estyle = getComputedStyle(element)
+
+  parent.scrollTo({ behavior, top: element.offsetTop - (parseNumber(pstyle.height) - parseNumber(estyle.height)) / 2 })
 }
