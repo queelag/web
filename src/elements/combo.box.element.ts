@@ -4,18 +4,19 @@ import { AriaComboBoxButtonController } from '../controllers/aria.combo.box.butt
 import { AriaComboBoxController } from '../controllers/aria.combo.box.controller'
 import { AriaComboBoxInputController } from '../controllers/aria.combo.box.input.controller'
 import { AriaComboBoxListController } from '../controllers/aria.combo.box.list.controller'
-import { AriaComboBoxListOptionController } from '../controllers/aria.combo.box.list.option.controller'
+import { AriaComboBoxOptionController } from '../controllers/aria.combo.box.option.controller'
 import { Closest } from '../decorators/closest'
 import { CustomElement } from '../decorators/custom.element'
 import { Internal } from '../decorators/internal'
 import { Property } from '../decorators/property'
 import { Query } from '../decorators/query'
 import { QueryAll } from '../decorators/query.all'
+import { State } from '../decorators/state'
 import { ElementName, KeyboardEventKey } from '../definitions/enums'
 import { ComboBoxElementAutoComplete } from '../definitions/types'
 import { StateChangedEvent } from '../events/state.changed.event'
-import { typeahead } from '../functions/typeahead'
 import { ElementLogger } from '../loggers/element.logger'
+import { Typeahead } from '../modules/Typeahead'
 import { BaseElement } from './base.element'
 import { FloatingElement } from './floating.element'
 
@@ -26,7 +27,7 @@ declare global {
     'queelag-combobox-group': ComboBoxGroupElement
     'queelag-combobox-input': ComboBoxInputElement
     'queelag-combobox-list': ComboBoxListElement
-    'queelag-combobox-list-option': ComboBoxListOptionElement
+    'queelag-combobox-option': ComboBoxOptionElement
   }
 }
 
@@ -37,7 +38,8 @@ export class ComboBoxElement extends BaseElement {
   @Property({ type: String, reflect: true })
   autocomplete?: ComboBoxElementAutoComplete
 
-  private _expanded?: boolean
+  @Property({ type: Boolean, reflect: true })
+  expanded?: boolean
 
   @Query('queelag-combobox-button')
   buttonElement?: ComboBoxButtonElement
@@ -51,37 +53,41 @@ export class ComboBoxElement extends BaseElement {
   @Query('queelag-combobox-list')
   listElement?: ComboBoxListElement
 
-  @QueryAll('queelag-combobox-list-option')
-  listOptionElements!: ComboBoxListOptionElement[]
+  @Query('queelag-combobox-option[focused]')
+  focusedOptionElement?: ComboBoxOptionElement
 
-  @Query('queelag-combobox-list-option[focused]')
-  focusedListOptionElement?: ComboBoxListOptionElement
+  @QueryAll('queelag-combobox-option')
+  optionElements!: ComboBoxOptionElement[]
 
-  @Query('queelag-combobox-list-option[selected]')
-  selectedListOptionElement?: ComboBoxListOptionElement
+  @Query('queelag-combobox-option[selected]')
+  selectedOptionElement?: ComboBoxOptionElement
 
   @Internal()
-  typeaheadValue: string = ''
+  typeahead: Typeahead<ComboBoxOptionElement> = new Typeahead((element: ComboBoxOptionElement) => {
+    this.blurFocusedOptionElement()
+
+    element.focused = true
+    ElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
+  })
 
   connectedCallback(): void {
     super.connectedCallback()
-    this.addEventListener('blur', this.onBlur)
     this.addEventListener('keydown', this.onKeyDown)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
-    this.removeEventListener('blur', this.onBlur)
     this.removeEventListener('keydown', this.onKeyDown)
   }
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)
-    this.listElement?.computePosition()
-  }
 
-  onBlur = (): void => {
-    console.log(this.uid, 'BLUR')
+    if (name === 'expanded' && value !== null) {
+      this.focusSelectedOptionElement()
+    }
+
+    this.listElement?.computePosition && this.listElement.computePosition()
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
@@ -107,10 +113,8 @@ export class ComboBoxElement extends BaseElement {
       case KeyboardEventKey.HOME:
       case KeyboardEventKey.SPACE:
         if (this.collapsed) {
-          this.expanded = true
-          ElementLogger.verbose(this.uid, 'onKeyDown', `The combobox has been expanded.`)
-
-          return
+          this.expand()
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ANY', `The combobox has been expanded.`)
         }
 
         break
@@ -118,136 +122,153 @@ export class ComboBoxElement extends BaseElement {
 
     switch (event.key) {
       case KeyboardEventKey.ARROW_DOWN:
-        if (this.focusedListOptionElementIndex >= this.listOptionElements.length - 1) {
+        if (this.focusedOptionElementIndex >= this.optionElements.length - 1) {
+          if (this.inputElement) {
+            this.blurFocusedOptionElement()
+
+            this.optionElements[0].focused = true
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The first option has been focused.`)
+          }
+
           break
         }
 
-        if (this.focusedListOptionElement) {
-          this.focusedListOptionElement.focused = false
-        }
+        this.blurFocusedOptionElement()
 
-        this.listOptionElements[this.focusedListOptionElementIndex + 1].focused = true
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The next option has been focused.`)
+        this.optionElements[this.focusedOptionElementIndex + 1].focused = true
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The next option has been focused.`)
 
         break
       case KeyboardEventKey.ARROW_UP:
-        if (event.altKey && this.focusedListOptionElement) {
-          this.focusedListOptionElement.selected = true
-          ElementLogger.verbose(this.uid, 'onKeyDown', `The focused option has been selected.`)
+        if (event.altKey) {
+          this.selectFocusedOptionElement()
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The focused option has been selected.`)
 
-          this.expanded = false
-          ElementLogger.verbose(this.uid, 'onKeyDown', `The combobox has been collapsed.`)
+          this.collapse()
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The combobox has been collapsed.`)
 
           break
         }
 
-        if (this.focusedListOptionElementIndex <= 0) {
+        if (this.focusedOptionElementIndex <= 0) {
+          if (this.inputElement) {
+            this.blurFocusedOptionElement()
+
+            this.optionElements[this.optionElements.length - 1].focused = true
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The last option has been focused.`)
+          }
+
           break
         }
 
-        if (this.focusedListOptionElement) {
-          this.focusedListOptionElement.focused = false
-        }
+        this.blurFocusedOptionElement()
 
-        this.listOptionElements[this.focusedListOptionElementIndex - 1].focused = true
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The previous option has been focused.`)
+        this.optionElements[this.focusedOptionElementIndex - 1].focused = true
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_UP', `The previous option has been focused.`)
 
         break
       case KeyboardEventKey.END:
-        this.listOptionElements[this.listOptionElements.length - 1].focused = true
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The last option has been focused.`)
+        this.optionElements[this.optionElements.length - 1].focused = true
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The last option has been focused.`)
 
         break
       case KeyboardEventKey.HOME:
-        this.listOptionElements[0].focused = true
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The first option has been focused.`)
+        this.optionElements[0].focused = true
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The first option has been focused.`)
 
         break
       case KeyboardEventKey.ENTER:
       case KeyboardEventKey.SPACE:
-        this.focusedListOptionElement?.click()
-        break
-      case KeyboardEventKey.ESCAPE:
-        if (this.focusedListOptionElement) {
-          this.focusedListOptionElement.focused = false
-          ElementLogger.verbose(this.uid, 'onKeyDown', `The focused option has been blurred.`)
+        if (this.focusedOptionElement) {
+          this.focusedOptionElement?.click()
+          break
         }
 
-        this.expanded = false
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The combobox has been collapsed.`)
+        if (this.expanded) {
+          this.collapse()
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `The combobox has been collapsed.`)
+        }
 
-        // if (this.expanded) {
-        //   this.expanded = false
-        //   ElementLogger.verbose(this.uid, 'onKeyDown', `The combobox has been collapsed.`)
+        break
+      case KeyboardEventKey.ESCAPE:
+        if (this.focusedOptionElement) {
+          this.unselectSelectedOptionElement()
+          this.selectFocusedOptionElement()
+          this.blurFocusedOptionElement()
 
-        //   if (this.focusedListOptionElement) {
-        //     this.focusedListOptionElement.focused = false
-        //     ElementLogger.verbose(this.uid, 'onKeyDown', `The focused option has been blurred.`)
-        //   }
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The focused option has been selected and blurred.`)
+        }
 
-        //   break
-        // }
-
-        // if (this.inputElement?.inputElement) {
-        //   this.inputElement.inputElement.value = ''
-        //   ElementLogger.verbose(this.uid, 'onKeyDown', `The input value has been reset.`)
-        // }
-
-        // if (this.selectedListOptionElement) {
-        //   this.selectedListOptionElement.selected = false
-        //   ElementLogger.verbose(this.uid, 'onKeyDown', `The selected option has been unselected.`)
-        // }
+        if (this.expanded) {
+          this.collapse()
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The combobox has been collapsed.`)
+        }
 
         break
       case KeyboardEventKey.PAGE_DOWN:
-        if (this.focusedListOptionElement) {
-          this.focusedListOptionElement.focused = false
-        }
+        this.blurFocusedOptionElement()
 
-        this.listOptionElements[getLimitedNumber(getLimitedNumber(this.focusedListOptionElementIndex, 0) + 10, 0)].focused = true
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The option focus has jumped ~10 options ahead.`)
+        this.optionElements[getLimitedNumber(getLimitedNumber(this.focusedOptionElementIndex, 0) + 10, 0)].focused = true
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The option focus has jumped ~10 options ahead.`)
 
         break
       case KeyboardEventKey.PAGE_UP:
-        if (this.focusedListOptionElement) {
-          this.focusedListOptionElement.focused = false
-        }
+        this.blurFocusedOptionElement()
 
-        this.listOptionElements[getLimitedNumber(this.focusedListOptionElementIndex - 10, 0)].focused = true
-        ElementLogger.verbose(this.uid, 'onKeyDown', `The option focus has jumped ~10 options behind.`)
+        this.optionElements[getLimitedNumber(this.focusedOptionElementIndex - 10, 0)].focused = true
+        ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The option focus has jumped ~10 options behind.`)
 
         break
       default:
-        if (event.key.length > 1) {
-          return
+        if (this.inputElement || event.key.length > 1) {
+          break
         }
 
         if (this.collapsed) {
-          this.expanded = true
-          ElementLogger.verbose(this.uid, 'onKeyDown', `The combobox has been expanded.`)
+          this.expand()
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'DEFAULT', `The combobox has been expanded.`)
         }
 
-        typeahead(
-          undefined,
-          this.listOptionElements,
-          event,
-          () => this.typeaheadValue,
-          (element: ComboBoxListOptionElement) => {
-            this.focusedListOptionElement?.removeAttribute('focused')
-            element.focused = true
-          },
-          (value: string) => {
-            this.typeaheadValue = value
-          },
-          this.uid
-        )
+        this.typeahead.handle(event, this.optionElements)
 
         break
     }
   }
 
-  isListOptionElementFocused(element: ComboBoxListOptionElement): boolean {
-    return element === this.focusedListOptionElement
+  blurFocusedOptionElement(): void {
+    if (this.focusedOptionElement) {
+      this.focusedOptionElement.focused = false
+    }
+  }
+
+  collapse(): void {
+    this.expanded = false
+  }
+
+  expand(): void {
+    this.expanded = true
+  }
+
+  focusSelectedOptionElement(): void {
+    if (this.selectedOptionElement) {
+      this.selectedOptionElement.focused = true
+    }
+  }
+
+  selectFocusedOptionElement(): void {
+    if (this.focusedOptionElement) {
+      this.focusedOptionElement.selected = true
+    }
+  }
+
+  unselectSelectedOptionElement(): void {
+    if (this.selectedOptionElement) {
+      this.selectedOptionElement.selected = false
+    }
+  }
+
+  isOptionElementFocused(element: ComboBoxOptionElement): boolean {
+    return element === this.focusedOptionElement
   }
 
   get collapsed(): boolean {
@@ -258,35 +279,16 @@ export class ComboBoxElement extends BaseElement {
     return typeof this.inputElement !== 'undefined'
   }
 
-  @Property({ type: Boolean, reflect: true })
-  get expanded(): boolean | undefined {
-    return this._expanded
-  }
-
-  set expanded(expanded: boolean | undefined) {
-    let old: boolean | undefined
-
-    old = this._expanded
-    this._expanded = expanded
-
-    if (!expanded) {
-      this.selectedListOptionElement?.removeAttribute('selected')
-      this.focusedListOptionElement?.setAttribute('selected', '')
-    }
-
-    this.requestUpdate('expanded', old)
-  }
-
-  get focusedListOptionElementIndex(): number {
-    return this.focusedListOptionElement ? this.listOptionElements.indexOf(this.focusedListOptionElement) : -1
+  get focusedOptionElementIndex(): number {
+    return this.focusedOptionElement ? this.optionElements.indexOf(this.focusedOptionElement) : -1
   }
 
   get name(): ElementName {
     return ElementName.COMBOBOX
   }
 
-  get selectedListOptionElementIndex(): number {
-    return this.selectedListOptionElement ? this.listOptionElements.indexOf(this.selectedListOptionElement) : -1
+  get selectedOptionElementIndex(): number {
+    return this.selectedOptionElement ? this.optionElements.indexOf(this.selectedOptionElement) : -1
   }
 
   static styles = [
@@ -315,18 +317,28 @@ export class ComboBoxButtonElement extends BaseElement {
 
   connectedCallback(): void {
     super.connectedCallback()
+
     this.addEventListener('blur', this.onBlur)
     this.addEventListener('click', this.onClick)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
+
     this.removeEventListener('blur', this.onBlur)
     this.removeEventListener('click', this.onClick)
   }
 
   onBlur = (): void => {
-    this.rootElement.expanded = false
+    if (this.rootElement.focusedOptionElement) {
+      this.rootElement.unselectSelectedOptionElement()
+      this.rootElement.selectFocusedOptionElement()
+      this.rootElement.blurFocusedOptionElement()
+
+      ElementLogger.verbose(this.uid, 'onBlur', `The focused option has been selected && blurred.`)
+    }
+
+    this.rootElement.collapse()
     ElementLogger.verbose(this.uid, 'onBlur', `The combobox has been collapsed.`)
   }
 
@@ -354,10 +366,59 @@ export class ComboBoxInputElement extends BaseElement {
   protected aria: AriaComboBoxInputController = new AriaComboBoxInputController(this)
 
   @Query('input')
-  inputElement!: HTMLInputElement
+  inputElement?: HTMLInputElement
 
   @Closest('queelag-combobox')
   rootElement!: ComboBoxElement
+
+  @State()
+  value: string = ''
+
+  connectedCallback(): void {
+    super.connectedCallback()
+
+    this.inputElement?.addEventListener('blur', this.onBlur)
+    this.inputElement?.addEventListener('click', this.onClick)
+    this.inputElement?.addEventListener('focus', this.onFocus)
+    this.inputElement?.addEventListener('input', this.onInput)
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback()
+
+    this.inputElement?.removeEventListener('blur', this.onBlur)
+    this.inputElement?.removeEventListener('click', this.onClick)
+    this.inputElement?.removeEventListener('focus', this.onFocus)
+    this.inputElement?.removeEventListener('input', this.onInput)
+  }
+
+  onBlur = (): void => {
+    this.rootElement.collapse()
+    ElementLogger.verbose(this.uid, 'onBlur', `The combobox has been collapsed.`)
+  }
+
+  onClick = (): void => {
+    this.rootElement.expand()
+    ElementLogger.verbose(this.uid, 'onFocus', `The combobox has been expanded.`)
+  }
+
+  onFocus = (): void => {
+    this.rootElement.expand()
+    ElementLogger.verbose(this.uid, 'onFocus', `The combobox has been expanded.`)
+  }
+
+  onInput = (event: Event): void => {
+    if (this.rootElement.collapsed) {
+      this.rootElement.expand()
+      ElementLogger.verbose(this.uid, 'onFocus', `The combobox has been expanded.`)
+    }
+
+    // @ts-ignore
+    this.value = event.target.value
+    ElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
+
+    this.rootElement.dispatchEvent(new StateChangedEvent('value', undefined, this.value))
+  }
 
   get name(): ElementName {
     return ElementName.COMBOBOX_INPUT
@@ -392,9 +453,9 @@ export class ComboBoxListElement extends FloatingElement {
   ]
 }
 
-@CustomElement('queelag-combobox-list-option')
-export class ComboBoxListOptionElement extends BaseElement {
-  protected aria: AriaComboBoxListOptionController = new AriaComboBoxListOptionController(this)
+@CustomElement('queelag-combobox-option')
+export class ComboBoxOptionElement extends BaseElement {
+  protected aria: AriaComboBoxOptionController = new AriaComboBoxOptionController(this)
 
   @Property({ type: Boolean, reflect: true })
   focused?: boolean
@@ -402,7 +463,8 @@ export class ComboBoxListOptionElement extends BaseElement {
   @Closest('queelag-combobox')
   rootElement!: ComboBoxElement
 
-  private _selected?: boolean
+  @Property({ type: Boolean, reflect: true })
+  selected?: boolean
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -418,27 +480,32 @@ export class ComboBoxListOptionElement extends BaseElement {
     this.removeEventListener('mousedown', this.onMouseDown)
   }
 
-  onClick = (): void => {
-    for (let element of this.rootElement.listOptionElements) {
-      element.selected = false
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    super.attributeChangedCallback(name, _old, value)
+
+    if (name === 'selected' && value !== null) {
+      if (this.rootElement.inputElement?.inputElement) {
+        this.rootElement.inputElement.inputElement.value = this.innerText
+      }
     }
+  }
+
+  onClick = (): void => {
+    this.rootElement.blurFocusedOptionElement()
+    this.rootElement.unselectSelectedOptionElement()
 
     this.selected = true
     ElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
 
-    switch (this.rootElement.autocomplete) {
-      case 'both':
-      case 'inline':
-      case 'list':
-        this.rootElement.inputElement?.focus()
-        break
-      default:
-        this.rootElement.buttonElement?.focus()
-        break
-    }
-
     this.rootElement.expanded = false
     ElementLogger.verbose(this.uid, 'onClick', `The combobox has been collapsed.`)
+
+    if (this.rootElement.inputElement) {
+      this.rootElement.inputElement.inputElement?.focus()
+      return
+    }
+
+    this.rootElement.buttonElement?.focus()
   }
 
   onMouseDown = (event: MouseEvent): void => {
@@ -446,30 +513,7 @@ export class ComboBoxListOptionElement extends BaseElement {
   }
 
   get name(): ElementName {
-    return ElementName.COMBOBOX_LIST_OPTION
-  }
-
-  @Property({ type: Boolean, reflect: true })
-  get selected(): boolean | undefined {
-    return this._selected
-  }
-
-  set selected(selected: boolean | undefined) {
-    let old: boolean | undefined
-
-    old = this._selected
-    this._selected = selected
-
-    if (selected) {
-      if (this.rootElement.focusedListOptionElement) {
-        this.rootElement.focusedListOptionElement.focused = false
-      }
-
-      this.focused = true
-    }
-
-    this.requestUpdate('selected', old)
-    this.rootElement.dispatchEvent(new StateChangedEvent('selected', false, true))
+    return ElementName.COMBOBOX_OPTION
   }
 
   static styles = [

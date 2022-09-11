@@ -37,13 +37,13 @@ export class FloatingElement extends BaseElement {
   @Property({ type: Boolean, attribute: 'element-resize', reflect: true })
   elementResize?: boolean
 
-  @Property({ type: Array, reflect: true })
+  @Property({ type: Array })
   middlewares?: Middleware[]
 
   @Property({ type: String, reflect: true })
   placement?: Placement
 
-  @Property({ type: Object, reflect: true })
+  @Property({ type: Object })
   platform?: Platform
 
   @Property({ type: String, reflect: true })

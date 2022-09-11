@@ -12,8 +12,8 @@ import {
   ComboBoxInputElementAttributes,
   ComboBoxListElement,
   ComboBoxListElementAttributes,
-  ComboBoxListOptionElement,
-  ComboBoxListOptionElementAttributes,
+  ComboBoxOptionElement,
+  ComboBoxOptionElementAttributes,
   joinElementClasses
 } from '../../../src'
 import '../../../src/elements/combo.box.element'
@@ -27,7 +27,7 @@ declare global {
       'queelag-combobox-group': ComboBoxGroupProps
       'queelag-combobox-input': ComboBoxInputProps
       'queelag-combobox-list': ComboBoxListProps
-      'queelag-combobox-list-option': ComboBoxListOptionProps
+      'queelag-combobox-option': ComboBoxOptionProps
     }
   }
 }
@@ -37,9 +37,7 @@ interface ComboBoxButtonProps extends ComboBoxButtonElementAttributes, DetailedH
 interface ComboBoxGroupProps extends ComboBoxGroupElementAttributes, DetailedHTMLProps<HTMLAttributes<ComboBoxGroupElement>, ComboBoxGroupElement> {}
 interface ComboBoxInputProps extends ComboBoxInputElementAttributes, DetailedHTMLProps<HTMLAttributes<ComboBoxInputElement>, ComboBoxInputElement> {}
 interface ComboBoxListProps extends ComboBoxListElementAttributes, DetailedHTMLProps<HTMLAttributes<ComboBoxListElement>, ComboBoxListElement> {}
-interface ComboBoxListOptionProps
-  extends ComboBoxListOptionElementAttributes,
-    DetailedHTMLProps<HTMLAttributes<ComboBoxListOptionElement>, ComboBoxListOptionElement> {}
+interface ComboBoxOptionProps extends ComboBoxOptionElementAttributes, DetailedHTMLProps<HTMLAttributes<ComboBoxOptionElement>, ComboBoxOptionElement> {}
 
 export function ComboBox() {
   const { element, ref } = useQueelagElement('queelag-combobox')
@@ -48,11 +46,14 @@ export function ComboBox() {
 
   return (
     <div>
-      <queelag-combobox {...props} ref={ref} className='w-64'>
+      <queelag-combobox {...props} ref={ref} autocomplete='list' className='w-64'>
         <queelag-combobox-group className='w-full rounded-sm border border-gray-400'>
-          <queelag-combobox-button className='w-full flex justify-between items-center p-2'>
+          <queelag-combobox-input className='w-full'>
+            <input className='appearance-none w-full h-8 px-2 text-xs' placeholder='Pick an animal (combobox)' type='text' />
+          </queelag-combobox-input>
+          {/* <queelag-combobox-button className='w-full flex justify-between items-center p-2'>
             <span className='text-xs'>
-              {element?.selectedListOptionElement ? options[element.selectedListOptionElementIndex] : 'Pick an animal (combobox)'}
+              {element?.selectedOptionElement ? options[element.selectedOptionElementIndex] : 'Pick an animal (combobox)'}
             </span>
             <queelag-icon
               fill='none'
@@ -65,7 +66,7 @@ export function ComboBox() {
               stroke='black'
               stroke-width={2}
             />
-          </queelag-combobox-button>
+          </queelag-combobox-button> */}
         </queelag-combobox-group>
         <queelag-combobox-list
           className={joinElementClasses(
@@ -74,20 +75,22 @@ export function ComboBox() {
           )}
           middlewares={[offset(4)]}
         >
-          {options.map((option: string) => (
-            <ComboBoxListOption key={option} option={option} />
-          ))}
+          {options
+            .filter((option: string) => option.toLowerCase().includes(element?.inputElement?.value.toLowerCase() || ''))
+            .map((option: string) => (
+              <ComboBoxOption key={option} option={option} />
+            ))}
         </queelag-combobox-list>
       </queelag-combobox>
     </div>
   )
 }
 
-function ComboBoxListOption({ option }: any) {
-  const { element, ref } = useQueelagElement('queelag-combobox-list-option')
+function ComboBoxOption({ option }: any) {
+  const { element, ref } = useQueelagElement('queelag-combobox-option')
 
   return (
-    <queelag-combobox-list-option
+    <queelag-combobox-option
       ref={ref}
       className={joinElementClasses('flex justify-between items-center p-2 text-xs rounded-sm', element?.focused && 'ring-2 ring-offset-2 ring-blue-700')}
     >
@@ -101,6 +104,6 @@ function ComboBoxListOption({ option }: any) {
           stroke-width={2}
         />
       )}
-    </queelag-combobox-list-option>
+    </queelag-combobox-option>
   )
 }

@@ -8,8 +8,8 @@ import { Property } from '../decorators/property'
 import { Query } from '../decorators/query'
 import { QueryAll } from '../decorators/query.all'
 import { ElementName, KeyboardEventKey } from '../definitions/enums'
-import { typeahead } from '../functions/typeahead'
 import { ElementLogger } from '../loggers/element.logger'
+import { Typeahead } from '../modules/Typeahead'
 import { BaseElement } from './base.element'
 
 declare global {
@@ -41,11 +41,13 @@ export class ListBoxElement extends BaseElement {
   @Property({ type: Boolean, attribute: 'select-first-option-on-focus', reflect: true })
   selectFirstOptionOnFocus?: boolean
 
-  @Property({ type: Boolean, attribute: 'typeahead-debounce-time' })
-  typeaheadDebounceTime?: number
-
   @Internal()
-  typeaheadValue: string = ''
+  typeahead: Typeahead<ListBoxOptionElement> = new Typeahead((element: ListBoxOptionElement) => {
+    this.blurFocusedOptionElement()
+
+    element.focused = true
+    ElementLogger.verbose(this.uid, 'typeahead', `The matched element has been focused.`)
+  })
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -110,10 +112,7 @@ export class ListBoxElement extends BaseElement {
       case KeyboardEventKey.ARROW_UP:
       case KeyboardEventKey.END:
       case KeyboardEventKey.HOME:
-        if (this.focusedOptionElement) {
-          this.focusedOptionElement.focused = false
-        }
-
+        this.blurFocusedOptionElement()
         break
     }
 
@@ -202,20 +201,14 @@ export class ListBoxElement extends BaseElement {
         this.focusedOptionElement?.click()
         break
       default:
-        typeahead(
-          this.typeaheadDebounceTime,
-          this.optionElements,
-          event,
-          () => this.typeaheadValue,
-          (element: ListBoxOptionElement) => {
-            element.focused = true
-          },
-          (value: string) => {
-            this.typeaheadValue = value
-          },
-          this.uid
-        )
+        this.typeahead.handle(event, this.optionElements)
         break
+    }
+  }
+
+  blurFocusedOptionElement(): void {
+    if (this.focusedOptionElement) {
+      this.focusedOptionElement.focused = false
     }
   }
 
@@ -277,9 +270,7 @@ export class ListBoxOptionElement extends BaseElement {
       ElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
     }
 
-    if (this.listBoxElement.focusedOptionElement) {
-      this.listBoxElement.focusedOptionElement.focused = false
-    }
+    this.listBoxElement.blurFocusedOptionElement()
 
     this.focused = true
     ElementLogger.verbose(this.uid, 'onClick', `The option has been focused.`)

@@ -21,7 +21,7 @@ export enum ElementName {
   COMBOBOX_GROUP = 'combobox_group',
   COMBOBOX_INPUT = 'combobox_input',
   COMBOBOX_LIST = 'combobox_list',
-  COMBOBOX_LIST_OPTION = 'combobox_list_option',
+  COMBOBOX_OPTION = 'combobox_option',
   DIALOG = 'dialog',
   DIALOG_DESCRIPTION = 'dialog_description',
   DIALOG_LABEL = 'dialog_label',
@@ -66,5 +66,6 @@ export enum KeyboardEventKey {
 
 export enum LoggerName {
   ELEMENT = 'WEB_ELEMENT',
+  MODULE = 'WEB_MODULE',
   UTIL = 'WEB_UTIL'
 }

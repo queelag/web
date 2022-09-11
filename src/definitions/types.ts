@@ -93,3 +93,5 @@ export type TextAreaElementValue = string | string[] | undefined
 export type TextAreaElementResize = 'both' | 'horizontal' | 'vertical' | 'none'
 
 export type Theme = 'dark' | 'light' | 'system'
+
+export type TypeaheadOnMatch<T extends HTMLElement> = (element: T) => any

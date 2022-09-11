@@ -124,7 +124,7 @@ export interface ComboBoxGroupElementAttributes extends BaseElementAttributes {}
 export interface ComboBoxInputElementAttributes extends BaseElementAttributes {}
 export interface ComboBoxListElementAttributes extends FloatingElementAttributes {}
 
-export interface ComboBoxListOptionElementAttributes extends BaseElementAttributes {
+export interface ComboBoxOptionElementAttributes extends BaseElementAttributes {
   selected?: boolean
 }
 
