@@ -282,6 +282,19 @@ export interface SelectElementAttributes extends FormFieldElementAttributes {
   options?: SelectOption[]
 }
 
+export interface SliderElementAttributes extends BaseElementAttributes {
+  decimals?: number
+  maximum?: number
+  minimum?: number
+  orientation?: Orientation
+  step?: number
+}
+
+export interface SliderThumbElementAttributes extends BaseElementAttributes {
+  movable?: boolean
+  value?: number
+}
+
 export interface SwitchElementAttributes extends FormFieldElementAttributes {
   native?: boolean
 }

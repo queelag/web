@@ -12,6 +12,7 @@ queelag-input,
 queelag-input-file,
 queelag-meter,
 queelag-select,
+queelag-slider,
 queelag-switch,
 queelag-textarea {
   opacity: 0;
@@ -31,6 +32,7 @@ queelag-input:defined,
 queelag-input-file:defined,
 queelag-meter:defined,
 queelag-select:defined,
+queelag-slider:defined,
 queelag-switch:defined,
 queelag-textarea:defined {
   opacity: 1;

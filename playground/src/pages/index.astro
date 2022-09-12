@@ -20,6 +20,7 @@ import { ListBox } from '../components/ListBox'
 import { Meter } from '../components/Meter'
 import { NavigationBar } from '../components/NavigationBar'
 import { Select } from '../components/Select'
+import { Slider } from '../components/Slider'
 import { Switch } from '../components/Switch'
 import { Tabs } from '../components/Tabs'
 import { TextArea } from '../components/TextArea'
@@ -35,7 +36,8 @@ import './index.css'
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <title>Queelag Web - Playground</title>
   </head>
-  <body class='flex flex-col items-start gap-4 p-4'>
+  <body class='flex flex-col items-start gap-4 p-6'>
+    <Slider client:load />
     <Accordion client:load />
     <AlertDialog client:load />
     <Avatar client:load />
