@@ -49,10 +49,10 @@ export function ComboBox() {
     <div>
       <queelag-combobox {...props} ref={ref} autocomplete='list' className='w-64'>
         <queelag-combobox-group className='w-full rounded-sm border border-gray-400'>
-          {/* <queelag-combobox-input className='w-full'>
+          <queelag-combobox-input className='w-full'>
             <input className='appearance-none w-full h-8 px-2 text-xs' placeholder='Pick an animal (combobox)' type='text' />
-          </queelag-combobox-input> */}
-          <queelag-combobox-button className='w-full flex justify-between items-center p-2'>
+          </queelag-combobox-input>
+          {/* <queelag-combobox-button className='w-full flex justify-between items-center p-2'>
             <span className='text-xs'>{element?.selectedOptionElement ? options[element.selectedOptionElementIndex] : 'Pick an animal (combobox)'}</span>
             <queelag-icon
               fill='none'
@@ -65,7 +65,7 @@ export function ComboBox() {
               stroke='black'
               stroke-width={2}
             />
-          </queelag-combobox-button>
+          </queelag-combobox-button> */}
         </queelag-combobox-group>
         <queelag-combobox-list
           className={joinElementClasses(
@@ -74,8 +74,8 @@ export function ComboBox() {
           )}
           middlewares={[offset(4)]}
         >
-          {options
-            .filter((option: string) => option.toLowerCase().includes(element?.inputElement?.value.toLowerCase() || ''))
+          {element
+            ?.filterOptions(options, (option: string) => option.toLowerCase().includes(element?.inputElement?.value.toLowerCase() || ''))
             .map((option: string) => (
               <ComboBoxOption key={option} option={option} />
             ))}
@@ -91,7 +91,7 @@ function ComboBoxOption({ option }: any) {
   return (
     <queelag-combobox-option
       ref={ref}
-      className={joinElementClasses('flex justify-between items-center p-2 text-xs rounded-sm', element?.focused && 'ring-2 ring-offset-2 ring-blue-700')}
+      className={joinElementClasses('flex justify-between items-center p-2 text-xs', element?.focused && 'ring-2 ring-offset-2 ring-blue-700')}
     >
       <span className='text-xs'>{option}</span>
       {element?.selected && (

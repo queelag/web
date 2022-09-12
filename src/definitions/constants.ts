@@ -35,4 +35,4 @@ export const SVG_NAMESPACE_URI: 'http://www.w3.org/2000/svg' = 'http://www.w3.or
 /**
  * Typeahead
  */
-export const DEFAULT_TYPEAHEAD_DEBOUNCE_TIME: number = 200
+export const DEFAULT_TYPEAHEAD_DEBOUNCE_TIME: number = 100

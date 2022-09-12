@@ -25,13 +25,15 @@ import {
   TextAreaElementResize
 } from './types'
 
-export interface AccordionElementAttributes extends BaseElementAttributes {}
+export interface AccordionElementAttributes extends BaseElementAttributes {
+  'allow-only-one-expanded-section'?: boolean
+}
 
 export interface AccordionHeaderElementAttributes extends BaseElementAttributes {
   level?: HeadingLevel
 }
 
-export interface AccordionHeaderButtonElementAttributes extends BaseElementAttributes {}
+export interface AccordionButtonElementAttributes extends BaseElementAttributes {}
 export interface AccordionPanelElementAttributes extends BaseElementAttributes {}
 
 export interface AccordionSectionElementAttributes extends BaseElementAttributes {
@@ -117,6 +119,7 @@ export interface ChipElementAttributes extends BaseElementAttributes {
 export interface ComboBoxElementAttributes extends BaseElementAttributes {
   autocomplete?: ComboBoxElementAutoComplete
   expanded?: boolean
+  'scroll-into-view-options'?: ScrollIntoViewOptions
 }
 
 export interface ComboBoxButtonElementAttributes extends BaseElementAttributes {}
@@ -136,6 +139,14 @@ export interface DialogElementAttributes extends FocusTrapElementAttributes {
 
 export interface DialogDescriptionElementAttributes extends BaseElementAttributes {}
 export interface DialogLabelElementAttributes extends BaseElementAttributes {}
+
+export interface DisclosureElementAttributes extends BaseElementAttributes {}
+export interface DisclosureButtonElementAttributes extends BaseElementAttributes {}
+export interface DisclosurePanelElementAttributes extends BaseElementAttributes {}
+
+export interface DisclosureSectionElementAttributes extends BaseElementAttributes {
+  expanded?: boolean
+}
 
 export interface DividerElementAttributes extends BaseElementAttributes {
   orientation?: Orientation
@@ -274,6 +285,16 @@ export interface SelectElementAttributes extends FormFieldElementAttributes {
 export interface SwitchElementAttributes extends FormFieldElementAttributes {
   native?: boolean
 }
+
+export interface TabsElementAttributes extends BaseElementAttributes {
+  'automatic-activation'?: boolean
+}
+
+export interface TabsTabElementAttributes extends BaseElementAttributes {
+  selected?: boolean
+}
+
+export interface TabsPanelElementAttributes extends BaseElementAttributes {}
 
 export interface TextAreaElementAttributes extends Omit<InputElementAttributes, 'obscured' | 'type'> {
   autosize?: boolean

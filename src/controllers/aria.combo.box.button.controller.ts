@@ -19,6 +19,7 @@ export class AriaComboBoxButtonController implements ReactiveController {
     if (this.host.rootElement.inputElement) {
       setImmutableElementAttribute(this.host, 'aria-label', 'Previous Searches')
       setImmutableElementAttribute(this.host, 'role', 'button')
+      setImmutableElementAttribute(this.host, 'tabindex', '-1')
 
       return
     }

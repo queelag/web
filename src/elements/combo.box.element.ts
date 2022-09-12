@@ -60,6 +60,9 @@ export class ComboBoxElement extends BaseElement {
   @QueryAll('queelag-combobox-option')
   optionElements!: ComboBoxOptionElement[]
 
+  @Property({ type: Object, attribute: 'scroll-into-view-options' })
+  scrollIntoViewOptions?: ScrollIntoViewOptions
+
   @Query('queelag-combobox-option[selected]')
   selectedOptionElement?: ComboBoxOptionElement
 
@@ -99,21 +102,6 @@ export class ComboBoxElement extends BaseElement {
         event.stopPropagation()
     }
 
-    // switch (event.key) {
-    //   case KeyboardEventKey.ARROW_DOWN:
-    //   case KeyboardEventKey.ARROW_UP:
-    //   case KeyboardEventKey.END:
-    //   case KeyboardEventKey.ENTER:
-    //   case KeyboardEventKey.HOME:
-    //   case KeyboardEventKey.SPACE:
-    //     if (this.collapsed) {
-    //       this.expand()
-    //       ElementLogger.verbose(this.uid, 'onKeyDown', 'ANY', `The combobox has been expanded.`)
-    //     }
-
-    //     break
-    // }
-
     switch (event.key) {
       case KeyboardEventKey.ARROW_DOWN:
       case KeyboardEventKey.ARROW_UP:
@@ -124,6 +112,16 @@ export class ComboBoxElement extends BaseElement {
           if (this.selectedOptionElement) {
             this.focusSelectedOptionElement()
             ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_DOWN', `The selected option has been focused.`)
+
+            return
+          }
+
+          if (this.inputElement && event.key === KeyboardEventKey.ARROW_DOWN) {
+            this.optionElements[0].focused = true
+          }
+
+          if (this.inputElement && event.key === KeyboardEventKey.ARROW_UP) {
+            this.optionElements[this.optionElements.length - 1].focused = true
           }
 
           return
@@ -170,6 +168,7 @@ export class ComboBoxElement extends BaseElement {
       case KeyboardEventKey.END:
         if (this.collapsed) {
           this.expand()
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'END', `The combobox has been expanded.`)
         }
 
         this.optionElements[this.optionElements.length - 1].focused = true
@@ -179,6 +178,7 @@ export class ComboBoxElement extends BaseElement {
       case KeyboardEventKey.HOME:
         if (this.collapsed) {
           this.expand()
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The combobox has been expanded.`)
         }
 
         this.optionElements[0].focused = true
@@ -189,6 +189,10 @@ export class ComboBoxElement extends BaseElement {
       case KeyboardEventKey.SPACE:
         if (this.collapsed) {
           this.expand()
+          this.focusSelectedOptionElement()
+          ElementLogger.verbose(this.uid, 'onKeyDown', 'ENTER or SPACE', `The combobox has been expanded and the selected option has been focused.`)
+
+          break
         }
 
         if (this.focusedOptionElement) {
@@ -203,9 +207,26 @@ export class ComboBoxElement extends BaseElement {
 
         break
       case KeyboardEventKey.ESCAPE:
+        if (this.collapsed && this.inputElement) {
+          switch (this.autocomplete) {
+            case 'both':
+            case 'inline':
+            case 'list':
+              this.inputElement.clear()
+              ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The input value has been reset.`)
+          }
+
+          break
+        }
+
         if (this.expanded) {
           this.collapse()
           ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The combobox has been collapsed.`)
+
+          if (this.inputElement?.inputElement && this.selectedOptionElement) {
+            this.inputElement.inputElement.value = this.selectedOptionElement.innerText
+            ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The input value has been set to the selected option inner text.`)
+          }
 
           this.blurFocusedOptionElement()
         }
@@ -253,6 +274,17 @@ export class ComboBoxElement extends BaseElement {
 
   expand(): void {
     this.expanded = true
+  }
+
+  filterOptions<T>(options: T[], predicate: (value: T, index: number, array: T[]) => unknown): T[] {
+    switch (this.autocomplete) {
+      case 'both':
+      case 'inline':
+      case 'list':
+        return options.filter(predicate)
+      default:
+        return options
+    }
   }
 
   focusSelectedOptionElement(): void {
@@ -412,6 +444,9 @@ export class ComboBoxInputElement extends BaseElement {
   onClick = (): void => {
     this.rootElement.expand()
     ElementLogger.verbose(this.uid, 'onFocus', `The combobox has been expanded.`)
+
+    this.rootElement.focusSelectedOptionElement()
+    ElementLogger.verbose(this.uid, 'onFocus', `The selected option has been focused.`)
   }
 
   onFocus = (): void => {
@@ -422,7 +457,9 @@ export class ComboBoxInputElement extends BaseElement {
   onInput = (event: Event): void => {
     if (this.rootElement.collapsed) {
       this.rootElement.expand()
-      ElementLogger.verbose(this.uid, 'onFocus', `The combobox has been expanded.`)
+      this.rootElement.focusSelectedOptionElement()
+
+      ElementLogger.verbose(this.uid, 'onFocus', `The combobox has been expanded and the selected option has been focused.`)
     }
 
     // @ts-ignore
@@ -430,6 +467,12 @@ export class ComboBoxInputElement extends BaseElement {
     ElementLogger.verbose(this.uid, 'onInput', `The value has been set.`, [this.value])
 
     this.rootElement.dispatchEvent(new StateChangedEvent('value', undefined, this.value))
+  }
+
+  clear(): void {
+    if (this.inputElement) {
+      this.inputElement.value = ''
+    }
   }
 
   get name(): ElementName {
@@ -476,9 +519,6 @@ export class ComboBoxOptionElement extends BaseElement {
   @Closest('queelag-combobox')
   rootElement!: ComboBoxElement
 
-  @Property({ type: Object, attribute: 'scroll-into-view-options' })
-  scrollIntoViewOptions?: ScrollIntoViewOptions
-
   @Property({ type: Boolean, reflect: true })
   selected?: boolean
 
@@ -500,16 +540,16 @@ export class ComboBoxOptionElement extends BaseElement {
     super.attributeChangedCallback(name, _old, value)
 
     if (name === 'focused' && value !== null) {
-      // this.rootElement.listElement?.scrollTo({ top: this.offsetTop - parseNumber(getComputedStyle(this).height) })
-      // this.scrollIntoView({ behavior: 'smooth', block: 'center' })
       if (this.rootElement.listElement) {
-        scrollElementIntoView(this.rootElement.listElement, this)
+        scrollElementIntoView(this.rootElement.listElement, this, this.rootElement.scrollIntoViewOptions)
+        ElementLogger.verbose(this.uid, ' attributeChangedCallback', `The option has been scrolled into view.`)
       }
     }
 
     if (name === 'selected' && value !== null) {
       if (this.rootElement.inputElement?.inputElement) {
         this.rootElement.inputElement.inputElement.value = this.innerText
+        ElementLogger.verbose(this.uid, 'attributeChangedCallback', `The input value has been set to the inner text of this option.`, [this.innerText])
       }
     }
   }

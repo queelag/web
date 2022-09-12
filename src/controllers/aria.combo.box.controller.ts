@@ -16,13 +16,15 @@ export class AriaComboBoxController implements ReactiveController {
   }
 
   setAttributes(): void {
-    if (this.host.inputElement?.inputElement) {
-      setImmutableElementAttribute(this.host.inputElement.inputElement, 'aria-autocomplete', this.host.autocomplete)
-      setImmutableElementAttribute(this.host.inputElement.inputElement, 'aria-controls', this.host.listElement?.id)
-      setImmutableElementAttribute(this.host.inputElement.inputElement, 'aria-expanded', this.host.expanded ? 'true' : 'false')
+    if (this.host.inputElement) {
+      if (this.host.inputElement.inputElement) {
+        setImmutableElementAttribute(this.host.inputElement.inputElement, 'aria-autocomplete', this.host.autocomplete)
+        setImmutableElementAttribute(this.host.inputElement.inputElement, 'aria-controls', this.host.listElement?.id)
+        setImmutableElementAttribute(this.host.inputElement.inputElement, 'aria-expanded', this.host.expanded ? 'true' : 'false')
 
-      if (this.host.collapsed) {
-        removeImmutableElementAttribute(this.host.inputElement.inputElement, 'aria-activedescendant')
+        if (this.host.collapsed) {
+          removeImmutableElementAttribute(this.host.inputElement.inputElement, 'aria-activedescendant')
+        }
       }
 
       if (this.host.buttonElement) {
@@ -37,8 +39,6 @@ export class AriaComboBoxController implements ReactiveController {
       // setImmutableElementAttribute(this.host, 'aria-labelledby', '')
       setImmutableElementAttribute(this.host.buttonElement, 'aria-controls', this.host.listElement?.id)
       setImmutableElementAttribute(this.host.buttonElement, 'aria-expanded', this.host.expanded ? 'true' : 'false')
-      setImmutableElementAttribute(this.host.buttonElement, 'role', 'combobox')
-      setImmutableElementAttribute(this.host.buttonElement, 'tabindex', '0')
 
       if (this.host.collapsed) {
         removeImmutableElementAttribute(this.host.buttonElement, 'aria-activedescendant')

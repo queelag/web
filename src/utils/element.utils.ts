@@ -1,4 +1,3 @@
-import { parseNumber } from '@queelag/core'
 import { ElementAttributes, ElementAttributeValue } from '../definitions/types'
 
 export function joinElementClasses(...classes: any[]): string {
@@ -51,11 +50,38 @@ export function removeImmutableElementAttribute<T extends Element>(element: T, n
   element.removeAttribute(name)
 }
 
-export function scrollElementIntoView<T extends Element, U extends HTMLElement>(parent: T, element: U, behavior?: ScrollBehavior): void {
-  let pstyle: CSSStyleDeclaration, estyle: CSSStyleDeclaration
+export function scrollElementIntoView<T extends Element, U extends HTMLElement>(parent: T, element: U, options?: ScrollIntoViewOptions): void {
+  let block: ScrollLogicalPosition, inline: ScrollLogicalPosition, pstyle: DOMRect, estyle: DOMRect, left: number | undefined, top: number | undefined
 
-  pstyle = getComputedStyle(parent)
-  estyle = getComputedStyle(element)
+  block = options?.block || 'center'
+  inline = options?.block || 'center'
 
-  parent.scrollTo({ behavior, top: element.offsetTop - (parseNumber(pstyle.height) - parseNumber(estyle.height)) / 2 })
+  pstyle = parent.getBoundingClientRect()
+  estyle = element.getBoundingClientRect()
+
+  switch (block) {
+    case 'center':
+      top = element.offsetTop - (pstyle.height - estyle.height) / 2
+      break
+    case 'end':
+      top = element.offsetTop - pstyle.height + estyle.height
+      break
+    default:
+      top = element.offsetTop
+      break
+  }
+
+  switch (inline) {
+    case 'center':
+      left = element.offsetLeft - (pstyle.width - estyle.width) / 2
+      break
+    case 'end':
+      left = element.offsetLeft - pstyle.width + estyle.width
+      break
+    default:
+      left = element.offsetLeft
+      break
+  }
+
+  parent.scrollTo({ behavior: options?.behavior, left, top })
 }
