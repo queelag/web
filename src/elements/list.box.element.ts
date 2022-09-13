@@ -1,6 +1,6 @@
 import { css } from 'lit'
-import { AriaListBoxController } from '../controllers/aria.list.box.controller'
-import { AriaListBoxOptionController } from '../controllers/aria.list.box.option.controller'
+import { AriaListBoxController } from '../controllers/aria-listbox/aria.list.box.controller'
+import { AriaListBoxOptionController } from '../controllers/aria-listbox/aria.list.box.option.controller'
 import { Closest } from '../decorators/closest'
 import { CustomElement } from '../decorators/custom.element'
 import { Internal } from '../decorators/internal'

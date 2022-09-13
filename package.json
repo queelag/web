@@ -25,6 +25,7 @@
     "rollup-plugin-minify-html-literals": "^1.2.6",
     "rollup-plugin-terser": "^7.0.2",
     "superstruct": "^0.16.0",
+    "tabbable": "^6.0.0",
     "ts-jest": "^28.0.8",
     "ts-node": "^10.9.1",
     "tslib": "^2.4.0",
@@ -39,7 +40,8 @@
     "@floating-ui/dom": ">= 1.0.1",
     "@queelag/core": ">= 1.1.4",
     "focus-trap": ">= 7.0.0",
-    "isomorphic-dompurify": ">= 0.22.0"
+    "isomorphic-dompurify": ">= 0.22.0",
+    "tabbable": ">= 6.0.0"
   },
   "peerDependenciesMeta": {
     "@floating-ui/dom": {

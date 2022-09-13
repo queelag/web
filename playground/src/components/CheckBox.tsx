@@ -15,7 +15,7 @@ declare global {
 interface CheckBoxProps extends CheckBoxElementAttributes, DetailedHTMLProps<HTMLAttributes<CheckBoxElement>, CheckBoxElement> {}
 
 export function CheckBox() {
-  const { element, ref } = useQueelagElement('queelag-checkbox')
+  const { element, ref } = useQueelagElement('queelag-checkbox', { state: { dispatch: true } })
   const [props] = useState<CheckBoxProps>({})
 
   return (

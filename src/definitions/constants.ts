@@ -27,9 +27,10 @@ export const FETCHING_IMAGES: Set<string> = new Set()
 export const DEFAULT_SLIDER_DECIMALS: number = 0
 export const DEFAULT_SLIDER_MAXIMUM: number = 100
 export const DEFAULT_SLIDER_MINIMUM: number = 0
+export const DEFAULT_SLIDER_MINIMUM_DISTANCE: number = 0
 export const DEFAULT_SLIDER_ORIENTATION: Orientation = 'horizontal'
 export const DEFAULT_SLIDER_STEP: number = 1
-export const DEFAULT_SLIDER_VALUE: number = 0
+export const DEFAULT_SLIDER_THUMB_VALUE: number = 0
 
 /**
  * Squircle

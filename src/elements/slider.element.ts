@@ -1,7 +1,7 @@
-import { getLimitedNumber, getNumberPercentage, Interval, isNumberMultipleOf, Timeout, toFixedNumber } from '@queelag/core'
+import { getLimitedNumber, isNumberMultipleOf, toFixedNumber } from '@queelag/core'
 import { css, html } from 'lit'
-import { AriaSliderController } from '../controllers/aria.slider.controller'
-import { AriaSliderThumbController } from '../controllers/aria.slider.thumb.controller'
+import { AriaSliderController } from '../controllers/aria-slider/aria.slider.controller'
+import { AriaSliderThumbController } from '../controllers/aria-slider/aria.slider.thumb.controller'
 import { Closest } from '../decorators/closest'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
@@ -10,13 +10,17 @@ import {
   DEFAULT_SLIDER_DECIMALS,
   DEFAULT_SLIDER_MAXIMUM,
   DEFAULT_SLIDER_MINIMUM,
+  DEFAULT_SLIDER_MINIMUM_DISTANCE,
   DEFAULT_SLIDER_ORIENTATION,
   DEFAULT_SLIDER_STEP,
-  DEFAULT_SLIDER_VALUE
+  DEFAULT_SLIDER_THUMB_VALUE
 } from '../definitions/constants'
 import { ElementName, KeyboardEventKey } from '../definitions/enums'
 import { Orientation } from '../definitions/types'
+import { SliderChangeEvent } from '../events/slider.change.event'
+import { SliderThumbMoveEvent } from '../events/slider.thumb.move.event'
 import { ElementLogger } from '../loggers/element.logger'
+import { getSliderThumbElementPercentage, getSliderThumbElementStyleLeft, getSliderThumbElementStyleTop } from '../utils/slider.element.utils'
 import { BaseElement } from './base.element'
 
 declare global {
@@ -33,11 +37,17 @@ export class SliderElement extends BaseElement {
   @Property({ type: Number, reflect: true })
   decimals?: number
 
+  @Property({ type: Boolean, attribute: 'disable-swap', reflect: true })
+  disableSwap?: boolean
+
   @Property({ type: Number, reflect: true })
   maximum?: number
 
   @Property({ type: Number, reflect: true })
   minimum?: number
+
+  @Property({ type: Number, attribute: 'minimum-distance', reflect: true })
+  minimumDistance?: number
 
   @Property({ type: String, reflect: true })
   orientation?: Orientation
@@ -66,16 +76,25 @@ export class SliderElement extends BaseElement {
     this.thumbElements[0].setValueByCoordinates(event.clientX, event.clientY, true)
     ElementLogger.verbose(this.uid, 'onClick', `The value has been set through the coordinates.`, [event.clientX, event.clientY, this.thumbElements[0].value])
 
-    // this.thumbElements[0].computePosition()
     this.thumbElements[0].focus()
+    ElementLogger.verbose(this.uid, 'onClick', `The thumb has been focused.`)
+
+    this.thumbElements[0].computePosition()
+
+    this.dispatchEvent(new SliderThumbMoveEvent(this.thumbElements[0].value, this.thumbElements[0].percentage))
+    this.dispatchEvent(new SliderChangeEvent(this.values, this.percentages))
   }
 
   get name(): ElementName {
     return ElementName.SLIDER
   }
 
-  get value(): number[] {
-    return this.thumbElements.map((thumb: SliderThumbElement) => thumb.value || DEFAULT_SLIDER_VALUE)
+  get percentages(): number[] {
+    return this.thumbElements.map((thumb: SliderThumbElement) => thumb.percentage)
+  }
+
+  get values(): number[] {
+    return this.thumbElements.map((thumb: SliderThumbElement) => thumb.value ?? thumb.defaultValue ?? DEFAULT_SLIDER_THUMB_VALUE)
   }
 
   get hasSingleThumb(): boolean {
@@ -108,6 +127,12 @@ export class SliderElement extends BaseElement {
 export class SliderThumbElement extends BaseElement {
   protected aria: AriaSliderThumbController = new AriaSliderThumbController(this)
 
+  @Property({ type: Number, attribute: 'default-value', reflect: true })
+  defaultValue?: number
+
+  @Property({ type: Boolean, attribute: 'disable-compute-position', reflect: true })
+  disableComputePosition?: boolean
+
   @Property({ type: Boolean, reflect: true })
   movable?: boolean
 
@@ -124,9 +149,6 @@ export class SliderThumbElement extends BaseElement {
     this.addEventListener('touchend', this.onTouchEnd)
     this.addEventListener('touchmove', this.onTouchMove, { passive: true })
     this.addEventListener('touchstart', this.onTouchStart, { passive: true })
-
-    Interval.start(this.uid, () => this.computePosition(), 10, true)
-    Timeout.set(this.uid, () => Interval.stop(this.uid), 1000)
   }
 
   disconnectedCallback(): void {
@@ -137,19 +159,6 @@ export class SliderThumbElement extends BaseElement {
     this.removeEventListener('touchend', this.onTouchEnd)
     this.removeEventListener('touchmove', this.onTouchMove)
     this.removeEventListener('touchstart', this.onTouchStart)
-
-    Interval.stop(this.uid)
-    Timeout.unset(this.uid)
-  }
-
-  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
-    super.attributeChangedCallback(name, _old, value)
-
-    if (Object.is(_old, value)) {
-      return
-    }
-
-    this.computePosition()
   }
 
   onKeyDown = (event: KeyboardEvent): void => {
@@ -168,48 +177,40 @@ export class SliderThumbElement extends BaseElement {
 
     switch (event.key) {
       case KeyboardEventKey.ARROW_LEFT:
-      case KeyboardEventKey.ARROW_DOWN:
+      case KeyboardEventKey.ARROW_UP:
         this.value = getLimitedNumber(
-          (this.value ?? DEFAULT_SLIDER_VALUE) - (this.rootElement.step ?? DEFAULT_SLIDER_STEP),
+          (this.value ?? DEFAULT_SLIDER_THUMB_VALUE) - (this.rootElement.step ?? DEFAULT_SLIDER_STEP),
           this.rootElement.minimum ?? DEFAULT_SLIDER_MINIMUM,
           this.rootElement.maximum ?? DEFAULT_SLIDER_MAXIMUM
         )
-
-        // this.computePosition()
         ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_LEFT or ARROW_DOWN', `The value has been decreased.`, [this.value])
 
         break
       case KeyboardEventKey.ARROW_RIGHT:
-      case KeyboardEventKey.ARROW_UP:
+      case KeyboardEventKey.ARROW_DOWN:
         this.value = getLimitedNumber(
-          (this.value ?? DEFAULT_SLIDER_VALUE) + (this.rootElement.step ?? DEFAULT_SLIDER_STEP),
+          (this.value ?? DEFAULT_SLIDER_THUMB_VALUE) + (this.rootElement.step ?? DEFAULT_SLIDER_STEP),
           this.rootElement.minimum ?? DEFAULT_SLIDER_MINIMUM,
           this.rootElement.maximum ?? DEFAULT_SLIDER_MAXIMUM
         )
-
-        // this.computePosition()
         ElementLogger.verbose(this.uid, 'onKeyDown', 'ARROW_RIGHT or ARROW_UP', `The value has been increased.`, [this.value])
 
         break
       case KeyboardEventKey.PAGE_DOWN:
         this.value = getLimitedNumber(
-          (this.value ?? DEFAULT_SLIDER_VALUE) - (this.rootElement.step ?? DEFAULT_SLIDER_STEP) * 10,
+          (this.value ?? DEFAULT_SLIDER_THUMB_VALUE) - (this.rootElement.step ?? DEFAULT_SLIDER_STEP) * 10,
           this.rootElement.minimum ?? DEFAULT_SLIDER_MINIMUM,
           this.rootElement.maximum ?? DEFAULT_SLIDER_MAXIMUM
         )
-
-        // this.computePosition()
         ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_DOWN', `The value has been decreased.`, [this.value])
 
         break
       case KeyboardEventKey.PAGE_UP:
         this.value = getLimitedNumber(
-          (this.value ?? DEFAULT_SLIDER_VALUE) + (this.rootElement.step ?? DEFAULT_SLIDER_STEP) * 10,
+          (this.value ?? DEFAULT_SLIDER_THUMB_VALUE) + (this.rootElement.step ?? DEFAULT_SLIDER_STEP) * 10,
           this.rootElement.minimum ?? DEFAULT_SLIDER_MINIMUM,
           this.rootElement.maximum ?? DEFAULT_SLIDER_MAXIMUM
         )
-
-        // this.computePosition()
         ElementLogger.verbose(this.uid, 'onKeyDown', 'PAGE_UP', `The value has been increased.`, [this.value])
 
         break
@@ -217,16 +218,27 @@ export class SliderThumbElement extends BaseElement {
         this.value = this.rootElement.minimum ?? DEFAULT_SLIDER_MINIMUM
         ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The value has been set to the minimum.`, [this.value])
 
-        // this.computePosition()
-
         break
       case KeyboardEventKey.END:
         this.value = this.rootElement.maximum ?? DEFAULT_SLIDER_MAXIMUM
         ElementLogger.verbose(this.uid, 'onKeyDown', 'HOME', `The value has been set to the maximum.`, [this.value])
 
-        // this.computePosition()
-
         break
+    }
+
+    switch (event.key) {
+      case KeyboardEventKey.ARROW_LEFT:
+      case KeyboardEventKey.ARROW_DOWN:
+      case KeyboardEventKey.ARROW_RIGHT:
+      case KeyboardEventKey.ARROW_UP:
+      case KeyboardEventKey.PAGE_DOWN:
+      case KeyboardEventKey.PAGE_UP:
+      case KeyboardEventKey.HOME:
+      case KeyboardEventKey.END:
+        this.computePosition()
+
+        this.dispatchEvent(new SliderThumbMoveEvent(this.value ?? DEFAULT_SLIDER_THUMB_VALUE, this.percentage))
+        this.rootElement.dispatchEvent(new SliderChangeEvent(this.rootElement.values, this.rootElement.percentages))
     }
   }
 
@@ -268,13 +280,14 @@ export class SliderThumbElement extends BaseElement {
     }
 
     this.setValueByCoordinates(x, y)
-    // this.computePosition()
+    this.computePosition()
 
-    // ElementLogger.verbose(this.uid, 'onMouseMoveOrTouchMove', `The value has been set through the coordinates.`, [x, y, this.value])
+    this.dispatchEvent(new SliderThumbMoveEvent(this.value ?? DEFAULT_SLIDER_THUMB_VALUE, this.percentage))
+    this.rootElement.dispatchEvent(new SliderChangeEvent(this.rootElement.values, this.rootElement.percentages))
   }
 
   onMouseUpOrTouchEnd(): void {
-    ElementLogger.verbose(this.uid, 'onMouseUpOrTouchEnd', `The value has been set.`, [this.value, this.percentage + '%'])
+    ElementLogger.verbose(this.uid, 'onMouseUpOrTouchEnd', `The value has been set.`, [this.value])
 
     this.movable = false
     ElementLogger.verbose(this.uid, 'onMouseUpOrTouchEnd', `The thumb has been locked.`)
@@ -286,15 +299,12 @@ export class SliderThumbElement extends BaseElement {
   }
 
   computePosition(): void {
-    if (this.rootElement.orientation === 'vertical') {
-      this.style.left = '0'
-      this.style.top = this.percentage + '%'
-
+    if (this.disableComputePosition) {
       return
     }
 
-    this.style.left = this.percentage + '%'
-    this.style.top = '0'
+    this.style.left = getSliderThumbElementStyleLeft(this.percentage, this.rootElement.orientation)
+    this.style.top = getSliderThumbElementStyleTop(this.percentage, this.rootElement.orientation)
   }
 
   setValueByCoordinates(x: number, y: number, round: boolean = false): void {
@@ -363,29 +373,32 @@ export class SliderThumbElement extends BaseElement {
   }
 
   get percentage(): number {
-    return toFixedNumber(
-      getNumberPercentage(this.value ?? 0, this.rootElement.minimum ?? DEFAULT_SLIDER_MINIMUM, this.rootElement.maximum ?? DEFAULT_SLIDER_MAXIMUM),
-      this.rootElement.decimals ?? DEFAULT_SLIDER_DECIMALS
-    )
+    return getSliderThumbElementPercentage(this.value, this.rootElement.minimum, this.rootElement.maximum, this.rootElement.decimals)
   }
 
   get value(): number | undefined {
-    return this._value
+    return this._value ?? this.defaultValue
   }
 
   @Property({ type: Number, reflect: true })
   set value(value: number | undefined) {
-    let old: number | undefined, pthumb: SliderThumbElement | undefined, nthumb: SliderThumbElement | undefined
+    let old: number | undefined
 
-    pthumb = this.rootElement.thumbElements[this.index - 1]
-    nthumb = this.rootElement.thumbElements[this.index + 1]
+    if (this.rootElement.disableSwap && this.rootElement.hasMultipleThumbs) {
+      let pthumb: SliderThumbElement | undefined, nthumb: SliderThumbElement | undefined, svalue: number, mdistance: number
 
-    if (pthumb && (value ?? DEFAULT_SLIDER_VALUE) < (pthumb.value ?? Number.MIN_SAFE_INTEGER)) {
-      return
-    }
+      pthumb = this.rootElement.thumbElements[this.index - 1]
+      nthumb = this.rootElement.thumbElements[this.index + 1]
+      svalue = value ?? DEFAULT_SLIDER_THUMB_VALUE
+      mdistance = this.rootElement.minimumDistance ?? DEFAULT_SLIDER_MINIMUM_DISTANCE
 
-    if (nthumb && (value ?? DEFAULT_SLIDER_VALUE) > (nthumb.value ?? Number.MAX_SAFE_INTEGER)) {
-      return
+      if (pthumb && svalue < (pthumb.value ?? Number.MIN_SAFE_INTEGER) + mdistance) {
+        return
+      }
+
+      if (nthumb && svalue > (nthumb.value ?? Number.MAX_SAFE_INTEGER) - mdistance) {
+        return
+      }
     }
 
     old = this._value

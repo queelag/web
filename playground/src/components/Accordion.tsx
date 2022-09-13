@@ -58,7 +58,7 @@ export function Accordion() {
 }
 
 function AccordionSection({ number }: any) {
-  const { element, ref } = useQueelagElement('queelag-accordion-section')
+  const { element, ref } = useQueelagElement('queelag-accordion-section', { attribute: { dispatch: true } })
   const [props] = useState<AccordionSectionProps>({})
 
   return (

@@ -4,6 +4,6 @@ interface Detail {
 
 export class SubmitAsyncEvent extends CustomEvent<Detail> {
   constructor(finalize: Function) {
-    super('submitasync', { detail: { finalize } })
+    super('submit-async', { detail: { finalize } })
   }
 }

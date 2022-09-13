@@ -20,7 +20,7 @@ export function Form() {
   const { element, ref } = useQueelagElement('queelag-form')
   const [props] = useState<FormProps>({})
 
-  useEventListener(ref, 'submitasync', async (event: SubmitAsyncEvent) => {
+  useEventListener(ref, 'submit-async', async (event: SubmitAsyncEvent) => {
     await sleep(1000)
     event.detail.finalize()
   })

@@ -27,7 +27,7 @@ interface TabsPanelProps extends TabsPanelElementAttributes, DetailedHTMLProps<H
 interface TabsTabProps extends TabsTabElementAttributes, DetailedHTMLProps<HTMLAttributes<TabsTabElement>, TabsTabElement> {}
 
 export function Tabs() {
-  const { element, ref } = useQueelagElement('queelag-tabs')
+  const { element, ref } = useQueelagElement('queelag-tabs', { attribute: { dispatch: true } })
   const [props] = useState<TabsProps>({})
   const [tabs] = useState<number[]>([1, 2, 3])
 
@@ -48,7 +48,7 @@ export function Tabs() {
 }
 
 export function TabsTab({ number }: any) {
-  const { element, ref } = useQueelagElement('queelag-tabs-tab')
+  const { element, ref } = useQueelagElement('queelag-tabs-tab', { attribute: { dispatch: true } })
 
   return (
     <queelag-tabs-tab ref={ref} className={joinElementClasses('px-3 py-2', element?.selected && 'bg-gray-200')} selected={number === 1}>

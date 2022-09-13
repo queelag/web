@@ -6,6 +6,6 @@ interface Detail {
 
 export class AttributeChangedEvent extends CustomEvent<Detail> {
   constructor(name: string, old: string | null, value: string | null) {
-    super('attributechanged', { detail: { name, old, value } })
+    super('attribute-changed', { detail: { name, old, value } })
   }
 }

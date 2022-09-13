@@ -56,7 +56,7 @@ export function Disclosure() {
 }
 
 function DisclosureSection({ number }: any) {
-  const { element, ref } = useQueelagElement('queelag-disclosure-section')
+  const { element, ref } = useQueelagElement('queelag-disclosure-section', { attribute: { dispatch: true } })
   const [props] = useState<DisclosureSectionProps>({})
 
   return (

@@ -1,7 +1,20 @@
+import { getLowestNumber, getNumbersDistance } from '@queelag/core'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import { joinElementClasses, SliderElement, SliderElementAttributes, SliderThumbElement, SliderThumbElementAttributes } from '../../../src'
+import {
+  getSliderThumbElementPercentage,
+  getSliderThumbElementStyleLeft,
+  getSliderThumbElementStyleTop,
+  joinElementClasses,
+  Orientation,
+  SliderElement,
+  SliderElementAttributes,
+  SliderThumbElement,
+  SliderThumbElementAttributes
+} from '../../../src'
 import '../../../src/elements/slider.element'
+import type { SliderChangeEvent } from '../../../src/events/slider.change.event'
+import { useEventListener } from '../hooks/use.event.listener'
 import { useQueelagElement } from '../hooks/use.queelag.element'
 
 declare global {
@@ -19,51 +32,70 @@ interface SliderThumbProps extends SliderThumbElementAttributes, DetailedHTMLPro
 export function Slider() {
   const { element, ref } = useQueelagElement('queelag-slider')
   const [props] = useState<SliderProps>({})
+  const [orientation] = useState<Orientation>('horizontal')
+  const [percentages, setPercentages] = useState<number[]>([25, 75])
+
+  useEventListener(ref, 'slider-change', (event: SliderChangeEvent) => {
+    setPercentages(event.detail.percentages)
+  })
 
   return (
     <div>
       <queelag-slider
         {...props}
         ref={ref}
-        className={joinElementClasses('relative flex justify-center items-center', element?.isOrientationVertical ? 'w-6 h-64' : 'w-64 h-6')}
-        // orientation='vertical'
+        className={joinElementClasses('relative flex justify-center items-center', element?.isOrientationVertical ? 'w-5 h-64' : 'w-64 h-5')}
+        minimum-distance={20}
+        orientation={orientation}
+        disable-swap
       >
         <div className={joinElementClasses('rounded-sm bg-gray-200', element?.isOrientationVertical ? 'w-1 h-full' : 'w-full h-1')} />
-        {/* {element?.hasMultipleThumbs && (
+        {element?.hasMultipleThumbs && (
           <div
-            className={joinElementClasses('absolute bg-blue-700', element.isOrientationVertical ? 'w-1' : 'h-1')}
+            className={joinElementClasses('absolute bg-blue-200', element.isOrientationVertical ? 'w-1' : 'h-1')}
             style={
               element.isOrientationVertical
                 ? {
-                    bottom: getLowestNumber(element.value || []),
-                    height: getNumbersDistance(element.value[0], element.value[1]) + '%'
+                    height: getNumbersDistance(percentages[0], percentages[1]) + '%',
+                    top: getLowestNumber(percentages) + '%'
                   }
                 : {
-                    left: getLowestNumber(element.value || []),
-                    width: getNumbersDistance(element.value[0], element.value[1]) + '%'
+                    left: getLowestNumber(percentages) + '%',
+                    width: getNumbersDistance(percentages[0], percentages[1]) + '%'
                   }
             }
           />
-        )} */}
-        <SliderThumb value={25} />
-        <SliderThumb value={75} />
+        )}
+        <SliderThumb orientation={orientation} value={25} />
+        {/* <SliderThumb orientation={orientation} value={75} /> */}
       </queelag-slider>
     </div>
   )
 }
 
-function SliderThumb({ value }: any) {
-  //   const { element, ref } = useQueelagElement('queelag-slider-thumb')
+function SliderThumb({ orientation, value }: any) {
+  const { element, ref } = useQueelagElement('queelag-slider-thumb')
+  const [percentage] = useState<number>(getSliderThumbElementPercentage(value))
+  // const [percentage, setPercentage] = useState<number>(getSliderThumbElementPercentage(value))
+
+  // useEventListener(ref, 'slider-thumb-move', (event: SliderThumbMoveEvent) => {
+  //   setPercentage(event.detail.percentage)
+  // })
 
   return (
     <queelag-slider-thumb
-      background='blue'
-      className={joinElementClasses('w-6 h-6 outline-none rounded-full', 'ring-offset-1 focus:ring-2 ring-blue-700')}
-      //   ref={ref}
+      background='#2563eb'
+      className={joinElementClasses('w-5 h-5 outline-none rounded-full transition duration-200', 'hover:ring-4 focus:ring-4 active:ring-8 ring-blue-100')}
+      default-value={value}
+      ref={ref}
       shape='circle'
-      size={24}
-      //   style={{ left: element?.percentage + '%', top: 0 }}
-      value={value}
+      size={20}
+      style={{
+        left: getSliderThumbElementStyleLeft(percentage, orientation),
+        top: getSliderThumbElementStyleTop(percentage, orientation)
+      }}
+      // disable-compute-position
+      // value={value}
     />
   )
 }

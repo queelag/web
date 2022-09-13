@@ -26,7 +26,7 @@ interface NavigationBarItemProps
     DetailedHTMLProps<HTMLAttributes<NavigationBarItemElement>, NavigationBarItemElement> {}
 
 export function NavigationBar() {
-  const { element, ref } = useQueelagElement('queelag-navigation-bar')
+  const { element, ref } = useQueelagElement('queelag-navigation-bar', { attribute: { dispatch: true } })
   const [props] = useState<NavigationBarProps>({})
   const [items] = useState<string[]>(['Discover', 'Home', 'Settings'])
 

@@ -18,10 +18,10 @@ declare global {
 interface ButtonProps extends ButtonElementAttributes, DetailedHTMLProps<HTMLAttributes<ButtonElement>, ButtonElement> {}
 
 export function Button() {
-  const { element, ref } = useQueelagElement('queelag-button')
+  const { element, ref } = useQueelagElement('queelag-button', { attribute: { dispatch: true } })
   const [props] = useState<ButtonProps>({})
 
-  useEventListener(ref, 'clickasync', async (event: ClickAsyncEvent) => {
+  useEventListener(ref, 'click-async', async (event: ClickAsyncEvent) => {
     await sleep(1000)
     event.detail.finalize()
   })

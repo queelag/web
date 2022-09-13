@@ -152,6 +152,14 @@ export interface DividerElementAttributes extends BaseElementAttributes {
   orientation?: Orientation
 }
 
+export interface FeedElementAttributes extends BaseElementAttributes {
+  busy?: boolean
+}
+
+export interface FeedArticleElementAttributes extends BaseElementAttributes {}
+export interface FeedArticleDescriptionElementAttributes extends BaseElementAttributes {}
+export interface FeedArticleLabelElementAttributes extends BaseElementAttributes {}
+
 export interface FloatingElementAttributes extends BaseElementAttributes {
   'ancestor-scroll'?: boolean
   'ancestor-resize'?: boolean
@@ -275,6 +283,12 @@ export interface NavigationRailItemElementAttributes extends BaseElementAttribut
   icon?: string
 }
 
+export interface RadioButtonElementAttributes extends BaseElementAttributes {
+  checked?: boolean
+}
+
+export interface RadioGroupElementAttributes extends BaseElementAttributes {}
+
 export interface SelectElementAttributes extends FormFieldElementAttributes {
   multiple?: boolean
   native?: boolean
@@ -284,13 +298,17 @@ export interface SelectElementAttributes extends FormFieldElementAttributes {
 
 export interface SliderElementAttributes extends BaseElementAttributes {
   decimals?: number
+  'disable-swap'?: boolean
   maximum?: number
   minimum?: number
+  'minimum-distance'?: number
   orientation?: Orientation
   step?: number
 }
 
 export interface SliderThumbElementAttributes extends BaseElementAttributes {
+  'default-value'?: number
+  'disable-compute-position'?: boolean
   movable?: boolean
   value?: number
 }

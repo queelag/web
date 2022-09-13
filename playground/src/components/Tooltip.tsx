@@ -32,7 +32,7 @@ interface TooltipContentProps extends TooltipContentElementAttributes, DetailedH
 interface TooltipTriggerProps extends TooltipTriggerElementAttributes, DetailedHTMLProps<HTMLAttributes<TooltipTriggerElement>, TooltipTriggerElement> {}
 
 export function Tooltip() {
-  const { element, ref } = useQueelagElement('queelag-tooltip')
+  const { element, ref } = useQueelagElement('queelag-tooltip', { attribute: { dispatch: true } })
   const [props] = useState<TooltipProps>({})
 
   return (
@@ -42,7 +42,7 @@ export function Tooltip() {
           className={joinElementClasses('px-2 py-1 rounded-sm shadow bg-black', !element?.visible && 'opacity-0 pointer-events-none')}
           middlewares={[offset(8)]}
         >
-          <span className='text-xs text-white'>Tooltip Content</span>
+          <span className='text-xs whitespace-nowrap text-white'>Tooltip Content</span>
           <queelag-tooltip-arrow className='h-0 w-0 border-x-[8px] border-x-transparent border-b-[8px] border-b-black' />
         </queelag-tooltip-content>
         <queelag-tooltip-trigger>

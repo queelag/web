@@ -41,7 +41,7 @@ interface ComboBoxListProps extends ComboBoxListElementAttributes, DetailedHTMLP
 interface ComboBoxOptionProps extends ComboBoxOptionElementAttributes, DetailedHTMLProps<HTMLAttributes<ComboBoxOptionElement>, ComboBoxOptionElement> {}
 
 export function ComboBox() {
-  const { element, ref } = useQueelagElement('queelag-combobox')
+  const { element, ref } = useQueelagElement('queelag-combobox', { attribute: { dispatch: true } })
   const [props] = useState<ComboBoxProps>({})
   const [options] = useState<string[]>(FRUITS)
 
@@ -86,7 +86,7 @@ export function ComboBox() {
 }
 
 function ComboBoxOption({ option }: any) {
-  const { element, ref } = useQueelagElement('queelag-combobox-option')
+  const { element, ref } = useQueelagElement('queelag-combobox-option', { attribute: { dispatch: true } })
 
   return (
     <queelag-combobox-option
