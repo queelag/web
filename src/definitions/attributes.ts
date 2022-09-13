@@ -243,7 +243,8 @@ export interface LinkElementAttributes extends BaseElementAttributes {
 
 export interface ListBoxElementAttributes extends BaseElementAttributes {
   multiple?: boolean
-  'select-on-focus'?: boolean
+  'select-first-option-on-focus'?: boolean
+  'selection-follows-focus'?: boolean
 }
 
 export interface ListBoxOptionElementAttributes extends BaseElementAttributes {

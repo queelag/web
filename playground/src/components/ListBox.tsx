@@ -23,7 +23,13 @@ export function ListBox() {
 
   return (
     <div>
-      <queelag-listbox {...props} ref={ref} className='w-64 flex flex-col rounded-sm border divide-y border-gray-400 divide-gray-400'>
+      <queelag-listbox
+        {...props}
+        ref={ref}
+        className='w-64 flex flex-col rounded-sm border divide-y border-gray-400 divide-gray-400'
+        // selection-follows-focus
+        // select-first-option-on-focus
+      >
         {options.map((option: string) => (
           <ListBoxOption key={option} name={option} />
         ))}
@@ -33,7 +39,7 @@ export function ListBox() {
 }
 
 export function ListBoxOption({ name }: any) {
-  const { element, ref } = useQueelagElement('queelag-listbox-option')
+  const { element, ref } = useQueelagElement('queelag-listbox-option', { attribute: { dispatch: true } })
 
   return (
     <queelag-listbox-option

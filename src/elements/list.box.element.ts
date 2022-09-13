@@ -113,13 +113,18 @@ export class ListBoxElement extends BaseElement {
       case KeyboardEventKey.END:
       case KeyboardEventKey.HOME:
         this.blurFocusedOptionElement()
+
+        if (this.selectionFollowsFocus && this.single) {
+          this.unselectSelectedOptionElement()
+        }
+
         break
     }
 
     switch (event.key) {
       case KeyboardEventKey.A:
         if (this.single || !event.ctrlKey) {
-          return
+          break
         }
 
         if (this.optionElements.every((element: ListBoxOptionElement) => element.selected)) {
@@ -143,11 +148,19 @@ export class ListBoxElement extends BaseElement {
           this.optionElements[0].focused = true
           ElementLogger.verbose(this.uid, 'onKeyDown', `The first option has been focused.`)
 
-          return
+          if (this.selectionFollowsFocus && this.single) {
+            this.optionElements[0].selected = true
+          }
+
+          break
         }
 
         this.optionElements[this.focusedOptionElementIndex + 1].focused = true
         ElementLogger.verbose(this.uid, 'onKeyDown', `The next option has been focused.`)
+
+        if (this.selectionFollowsFocus && this.single) {
+          this.optionElements[this.focusedOptionElementIndex + 1].selected = true
+        }
 
         if (this.multiple && event.ctrlKey && this.focusedOptionElement) {
           this.focusedOptionElement.selected = !this.focusedOptionElement.selected
@@ -161,11 +174,19 @@ export class ListBoxElement extends BaseElement {
           this.optionElements[this.optionElements.length - 1].focused = true
           ElementLogger.verbose(this.uid, 'onKeyDown', `The last option has been focused.`)
 
-          return
+          if (this.selectionFollowsFocus && this.single) {
+            this.optionElements[this.optionElements.length - 1].selected = true
+          }
+
+          break
         }
 
         this.optionElements[this.focusedOptionElementIndex - 1].focused = true
         ElementLogger.verbose(this.uid, 'onKeyDown', `The previous option has been focused.`)
+
+        if (this.selectionFollowsFocus && this.single) {
+          this.optionElements[this.focusedOptionElementIndex - 1].selected = true
+        }
 
         if (this.multiple && event.ctrlKey && this.focusedOptionElement) {
           this.focusedOptionElement.selected = !this.focusedOptionElement.selected
@@ -212,6 +233,18 @@ export class ListBoxElement extends BaseElement {
     }
   }
 
+  selectFocusedOptionElement(): void {
+    if (this.focusedOptionElement) {
+      this.focusedOptionElement.selected = true
+    }
+  }
+
+  unselectSelectedOptionElement(): void {
+    if (this.selectedOptionElement) {
+      this.selectedOptionElement.selected = false
+    }
+  }
+
   isOptionElementFocused(element: ListBoxOptionElement): boolean {
     return element === this.focusedOptionElement
   }
@@ -233,7 +266,8 @@ export class ListBoxElement extends BaseElement {
 export class ListBoxOptionElement extends BaseElement {
   protected aria: AriaListBoxOptionController = new AriaListBoxOptionController(this)
 
-  private _focused?: boolean
+  @Property({ type: Boolean, reflect: true })
+  focused?: boolean
 
   @Closest('queelag-listbox')
   listBoxElement!: ListBoxElement
@@ -282,25 +316,6 @@ export class ListBoxOptionElement extends BaseElement {
 
   get name(): ElementName {
     return ElementName.LISTBOX_OPTION
-  }
-
-  @Property({ type: Boolean, reflect: true })
-  get focused(): boolean | undefined {
-    return this._focused
-  }
-
-  set focused(focused: boolean | undefined) {
-    let old: boolean | undefined
-
-    old = this._focused
-    this._focused = focused
-
-    if (this.listBoxElement.selectionFollowsFocus && this.listBoxElement.single) {
-      this.listBoxElement.selectedOptionElement?.removeAttribute('selected')
-      this.selected = true
-    }
-
-    this.requestUpdate('focused', old)
   }
 
   static styles = [
