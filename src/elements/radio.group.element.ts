@@ -12,22 +12,22 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-radio-button': RadioButtonElement
-    'queelag-radio-group': RadioGroupElement
+    'q-radio-button': RadioButtonElement
+    'q-radio-group': RadioGroupElement
   }
 }
 
-@CustomElement('queelag-radio-group')
+@CustomElement('q-radio-group')
 export class RadioGroupElement extends BaseElement {
   protected aria: AriaRadioGroupController = new AriaRadioGroupController(this)
 
-  @QueryAll('queelag-radio-button')
+  @QueryAll('q-radio-button')
   buttonElements!: RadioButtonElement[]
 
-  @Query('queelag-radio-button[checked]')
+  @Query('q-radio-button[checked]')
   checkedButtonElement?: RadioButtonElement
 
-  @Query('queelag-radio-button[focused]')
+  @Query('q-radio-button[focused]')
   focusedButtonElement?: RadioButtonElement
 
   connectedCallback(): void {
@@ -136,7 +136,7 @@ export class RadioGroupElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-radio-button')
+@CustomElement('q-radio-button')
 export class RadioButtonElement extends BaseElement {
   protected aria: AriaRadioButtonController = new AriaRadioButtonController(this)
 
@@ -146,7 +146,7 @@ export class RadioButtonElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   focused?: boolean
 
-  @Closest('queelag-radio-group')
+  @Closest('q-radio-group')
   rootElement!: RadioGroupElement
 
   connectedCallback(): void {

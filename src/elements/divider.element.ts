@@ -7,11 +7,11 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-divider': DividerElement
+    'q-divider': DividerElement
   }
 }
 
-@CustomElement('queelag-divider')
+@CustomElement('q-divider')
 export class DividerElement extends BaseElement {
   @Property({ type: String, reflect: true })
   orientation?: Orientation

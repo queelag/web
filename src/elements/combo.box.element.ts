@@ -23,16 +23,16 @@ import { FloatingElement } from './floating.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-combobox': ComboBoxElement
-    'queelag-combobox-button': ComboBoxButtonElement
-    'queelag-combobox-group': ComboBoxGroupElement
-    'queelag-combobox-input': ComboBoxInputElement
-    'queelag-combobox-list': ComboBoxListElement
-    'queelag-combobox-option': ComboBoxOptionElement
+    'q-combobox': ComboBoxElement
+    'q-combobox-button': ComboBoxButtonElement
+    'q-combobox-group': ComboBoxGroupElement
+    'q-combobox-input': ComboBoxInputElement
+    'q-combobox-list': ComboBoxListElement
+    'q-combobox-option': ComboBoxOptionElement
   }
 }
 
-@CustomElement('queelag-combobox')
+@CustomElement('q-combobox')
 export class ComboBoxElement extends BaseElement {
   protected aria: AriaComboBoxController = new AriaComboBoxController(this)
 
@@ -42,28 +42,28 @@ export class ComboBoxElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   expanded?: boolean
 
-  @Query('queelag-combobox-button')
+  @Query('q-combobox-button')
   buttonElement?: ComboBoxButtonElement
 
-  @Query('queelag-combobox-group')
+  @Query('q-combobox-group')
   groupElement!: ComboBoxGroupElement
 
-  @Query('queelag-combobox-input')
+  @Query('q-combobox-input')
   inputElement?: ComboBoxInputElement
 
-  @Query('queelag-combobox-list')
+  @Query('q-combobox-list')
   listElement?: ComboBoxListElement
 
-  @Query('queelag-combobox-option[focused]')
+  @Query('q-combobox-option[focused]')
   focusedOptionElement?: ComboBoxOptionElement
 
-  @QueryAll('queelag-combobox-option')
+  @QueryAll('q-combobox-option')
   optionElements!: ComboBoxOptionElement[]
 
   @Property({ type: Object, attribute: 'scroll-into-view-options' })
   scrollIntoViewOptions?: ScrollIntoViewOptions
 
-  @Query('queelag-combobox-option[selected]')
+  @Query('q-combobox-option[selected]')
   selectedOptionElement?: ComboBoxOptionElement
 
   @Internal()
@@ -339,18 +339,18 @@ export class ComboBoxElement extends BaseElement {
   ]
 }
 
-@CustomElement('queelag-combobox-group')
+@CustomElement('q-combobox-group')
 export class ComboBoxGroupElement extends BaseElement {
   get name(): ElementName {
     return ElementName.COMBOBOX_GROUP
   }
 }
 
-@CustomElement('queelag-combobox-button')
+@CustomElement('q-combobox-button')
 export class ComboBoxButtonElement extends BaseElement {
   protected aria: AriaComboBoxButtonController = new AriaComboBoxButtonController(this)
 
-  @Closest('queelag-combobox')
+  @Closest('q-combobox')
   rootElement!: ComboBoxElement
 
   connectedCallback(): void {
@@ -405,14 +405,14 @@ export class ComboBoxButtonElement extends BaseElement {
   ]
 }
 
-@CustomElement('queelag-combobox-input')
+@CustomElement('q-combobox-input')
 export class ComboBoxInputElement extends BaseElement {
   protected aria: AriaComboBoxInputController = new AriaComboBoxInputController(this)
 
   @Query('input')
   inputElement?: HTMLInputElement
 
-  @Closest('queelag-combobox')
+  @Closest('q-combobox')
   rootElement!: ComboBoxElement
 
   @State()
@@ -480,11 +480,11 @@ export class ComboBoxInputElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-combobox-list')
+@CustomElement('q-combobox-list')
 export class ComboBoxListElement extends FloatingElement {
   protected aria: AriaComboBoxListController = new AriaComboBoxListController(this)
 
-  @Closest('queelag-combobox')
+  @Closest('q-combobox')
   rootElement!: ComboBoxElement
 
   get name(): ElementName {
@@ -509,14 +509,14 @@ export class ComboBoxListElement extends FloatingElement {
   ]
 }
 
-@CustomElement('queelag-combobox-option')
+@CustomElement('q-combobox-option')
 export class ComboBoxOptionElement extends BaseElement {
   protected aria: AriaComboBoxOptionController = new AriaComboBoxOptionController(this)
 
   @Property({ type: Boolean, reflect: true })
   focused?: boolean
 
-  @Closest('queelag-combobox')
+  @Closest('q-combobox')
   rootElement!: ComboBoxElement
 
   @Property({ type: Boolean, reflect: true })

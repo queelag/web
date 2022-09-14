@@ -14,24 +14,24 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-feed': FeedElement
-    'queelag-feed-article': FeedArticleElement
-    'queelag-feed-article-description': FeedArticleDescriptionElement
-    'queelag-feed-article-label': FeedArticleLabelElement
+    'q-feed': FeedElement
+    'q-feed-article': FeedArticleElement
+    'q-feed-article-description': FeedArticleDescriptionElement
+    'q-feed-article-label': FeedArticleLabelElement
   }
 }
 
-@CustomElement('queelag-feed')
+@CustomElement('q-feed')
 export class FeedElement extends BaseElement {
   protected aria: AriaFeedController = new AriaFeedController(this)
 
-  @QueryAll('queelag-feed-article')
+  @QueryAll('q-feed-article')
   articleElements!: FeedArticleElement[]
 
   @Property({ type: Boolean, reflect: true })
   busy?: boolean
 
-  @Query('queelag-feed-article[focused]')
+  @Query('q-feed-article[focused]')
   focusedArticleElement?: FeedArticleElement
 
   connectedCallback(): void {
@@ -113,20 +113,20 @@ export class FeedElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-feed-article')
+@CustomElement('q-feed-article')
 export class FeedArticleElement extends BaseElement {
   protected aria: AriaFeedArticleController = new AriaFeedArticleController(this)
 
-  @Query('queelag-feed-article-description')
+  @Query('q-feed-article-description')
   descriptionElement?: FeedArticleDescriptionElement
 
-  @Query('queelag-feed-article-label')
+  @Query('q-feed-article-label')
   labelElement?: FeedArticleLabelElement
 
   @Property({ type: Boolean, reflect: true })
   focused?: boolean
 
-  @Closest('queelag-feed')
+  @Closest('q-feed')
   rootElement!: FeedElement
 
   connectedCallback(): void {
@@ -162,7 +162,7 @@ export class FeedArticleElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-feed-article-label')
+@CustomElement('q-feed-article-label')
 export class FeedArticleLabelElement extends BaseElement {
   protected aria: AriaFeedArticleLabelController = new AriaFeedArticleLabelController(this)
 
@@ -171,7 +171,7 @@ export class FeedArticleLabelElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-feed-article-description')
+@CustomElement('q-feed-article-description')
 export class FeedArticleDescriptionElement extends BaseElement {
   protected aria: AriaFeedArticleDescriptionController = new AriaFeedArticleDescriptionController(this)
 

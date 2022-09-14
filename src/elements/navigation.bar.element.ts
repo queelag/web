@@ -7,12 +7,12 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-navigation-bar': NavigationBarElement
-    'queelag-navigation-bar-item': NavigationBarItemElement
+    'q-navigation-bar': NavigationBarElement
+    'q-navigation-bar-item': NavigationBarItemElement
   }
 }
 
-@CustomElement('queelag-navigation-bar')
+@CustomElement('q-navigation-bar')
 export class NavigationBarElement extends BaseElement {
   @Property({ type: String, attribute: 'active-item', reflect: true })
   activeItem?: string
@@ -34,7 +34,7 @@ export class NavigationBarElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-navigation-bar-item')
+@CustomElement('q-navigation-bar-item')
 export class NavigationBarItemElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   active?: boolean

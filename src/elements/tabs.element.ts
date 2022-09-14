@@ -14,26 +14,26 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-tabs': TabsElement
-    'queelag-tabs-panel': TabsPanelElement
-    'queelag-tabs-tab': TabsTabElement
+    'q-tabs': TabsElement
+    'q-tabs-panel': TabsPanelElement
+    'q-tabs-tab': TabsTabElement
   }
 }
 
-@CustomElement('queelag-tabs')
+@CustomElement('q-tabs')
 export class TabsElement extends BaseElement {
   protected aria: AriaTabsController = new AriaTabsController(this)
 
   @Property({ type: Boolean, attribute: 'automatic-activation', reflect: true })
   automaticActivation?: boolean
 
-  @Query('queelag-tabs-panel')
+  @Query('q-tabs-panel')
   panelElement!: TabsPanelElement
 
-  @Query('queelag-tabs-tab[selected]')
+  @Query('q-tabs-tab[selected]')
   selectedTabElement?: TabsTabElement
 
-  @QueryAll('queelag-tabs-tab')
+  @QueryAll('q-tabs-tab')
   tabElements!: TabsTabElement[]
 
   connectedCallback(): void {
@@ -177,11 +177,11 @@ export class TabsElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-tabs-tab')
+@CustomElement('q-tabs-tab')
 export class TabsTabElement extends BaseElement {
   protected aria: AriaTabsTabController = new AriaTabsTabController(this)
 
-  @Closest('queelag-tabs')
+  @Closest('q-tabs')
   rootElement!: TabsElement
 
   @Property({ type: Boolean, reflect: true })
@@ -237,7 +237,7 @@ export class TabsTabElement extends BaseElement {
   ]
 }
 
-@CustomElement('queelag-tabs-panel')
+@CustomElement('q-tabs-panel')
 export class TabsPanelElement extends BaseElement {
   protected aria: AriaTabsPanelController = new AriaTabsPanelController(this)
 

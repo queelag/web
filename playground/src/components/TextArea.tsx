@@ -7,7 +7,7 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-textarea': TextAreaProps
+      'q-textarea': TextAreaProps
     }
   }
 }
@@ -15,14 +15,14 @@ declare global {
 interface TextAreaProps extends TextAreaElementAttributes, DetailedHTMLProps<HTMLAttributes<TextAreaElement>, TextAreaElement> {}
 
 export function TextArea() {
-  const { element, ref } = useQueelagElement('queelag-textarea')
+  const { element, ref } = useQueelagElement('q-textarea')
   const [props] = useState<TextAreaProps>({})
 
   return (
     <div className='flex items-center gap-2'>
-      <queelag-textarea {...props} ref={ref} placeholder='textarea' autosize />
-      <queelag-button native normalized>
-        <queelag-icon
+      <q-textarea {...props} ref={ref} placeholder='textarea' autosize />
+      <q-button native normalized>
+        <q-icon
           fill='none'
           onClick={() => element?.clear()}
           size={16}
@@ -30,7 +30,7 @@ export function TextArea() {
           stroke='black'
           stroke-width={2}
         />
-      </queelag-button>
+      </q-button>
     </div>
   )
 }

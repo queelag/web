@@ -9,11 +9,11 @@ import { FormFieldElement } from './form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-checkbox': CheckBoxElement
+    'q-checkbox': CheckBoxElement
   }
 }
 
-@CustomElement('queelag-checkbox')
+@CustomElement('q-checkbox')
 export class CheckBoxElement extends FormFieldElement {
   protected aria: AriaCheckBoxController = new AriaCheckBoxController(this)
 

@@ -11,20 +11,20 @@ import { FocusTrapElement } from './focus.trap.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-dialog': DialogElement
-    'queelag-dialog-description': DialogDescriptionElement
-    'queelag-dialog-label': DialogLabelElement
+    'q-dialog': DialogElement
+    'q-dialog-description': DialogDescriptionElement
+    'q-dialog-label': DialogLabelElement
   }
 }
 
-@CustomElement('queelag-dialog')
+@CustomElement('q-dialog')
 export class DialogElement extends FocusTrapElement {
   protected aria: AriaDialogController = new AriaDialogController(this)
 
   @Property({ type: String, reflect: true })
   description?: string
 
-  @Query('queelag-dialog-description')
+  @Query('q-dialog-description')
   descriptionElement?: DialogDescriptionElement
 
   @Property({ type: String, attribute: 'description-id' })
@@ -33,7 +33,7 @@ export class DialogElement extends FocusTrapElement {
   @Property({ type: String, reflect: true })
   label?: string
 
-  @Query('queelag-dialog-label')
+  @Query('q-dialog-label')
   labelElement?: DialogLabelElement
 
   @Property({ type: String, attribute: 'label-id' })
@@ -70,14 +70,14 @@ export class DialogElement extends FocusTrapElement {
   }
 }
 
-@CustomElement('queelag-dialog-description')
+@CustomElement('q-dialog-description')
 export class DialogDescriptionElement extends BaseElement {
   get name(): ElementName {
     return ElementName.DIALOG_DESCRIPTION
   }
 }
 
-@CustomElement('queelag-dialog-label')
+@CustomElement('q-dialog-label')
 export class DialogLabelElement extends BaseElement {
   get name(): ElementName {
     return ElementName.DIALOG_LABEL

@@ -12,16 +12,16 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-disclosure': DisclosureElement
-    'queelag-disclosure-button': DisclosureButtonElement
-    'queelag-disclosure-panel': DisclosurePanelElement
-    'queelag-disclosure-section': DisclosureSectionElement
+    'q-disclosure': DisclosureElement
+    'q-disclosure-button': DisclosureButtonElement
+    'q-disclosure-panel': DisclosurePanelElement
+    'q-disclosure-section': DisclosureSectionElement
   }
 }
 
-@CustomElement('queelag-disclosure')
+@CustomElement('q-disclosure')
 export class DisclosureElement extends BaseElement {
-  @QueryAll('queelag-disclosure-button')
+  @QueryAll('q-disclosure-button')
   buttonElements!: DisclosureButtonElement[]
 
   connectedCallback(): void {
@@ -55,17 +55,17 @@ export class DisclosureElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-disclosure-section')
+@CustomElement('q-disclosure-section')
 export class DisclosureSectionElement extends BaseElement {
   protected aria: AriaDisclosureSectionController = new AriaDisclosureSectionController(this)
 
-  @Query('queelag-disclosure-button')
+  @Query('q-disclosure-button')
   buttonElement!: DisclosureButtonElement
 
   @Property({ type: Boolean, reflect: true })
   expanded?: boolean
 
-  @Query('queelag-disclosure-panel')
+  @Query('q-disclosure-panel')
   panelElement?: DisclosurePanelElement
 
   collapse(): void {
@@ -81,11 +81,11 @@ export class DisclosureSectionElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-disclosure-button')
+@CustomElement('q-disclosure-button')
 export class DisclosureButtonElement extends BaseElement {
   protected aria: AriaDisclosureButtonController = new AriaDisclosureButtonController(this)
 
-  @Closest('queelag-disclosure-section')
+  @Closest('q-disclosure-section')
   sectionElement!: DisclosureSectionElement
 
   connectedCallback(): void {
@@ -108,7 +108,7 @@ export class DisclosureButtonElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-disclosure-panel')
+@CustomElement('q-disclosure-panel')
 export class DisclosurePanelElement extends BaseElement {
   protected aria: AriaDisclosurePanelController = new AriaDisclosurePanelController(this)
 

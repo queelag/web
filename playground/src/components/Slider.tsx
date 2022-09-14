@@ -20,8 +20,8 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-slider': SliderProps
-      'queelag-slider-thumb': SliderThumbProps
+      'q-slider': SliderProps
+      'q-slider-thumb': SliderThumbProps
     }
   }
 }
@@ -30,7 +30,7 @@ interface SliderProps extends SliderElementAttributes, DetailedHTMLProps<HTMLAtt
 interface SliderThumbProps extends SliderThumbElementAttributes, DetailedHTMLProps<HTMLAttributes<SliderThumbElement>, SliderThumbElement> {}
 
 export function Slider() {
-  const { element, ref } = useQueelagElement('queelag-slider')
+  const { element, ref } = useQueelagElement('q-slider')
   const [props] = useState<SliderProps>({})
   const [orientation] = useState<Orientation>('horizontal')
   const [percentages, setPercentages] = useState<number[]>([25, 75])
@@ -41,7 +41,7 @@ export function Slider() {
 
   return (
     <div>
-      <queelag-slider
+      <q-slider
         {...props}
         ref={ref}
         className={joinElementClasses('relative flex justify-center items-center', element?.isOrientationVertical ? 'w-5 h-64' : 'w-64 h-5')}
@@ -68,13 +68,13 @@ export function Slider() {
         )}
         <SliderThumb orientation={orientation} value={25} />
         {/* <SliderThumb orientation={orientation} value={75} /> */}
-      </queelag-slider>
+      </q-slider>
     </div>
   )
 }
 
 function SliderThumb({ orientation, value }: any) {
-  const { element, ref } = useQueelagElement('queelag-slider-thumb')
+  const { element, ref } = useQueelagElement('q-slider-thumb')
   const [percentage] = useState<number>(getSliderThumbElementPercentage(value))
   // const [percentage, setPercentage] = useState<number>(getSliderThumbElementPercentage(value))
 
@@ -83,7 +83,7 @@ function SliderThumb({ orientation, value }: any) {
   // })
 
   return (
-    <queelag-slider-thumb
+    <q-slider-thumb
       background='#2563eb'
       className={joinElementClasses('w-5 h-5 outline-none rounded-full transition duration-200', 'hover:ring-4 focus:ring-4 active:ring-8 ring-blue-100')}
       default-value={value}

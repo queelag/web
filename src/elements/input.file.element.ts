@@ -12,11 +12,11 @@ import { FormFieldElement } from './form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-input-file': InputFileElement
+    'q-input-file': InputFileElement
   }
 }
 
-@CustomElement('queelag-input-file')
+@CustomElement('q-input-file')
 export class InputFileElement extends FormFieldElement {
   @Property({ type: Boolean, attribute: 'deserialize-file-resolve-array-buffer', reflect: true })
   deserializeFileResolveArrayBuffer?: boolean

@@ -20,20 +20,20 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-carousel': CarouselElement
-    'queelag-carousel-next-slide-control': CarouselNextSlideControlElement
-    'queelag-carousel-previous-slide-control': CarouselPreviousSlideControlElement
-    'queelag-carousel-rotation-control': CarouselRotationControlElement
-    'queelag-carousel-slide': CarouselSlideElement
-    'queelag-carousel-slides': CarouselSlidesElement
+    'q-carousel': CarouselElement
+    'q-carousel-next-slide-control': CarouselNextSlideControlElement
+    'q-carousel-previous-slide-control': CarouselPreviousSlideControlElement
+    'q-carousel-rotation-control': CarouselRotationControlElement
+    'q-carousel-slide': CarouselSlideElement
+    'q-carousel-slides': CarouselSlidesElement
   }
 }
 
-@CustomElement('queelag-carousel')
+@CustomElement('q-carousel')
 export class CarouselElement extends BaseElement {
   protected aria: AriaCarouselController = new AriaCarouselController(this)
 
-  @Query('queelag-carousel-slide[active]')
+  @Query('q-carousel-slide[active]')
   activeSlideElement?: CarouselSlideElement
 
   @Property({ type: Boolean, attribute: 'automatic-rotation', reflect: true })
@@ -51,10 +51,10 @@ export class CarouselElement extends BaseElement {
   @State()
   live?: AriaLive
 
-  @QueryAll('queelag-carousel-slide')
+  @QueryAll('q-carousel-slide')
   slideElements!: CarouselSlideElement[]
 
-  @Query('queelag-carousel-slides')
+  @Query('q-carousel-slides')
   slidesElement!: CarouselSlidesElement
 
   connectedCallback(): void {
@@ -176,11 +176,11 @@ export class CarouselElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-carousel-slides')
+@CustomElement('q-carousel-slides')
 export class CarouselSlidesElement extends BaseElement {
   protected aria: AriaCarouselSlidesController = new AriaCarouselSlidesController(this)
 
-  @Closest('queelag-carousel')
+  @Closest('q-carousel')
   rootElement!: CarouselElement
 
   get name(): ElementName {
@@ -188,17 +188,17 @@ export class CarouselSlidesElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-carousel-slide')
+@CustomElement('q-carousel-slide')
 export class CarouselSlideElement extends BaseElement {
   protected aria: AriaCarouselSlideController = new AriaCarouselSlideController(this)
 
   @Property({ type: Boolean, reflect: true })
   active?: boolean
 
-  @Closest('queelag-carousel')
+  @Closest('q-carousel')
   rootElement!: CarouselElement
 
-  @Closest('queelag-carousel-slides')
+  @Closest('q-carousel-slides')
   slidesElement!: CarouselSlidesElement
 
   activate(): void {
@@ -218,11 +218,11 @@ export class CarouselSlideElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-carousel-rotation-control')
+@CustomElement('q-carousel-rotation-control')
 export class CarouselRotationControlElement extends BaseElement {
   protected aria: AriaCarouselRotationControlController = new AriaCarouselRotationControlController(this)
 
-  @Closest('queelag-carousel')
+  @Closest('q-carousel')
   rootElement!: CarouselElement
 
   connectedCallback(): void {
@@ -275,11 +275,11 @@ export class CarouselRotationControlElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-carousel-next-slide-control')
+@CustomElement('q-carousel-next-slide-control')
 export class CarouselNextSlideControlElement extends BaseElement {
   protected aria: AriaCarouselNextSlideControlController = new AriaCarouselNextSlideControlController(this)
 
-  @Closest('queelag-carousel')
+  @Closest('q-carousel')
   rootElement!: CarouselElement
 
   connectedCallback(): void {
@@ -316,11 +316,11 @@ export class CarouselNextSlideControlElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-carousel-previous-slide-control')
+@CustomElement('q-carousel-previous-slide-control')
 export class CarouselPreviousSlideControlElement extends BaseElement {
   protected aria: AriaCarouselPreviousSlideControlController = new AriaCarouselPreviousSlideControlController(this)
 
-  @Closest('queelag-carousel')
+  @Closest('q-carousel')
   rootElement!: CarouselElement
 
   connectedCallback(): void {

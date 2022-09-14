@@ -10,14 +10,14 @@ import { LinkElement } from './link.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-breadcrumb': BreadcrumbElement
-    'queelag-breadcrumb-anchor': BreadcrumbAnchorElement
-    'queelag-breadcrumb-list': BreadcrumbListElement
-    'queelag-breadcrumb-list-item': BreadcrumbListItemElement
+    'q-breadcrumb': BreadcrumbElement
+    'q-breadcrumb-anchor': BreadcrumbAnchorElement
+    'q-breadcrumb-list': BreadcrumbListElement
+    'q-breadcrumb-list-item': BreadcrumbListItemElement
   }
 }
 
-@CustomElement('queelag-breadcrumb')
+@CustomElement('q-breadcrumb')
 export class BreadcrumbElement extends BaseElement {
   protected aria: AriaBreadcrumbController = new AriaBreadcrumbController(this)
 
@@ -26,7 +26,7 @@ export class BreadcrumbElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-breadcrumb-list')
+@CustomElement('q-breadcrumb-list')
 export class BreadcrumbListElement extends BaseElement {
   protected aria: AriaBreadcrumbListController = new AriaBreadcrumbListController(this)
 
@@ -35,7 +35,7 @@ export class BreadcrumbListElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-breadcrumb-list-item')
+@CustomElement('q-breadcrumb-list-item')
 export class BreadcrumbListItemElement extends BaseElement {
   protected aria: AriaBreadcrumbListItemController = new AriaBreadcrumbListItemController(this)
 
@@ -44,7 +44,7 @@ export class BreadcrumbListItemElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-breadcrumb-anchor')
+@CustomElement('q-breadcrumb-anchor')
 export class BreadcrumbAnchorElement extends LinkElement {
   protected aria2: AriaBreadcrumbAnchorController = new AriaBreadcrumbAnchorController(this)
 

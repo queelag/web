@@ -16,10 +16,10 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-feed': FeedProps
-      'queelag-feed-article': FeedArticleProps
-      'queelag-feed-article-description': FeedArticleDescriptionProps
-      'queelag-feed-article-label': FeedArticleLabelProps
+      'q-feed': FeedProps
+      'q-feed-article': FeedArticleProps
+      'q-feed-article-description': FeedArticleDescriptionProps
+      'q-feed-article-label': FeedArticleLabelProps
     }
   }
 }
@@ -34,22 +34,20 @@ interface FeedArticleLabelProps
     DetailedHTMLProps<HTMLAttributes<FeedArticleLabelElement>, FeedArticleLabelElement> {}
 
 export function Feed() {
-  const { element, ref } = useQueelagElement('queelag-feed')
+  const { element, ref } = useQueelagElement('q-feed')
   const [props] = useState<FeedProps>({})
   const [articles] = useState<number[]>([1, 2, 3])
 
   return (
     <div>
-      <queelag-feed {...props} ref={ref} className='flex flex-col rounded-sm border divide-y border-gray-400 divide-gray-400'>
+      <q-feed {...props} ref={ref} className='flex flex-col rounded-sm border divide-y border-gray-400 divide-gray-400'>
         {articles.map((article: number) => (
-          <queelag-feed-article className='flex flex-col p-2 gap-1 text-xs' key={article}>
-            <queelag-feed-article-label>Article {article}</queelag-feed-article-label>
-            <queelag-feed-article-description className='text-gray-400'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </queelag-feed-article-description>
-          </queelag-feed-article>
+          <q-feed-article className='flex flex-col p-2 gap-1 text-xs' key={article}>
+            <q-feed-article-label>Article {article}</q-feed-article-label>
+            <q-feed-article-description className='text-gray-400'>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</q-feed-article-description>
+          </q-feed-article>
         ))}
-      </queelag-feed>
+      </q-feed>
     </div>
   )
 }

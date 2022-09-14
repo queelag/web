@@ -17,10 +17,10 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-breadcrumb': BreadcrumbProps
-      'queelag-breadcrumb-anchor': BreadcrumbAnchorProps
-      'queelag-breadcrumb-list': BreadcrumbListProps
-      'queelag-breadcrumb-list-item': BreadcrumbListItemProps
+      'q-breadcrumb': BreadcrumbProps
+      'q-breadcrumb-anchor': BreadcrumbAnchorProps
+      'q-breadcrumb-list': BreadcrumbListProps
+      'q-breadcrumb-list-item': BreadcrumbListItemProps
     }
   }
 }
@@ -35,26 +35,26 @@ interface BreadcrumbListItemProps
     DetailedHTMLProps<HTMLAttributes<BreadcrumbListItemElement>, BreadcrumbListItemElement> {}
 
 export function Breadcrumb() {
-  const { element, ref } = useQueelagElement('queelag-breadcrumb')
+  const { element, ref } = useQueelagElement('q-breadcrumb')
   const [props] = useState<BreadcrumbProps>({})
   const [items] = useState<string[]>(['Home', 'Shop', 'Article'])
 
   return (
     <div>
-      <queelag-breadcrumb {...props} className='p-2 rounded-sm border border-gray-400' ref={ref}>
-        <queelag-breadcrumb-list className='flex items-center gap-2 text-xs'>
+      <q-breadcrumb {...props} className='p-2 rounded-sm border border-gray-400' ref={ref}>
+        <q-breadcrumb-list className='flex items-center gap-2 text-xs'>
           {items.map((item: string, index: number) => (
             <Fragment>
               {index > 0 && <span>/</span>}
-              <queelag-breadcrumb-list-item>
-                <queelag-breadcrumb-anchor className='hover:underline' current={index >= items.length - 1} href='#' target='_blank'>
+              <q-breadcrumb-list-item>
+                <q-breadcrumb-anchor className='hover:underline' current={index >= items.length - 1} href='#' target='_blank'>
                   {item}
-                </queelag-breadcrumb-anchor>
-              </queelag-breadcrumb-list-item>
+                </q-breadcrumb-anchor>
+              </q-breadcrumb-list-item>
             </Fragment>
           ))}
-        </queelag-breadcrumb-list>
-      </queelag-breadcrumb>
+        </q-breadcrumb-list>
+      </q-breadcrumb>
     </div>
   )
 }

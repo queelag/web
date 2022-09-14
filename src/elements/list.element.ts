@@ -5,12 +5,12 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-list': ListElement
-    'queelag-list-item': ListItemElement
+    'q-list': ListElement
+    'q-list-item': ListItemElement
   }
 }
 
-@CustomElement('queelag-list')
+@CustomElement('q-list')
 export class ListElement extends BaseElement {
   @Property({ type: Array })
   items?: any[]
@@ -28,7 +28,7 @@ export class ListElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-list-item')
+@CustomElement('q-list-item')
 export class ListItemElement extends BaseElement {
   @Property({ type: String, reflect: true })
   headline?: string

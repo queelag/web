@@ -19,11 +19,11 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-accordion': AccordionProps
-      'queelag-accordion-header': AccordionHeaderProps
-      'queelag-accordion-button': AccordionButtonProps
-      'queelag-accordion-panel': AccordionPanelProps
-      'queelag-accordion-section': AccordionSectionProps
+      'q-accordion': AccordionProps
+      'q-accordion-header': AccordionHeaderProps
+      'q-accordion-button': AccordionButtonProps
+      'q-accordion-panel': AccordionPanelProps
+      'q-accordion-section': AccordionSectionProps
     }
   }
 }
@@ -37,13 +37,13 @@ interface AccordionSectionProps
     DetailedHTMLProps<HTMLAttributes<AccordionSectionElement>, AccordionSectionElement> {}
 
 export function Accordion() {
-  const { element, ref } = useQueelagElement('queelag-accordion')
+  const { element, ref } = useQueelagElement('q-accordion')
   const [props] = useState<AccordionProps>({})
   const [sections] = useState<number[]>([1, 2, 3])
 
   return (
     <div>
-      <queelag-accordion
+      <q-accordion
         {...props}
         ref={ref}
         allow-only-one-expanded-section
@@ -52,32 +52,32 @@ export function Accordion() {
         {sections.map((section: number) => (
           <AccordionSection number={section} />
         ))}
-      </queelag-accordion>
+      </q-accordion>
     </div>
   )
 }
 
 function AccordionSection({ number }: any) {
-  const { element, ref } = useQueelagElement('queelag-accordion-section', { attribute: { dispatch: true } })
+  const { element, ref } = useQueelagElement('q-accordion-section', { attribute: { dispatch: true } })
   const [props] = useState<AccordionSectionProps>({})
 
   return (
-    <queelag-accordion-section {...props} ref={ref} className='group flex flex-col py-2 gap-1 text-xs focus:outline' collapsable={number !== 2}>
-      <queelag-accordion-header>
-        <queelag-accordion-button className='w-full flex justify-between items-center px-2'>
+    <q-accordion-section {...props} ref={ref} className='group flex flex-col py-2 gap-1 text-xs focus:outline' collapsable={number !== 2}>
+      <q-accordion-header>
+        <q-accordion-button className='w-full flex justify-between items-center px-2'>
           <span>Accordion Header {number}</span>
-          <queelag-icon
+          <q-icon
             fill='none'
             size={16}
             src={`https://raw.githubusercontent.com/feathericons/feather/master/icons/chevron-${element?.expanded ? 'up' : 'down'}.svg`}
             stroke='black'
             stroke-width={2}
           />
-        </queelag-accordion-button>
-      </queelag-accordion-header>
-      <queelag-accordion-panel className={joinElementClasses('px-2 pt-2 border-t text-gray-400', !element?.expanded && 'hidden')}>
+        </q-accordion-button>
+      </q-accordion-header>
+      <q-accordion-panel className={joinElementClasses('px-2 pt-2 border-t text-gray-400', !element?.expanded && 'hidden')}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      </queelag-accordion-panel>
-    </queelag-accordion-section>
+      </q-accordion-panel>
+    </q-accordion-section>
   )
 }

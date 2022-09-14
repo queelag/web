@@ -7,11 +7,11 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-avatar': AvatarElement
+    'q-avatar': AvatarElement
   }
 }
 
-@CustomElement('queelag-avatar')
+@CustomElement('q-avatar')
 export class AvatarElement extends BaseElement {
   @Property({ type: String, reflect: true })
   icon?: string

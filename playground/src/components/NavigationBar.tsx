@@ -13,8 +13,8 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-navigation-bar': NavigationBarProps
-      'queelag-navigation-bar-item': NavigationBarItemProps
+      'q-navigation-bar': NavigationBarProps
+      'q-navigation-bar-item': NavigationBarItemProps
     }
   }
 }
@@ -26,24 +26,24 @@ interface NavigationBarItemProps
     DetailedHTMLProps<HTMLAttributes<NavigationBarItemElement>, NavigationBarItemElement> {}
 
 export function NavigationBar() {
-  const { element, ref } = useQueelagElement('queelag-navigation-bar', { attribute: { dispatch: true } })
+  const { element, ref } = useQueelagElement('q-navigation-bar', { attribute: { dispatch: true } })
   const [props] = useState<NavigationBarProps>({})
   const [items] = useState<string[]>(['Discover', 'Home', 'Settings'])
 
   return (
     <div className='flex'>
-      <queelag-navigation-bar {...props} ref={ref} active-item='Home' className='flex rounded-sm border divide-x border-gray-400 divide-gray-400'>
+      <q-navigation-bar {...props} ref={ref} active-item='Home' className='flex rounded-sm border divide-x border-gray-400 divide-gray-400'>
         {items.map((item: string) => (
-          <queelag-navigation-bar-item
+          <q-navigation-bar-item
             active={element?.isItemActive(item)}
             className={joinElementClasses('px-2 py-1 cursor-pointer', element?.isItemActive(item) && 'bg-gray-200')}
             key={item}
             onClick={() => element?.activateItem(item)}
           >
             <span className='text-xs'>{item}</span>
-          </queelag-navigation-bar-item>
+          </q-navigation-bar-item>
         ))}
-      </queelag-navigation-bar>
+      </q-navigation-bar>
     </div>
   )
 }

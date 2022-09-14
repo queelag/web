@@ -19,11 +19,11 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-image': ImageElement
+    'q-image': ImageElement
   }
 }
 
-@CustomElement('queelag-image')
+@CustomElement('q-image')
 export class ImageElement extends BaseElement {
   @Property({ type: String, reflect: true })
   alt?: string

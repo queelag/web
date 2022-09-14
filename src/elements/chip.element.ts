@@ -6,11 +6,11 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-chip': ChipElement
+    'q-chip': ChipElement
   }
 }
 
-@CustomElement('queelag-chip')
+@CustomElement('q-chip')
 export class ChipElement extends BaseElement {
   @Property({ type: String, reflect: true })
   icon?: string

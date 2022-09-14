@@ -14,16 +14,16 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-listbox': ListBoxElement
-    'queelag-listbox-option': ListBoxOptionElement
+    'q-listbox': ListBoxElement
+    'q-listbox-option': ListBoxOptionElement
   }
 }
 
-@CustomElement('queelag-listbox')
+@CustomElement('q-listbox')
 export class ListBoxElement extends BaseElement {
   protected aria: AriaListBoxController = new AriaListBoxController(this)
 
-  @Query('queelag-listbox-option[focused]')
+  @Query('q-listbox-option[focused]')
   focusedOptionElement?: ListBoxOptionElement
 
   @Property({ type: Boolean, attribute: 'selection-follows-focus', reflect: true })
@@ -32,10 +32,10 @@ export class ListBoxElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   multiple?: boolean
 
-  @QueryAll('queelag-listbox-option')
+  @QueryAll('q-listbox-option')
   optionElements!: ListBoxOptionElement[]
 
-  @Query('queelag-listbox-option[selected]')
+  @Query('q-listbox-option[selected]')
   selectedOptionElement?: ListBoxOptionElement
 
   @Property({ type: Boolean, attribute: 'select-first-option-on-focus', reflect: true })
@@ -262,14 +262,14 @@ export class ListBoxElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-listbox-option')
+@CustomElement('q-listbox-option')
 export class ListBoxOptionElement extends BaseElement {
   protected aria: AriaListBoxOptionController = new AriaListBoxOptionController(this)
 
   @Property({ type: Boolean, reflect: true })
   focused?: boolean
 
-  @Closest('queelag-listbox')
+  @Closest('q-listbox')
   listBoxElement!: ListBoxElement
 
   @Property({ type: Boolean, reflect: true })

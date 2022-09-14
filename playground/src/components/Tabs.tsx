@@ -15,9 +15,9 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-tabs': TabsProps
-      'queelag-tabs-panel': TabsPanelProps
-      'queelag-tabs-tab': TabsTabProps
+      'q-tabs': TabsProps
+      'q-tabs-panel': TabsPanelProps
+      'q-tabs-tab': TabsTabProps
     }
   }
 }
@@ -27,32 +27,32 @@ interface TabsPanelProps extends TabsPanelElementAttributes, DetailedHTMLProps<H
 interface TabsTabProps extends TabsTabElementAttributes, DetailedHTMLProps<HTMLAttributes<TabsTabElement>, TabsTabElement> {}
 
 export function Tabs() {
-  const { element, ref } = useQueelagElement('queelag-tabs', { attribute: { dispatch: true } })
+  const { element, ref } = useQueelagElement('q-tabs', { attribute: { dispatch: true } })
   const [props] = useState<TabsProps>({})
   const [tabs] = useState<number[]>([1, 2, 3])
 
   return (
     <div>
-      <queelag-tabs {...props} ref={ref} className='flex flex-col items-start gap-2'>
+      <q-tabs {...props} ref={ref} className='flex flex-col items-start gap-2'>
         <div className='flex border divide-x border-gray-400 divide-gray-400'>
           {tabs.map((number: number) => (
             <TabsTab number={number} />
           ))}
         </div>
-        <queelag-tabs-panel className='w-64 h-32 p-2 border border-gray-400'>
+        <q-tabs-panel className='w-64 h-32 p-2 border border-gray-400'>
           <span className='text-xs'>Content of Tab {tabs[element?.selectedTabElementIndex || 0]}</span>
-        </queelag-tabs-panel>
-      </queelag-tabs>
+        </q-tabs-panel>
+      </q-tabs>
     </div>
   )
 }
 
 export function TabsTab({ number }: any) {
-  const { element, ref } = useQueelagElement('queelag-tabs-tab', { attribute: { dispatch: true } })
+  const { element, ref } = useQueelagElement('q-tabs-tab', { attribute: { dispatch: true } })
 
   return (
-    <queelag-tabs-tab ref={ref} className={joinElementClasses('px-3 py-2', element?.selected && 'bg-gray-200')} selected={number === 1}>
+    <q-tabs-tab ref={ref} className={joinElementClasses('px-3 py-2', element?.selected && 'bg-gray-200')} selected={number === 1}>
       <span className='text-xs'>Tab {number}</span>
-    </queelag-tabs-tab>
+    </q-tabs-tab>
   )
 }

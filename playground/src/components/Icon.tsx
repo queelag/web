@@ -7,7 +7,7 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-icon': IconProps
+      'q-icon': IconProps
     }
   }
 }
@@ -15,12 +15,12 @@ declare global {
 interface IconProps extends IconElementAttributes, DetailedHTMLProps<HTMLAttributes<IconElement>, IconElement> {}
 
 export function Icon() {
-  const { element, ref } = useQueelagElement('queelag-icon')
+  const { element, ref } = useQueelagElement('q-icon')
   const [props] = useState<IconProps>({ src: '' })
 
   return (
     <div>
-      <queelag-icon
+      <q-icon
         {...props}
         fill='none'
         ref={ref}

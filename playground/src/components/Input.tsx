@@ -8,7 +8,7 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-input': InputProps
+      'q-input': InputProps
     }
   }
 }
@@ -16,16 +16,16 @@ declare global {
 interface InputProps extends InputElementAttributes, DetailedHTMLProps<HTMLAttributes<InputElement>, InputElement> {}
 
 export function Input() {
-  const { element, ref } = useQueelagElement('queelag-input')
+  const { element, ref } = useQueelagElement('q-input')
   const [props] = useState<InputProps>({ type: 'text' })
   const target = useRef({ name: '' })
 
   return (
     <div className='flex flex-col gap-1'>
       <div className='flex items-center gap-2'>
-        <queelag-input {...props} path='name' target={target.current} ref={ref} placeholder='input' schema={size(string(), 0, 5)} touch-trigger='change' />
-        <queelag-button onClick={() => (element?.obscured ? element.reveal() : element?.obscure())} native normalized>
-          <queelag-icon
+        <q-input {...props} path='name' target={target.current} ref={ref} placeholder='input' schema={size(string(), 0, 5)} touch-trigger='change' />
+        <q-button onClick={() => (element?.obscured ? element.reveal() : element?.obscure())} native normalized>
+          <q-icon
             fill='none'
             size={12}
             src={
@@ -36,10 +36,10 @@ export function Input() {
             stroke='black'
             stroke-width={2.5}
           />
-        </queelag-button>
-        <queelag-button onClick={() => element?.clear()} native normalized>
-          <queelag-icon fill='none' size={16} src='https://raw.githubusercontent.com/feathericons/feather/master/icons/x.svg' stroke='black' stroke-width={2} />
-        </queelag-button>
+        </q-button>
+        <q-button onClick={() => element?.clear()} native normalized>
+          <q-icon fill='none' size={16} src='https://raw.githubusercontent.com/feathericons/feather/master/icons/x.svg' stroke='black' stroke-width={2} />
+        </q-button>
       </div>
       {element?.isErrorVisible && <span className='text-xs text-red-500'>{element.error}</span>}
     </div>

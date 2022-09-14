@@ -14,23 +14,23 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-accordion': AccordionElement
-    'queelag-accordion-header': AccordionHeaderElement
-    'queelag-accordion-button': AccordionButtonElement
-    'queelag-accordion-panel': AccordionPanelElement
-    'queelag-accordion-section': AccordionSectionElement
+    'q-accordion': AccordionElement
+    'q-accordion-header': AccordionHeaderElement
+    'q-accordion-button': AccordionButtonElement
+    'q-accordion-panel': AccordionPanelElement
+    'q-accordion-section': AccordionSectionElement
   }
 }
 
-@CustomElement('queelag-accordion')
+@CustomElement('q-accordion')
 export class AccordionElement extends BaseElement {
   @Property({ type: Boolean, attribute: 'allow-only-one-expanded-section', reflect: true })
   allowOnlyOneExpandedSection?: boolean
 
-  @QueryAll('queelag-accordion-button')
+  @QueryAll('q-accordion-button')
   buttonElements!: AccordionButtonElement[]
 
-  @QueryAll('queelag-accordion-section[expanded]')
+  @QueryAll('q-accordion-section[expanded]')
   expandedSectionElements!: AccordionSectionElement[]
 
   connectedCallback(): void {
@@ -120,7 +120,7 @@ export class AccordionElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-accordion-section')
+@CustomElement('q-accordion-section')
 export class AccordionSectionElement extends BaseElement {
   protected aria: AriaAccordionSectionController = new AriaAccordionSectionController(this)
 
@@ -130,10 +130,10 @@ export class AccordionSectionElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   expanded?: boolean
 
-  @Query('queelag-accordion-button')
+  @Query('q-accordion-button')
   buttonElement!: AccordionButtonElement
 
-  @Query('queelag-accordion-panel')
+  @Query('q-accordion-panel')
   panelElement?: AccordionPanelElement
 
   collapse(): void {
@@ -157,7 +157,7 @@ export class AccordionSectionElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-accordion-header')
+@CustomElement('q-accordion-header')
 export class AccordionHeaderElement extends BaseElement {
   protected aria: AriaAccordionHeaderController = new AriaAccordionHeaderController(this)
 
@@ -169,14 +169,14 @@ export class AccordionHeaderElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-accordion-button')
+@CustomElement('q-accordion-button')
 export class AccordionButtonElement extends BaseElement {
   protected aria: AriaAccordionButtonController = new AriaAccordionButtonController(this)
 
-  @Closest('queelag-accordion')
+  @Closest('q-accordion')
   rootElement!: AccordionElement
 
-  @Closest('queelag-accordion-section')
+  @Closest('q-accordion-section')
   sectionElement!: AccordionSectionElement
 
   connectedCallback(): void {
@@ -216,7 +216,7 @@ export class AccordionButtonElement extends BaseElement {
   }
 }
 
-@CustomElement('queelag-accordion-panel')
+@CustomElement('q-accordion-panel')
 export class AccordionPanelElement extends BaseElement {
   protected aria: AriaAccordionPanelController = new AriaAccordionPanelController(this)
 

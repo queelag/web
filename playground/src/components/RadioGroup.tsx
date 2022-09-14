@@ -8,8 +8,8 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-radio-button': RadioButtonProps
-      'queelag-radio-group': RadioGroupProps
+      'q-radio-button': RadioButtonProps
+      'q-radio-group': RadioGroupProps
     }
   }
 }
@@ -18,26 +18,26 @@ interface RadioButtonProps extends RadioButtonElementAttributes, DetailedHTMLPro
 interface RadioGroupProps extends RadioGroupElementAttributes, DetailedHTMLProps<HTMLAttributes<RadioGroupElement>, RadioGroupElement> {}
 
 export function RadioGroup() {
-  const { element, ref } = useQueelagElement('queelag-radio-group')
+  const { element, ref } = useQueelagElement('q-radio-group')
   const [props] = useState<RadioGroupProps>({})
   const [options] = useState<string[]>(FRUITS.slice(4, 7))
 
   return (
     <div>
-      <queelag-radio-group {...props} ref={ref} className='w-32 flex flex-col gap-1 outline-none'>
+      <q-radio-group {...props} ref={ref} className='w-32 flex flex-col gap-1 outline-none'>
         {options.map((option: string) => (
           <RadioButton option={option} />
         ))}
-      </queelag-radio-group>
+      </q-radio-group>
     </div>
   )
 }
 
 export function RadioButton({ option }: any) {
-  const { element, ref } = useQueelagElement('queelag-radio-button', { attribute: { dispatch: true } })
+  const { element, ref } = useQueelagElement('q-radio-button', { attribute: { dispatch: true } })
 
   return (
-    <queelag-radio-button
+    <q-radio-button
       ref={ref}
       className={joinElementClasses(
         'flex items-center gap-2 p-2 rounded-sm border border-gray-400',
@@ -45,7 +45,7 @@ export function RadioButton({ option }: any) {
         element?.focused && 'ring-2 ring-offset-1 ring-blue-700'
       )}
     >
-      <queelag-icon
+      <q-icon
         fill='none'
         size={14}
         src={
@@ -57,6 +57,6 @@ export function RadioButton({ option }: any) {
         stroke-width={2}
       />
       <span className='text-xs'>{option}</span>
-    </queelag-radio-button>
+    </q-radio-button>
   )
 }

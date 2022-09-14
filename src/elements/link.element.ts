@@ -7,11 +7,11 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-link': LinkElement
+    'q-link': LinkElement
   }
 }
 
-@CustomElement('queelag-link')
+@CustomElement('q-link')
 export class LinkElement extends BaseElement {
   protected aria: AriaLinkController = new AriaLinkController(this)
 

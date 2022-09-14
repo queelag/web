@@ -6,11 +6,11 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-alert': AlertElement
+    'q-alert': AlertElement
   }
 }
 
-@CustomElement('queelag-alert')
+@CustomElement('q-alert')
 export class AlertElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   closable?: boolean

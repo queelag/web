@@ -12,11 +12,11 @@ import { FormFieldElement } from './form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-select': SelectElement
+    'q-select': SelectElement
   }
 }
 
-@CustomElement('queelag-select')
+@CustomElement('q-select')
 export class SelectElement extends FormFieldElement {
   @Property({ type: Boolean, reflect: true })
   multiple?: boolean

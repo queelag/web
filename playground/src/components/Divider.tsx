@@ -7,7 +7,7 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-divider': DividerProps
+      'q-divider': DividerProps
     }
   }
 }
@@ -15,15 +15,15 @@ declare global {
 interface DividerProps extends DividerElementAttributes, DetailedHTMLProps<HTMLAttributes<DividerElement>, DividerElement> {}
 
 export function Divider() {
-  const { element, ref } = useQueelagElement('queelag-divider')
+  const { element, ref } = useQueelagElement('q-divider')
   const [props] = useState<DividerProps>({})
 
   return (
     <div className='flex gap-2'>
-      <queelag-divider {...props} className='flex-1' orientation='horizontal' ref={ref}>
+      <q-divider {...props} className='flex-1' orientation='horizontal' ref={ref}>
         <div className='w-full h-px bg-gray-200' slot='horizontal' />
         <div className='w-px h-full bg-gray-200' slot='vertical' />
-      </queelag-divider>
+      </q-divider>
     </div>
   )
 }

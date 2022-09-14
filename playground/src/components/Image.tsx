@@ -7,7 +7,7 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-image': ImageProps
+      'q-image': ImageProps
     }
   }
 }
@@ -15,12 +15,12 @@ declare global {
 interface ImageProps extends ImageElementAttributes, DetailedHTMLProps<HTMLAttributes<ImageElement>, ImageElement> {}
 
 export function Image() {
-  const { element, ref } = useQueelagElement('queelag-image')
+  const { element, ref } = useQueelagElement('q-image')
   const [props] = useState<ImageProps>({ src: '' })
 
   return (
     <div>
-      <queelag-image
+      <q-image
         {...props}
         cache-quality={0}
         cache-type='image/jpeg'
@@ -31,7 +31,7 @@ export function Image() {
         // cache
         eager
       />
-      {/* <queelag-image
+      {/* <q-image
         {...props}
         ref={ref}
         size={128}

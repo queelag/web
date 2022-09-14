@@ -19,11 +19,11 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-icon': IconElement
+    'q-icon': IconElement
   }
 }
 
-@CustomElement('queelag-icon')
+@CustomElement('q-icon')
 export class IconElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   cache?: boolean

@@ -10,7 +10,7 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-button': ButtonProps
+      'q-button': ButtonProps
     }
   }
 }
@@ -18,7 +18,7 @@ declare global {
 interface ButtonProps extends ButtonElementAttributes, DetailedHTMLProps<HTMLAttributes<ButtonElement>, ButtonElement> {}
 
 export function Button() {
-  const { element, ref } = useQueelagElement('queelag-button', { attribute: { dispatch: true } })
+  const { element, ref } = useQueelagElement('q-button', { attribute: { dispatch: true } })
   const [props] = useState<ButtonProps>({})
 
   useEventListener(ref, 'click-async', async (event: ClickAsyncEvent) => {
@@ -28,9 +28,9 @@ export function Button() {
 
   return (
     <div>
-      <queelag-button {...props} ref={ref} async native>
+      <q-button {...props} ref={ref} async native>
         <span>{element?.spinning ? 'Spinning' : 'Button'}</span>
-      </queelag-button>
+      </q-button>
     </div>
   )
 }

@@ -9,7 +9,7 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-form': FormProps
+      'q-form': FormProps
     }
   }
 }
@@ -17,7 +17,7 @@ declare global {
 interface FormProps extends FormElementAttributes, DetailedHTMLProps<HTMLAttributes<FormElement>, FormElement> {}
 
 export function Form() {
-  const { element, ref } = useQueelagElement('queelag-form')
+  const { element, ref } = useQueelagElement('q-form')
   const [props] = useState<FormProps>({})
 
   useEventListener(ref, 'submit-async', async (event: SubmitAsyncEvent) => {
@@ -27,9 +27,9 @@ export function Form() {
 
   return (
     <div className='flex gap-2'>
-      <queelag-form {...props} ref={ref}>
-        <queelag-input placeholder='input inside form' type='text' />
-      </queelag-form>
+      <q-form {...props} ref={ref}>
+        <q-input placeholder='input inside form' type='text' />
+      </q-form>
     </div>
   )
 }

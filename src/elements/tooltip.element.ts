@@ -13,27 +13,27 @@ import { FloatingElement } from './floating.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-tooltip': TooltipElement
-    'queelag-tooltip-arrow': TooltipArrowElement
-    'queelag-tooltip-content': TooltipContentElement
-    'queelag-tooltip-trigger': TooltipTriggerElement
+    'q-tooltip': TooltipElement
+    'q-tooltip-arrow': TooltipArrowElement
+    'q-tooltip-content': TooltipContentElement
+    'q-tooltip-trigger': TooltipTriggerElement
   }
 }
 
-@CustomElement('queelag-tooltip')
+@CustomElement('q-tooltip')
 export class TooltipElement extends BaseElement {
   protected aria: AriaTooltipController = new AriaTooltipController(this)
 
-  @Query('queelag-tooltip-arrow')
+  @Query('q-tooltip-arrow')
   arrowElement?: TooltipArrowElement
 
-  @Query('queelag-tooltip-content')
+  @Query('q-tooltip-content')
   contentElement?: TooltipContentElement
 
   @Property({ type: Boolean, reflect: true })
   focusable?: boolean
 
-  @Query('queelag-tooltip-trigger')
+  @Query('q-tooltip-trigger')
   triggerElement!: TooltipTriggerElement
 
   @Property({ type: Boolean, reflect: true })
@@ -72,7 +72,7 @@ export class TooltipElement extends BaseElement {
   ]
 }
 
-@CustomElement('queelag-tooltip-arrow')
+@CustomElement('q-tooltip-arrow')
 export class TooltipArrowElement extends BaseElement {
   get name(): ElementName {
     return ElementName.TOOLTIP_ARROW
@@ -90,15 +90,15 @@ export class TooltipArrowElement extends BaseElement {
   ]
 }
 
-@CustomElement('queelag-tooltip-content')
+@CustomElement('q-tooltip-content')
 export class TooltipContentElement extends FloatingElement {
   protected aria: AriaTooltipContentController = new AriaTooltipContentController(this)
 
-  @Closest('queelag-tooltip')
+  @Closest('q-tooltip')
   tooltipElement!: TooltipElement
 
   get arrowElement(): TooltipArrowElement | undefined {
-    return this.querySelector('queelag-tooltip-arrow') || undefined
+    return this.querySelector('q-tooltip-arrow') || undefined
   }
 
   get name(): ElementName {
@@ -121,11 +121,11 @@ export class TooltipContentElement extends FloatingElement {
   ]
 }
 
-@CustomElement('queelag-tooltip-trigger')
+@CustomElement('q-tooltip-trigger')
 export class TooltipTriggerElement extends BaseElement {
   protected aria: AriaTooltipTriggerController = new AriaTooltipTriggerController(this)
 
-  @Closest('queelag-tooltip')
+  @Closest('q-tooltip')
   tooltipElement!: TooltipElement
 
   connectedCallback(): void {

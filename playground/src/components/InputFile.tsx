@@ -8,7 +8,7 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-input-file': InputFileProps
+      'q-input-file': InputFileProps
     }
   }
 }
@@ -16,22 +16,22 @@ declare global {
 interface InputFileProps extends InputFileElementAttributes, DetailedHTMLProps<HTMLAttributes<InputFileElement>, InputFileElement> {}
 
 export function InputFile() {
-  const { element, ref } = useQueelagElement('queelag-input-file')
+  const { element, ref } = useQueelagElement('q-input-file')
   const [props] = useState<InputFileProps>({})
 
   return (
     <div className='flex flex-col gap-2'>
-      <queelag-input-file {...props} ref={ref} multiple native>
+      <q-input-file {...props} ref={ref} multiple native>
         <div className='w-64 h-32 flex justify-center items-center rounded-sm border border-dashed border-gray-400'>
           <span>File Dropzone</span>
         </div>
-      </queelag-input-file>
+      </q-input-file>
       {!element?.native && element?.isFilesNotEmpty && (
         <div className='flex gap-1 p-1 rounded-sm border border-gray-400'>
           {element?.files.map((file: QueelagFile) => (
             <div className='flex items-center gap-2 px-2 py-1 border border-gray-400' key={file.id}>
               <span className='text-xs'>{file.name}</span>
-              <queelag-icon
+              <q-icon
                 fill='none'
                 onClick={() => element.removeFile(file)}
                 size={12}
@@ -41,9 +41,9 @@ export function InputFile() {
               />
             </div>
           ))}
-          <queelag-button onClick={element.clear} native>
+          <q-button onClick={element.clear} native>
             Clear
-          </queelag-button>
+          </q-button>
         </div>
       )}
     </div>

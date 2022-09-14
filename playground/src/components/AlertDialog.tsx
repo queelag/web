@@ -16,9 +16,9 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-alert-dialog': AlertDialogProps
-      'queelag-alert-dialog-description': AlertDialogDescriptionProps
-      'queelag-alert-dialog-label': AlertDialogLabelProps
+      'q-alert-dialog': AlertDialogProps
+      'q-alert-dialog-description': AlertDialogDescriptionProps
+      'q-alert-dialog-label': AlertDialogLabelProps
     }
   }
 }
@@ -34,7 +34,7 @@ interface AlertDialogLabelProps
     DetailedHTMLProps<HTMLAttributes<AlertDialogLabelElement>, AlertDialogDescriptionElement> {}
 
 export function AlertDialog() {
-  const { element, ref } = useQueelagElement('queelag-alert-dialog')
+  const { element, ref } = useQueelagElement('q-alert-dialog')
   const [props] = useState<AlertDialogProps>({})
   const [visible, setVisible] = useState<boolean>(false)
 
@@ -45,10 +45,10 @@ export function AlertDialog() {
 
   return (
     <div>
-      <queelag-button onClick={open} native>
+      <q-button onClick={open} native>
         Open Alert Dialog
-      </queelag-button>
-      <queelag-alert-dialog
+      </q-button>
+      <q-alert-dialog
         {...props}
         ref={ref}
         className={joinElementClasses('fixed z-40 w-64 flex flex-col gap-2 p-2 rounded-sm border border-gray-300 bg-white', !visible && 'hidden')}
@@ -56,19 +56,19 @@ export function AlertDialog() {
         has-description
         has-label
       >
-        <queelag-alert-dialog-label>Alert Dialog</queelag-alert-dialog-label>
-        <queelag-alert-dialog-description>
+        <q-alert-dialog-label>Alert Dialog</q-alert-dialog-label>
+        <q-alert-dialog-description>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </queelag-alert-dialog-description>
+        </q-alert-dialog-description>
         <div className='self-end flex gap-2'>
-          <queelag-button onClick={close} native>
+          <q-button onClick={close} native>
             Close
-          </queelag-button>
-          <queelag-button onClick={close} native>
+          </q-button>
+          <q-button onClick={close} native>
             Ok
-          </queelag-button>
+          </q-button>
         </div>
-      </queelag-alert-dialog>
+      </q-alert-dialog>
     </div>
   )
 }

@@ -7,7 +7,7 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-chip': ChipProps
+      'q-chip': ChipProps
     }
   }
 }
@@ -15,14 +15,14 @@ declare global {
 interface ChipProps extends ChipElementAttributes, DetailedHTMLProps<HTMLAttributes<ChipElement>, ChipElement> {}
 
 export function Chip() {
-  const { element, ref } = useQueelagElement('queelag-chip')
+  const { element, ref } = useQueelagElement('q-chip')
   const [props] = useState<ChipProps>({})
 
   return (
     <div>
-      <queelag-chip {...props} ref={ref} className='flex items-center gap-2 px-2 py-1 rounded-sm bg-gray-300'>
+      <q-chip {...props} ref={ref} className='flex items-center gap-2 px-2 py-1 rounded-sm bg-gray-300'>
         <span className='text-xs'>Chip</span>
-        <queelag-icon
+        <q-icon
           className='mt-px cursor-pointer'
           fill='none'
           size={12}
@@ -30,7 +30,7 @@ export function Chip() {
           stroke='black'
           stroke-width={2}
         />
-      </queelag-chip>
+      </q-chip>
     </div>
   )
 }

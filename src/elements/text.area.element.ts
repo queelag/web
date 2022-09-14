@@ -15,11 +15,11 @@ import { FormFieldElement } from './form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-textarea': TextAreaElement
+    'q-textarea': TextAreaElement
   }
 }
 
-@CustomElement('queelag-textarea')
+@CustomElement('q-textarea')
 export class TextAreaElement extends FormFieldElement {
   @Property({ type: Boolean, reflect: true })
   autosize?: boolean

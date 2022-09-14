@@ -7,7 +7,7 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-select': SelectProps
+      'q-select': SelectProps
     }
   }
 }
@@ -15,7 +15,7 @@ declare global {
 interface SelectProps extends SelectElementAttributes, DetailedHTMLProps<HTMLAttributes<SelectElement>, SelectElement> {}
 
 export function Select() {
-  const { element, ref } = useQueelagElement('queelag-select')
+  const { element, ref } = useQueelagElement('q-select')
   const [props] = useState<SelectProps>({})
 
   const [options] = useState<SelectOption[]>([
@@ -25,9 +25,9 @@ export function Select() {
 
   return (
     <div className='flex'>
-      <queelag-select {...props} ref={ref} options={options} native>
+      <q-select {...props} ref={ref} options={options} native>
         <div className='flex flex-col gap-2'>
-          <queelag-input onInput={(event: FormEvent) => element?.onSearchInput(event.nativeEvent)} placeholder='search options' type='text' />
+          <q-input onInput={(event: FormEvent) => element?.onSearchInput(event.nativeEvent)} placeholder='search options' type='text' />
           <div className='flex flex-col divide-y rounded-sm border border-gray-400 divide-gray-400'>
             {element?.optionsFilteredBySearchValue?.map((option: SelectOption) => (
               <div
@@ -36,7 +36,7 @@ export function Select() {
               >
                 <span className='text-xs'>{option.label || option.value}</span>
                 {option.value === element.value && (
-                  <queelag-icon
+                  <q-icon
                     fill='none'
                     size={16}
                     src='https://raw.githubusercontent.com/feathericons/feather/master/icons/check.svg'
@@ -48,7 +48,7 @@ export function Select() {
             ))}
           </div>
         </div>
-      </queelag-select>
+      </q-select>
     </div>
   )
 }

@@ -25,12 +25,12 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-slider': SliderElement
-    'queelag-slider-thumb': SliderThumbElement
+    'q-slider': SliderElement
+    'q-slider-thumb': SliderThumbElement
   }
 }
 
-@CustomElement('queelag-slider')
+@CustomElement('q-slider')
 export class SliderElement extends BaseElement {
   protected aria: AriaSliderController = new AriaSliderController(this)
 
@@ -55,7 +55,7 @@ export class SliderElement extends BaseElement {
   @Property({ type: Number, reflect: true })
   step?: number
 
-  @QueryAll('queelag-slider-thumb')
+  @QueryAll('q-slider-thumb')
   thumbElements!: SliderThumbElement[]
 
   connectedCallback(): void {
@@ -123,7 +123,7 @@ export class SliderElement extends BaseElement {
   ]
 }
 
-@CustomElement('queelag-slider-thumb')
+@CustomElement('q-slider-thumb')
 export class SliderThumbElement extends BaseElement {
   protected aria: AriaSliderThumbController = new AriaSliderThumbController(this)
 
@@ -136,7 +136,7 @@ export class SliderThumbElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   movable?: boolean
 
-  @Closest('queelag-slider')
+  @Closest('q-slider')
   rootElement!: SliderElement
 
   private _value?: number

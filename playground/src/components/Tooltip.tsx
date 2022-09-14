@@ -18,10 +18,10 @@ import { useQueelagElement } from '../hooks/use.queelag.element'
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'queelag-tooltip': TooltipProps
-      'queelag-tooltip-arrow': TooltipArrowProps
-      'queelag-tooltip-content': TooltipContentProps
-      'queelag-tooltip-trigger': TooltipTriggerProps
+      'q-tooltip': TooltipProps
+      'q-tooltip-arrow': TooltipArrowProps
+      'q-tooltip-content': TooltipContentProps
+      'q-tooltip-trigger': TooltipTriggerProps
     }
   }
 }
@@ -32,25 +32,25 @@ interface TooltipContentProps extends TooltipContentElementAttributes, DetailedH
 interface TooltipTriggerProps extends TooltipTriggerElementAttributes, DetailedHTMLProps<HTMLAttributes<TooltipTriggerElement>, TooltipTriggerElement> {}
 
 export function Tooltip() {
-  const { element, ref } = useQueelagElement('queelag-tooltip', { attribute: { dispatch: true } })
+  const { element, ref } = useQueelagElement('q-tooltip', { attribute: { dispatch: true } })
   const [props] = useState<TooltipProps>({})
 
   return (
     <div>
-      <queelag-tooltip {...props} ref={ref} focusable>
-        <queelag-tooltip-content
+      <q-tooltip {...props} ref={ref} focusable>
+        <q-tooltip-content
           className={joinElementClasses('px-2 py-1 rounded-sm shadow bg-black', !element?.visible && 'opacity-0 pointer-events-none')}
           middlewares={[offset(8)]}
         >
           <span className='text-xs whitespace-nowrap text-white'>Tooltip Content</span>
-          <queelag-tooltip-arrow className='h-0 w-0 border-x-[8px] border-x-transparent border-b-[8px] border-b-black' />
-        </queelag-tooltip-content>
-        <queelag-tooltip-trigger>
-          <queelag-button className='whitespace-nowrap' tabIndex={-1} native>
+          <q-tooltip-arrow className='h-0 w-0 border-x-[8px] border-x-transparent border-b-[8px] border-b-black' />
+        </q-tooltip-content>
+        <q-tooltip-trigger>
+          <q-button className='whitespace-nowrap' tabIndex={-1} native>
             Tooltip Trigger
-          </queelag-button>
-        </queelag-tooltip-trigger>
-      </queelag-tooltip>
+          </q-button>
+        </q-tooltip-trigger>
+      </q-tooltip>
     </div>
   )
 }

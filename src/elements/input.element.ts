@@ -15,11 +15,11 @@ import { FormFieldElement } from './form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-input': InputElement
+    'q-input': InputElement
   }
 }
 
-@CustomElement('queelag-input')
+@CustomElement('q-input')
 export class InputElement extends FormFieldElement {
   @QueryShadow('input')
   private inputElement!: HTMLInputElement

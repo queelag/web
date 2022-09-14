@@ -7,11 +7,11 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-badge': BadgeElement
+    'q-badge': BadgeElement
   }
 }
 
-@CustomElement('queelag-badge')
+@CustomElement('q-badge')
 export class BadgeElement extends BaseElement {
   @Property({ type: Number, reflect: true })
   maximum?: number

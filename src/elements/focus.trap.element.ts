@@ -14,7 +14,7 @@ import {
 import { ElementLogger } from '../loggers/element.logger'
 import { BaseElement } from './base.element'
 
-@CustomElement('queelag-focus-trap')
+@CustomElement('q-focus-trap')
 export class FocusTrapElement extends BaseElement {
   @Property({ attribute: 'allow-outside-click' })
   allowOutsideClick?: FocusTrapAllowOutsideClick

@@ -11,11 +11,11 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-button': ButtonElement
+    'q-button': ButtonElement
   }
 }
 
-@CustomElement('queelag-button')
+@CustomElement('q-button')
 export class ButtonElement extends BaseElement {
   protected aria: AriaButtonController = new AriaButtonController(this)
 

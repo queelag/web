@@ -15,11 +15,11 @@ import type { SwitchElement } from './switch.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-form': FormElement
+    'q-form': FormElement
   }
 }
 
-@CustomElement('queelag-form')
+@CustomElement('q-form')
 export class FormElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   disabled?: boolean
@@ -27,16 +27,16 @@ export class FormElement extends BaseElement {
   @QueryShadow('form')
   private formElement!: HTMLFormElement
 
-  @QueryAssignedElements({ selector: 'queelag-checkbox' })
+  @QueryAssignedElements({ selector: 'q-checkbox' })
   private slotCheckBoxElements!: CheckBoxElement[]
 
-  @QueryAssignedElements({ selector: 'queelag-input' })
+  @QueryAssignedElements({ selector: 'q-input' })
   private slotInputElements!: InputElement[]
 
-  @QueryAssignedElements({ selector: 'queelag-input-file' })
+  @QueryAssignedElements({ selector: 'q-input-file' })
   private slotInputFileElements!: InputFileElement[]
 
-  @QueryAssignedElements({ selector: 'queelag-switch' })
+  @QueryAssignedElements({ selector: 'q-switch' })
   private slowSwitchElements!: SwitchElement[]
 
   @Property({ type: Boolean, reflect: true })

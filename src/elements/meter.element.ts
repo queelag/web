@@ -7,11 +7,11 @@ import { BaseElement } from './base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-meter': MeterElement
+    'q-meter': MeterElement
   }
 }
 
-@CustomElement('queelag-meter')
+@CustomElement('q-meter')
 export class MeterElement extends BaseElement {
   @Property({ type: Number, reflect: true })
   low?: number

@@ -7,13 +7,13 @@ import { DialogDescriptionElement, DialogElement, DialogLabelElement } from './d
 
 declare global {
   interface HTMLElementTagNameMap {
-    'queelag-alert-dialog': AlertDialogElement
-    'queelag-alert-dialog-description': AlertDialogDescriptionElement
-    'queelag-alert-dialog-label': AlertDialogLabelElement
+    'q-alert-dialog': AlertDialogElement
+    'q-alert-dialog-description': AlertDialogDescriptionElement
+    'q-alert-dialog-label': AlertDialogLabelElement
   }
 }
 
-@CustomElement('queelag-alert-dialog')
+@CustomElement('q-alert-dialog')
 export class AlertDialogElement extends DialogElement {
   constructor() {
     super()
@@ -28,14 +28,14 @@ export class AlertDialogElement extends DialogElement {
   }
 }
 
-@CustomElement('queelag-alert-dialog-description')
+@CustomElement('q-alert-dialog-description')
 export class AlertDialogDescriptionElement extends DialogDescriptionElement {
   get name(): ElementName {
     return ElementName.ALERT_DIALOG_DESCRIPTION
   }
 }
 
-@CustomElement('queelag-alert-dialog-label')
+@CustomElement('q-alert-dialog-label')
 export class AlertDialogLabelElement extends DialogLabelElement {
   get name(): ElementName {
     return ElementName.ALERT_DIALOG_LABEL
