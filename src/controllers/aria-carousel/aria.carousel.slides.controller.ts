@@ -16,6 +16,6 @@ export class AriaCarouselSlidesController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-live', this.host.rootElement.live)
+    setImmutableElementAttribute(this.host, 'aria-live', this.host.rootElement.live ?? (this.host.rootElement.automaticRotation ? 'off' : 'polite'))
   }
 }

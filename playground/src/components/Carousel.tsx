@@ -49,7 +49,7 @@ interface CarouselSlideProps extends CarouselSlideElementAttributes, DetailedHTM
 interface CarouselSlidesProps extends CarouselSlidesElementAttributes, DetailedHTMLProps<HTMLAttributes<CarouselSlidesElement>, CarouselSlidesElement> {}
 
 export function Carousel() {
-  const { element, ref } = useQueelagElement('queelag-carousel')
+  const { element, ref } = useQueelagElement('queelag-carousel', { attribute: { dispatch: true } })
   const [props] = useState<CarouselProps>({})
   const [slides] = useState<string[]>([
     'https://images.unsplash.com/photo-1533883355737-25ab4d1fbefb',
@@ -59,22 +59,41 @@ export function Carousel() {
 
   return (
     <div>
-      <queelag-carousel {...props} ref={ref} className='w-96 aspect-video' automatic-rotation infinite-rotation>
+      <queelag-carousel
+        {...props}
+        ref={ref}
+        className='relative w-96 aspect-video'
+        automatic-rotation-interval-time={2000}
+        // automatic-rotation
+        infinite-rotation
+        //
+      >
         <queelag-carousel-slides className='relative w-full rounded-sm overflow-hidden'>
-          {slides.map((slide: string) => (
-            <CarouselSlide slide={slide} />
+          {slides.map((slide: string, index: number) => (
+            <CarouselSlide index={index} slide={slide} />
           ))}
         </queelag-carousel-slides>
+        <div className='absolute bottom-0 right-0 flex p-1 gap-2 text-xs'>
+          <queelag-carousel-rotation-control className='px-2 py-1 rounded-sm bg-black'>
+            <span className='uppercase text-white'>{element?.automaticRotation ? 'Stop' : 'Start'}</span>
+          </queelag-carousel-rotation-control>
+          <queelag-carousel-previous-slide-control className='px-2 py-1 rounded-sm bg-black'>
+            <span className='uppercase text-white'>Prev</span>
+          </queelag-carousel-previous-slide-control>
+          <queelag-carousel-next-slide-control className='px-2 py-1 rounded-sm bg-black'>
+            <span className='uppercase text-white'>Next</span>
+          </queelag-carousel-next-slide-control>
+        </div>
       </queelag-carousel>
     </div>
   )
 }
 
-function CarouselSlide({ slide }: any) {
+function CarouselSlide({ index, slide }: any) {
   const { element, ref } = useQueelagElement('queelag-carousel-slide', { attribute: { dispatch: true } })
 
   return (
-    <queelag-carousel-slide ref={ref} className={joinElementClasses('absolute inset-0', !element?.active && 'hidden')}>
+    <queelag-carousel-slide ref={ref} active={index <= 0} className={joinElementClasses('absolute inset-0', !element?.active && 'hidden')}>
       <queelag-image className='w-full' src={slide + '?w=768'} />
     </queelag-carousel-slide>
   )

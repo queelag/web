@@ -7,13 +7,14 @@ import { AriaCarouselSlideController } from '../controllers/aria-carousel/aria.c
 import { AriaCarouselSlidesController } from '../controllers/aria-carousel/aria.carousel.slides.controller'
 import { Closest } from '../decorators/closest'
 import { CustomElement } from '../decorators/custom.element'
+import { Internal } from '../decorators/internal'
 import { Property } from '../decorators/property'
 import { Query } from '../decorators/query'
 import { QueryAll } from '../decorators/query.all'
 import { State } from '../decorators/state'
 import { DEFAULT_CAROUSEL_ROTATION_DURATION } from '../definitions/constants'
-import { ElementName } from '../definitions/enums'
-import { CarouselElementLive } from '../definitions/types'
+import { ElementName, KeyboardEventKey } from '../definitions/enums'
+import { AriaLive } from '../definitions/types'
 import { ElementLogger } from '../loggers/element.logger'
 import { BaseElement } from './base.element'
 
@@ -38,14 +39,17 @@ export class CarouselElement extends BaseElement {
   @Property({ type: Boolean, attribute: 'automatic-rotation', reflect: true })
   automaticRotation?: boolean
 
+  @Property({ type: Number, attribute: 'automatic-rotation-interval-time', reflect: true })
+  automaticRotationIntervalTime?: number
+
+  @Internal()
+  forceAutomaticRotation?: boolean
+
   @Property({ type: Boolean, attribute: 'infinite-rotation', reflect: true })
   infiniteRotation?: boolean
 
-  @Property({ type: String, reflect: true })
-  live?: CarouselElementLive
-
-  @Property({ type: Number, attribute: 'rotation-duration', reflect: true })
-  rotationDuration?: number
+  @State()
+  live?: AriaLive
 
   @QueryAll('queelag-carousel-slide')
   slideElements!: CarouselSlideElement[]
@@ -62,10 +66,10 @@ export class CarouselElement extends BaseElement {
     this.addEventListener('mouseleave', this.onMouseLeave)
 
     if (this.automaticRotation) {
-      Interval.start(this.uid, this.activateNextSlide, this.rotationDuration ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
+      Interval.start(this.uid, this.activateNextSlide, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
       ElementLogger.verbose(this.uid, 'connectedCallback', `The automatic rotation has been started.`)
 
-      this.live = 'off'
+      return
     }
   }
 
@@ -98,19 +102,25 @@ export class CarouselElement extends BaseElement {
   }
 
   onBlurOrMouseLeave = (): void => {
-    if (this.automaticRotation && this.live === 'off') {
-      Interval.stop(this.uid)
-
-      Interval.start(this.uid, this.activateNextSlide, this.rotationDuration ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
-      ElementLogger.verbose(this.uid, 'onBlur', `The automatic rotation has been started.`)
+    if (this.forceAutomaticRotation || !this.automaticRotation) {
+      return
     }
 
-    this.slidesElement.temporaryLive = undefined
+    Interval.stop(this.uid)
+
+    Interval.start(this.uid, this.activateNextSlide, this.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
+    ElementLogger.verbose(this.uid, 'onBlur', `The automatic rotation has been started.`)
+
+    this.live = undefined
     ElementLogger.verbose(this.uid, 'onBlur', `The temporary live state has been unset.`)
   }
 
   onFocusOrMouseEnter = (): void => {
-    this.slidesElement.temporaryLive = 'polite'
+    if (this.forceAutomaticRotation || !this.automaticRotation) {
+      return
+    }
+
+    this.live = 'polite'
     ElementLogger.verbose(this.uid, 'onFocus', `The temporary live state has been set to polite.`)
 
     Interval.stop(this.uid)
@@ -146,7 +156,7 @@ export class CarouselElement extends BaseElement {
       this.activeSlideElement?.deactivate()
 
       this.slideElements[this.slideElements.length - 1].activate()
-      ElementLogger.verbose(this.uid, 'activateNextSlide', `The last slide has been activated.`)
+      ElementLogger.verbose(this.uid, 'activatePreviousSlide', `The last slide has been activated.`)
 
       return
     }
@@ -154,7 +164,7 @@ export class CarouselElement extends BaseElement {
     this.activeSlideElement?.deactivate()
 
     this.slideElements[this.activeSlideElementIndex - 1].activate()
-    ElementLogger.verbose(this.uid, 'activateNextSlide', `The previous slide has been activated.`)
+    ElementLogger.verbose(this.uid, 'activatePreviousSlide', `The previous slide has been activated.`)
   }
 
   get activeSlideElementIndex(): number {
@@ -173,12 +183,6 @@ export class CarouselSlidesElement extends BaseElement {
   @Closest('queelag-carousel')
   rootElement!: CarouselElement
 
-  @QueryAll('queelag-carousel-slide')
-  slideElements!: CarouselSlideElement[]
-
-  @State()
-  temporaryLive?: CarouselElementLive
-
   get name(): ElementName {
     return ElementName.CAROUSEL_SLIDES
   }
@@ -190,6 +194,9 @@ export class CarouselSlideElement extends BaseElement {
 
   @Property({ type: Boolean, reflect: true })
   active?: boolean
+
+  @Closest('queelag-carousel')
+  rootElement!: CarouselElement
 
   @Closest('queelag-carousel-slides')
   slidesElement!: CarouselSlidesElement
@@ -203,7 +210,7 @@ export class CarouselSlideElement extends BaseElement {
   }
 
   get index(): number {
-    return this.slidesElement.slideElements.indexOf(this)
+    return this.rootElement.slideElements.indexOf(this)
   }
 
   get name(): ElementName {
@@ -220,15 +227,48 @@ export class CarouselRotationControlElement extends BaseElement {
 
   connectedCallback(): void {
     super.connectedCallback()
+
     this.addEventListener('click', this.onClick)
+    this.addEventListener('keydown', this.onKeyDown)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
+
     this.removeEventListener('click', this.onClick)
+    this.removeEventListener('keydown', this.onKeyDown)
   }
 
-  onClick = () => void {}
+  onClick = (): void => {
+    this.rootElement.forceAutomaticRotation = true
+
+    if (this.rootElement.automaticRotation) {
+      Interval.stop(this.rootElement.uid)
+    }
+
+    this.rootElement.automaticRotation = !this.rootElement.automaticRotation
+    ElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been ${this.rootElement.automaticRotation ? 'enabled' : 'disabled'}.`)
+
+    if (this.rootElement.automaticRotation) {
+      Interval.start(
+        this.rootElement.uid,
+        this.rootElement.activateNextSlide,
+        this.rootElement.automaticRotationIntervalTime ?? DEFAULT_CAROUSEL_ROTATION_DURATION
+      )
+      ElementLogger.verbose(this.uid, 'onClick', `The automatic rotation has been started.`)
+    }
+  }
+
+  onKeyDown = (event: KeyboardEvent): void => {
+    if (event.key !== KeyboardEventKey.ENTER && event.key !== KeyboardEventKey.SPACE) {
+      return
+    }
+
+    event.preventDefault()
+    event.stopPropagation()
+
+    this.click()
+  }
 
   get name(): ElementName {
     return ElementName.CAROUSEL_ROTATION_CONTROL
@@ -244,15 +284,32 @@ export class CarouselNextSlideControlElement extends BaseElement {
 
   connectedCallback(): void {
     super.connectedCallback()
+
     this.addEventListener('click', this.onClick)
+    this.addEventListener('keydown', this.onKeyDown)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
+
     this.removeEventListener('click', this.onClick)
+    this.removeEventListener('keydown', this.onKeyDown)
   }
 
-  onClick = () => void {}
+  onClick = (): void => {
+    this.rootElement.activateNextSlide()
+  }
+
+  onKeyDown = (event: KeyboardEvent): void => {
+    if (event.key !== KeyboardEventKey.ENTER && event.key !== KeyboardEventKey.SPACE) {
+      return
+    }
+
+    event.preventDefault()
+    event.stopPropagation()
+
+    this.click()
+  }
 
   get name(): ElementName {
     return ElementName.CAROUSEL_NEXT_SLIDE_CONTROL
@@ -268,15 +325,32 @@ export class CarouselPreviousSlideControlElement extends BaseElement {
 
   connectedCallback(): void {
     super.connectedCallback()
+
     this.addEventListener('click', this.onClick)
+    this.addEventListener('keydown', this.onKeyDown)
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback()
+
     this.removeEventListener('click', this.onClick)
+    this.removeEventListener('keydown', this.onKeyDown)
   }
 
-  onClick = () => void {}
+  onClick = (): void => {
+    this.rootElement.activatePreviousSlide()
+  }
+
+  onKeyDown = (event: KeyboardEvent): void => {
+    if (event.key !== KeyboardEventKey.ENTER && event.key !== KeyboardEventKey.SPACE) {
+      return
+    }
+
+    event.preventDefault()
+    event.stopPropagation()
+
+    this.click()
+  }
 
   get name(): ElementName {
     return ElementName.CAROUSEL_PREVIOUS_SLIDE_CONTROL

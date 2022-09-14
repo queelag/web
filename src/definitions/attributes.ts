@@ -5,7 +5,6 @@ import { SelectOption } from './interfaces'
 import {
   ButtonType,
   ButtonVariant,
-  CarouselElementLive,
   ChipElementVariant,
   ComboBoxElementAutoComplete,
   FocusTrapAllowOutsideClick,
@@ -105,8 +104,7 @@ export interface ButtonElementAttributes extends BaseElementAttributes {
 export interface CarouselElementAttributes extends BaseElementAttributes {
   'automatic-rotation'?: boolean
   'infinite-rotation'?: boolean
-  live?: CarouselElementLive
-  'rotation-duration'?: number
+  'automatic-rotation-interval-time'?: number
 }
 
 export interface CarouselNextSlideControlElementAttributes extends BaseElementAttributes {}

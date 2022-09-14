@@ -1,13 +1,13 @@
 import type { FocusTargetValueOrFalse, KeyboardEventToBoolean, MouseEventToBoolean } from 'focus-trap'
 import type { Struct, StructError } from 'superstruct'
 
+export type AriaLive = 'off' | 'polite' | 'assertive'
+
 export type ButtonPressed = 'false' | 'mixed' | 'true'
 export type ButtonType = 'button' | 'menu' | 'reset' | 'submit'
 export type ButtonVariant = 'fill' | 'fill-tonal' | 'opacity' | 'outline' | 'text'
 
 export type CanvasDataURLType = 'image/jpeg' | 'image/png' | 'image/webp'
-
-export type CarouselElementLive = 'off' | 'polite'
 
 export type ChipElementVariant = 'assist' | 'filter' | 'input' | 'suggestion'
 
