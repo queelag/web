@@ -103,13 +103,20 @@ export interface ButtonElementAttributes extends BaseElementAttributes {
 }
 
 export interface CarouselElementAttributes extends BaseElementAttributes {
+  'automatic-rotation'?: boolean
+  'infinite-rotation'?: boolean
   live?: CarouselElementLive
+  'rotation-duration'?: number
 }
 
 export interface CarouselNextSlideControlElementAttributes extends BaseElementAttributes {}
 export interface CarouselPreviousSlideControlElementAttributes extends BaseElementAttributes {}
 export interface CarouselRotationControlElementAttributes extends BaseElementAttributes {}
-export interface CarouselSlideElementAttributes extends BaseElementAttributes {}
+
+export interface CarouselSlideElementAttributes extends BaseElementAttributes {
+  active?: boolean
+}
+
 export interface CarouselSlidesElementAttributes extends BaseElementAttributes {}
 
 export interface CheckBoxElementAttributes extends FormFieldElementAttributes {

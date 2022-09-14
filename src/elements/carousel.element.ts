@@ -64,6 +64,8 @@ export class CarouselElement extends BaseElement {
     if (this.automaticRotation) {
       Interval.start(this.uid, this.activateNextSlide, this.rotationDuration ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
       ElementLogger.verbose(this.uid, 'connectedCallback', `The automatic rotation has been started.`)
+
+      this.live = 'off'
     }
   }
 
@@ -97,6 +99,8 @@ export class CarouselElement extends BaseElement {
 
   onBlurOrMouseLeave = (): void => {
     if (this.automaticRotation && this.live === 'off') {
+      Interval.stop(this.uid)
+
       Interval.start(this.uid, this.activateNextSlide, this.rotationDuration ?? DEFAULT_CAROUSEL_ROTATION_DURATION)
       ElementLogger.verbose(this.uid, 'onBlur', `The automatic rotation has been started.`)
     }

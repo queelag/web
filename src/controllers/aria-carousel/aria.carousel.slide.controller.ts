@@ -16,7 +16,7 @@ export class AriaCarouselSlideController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-label', `${this.host.index} of ${this.host.slidesElement.slideElements.length}`)
+    setImmutableElementAttribute(this.host, 'aria-label', `${this.host.index + 1} of ${this.host.slidesElement.slideElements.length}`)
     setImmutableElementAttribute(this.host, 'aria-roledescription', 'slide')
     setImmutableElementAttribute(this.host, 'role', 'group')
   }
