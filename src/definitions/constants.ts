@@ -2,6 +2,11 @@ import { IDGenerateOptions, ID_ALPHABET_HEX_LOWERCASE } from '@queelag/core'
 import { Orientation } from './types'
 
 /**
+ * CarouselElement
+ */
+export const DEFAULT_CAROUSEL_ROTATION_DURATION: number = 2500
+
+/**
  * Elements
  */
 export const ELEMENT_UID_GENERATE_OPTIONS: IDGenerateOptions = { alphabet: ID_ALPHABET_HEX_LOWERCASE, size: 8 }

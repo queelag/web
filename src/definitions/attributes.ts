@@ -5,6 +5,7 @@ import { SelectOption } from './interfaces'
 import {
   ButtonType,
   ButtonVariant,
+  CarouselElementLive,
   ChipElementVariant,
   ComboBoxElementAutoComplete,
   FocusTrapAllowOutsideClick,
@@ -100,6 +101,16 @@ export interface ButtonElementAttributes extends BaseElementAttributes {
   type?: ButtonType
   variant?: ButtonVariant
 }
+
+export interface CarouselElementAttributes extends BaseElementAttributes {
+  live?: CarouselElementLive
+}
+
+export interface CarouselNextSlideControlElementAttributes extends BaseElementAttributes {}
+export interface CarouselPreviousSlideControlElementAttributes extends BaseElementAttributes {}
+export interface CarouselRotationControlElementAttributes extends BaseElementAttributes {}
+export interface CarouselSlideElementAttributes extends BaseElementAttributes {}
+export interface CarouselSlidesElementAttributes extends BaseElementAttributes {}
 
 export interface CheckBoxElementAttributes extends FormFieldElementAttributes {
   custom?: boolean

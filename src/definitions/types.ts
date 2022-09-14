@@ -7,6 +7,8 @@ export type ButtonVariant = 'fill' | 'fill-tonal' | 'opacity' | 'outline' | 'tex
 
 export type CanvasDataURLType = 'image/jpeg' | 'image/png' | 'image/webp'
 
+export type CarouselElementLive = 'off' | 'polite'
+
 export type ChipElementVariant = 'assist' | 'filter' | 'input' | 'suggestion'
 
 export type Color =
