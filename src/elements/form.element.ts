@@ -6,12 +6,12 @@ import { QueryShadow } from '../decorators/query.shadow'
 import { ElementName, KeyboardEventKey } from '../definitions/enums'
 import { SubmitAsyncEvent } from '../events/submit.async.event'
 import { ElementLogger } from '../loggers/element.logger'
-import { BaseElement } from './base.element'
+import type { AriaSwitchElement } from './aria/aria.switch.element'
 import type { CheckBoxElement } from './check.box.element'
-import type { FormFieldElement } from './form.field.element'
+import { BaseElement } from './core/base.element'
+import type { FormFieldElement } from './core/form.field.element'
 import type { InputElement } from './input.element'
 import type { InputFileElement } from './input.file.element'
-import type { SwitchElement } from './switch.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -36,8 +36,8 @@ export class FormElement extends BaseElement {
   @QueryAssignedElements({ selector: 'q-input-file' })
   private slotInputFileElements!: InputFileElement[]
 
-  @QueryAssignedElements({ selector: 'q-switch' })
-  private slowSwitchElements!: SwitchElement[]
+  @QueryAssignedElements({ selector: 'q-aria-switch' })
+  private slowAriaSwitchElements!: AriaSwitchElement[]
 
   @Property({ type: Boolean, reflect: true })
   spinning?: boolean
@@ -94,6 +94,6 @@ export class FormElement extends BaseElement {
   }
 
   private get slotElements(): FormFieldElement[] {
-    return [...this.slotCheckBoxElements, ...this.slotInputElements, ...this.slotInputFileElements, ...this.slowSwitchElements]
+    return [...this.slotCheckBoxElements, ...this.slotInputElements, ...this.slotInputFileElements, ...this.slowAriaSwitchElements]
   }
 }

@@ -5,7 +5,7 @@ import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { ElementName, KeyboardEventKey } from '../definitions/enums'
 import { ElementLogger } from '../loggers/element.logger'
-import { FormFieldElement } from './form.field.element'
+import { FormFieldElement } from './core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {

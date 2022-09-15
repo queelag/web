@@ -1,11 +1,11 @@
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { DialogElement } from '../elements/dialog.element'
+import type { AriaDialogElement } from '../elements/aria/aria.dialog.element'
 import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaDialogController implements ReactiveController {
   alert: boolean
 
-  constructor(private host: ReactiveControllerHost & DialogElement, alert: boolean = false) {
+  constructor(private host: ReactiveControllerHost & AriaDialogElement, alert: boolean = false) {
     this.alert = alert
     this.host.addController(this)
   }

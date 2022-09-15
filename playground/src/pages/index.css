@@ -12,8 +12,8 @@ q-input,
 q-input-file,
 q-meter,
 q-select,
-q-slider,
-q-switch,
+q-aria-slider,
+q-aria-switch,
 q-textarea {
   opacity: 0;
 }
@@ -32,8 +32,8 @@ q-input:defined,
 q-input-file:defined,
 q-meter:defined,
 q-select:defined,
-q-slider:defined,
-q-switch:defined,
+q-aria-slider:defined,
+q-aria-switch:defined,
 q-textarea:defined {
   opacity: 1;
 }

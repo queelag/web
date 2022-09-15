@@ -3,7 +3,7 @@ import { Property } from '../decorators/property'
 import { NavigationRailItemElementAttributes } from '../definitions/attributes'
 import { ElementName } from '../definitions/enums'
 import { ElementLogger } from '../loggers/element.logger'
-import { BaseElement } from './base.element'
+import { BaseElement } from './core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -11,7 +11,7 @@ import { TextAreaElementResize, TextAreaElementTouchTrigger, TextAreaElementValu
 import { ifdef } from '../directives/if.defined'
 import { styleMap } from '../directives/style.map'
 import { ElementLogger } from '../loggers/element.logger'
-import { FormFieldElement } from './form.field.element'
+import { FormFieldElement } from './core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {

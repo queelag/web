@@ -3,10 +3,10 @@ import type { FocusTarget, FocusTargetOrFalse } from 'focus-trap'
 import type { Struct } from 'superstruct'
 import { SelectOption } from './interfaces'
 import {
+  AriaComboBoxElementAutoComplete,
   ButtonType,
   ButtonVariant,
   ChipElementVariant,
-  ComboBoxElementAutoComplete,
   FocusTrapAllowOutsideClick,
   FocusTrapCheckCanFocusTrap,
   FocusTrapCheckCanReturnFocus,
@@ -25,34 +25,178 @@ import {
   TextAreaElementResize
 } from './types'
 
-export interface AccordionElementAttributes extends BaseElementAttributes {
+export interface AriaAccordionElementAttributes extends BaseElementAttributes {
   'allow-only-one-expanded-section'?: boolean
 }
 
-export interface AccordionHeaderElementAttributes extends BaseElementAttributes {
+export interface AriaAccordionHeaderElementAttributes extends BaseElementAttributes {
   level?: HeadingLevel
 }
 
-export interface AccordionButtonElementAttributes extends BaseElementAttributes {}
-export interface AccordionPanelElementAttributes extends BaseElementAttributes {}
+export interface AriaAccordionButtonElementAttributes extends BaseElementAttributes {}
+export interface AriaAccordionPanelElementAttributes extends BaseElementAttributes {}
 
-export interface AccordionSectionElementAttributes extends BaseElementAttributes {
+export interface AriaAccordionSectionElementAttributes extends BaseElementAttributes {
   collapsable?: boolean
   expanded?: boolean
   'header-button-id'?: string
   'panel-id'?: string
 }
 
-export interface AlertElementAttributes extends BaseElementAttributes {
+export interface AriaAlertElementAttributes extends BaseElementAttributes {
   closable?: boolean
   headline?: string
   icon?: string
   text?: string
 }
 
-export interface AlertDialogElementAttributes extends DialogElementAttributes {}
-export interface AlertDialogDescriptionElementAttributes extends DialogDescriptionElementAttributes {}
-export interface AlertDialogLabelElementAttributes extends DialogLabelElementAttributes {}
+export interface AriaAlertDialogElementAttributes extends AriaDialogElementAttributes {}
+export interface AriaAlertDialogDescriptionElementAttributes extends AriaDialogDescriptionElementAttributes {}
+export interface AriaAlertDialogLabelElementAttributes extends AriaDialogLabelElementAttributes {}
+
+export interface AriaBreadcrumbElementAttributes extends BaseElementAttributes {}
+
+export interface AriaBreadcrumbAnchorElementAttributes extends AriaLinkElementAttributes {
+  current?: boolean
+}
+
+export interface AriaBreadcrumbListElementAttributes extends BaseElementAttributes {}
+export interface AriaBreadcrumbListItemElementAttributes extends BaseElementAttributes {}
+
+export interface AriaCarouselElementAttributes extends BaseElementAttributes {
+  'automatic-rotation'?: boolean
+  'infinite-rotation'?: boolean
+  'automatic-rotation-interval-time'?: number
+}
+
+export interface AriaCarouselNextSlideControlElementAttributes extends BaseElementAttributes {}
+export interface AriaCarouselPreviousSlideControlElementAttributes extends BaseElementAttributes {}
+export interface AriaCarouselRotationControlElementAttributes extends BaseElementAttributes {}
+
+export interface AriaCarouselSlideElementAttributes extends BaseElementAttributes {
+  active?: boolean
+}
+
+export interface AriaCarouselSlidesElementAttributes extends BaseElementAttributes {}
+
+export interface AriaCarouselTabElementAttributes extends BaseElementAttributes {
+  active?: boolean
+}
+
+export interface AriaCarouselTabsElementAttributes extends BaseElementAttributes {}
+
+export interface AriaComboBoxElementAttributes extends BaseElementAttributes {
+  autocomplete?: AriaComboBoxElementAutoComplete
+  expanded?: boolean
+  'scroll-into-view-options'?: ScrollIntoViewOptions
+}
+
+export interface AriaComboBoxButtonElementAttributes extends BaseElementAttributes {}
+export interface AriaComboBoxGroupElementAttributes extends BaseElementAttributes {}
+export interface AriaComboBoxInputElementAttributes extends BaseElementAttributes {}
+export interface AriaComboBoxListElementAttributes extends FloatingElementAttributes {}
+
+export interface AriaComboBoxOptionElementAttributes extends BaseElementAttributes {
+  selected?: boolean
+}
+
+export interface AriaDialogElementAttributes extends FocusTrapElementAttributes {
+  description?: string
+  label?: string
+  visible?: boolean
+}
+
+export interface AriaDialogDescriptionElementAttributes extends BaseElementAttributes {}
+export interface AriaDialogLabelElementAttributes extends BaseElementAttributes {}
+
+export interface AriaDisclosureElementAttributes extends BaseElementAttributes {}
+export interface AriaDisclosureButtonElementAttributes extends BaseElementAttributes {}
+export interface AriaDisclosurePanelElementAttributes extends BaseElementAttributes {}
+
+export interface AriaDisclosureSectionElementAttributes extends BaseElementAttributes {
+  expanded?: boolean
+}
+
+export interface AriaFeedElementAttributes extends BaseElementAttributes {
+  busy?: boolean
+}
+
+export interface AriaFeedArticleElementAttributes extends BaseElementAttributes {}
+export interface AriaFeedArticleDescriptionElementAttributes extends BaseElementAttributes {}
+export interface AriaFeedArticleLabelElementAttributes extends BaseElementAttributes {}
+
+export interface AriaLinkElementAttributes extends BaseElementAttributes {
+  href?: string
+  target?: string
+}
+
+export interface AriaListBoxElementAttributes extends BaseElementAttributes {
+  multiple?: boolean
+  'select-first-option-on-focus'?: boolean
+  'selection-follows-focus'?: boolean
+}
+
+export interface AriaListBoxOptionElementAttributes extends BaseElementAttributes {
+  selected?: boolean
+}
+
+export interface AriaMenuElementAttributes extends BaseElementAttributes {
+  expanded?: boolean
+  // navigation?: boolean
+}
+
+export interface AriaMenuButtonElementAttributes extends BaseElementAttributes {}
+export interface AriaMenuListElementAttributes extends FloatingElementAttributes {}
+
+export interface AriaMenuItemElementAttributes extends BaseElementAttributes {
+  active?: boolean
+}
+
+export interface AriaMenuBarElementAttributes extends BaseElementAttributes {}
+export interface AriaMenuBarItemElementAttributes extends BaseElementAttributes {}
+export interface AriaMenuBarSubMenuElementAttributes extends FloatingElementAttributes {}
+
+export interface AriaRadioGroupElementAttributes extends BaseElementAttributes {}
+
+export interface AriaSliderElementAttributes extends BaseElementAttributes {
+  decimals?: number
+  'disable-swap'?: boolean
+  maximum?: number
+  minimum?: number
+  'minimum-distance'?: number
+  orientation?: Orientation
+  step?: number
+}
+
+export interface AriaSliderThumbElementAttributes extends BaseElementAttributes {
+  'default-value'?: number
+  'disable-compute-position'?: boolean
+  movable?: boolean
+  value?: number
+}
+
+export interface AriaSwitchElementAttributes extends FormFieldElementAttributes {
+  native?: boolean
+}
+
+export interface AriaTabsElementAttributes extends BaseElementAttributes {
+  'automatic-activation'?: boolean
+}
+
+export interface AriaTabsTabElementAttributes extends BaseElementAttributes {
+  selected?: boolean
+}
+
+export interface AriaTabsPanelElementAttributes extends BaseElementAttributes {}
+
+export interface AriaTooltipElementAttributes extends BaseElementAttributes {
+  focusable?: boolean
+  visible?: boolean
+}
+
+export interface AriaTooltipArrowElementAttributes extends BaseElementAttributes {}
+export interface AriaTooltipContentElementAttributes extends FloatingElementAttributes {}
+export interface AriaTooltipTriggerElementAttributes extends BaseElementAttributes {}
 
 export interface AvatarElementAttributes extends BaseElementAttributes {
   icon?: string
@@ -79,15 +223,6 @@ export interface BaseElementAttributes {
   width?: number | string
 }
 
-export interface BreadcrumbElementAttributes extends BaseElementAttributes {}
-
-export interface BreadcrumbAnchorElementAttributes extends LinkElementAttributes {
-  current?: boolean
-}
-
-export interface BreadcrumbListElementAttributes extends BaseElementAttributes {}
-export interface BreadcrumbListItemElementAttributes extends BaseElementAttributes {}
-
 export interface ButtonElementAttributes extends BaseElementAttributes {
   async?: boolean
   disabled?: boolean
@@ -100,22 +235,6 @@ export interface ButtonElementAttributes extends BaseElementAttributes {
   type?: ButtonType
   variant?: ButtonVariant
 }
-
-export interface CarouselElementAttributes extends BaseElementAttributes {
-  'automatic-rotation'?: boolean
-  'infinite-rotation'?: boolean
-  'automatic-rotation-interval-time'?: number
-}
-
-export interface CarouselNextSlideControlElementAttributes extends BaseElementAttributes {}
-export interface CarouselPreviousSlideControlElementAttributes extends BaseElementAttributes {}
-export interface CarouselRotationControlElementAttributes extends BaseElementAttributes {}
-
-export interface CarouselSlideElementAttributes extends BaseElementAttributes {
-  active?: boolean
-}
-
-export interface CarouselSlidesElementAttributes extends BaseElementAttributes {}
 
 export interface CheckBoxElementAttributes extends FormFieldElementAttributes {
   custom?: boolean
@@ -132,49 +251,9 @@ export interface ChipElementAttributes extends BaseElementAttributes {
   variant?: ChipElementVariant
 }
 
-export interface ComboBoxElementAttributes extends BaseElementAttributes {
-  autocomplete?: ComboBoxElementAutoComplete
-  expanded?: boolean
-  'scroll-into-view-options'?: ScrollIntoViewOptions
-}
-
-export interface ComboBoxButtonElementAttributes extends BaseElementAttributes {}
-export interface ComboBoxGroupElementAttributes extends BaseElementAttributes {}
-export interface ComboBoxInputElementAttributes extends BaseElementAttributes {}
-export interface ComboBoxListElementAttributes extends FloatingElementAttributes {}
-
-export interface ComboBoxOptionElementAttributes extends BaseElementAttributes {
-  selected?: boolean
-}
-
-export interface DialogElementAttributes extends FocusTrapElementAttributes {
-  description?: string
-  label?: string
-  visible?: boolean
-}
-
-export interface DialogDescriptionElementAttributes extends BaseElementAttributes {}
-export interface DialogLabelElementAttributes extends BaseElementAttributes {}
-
-export interface DisclosureElementAttributes extends BaseElementAttributes {}
-export interface DisclosureButtonElementAttributes extends BaseElementAttributes {}
-export interface DisclosurePanelElementAttributes extends BaseElementAttributes {}
-
-export interface DisclosureSectionElementAttributes extends BaseElementAttributes {
-  expanded?: boolean
-}
-
 export interface DividerElementAttributes extends BaseElementAttributes {
   orientation?: Orientation
 }
-
-export interface FeedElementAttributes extends BaseElementAttributes {
-  busy?: boolean
-}
-
-export interface FeedArticleElementAttributes extends BaseElementAttributes {}
-export interface FeedArticleDescriptionElementAttributes extends BaseElementAttributes {}
-export interface FeedArticleLabelElementAttributes extends BaseElementAttributes {}
 
 export interface FloatingElementAttributes extends BaseElementAttributes {
   'ancestor-scroll'?: boolean
@@ -252,21 +331,6 @@ export interface InputFileElementAttributes extends FormFieldElementAttributes {
   native?: boolean
 }
 
-export interface LinkElementAttributes extends BaseElementAttributes {
-  href?: string
-  target?: string
-}
-
-export interface ListBoxElementAttributes extends BaseElementAttributes {
-  multiple?: boolean
-  'select-first-option-on-focus'?: boolean
-  'selection-follows-focus'?: boolean
-}
-
-export interface ListBoxOptionElementAttributes extends BaseElementAttributes {
-  selected?: boolean
-}
-
 export interface MeterElementAttributes extends BaseElementAttributes {
   low?: number
   high?: number
@@ -300,11 +364,9 @@ export interface NavigationRailItemElementAttributes extends BaseElementAttribut
   icon?: string
 }
 
-export interface RadioButtonElementAttributes extends BaseElementAttributes {
+export interface AriaRadioButtonElementAttributes extends BaseElementAttributes {
   checked?: boolean
 }
-
-export interface RadioGroupElementAttributes extends BaseElementAttributes {}
 
 export interface SelectElementAttributes extends FormFieldElementAttributes {
   multiple?: boolean
@@ -313,49 +375,9 @@ export interface SelectElementAttributes extends FormFieldElementAttributes {
   options?: SelectOption[]
 }
 
-export interface SliderElementAttributes extends BaseElementAttributes {
-  decimals?: number
-  'disable-swap'?: boolean
-  maximum?: number
-  minimum?: number
-  'minimum-distance'?: number
-  orientation?: Orientation
-  step?: number
-}
-
-export interface SliderThumbElementAttributes extends BaseElementAttributes {
-  'default-value'?: number
-  'disable-compute-position'?: boolean
-  movable?: boolean
-  value?: number
-}
-
-export interface SwitchElementAttributes extends FormFieldElementAttributes {
-  native?: boolean
-}
-
-export interface TabsElementAttributes extends BaseElementAttributes {
-  'automatic-activation'?: boolean
-}
-
-export interface TabsTabElementAttributes extends BaseElementAttributes {
-  selected?: boolean
-}
-
-export interface TabsPanelElementAttributes extends BaseElementAttributes {}
-
 export interface TextAreaElementAttributes extends Omit<InputElementAttributes, 'obscured' | 'type'> {
   autosize?: boolean
   cols?: number
   resize?: TextAreaElementResize
   rows?: number
 }
-
-export interface TooltipElementAttributes extends BaseElementAttributes {
-  focusable?: boolean
-  visible?: boolean
-}
-
-export interface TooltipArrowElementAttributes extends BaseElementAttributes {}
-export interface TooltipContentElementAttributes extends FloatingElementAttributes {}
-export interface TooltipTriggerElementAttributes extends BaseElementAttributes {}

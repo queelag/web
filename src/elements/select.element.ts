@@ -8,7 +8,7 @@ import { SelectOption } from '../definitions/interfaces'
 import { map } from '../directives/map'
 import { StateChangedEvent } from '../events/state.changed.event'
 import { ElementLogger } from '../loggers/element.logger'
-import { FormFieldElement } from './form.field.element'
+import { FormFieldElement } from './core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -1,10 +1,13 @@
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { ButtonElement } from '../elements/button.element'
+import { AriaButtonElement } from '../elements/aria/aria.button.element'
 import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaButtonController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & ButtonElement) {
+  native?: boolean
+
+  constructor(private host: ReactiveControllerHost & AriaButtonElement, native?: boolean) {
     this.host.addController(this)
+    this.native = native
   }
 
   hostConnected(): void {
@@ -16,13 +19,13 @@ export class AriaButtonController implements ReactiveController {
   }
 
   setAttributes(): void {
-    if (this.host.native) {
+    if (this.native) {
       setImmutableElementAttribute(this.host, 'tabindex', this.host.getAttribute('tabindex') || '0')
       return
     }
 
     setImmutableElementAttribute(this.host, 'aria-disabled', this.host.disabled ? 'true' : undefined)
-    setImmutableElementAttribute(this.host, 'aria-label', this.host.label)
+    // setImmutableElementAttribute(this.host, 'aria-label', this.host.label)
     setImmutableElementAttribute(this.host, 'aria-pressed', this.host.pressed ? 'true' : undefined)
     setImmutableElementAttribute(this.host, 'role', 'button')
     setImmutableElementAttribute(this.host, 'tabindex', this.host.getAttribute('tabindex') || '0')

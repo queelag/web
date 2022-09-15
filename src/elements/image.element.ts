@@ -15,7 +15,7 @@ import { until } from '../directives/until'
 import { ElementLogger } from '../loggers/element.logger'
 import { getElementStyleCompatibleValue } from '../utils/element.utils'
 import { getImageElementBase64 } from '../utils/image.utils'
-import { BaseElement } from './base.element'
+import { BaseElement } from './core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {

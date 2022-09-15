@@ -8,7 +8,7 @@ import {
 } from '../definitions/constants'
 import { Orientation } from '../definitions/types'
 
-export function getSliderThumbElementStyleLeft(percentage: number, orientation: Orientation = DEFAULT_SLIDER_ORIENTATION): string {
+export function getAriaSliderThumbElementStyleLeft(percentage: number, orientation: Orientation = DEFAULT_SLIDER_ORIENTATION): string {
   if (orientation === 'horizontal') {
     return percentage + '%'
   }
@@ -16,7 +16,7 @@ export function getSliderThumbElementStyleLeft(percentage: number, orientation: 
   return '0'
 }
 
-export function getSliderThumbElementStyleTop(percentage: number, orientation: Orientation = DEFAULT_SLIDER_ORIENTATION): string {
+export function getAriaSliderThumbElementStyleTop(percentage: number, orientation: Orientation = DEFAULT_SLIDER_ORIENTATION): string {
   if (orientation === 'vertical') {
     return percentage + '%'
   }
@@ -24,7 +24,7 @@ export function getSliderThumbElementStyleTop(percentage: number, orientation: O
   return '0'
 }
 
-export function getSliderThumbElementPercentage(
+export function getAriaSliderThumbElementPercentage(
   value: number = DEFAULT_SLIDER_THUMB_VALUE,
   minimum: number = DEFAULT_SLIDER_MINIMUM,
   maximum: number = DEFAULT_SLIDER_MAXIMUM,

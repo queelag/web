@@ -52,6 +52,9 @@
     },
     "isomorphic-dompurify": {
       "optional": true
+    },
+    "tabbable": {
+      "optional": true
     }
   },
   "publishConfig": {

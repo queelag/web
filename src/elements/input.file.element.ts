@@ -8,7 +8,7 @@ import { QueryShadow } from '../decorators/query.shadow'
 import { DeserializeFileOptions } from '../definitions/interfaces'
 import { ElementLogger } from '../loggers/element.logger'
 import { deserializeFile } from '../utils/file.utils'
-import { FormFieldElement } from './form.field.element'
+import { FormFieldElement } from './core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {

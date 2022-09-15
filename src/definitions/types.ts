@@ -33,7 +33,7 @@ export type Color =
   | 'white'
   | string
 
-export type ComboBoxElementAutoComplete = 'none' | 'inline' | 'list' | 'both'
+export type AriaComboBoxElementAutoComplete = 'none' | 'inline' | 'list' | 'both'
 
 export type Constructor<T> = new (...args: any[]) => T
 
@@ -44,7 +44,7 @@ export type DirectionVertical = 'down' | 'up'
 export type ElementAttributeValue = string | null | undefined
 export type ElementAttributes = Record<string, ElementAttributeValue>
 
-export type FeedbackType = 'error' | 'information' | 'success' | 'warning'
+export type AriaFeedbackType = 'error' | 'information' | 'success' | 'warning'
 
 export type FocusTrapAllowOutsideClick = boolean | MouseEventToBoolean
 export type FocusTrapCheckCanFocusTrap = (containers: Array<HTMLElement | SVGElement>) => Promise<void>

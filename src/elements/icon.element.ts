@@ -1,8 +1,9 @@
-import { Fetch, FetchResponse, isStringURL, rvp, sleep, tcp } from '@queelag/core'
+import { Fetch, FetchResponse, isStringURL, rvp, tcp } from '@queelag/core'
 import DOMPurify from 'isomorphic-dompurify'
 import { html, svg, TemplateResult } from 'lit'
 import { DirectiveResult } from 'lit-html/directive'
 import { StyleMapDirective } from 'lit-html/directives/style-map'
+import { AriaIconController } from '../controllers/aria.icon.controller'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { State } from '../decorators/state'
@@ -15,7 +16,7 @@ import { unsafeSVG } from '../directives/unsafe.svg'
 import { ElementLogger } from '../loggers/element.logger'
 import { getElementStyleCompatibleValue } from '../utils/element.utils'
 import { isStringSVG } from '../utils/string.utils'
-import { BaseElement } from './base.element'
+import { BaseElement } from './core/base.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -25,6 +26,8 @@ declare global {
 
 @CustomElement('q-icon')
 export class IconElement extends BaseElement {
+  protected aria: AriaIconController = new AriaIconController(this)
+
   @Property({ type: Boolean, reflect: true })
   cache?: boolean
 
@@ -88,18 +91,18 @@ export class IconElement extends BaseElement {
   private async fetchSource(): Promise<void> {
     let cache: string | undefined, response: FetchResponse<string> | Error, text: string | Error
 
-    if (FETCHING_ICONS.has(this.src)) {
-      ElementLogger.verbose(this.uid, 'fetchSource', `The src is already being fetched, will try again in 100ms.`, [this.src])
-      await sleep(100)
+    // if (FETCHING_ICONS.has(this.src)) {
+    //   ElementLogger.verbose(this.uid, 'fetchSource', `The src is already being fetched, will try again in 100ms.`, [this.src])
+    //   await sleep(100)
 
-      return this.fetchSource()
-    }
+    //   return this.fetchSource()
+    // }
 
-    cache = CACHE_ICONS.get(this.src)
-    if (typeof cache === 'string') {
-      ElementLogger.verbose(this.uid, 'fetchSource', `Cached SVG found for this src, will parse.`, [this.src, cache])
-      return this.parseSVGString(cache)
-    }
+    // cache = CACHE_ICONS.get(this.src)
+    // if (typeof cache === 'string') {
+    //   ElementLogger.verbose(this.uid, 'fetchSource', `Cached SVG found for this src, will parse.`, [this.src, cache])
+    //   return this.parseSVGString(cache)
+    // }
 
     FETCHING_ICONS.add(this.src)
     ElementLogger.verbose(this.uid, 'fetchSource', `The src has been marked as fetching.`, [this.src])

@@ -21,6 +21,7 @@ export default defineConfig({
     'lit/directives/style-map.js',
     'lit/directives/unsafe-svg.js',
     'lit/directives/until.js',
+    'lit/directives/when.js',
     'lit-html',
     'tabbable'
   ],

@@ -2,7 +2,7 @@ import { IDGenerateOptions, ID_ALPHABET_HEX_LOWERCASE } from '@queelag/core'
 import { Orientation } from './types'
 
 /**
- * CarouselElement
+ * AriaCarouselElement
  */
 export const DEFAULT_CAROUSEL_ROTATION_DURATION: number = 2500
 
@@ -27,7 +27,7 @@ export const DEFAULT_IMAGE_SRC: string = 'data:image/png;base64,iVBORw0KGgoAAAAN
 export const FETCHING_IMAGES: Set<string> = new Set()
 
 /**
- * SliderElement
+ * AriaSliderElement
  */
 export const DEFAULT_SLIDER_DECIMALS: number = 0
 export const DEFAULT_SLIDER_MAXIMUM: number = 100

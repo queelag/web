@@ -1,13 +1,12 @@
-import { css, CSSResult, html } from 'lit'
-import { AriaButtonController } from '../controllers/aria.button.controller'
+import { css, html } from 'lit'
 import { CustomElement } from '../decorators/custom.element'
 import { Property } from '../decorators/property'
 import { ElementName, KeyboardEventKey } from '../definitions/enums'
-import { ButtonPressed, ButtonType, ButtonVariant } from '../definitions/types'
+import { ButtonType, ButtonVariant } from '../definitions/types'
 import { ifdef } from '../directives/if.defined'
 import { ClickAsyncEvent } from '../events/click.async.event'
 import { ElementLogger } from '../loggers/element.logger'
-import { BaseElement } from './base.element'
+import { AriaButtonElement } from './aria/aria.button.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -16,14 +15,9 @@ declare global {
 }
 
 @CustomElement('q-button')
-export class ButtonElement extends BaseElement {
-  protected aria: AriaButtonController = new AriaButtonController(this)
-
+export class ButtonElement extends AriaButtonElement {
   @Property({ type: Boolean, reflect: true })
   async?: boolean
-
-  @Property({ type: Boolean, reflect: true })
-  disabled?: boolean
 
   @Property({ type: String, reflect: true })
   icon?: string
@@ -37,9 +31,6 @@ export class ButtonElement extends BaseElement {
   @Property({ type: Boolean, reflect: true })
   normalized?: boolean
 
-  @Property({ type: String, reflect: true })
-  pressed?: ButtonPressed
-
   @Property({ type: Boolean, reflect: true })
   spinning?: boolean
 
@@ -49,18 +40,8 @@ export class ButtonElement extends BaseElement {
   @Property({ type: String, reflect: true })
   variant?: ButtonVariant
 
-  connectedCallback(): void {
-    super.connectedCallback()
-
-    this.addEventListener('click', this.onClick)
-    this.addEventListener('keydown', this.onKeyDown)
-  }
-
-  disconnectedCallback(): void {
-    super.disconnectedCallback()
-
-    this.removeEventListener('click', this.onClick)
-    this.removeEventListener('keydown', this.onKeyDown)
+  constructor() {
+    super(true)
   }
 
   onClick = (): void => {
@@ -70,7 +51,7 @@ export class ButtonElement extends BaseElement {
   }
 
   onClickAsync(): void {
-    if (this.isNotClickable) {
+    if (this.disabled || this.spinning) {
       ElementLogger.warn(this.uid, 'onClickAsync', `The element is disabled or spinning.`)
       return
     }
@@ -88,15 +69,20 @@ export class ButtonElement extends BaseElement {
       return
     }
 
+    event.preventDefault()
+    event.stopPropagation()
+
+    if (this.disabled || this.spinning) {
+      return
+    }
+
     if (this.async) {
       this.onClickAsync()
       return
     }
 
-    if (this.isClickable) {
-      this.click()
-      ElementLogger.verbose(this.uid, 'onKeyDown', `The element has been clicked.`)
-    }
+    this.click()
+    ElementLogger.verbose(this.uid, 'onKeyDown', `The element has been clicked.`)
   }
 
   finalize = (): void => {
@@ -135,16 +121,8 @@ export class ButtonElement extends BaseElement {
     return ElementName.BUTTON
   }
 
-  get isClickable(): boolean {
-    return !this.disabled && !this.spinning
-  }
-
-  get isNotClickable(): boolean {
-    return !this.isClickable
-  }
-
   static styles = [
-    super.styles as CSSResult,
+    super.styles,
     css`
       * {
         cursor: pointer;
