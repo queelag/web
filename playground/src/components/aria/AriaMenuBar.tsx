@@ -56,36 +56,43 @@ export function AriaMenuBar() {
   return (
     <div>
       <q-aria-menubar {...props} ref={ref} className='flex rounded-sm border border-gray-400'>
-        {items.map((item: Item) => (
-          <AriaMenuBarItem item={item} />
+        {items.map((item: Item, index: number) => (
+          <AriaMenuBarItem index={index} item={item} />
         ))}
       </q-aria-menubar>
     </div>
   )
 }
 
-function AriaMenuBarItem({ item }: any) {
+function AriaMenuBarItem({ item, index }: any) {
   const { element, ref } = useQueelagElement('q-aria-menubar-item', { attribute: { dispatch: true } })
 
   return (
-    <q-aria-menubar-item ref={ref}>
+    <q-aria-menubar-item ref={ref} focused={element?.shallow && index <= 0}>
       <a className='p-2 text-xs' href='#'>
         {item.label}
       </a>
-      {item.children && (
-        <q-aria-menubar-submenu
-          className={joinElementClasses(
-            'w-48 flex flex-col rounded-sm border divide-y border-gray-400 divide-gray-400 bg-white',
-            !element?.expanded && 'opacity-0 pointer-events-none'
-          )}
-          middlewares={[offset(0)]}
-          placement={element?.deep ? 'right-start' : 'bottom-start'}
-        >
-          {item.children.map((child: Item) => (
-            <AriaMenuBarItem item={child} />
-          ))}
-        </q-aria-menubar-submenu>
-      )}
+      {item.children && <AriaMenuBarSubMenu item={item} />}
     </q-aria-menubar-item>
+  )
+}
+
+function AriaMenuBarSubMenu({ item }: any) {
+  const { element, ref } = useQueelagElement('q-aria-menubar-submenu', { attribute: { dispatch: true } })
+
+  return (
+    <q-aria-menubar-submenu
+      ref={ref}
+      className={joinElementClasses(
+        'w-48 flex flex-col rounded-sm border divide-y border-gray-400 divide-gray-400 bg-white',
+        !element?.subMenuElement?.expanded && 'opacity-0 pointer-events-none'
+      )}
+      middlewares={[offset(0)]}
+      placement={element?.itemElement.deep ? 'right-start' : 'bottom-start'}
+    >
+      {item.children.map((child: Item, index: number) => (
+        <AriaMenuBarItem index={index} item={child} />
+      ))}
+    </q-aria-menubar-submenu>
   )
 }

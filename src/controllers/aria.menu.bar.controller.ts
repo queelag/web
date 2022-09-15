@@ -1,5 +1,5 @@
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaMenuBarItemElement } from '../elements/aria/aria.menu.bar.element'
+import type { AriaMenuBarItemElement, AriaMenuBarSubMenuElement } from '../elements/aria/aria.menu.bar.element'
 import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaMenuBarController implements ReactiveController {
@@ -28,6 +28,10 @@ export class AriaMenuBarItemController implements ReactiveController {
 
   hostConnected(): void {
     this.setAttributes()
+
+    if (this.host.index === 0) {
+      setImmutableElementAttribute(this.host.anchorElement || this.host, 'tabindex', '0')
+    }
   }
 
   hostUpdate(): void {
@@ -35,8 +39,9 @@ export class AriaMenuBarItemController implements ReactiveController {
   }
 
   setAttributes(): void {
-    //   setImmutableElementAttribute(this.host, 'aria-label', '')
-    setImmutableElementAttribute(this.host.anchorElement || this.host, 'aria-expanded', this.host.expanded ? 'true' : 'false')
+    setImmutableElementAttribute(this.host, 'depth', String(this.host.depth))
+
+    // setImmutableElementAttribute(this.host.anchorElement || this.host, 'aria-label', '')
     setImmutableElementAttribute(this.host.anchorElement || this.host, 'aria-haspopup', 'true')
     setImmutableElementAttribute(this.host.anchorElement || this.host, 'role', 'menuitem')
 
@@ -48,17 +53,12 @@ export class AriaMenuBarItemController implements ReactiveController {
       }
     }
 
-    if (this.host.index === 0 && this.host.rootElement.isEveryItemElementWithNegativeTabIndex) {
-      setImmutableElementAttribute(this.host.anchorElement || this.host, 'tabindex', '0')
-      return
-    }
-
     setImmutableElementAttribute(this.host.anchorElement || this.host, 'tabindex', this.host.focused ? '0' : '-1')
   }
 }
 
 export class AriaMenuBarSubMenuController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & HTMLElement) {
+  constructor(private host: ReactiveControllerHost & AriaMenuBarSubMenuElement) {
     this.host.addController(this)
   }
 
@@ -73,5 +73,10 @@ export class AriaMenuBarSubMenuController implements ReactiveController {
   setAttributes(): void {
     //   setImmutableElementAttribute(this.host, 'aria-label', '')
     setImmutableElementAttribute(this.host, 'role', 'menu')
+
+    /**
+     * Set aria-expanded to parent item.
+     */
+    setImmutableElementAttribute(this.host.itemElement.anchorElement || this.host.itemElement, 'aria-expanded', this.host.expanded ? 'true' : 'false')
   }
 }

@@ -153,8 +153,14 @@ export interface AriaMenuItemElementAttributes extends BaseElementAttributes {
 }
 
 export interface AriaMenuBarElementAttributes extends BaseElementAttributes {}
-export interface AriaMenuBarItemElementAttributes extends BaseElementAttributes {}
-export interface AriaMenuBarSubMenuElementAttributes extends FloatingElementAttributes {}
+
+export interface AriaMenuBarItemElementAttributes extends BaseElementAttributes {
+  focused?: boolean
+}
+
+export interface AriaMenuBarSubMenuElementAttributes extends FloatingElementAttributes {
+  expanded?: boolean
+}
 
 export interface AriaRadioGroupElementAttributes extends BaseElementAttributes {}
 
