@@ -55,13 +55,11 @@ export interface AriaAlertDialogDescriptionElementAttributes extends AriaDialogD
 export interface AriaAlertDialogLabelElementAttributes extends AriaDialogLabelElementAttributes {}
 
 export interface AriaBreadcrumbElementAttributes extends BaseElementAttributes {}
+export interface AriaBreadcrumbListElementAttributes extends BaseElementAttributes {}
 
-export interface AriaBreadcrumbAnchorElementAttributes extends AriaLinkElementAttributes {
+export interface AriaBreadcrumbListItemElementAttributes extends BaseElementAttributes {
   current?: boolean
 }
-
-export interface AriaBreadcrumbListElementAttributes extends BaseElementAttributes {}
-export interface AriaBreadcrumbListItemElementAttributes extends BaseElementAttributes {}
 
 export interface AriaCarouselElementAttributes extends BaseElementAttributes {
   'automatic-rotation'?: boolean

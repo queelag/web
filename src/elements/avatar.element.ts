@@ -1,8 +1,8 @@
+import { CustomElement } from '@/decorators/custom.element'
+import { Property } from '@/decorators/property'
+import { ElementName } from '@/definitions/enums'
 import { css } from 'lit'
 import { html } from 'lit-html'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
-import { ElementName } from '../definitions/enums'
 import { BaseElement } from './core/base.element'
 
 declare global {

@@ -1,12 +1,12 @@
-import { getNumberPercentage, toFixedNumber } from '@queelag/core'
 import {
   DEFAULT_SLIDER_DECIMALS,
   DEFAULT_SLIDER_MAXIMUM,
   DEFAULT_SLIDER_MINIMUM,
   DEFAULT_SLIDER_ORIENTATION,
   DEFAULT_SLIDER_THUMB_VALUE
-} from '../definitions/constants'
-import { Orientation } from '../definitions/types'
+} from '@/definitions/constants'
+import { Orientation } from '@/definitions/types'
+import { getNumberPercentage, toFixedNumber } from '@queelag/core'
 
 export function getAriaSliderThumbElementStyleLeft(percentage: number, orientation: Orientation = DEFAULT_SLIDER_ORIENTATION): string {
   if (orientation === 'horizontal') {

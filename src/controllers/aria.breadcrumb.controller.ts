@@ -1,6 +1,6 @@
+import type { AriaBreadcrumbListItemElement } from '@/elements/aria/aria.breadcrumb.element'
+import { setImmutableElementAttribute } from '@/utils/element.utils'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaBreadcrumbAnchorElement } from '../elements/aria/aria.breadcrumb.element'
-import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaBreadcrumbController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & HTMLElement) {
@@ -18,24 +18,6 @@ export class AriaBreadcrumbController implements ReactiveController {
   setAttributes(): void {
     setImmutableElementAttribute(this.host, 'aria-label', 'AriaBreadcrumb')
     setImmutableElementAttribute(this.host, 'role', 'navigation')
-  }
-}
-
-export class AriaBreadcrumbAnchorController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & AriaBreadcrumbAnchorElement) {
-    this.host.addController(this)
-  }
-
-  hostConnected(): void {
-    this.setAttributes()
-  }
-
-  hostUpdate(): void {
-    this.setAttributes()
-  }
-
-  setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-current', this.host.current ? 'page' : undefined)
   }
 }
 
@@ -58,7 +40,7 @@ export class AriaBreadcrumbListController implements ReactiveController {
 }
 
 export class AriaBreadcrumbListItemController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & HTMLElement) {
+  constructor(private host: ReactiveControllerHost & AriaBreadcrumbListItemElement) {
     this.host.addController(this)
   }
 
@@ -71,6 +53,6 @@ export class AriaBreadcrumbListItemController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'role', 'listitem')
+    setImmutableElementAttribute(this.host.anchorElement, 'aria-current', this.host.current ? 'page' : undefined)
   }
 }

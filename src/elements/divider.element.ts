@@ -1,8 +1,8 @@
+import { CustomElement } from '@/decorators/custom.element'
+import { Property } from '@/decorators/property'
+import { Orientation } from '@/definitions/types'
+import { choose } from '@/directives/choose'
 import { html } from 'lit-html'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
-import { Orientation } from '../definitions/types'
-import { choose } from '../directives/choose'
 import { BaseElement } from './core/base.element'
 
 declare global {

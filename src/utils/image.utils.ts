@@ -1,7 +1,7 @@
+import { CACHE_IMAGES } from '@/definitions/constants'
+import { GetImageElementBase64Options } from '@/definitions/interfaces'
+import { UtilLogger } from '@/loggers/util.logger'
 import { DeferredPromise } from '@queelag/core'
-import { CACHE_IMAGES } from '../definitions/constants'
-import { GetImageElementBase64Options } from '../definitions/interfaces'
-import { UtilLogger } from '../loggers/util.logger'
 
 export function cacheImageElement(image: HTMLImageElement, options?: GetImageElementBase64Options): void {
   CACHE_IMAGES.set(image.src, getImageElementBase64(image, options))

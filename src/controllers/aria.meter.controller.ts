@@ -1,6 +1,6 @@
+import type { MeterElement } from '@/elements/meter.element'
+import { setImmutableElementAttribute } from '@/utils/element.utils'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { MeterElement } from '../elements/meter.element'
-import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaMeterController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & MeterElement) {

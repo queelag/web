@@ -1,8 +1,8 @@
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
-import { NavigationBarItemElementAttributes } from '../definitions/attributes'
-import { ElementName } from '../definitions/enums'
-import { ElementLogger } from '../loggers/element.logger'
+import { CustomElement } from '@/decorators/custom.element'
+import { Property } from '@/decorators/property'
+import { NavigationBarItemElementAttributes } from '@/definitions/attributes'
+import { ElementName } from '@/definitions/enums'
+import { ElementLogger } from '@/loggers/element.logger'
 import { BaseElement } from './core/base.element'
 
 declare global {

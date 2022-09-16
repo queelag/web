@@ -1,17 +1,17 @@
-import { FocusableElement, tabbable } from 'tabbable'
 import {
   AriaFeedArticleController,
   AriaFeedArticleDescriptionController,
   AriaFeedArticleLabelController,
   AriaFeedController
-} from '../../controllers/aria.feed.controller'
-import { Closest } from '../../decorators/closest'
-import { CustomElement } from '../../decorators/custom.element'
-import { Property } from '../../decorators/property'
-import { Query } from '../../decorators/query'
-import { QueryAll } from '../../decorators/query.all'
-import { ElementName, KeyboardEventKey } from '../../definitions/enums'
-import { ElementLogger } from '../../loggers/element.logger'
+} from '@/controllers/aria.feed.controller'
+import { Closest } from '@/decorators/closest'
+import { CustomElement } from '@/decorators/custom.element'
+import { Property } from '@/decorators/property'
+import { Query } from '@/decorators/query'
+import { QueryAll } from '@/decorators/query.all'
+import { ElementName, KeyboardEventKey } from '@/definitions/enums'
+import { ElementLogger } from '@/loggers/element.logger'
+import { FocusableElement, tabbable } from 'tabbable'
 import { BaseElement } from '../core/base.element'
 
 declare global {

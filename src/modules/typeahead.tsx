@@ -1,6 +1,6 @@
+import { DEFAULT_TYPEAHEAD_DEBOUNCE_TIME } from '@/definitions/constants'
+import { ElementLogger } from '@/loggers/element.logger'
 import { debounce, ID } from '@queelag/core'
-import { DEFAULT_TYPEAHEAD_DEBOUNCE_TIME } from '../definitions/constants'
-import { ElementLogger } from '../loggers/element.logger'
 
 type OnMatch<T extends HTMLElement> = (element: T) => any
 
@@ -26,9 +26,15 @@ export class Typeahead<T extends HTMLElement> {
       return
     }
 
+    event.preventDefault()
+    event.stopPropagation()
+
     this.value += event.key
     ElementLogger.verbose('Typeahead', 'handle', `The typeahead value has been updated.`, [event.key, this.value])
 
+    /**
+     * REFACTOR TO NOT USE INNERTEXT
+     */
     match = elements.find((element: T) => element.innerText.toLowerCase().trim().startsWith(this.value.charAt(0).toLowerCase().trim()))
     if (match) this.onMatch(match)
 
@@ -38,6 +44,9 @@ export class Typeahead<T extends HTMLElement> {
   private debouncefn(elements: T[]): void {
     let match: T | undefined
 
+    /**
+     * REFACTOR TO NOT USE INNERTEXT
+     */
     match = elements.find((element: T) => element.innerText.toLowerCase().trim().startsWith(this.value.toLowerCase().trim()))
     if (match) this.onMatch(match)
 

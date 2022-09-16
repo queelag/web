@@ -1,7 +1,7 @@
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
-import { ElementName } from '../definitions/enums'
-import { ChipElementVariant } from '../definitions/types'
+import { CustomElement } from '@/decorators/custom.element'
+import { Property } from '@/decorators/property'
+import { ElementName } from '@/definitions/enums'
+import { ChipElementVariant } from '@/definitions/types'
 import { BaseElement } from './core/base.element'
 
 declare global {

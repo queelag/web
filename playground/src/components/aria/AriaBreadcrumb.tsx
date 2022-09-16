@@ -2,8 +2,6 @@ import { Fragment } from 'preact'
 import { useState } from 'preact/hooks'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 import type {
-  AriaBreadcrumbAnchorElement,
-  AriaBreadcrumbAnchorElementAttributes,
   AriaBreadcrumbElement,
   AriaBreadcrumbElementAttributes,
   AriaBreadcrumbListElement,
@@ -18,7 +16,6 @@ declare global {
   namespace JSX {
     interface IntrinsicElements {
       'q-aria-breadcrumb': AriaBreadcrumbProps
-      'q-aria-breadcrumb-anchor': AriaBreadcrumbAnchorProps
       'q-aria-breadcrumb-list': AriaBreadcrumbListProps
       'q-aria-breadcrumb-list-item': AriaBreadcrumbListItemProps
     }
@@ -26,10 +23,6 @@ declare global {
 }
 
 interface AriaBreadcrumbProps extends AriaBreadcrumbElementAttributes, DetailedHTMLProps<HTMLAttributes<AriaBreadcrumbElement>, AriaBreadcrumbElement> {}
-
-interface AriaBreadcrumbAnchorProps
-  extends AriaBreadcrumbAnchorElementAttributes,
-    DetailedHTMLProps<HTMLAttributes<AriaBreadcrumbAnchorElement>, AriaBreadcrumbAnchorElement> {}
 
 interface AriaBreadcrumbListProps
   extends AriaBreadcrumbListElementAttributes,
@@ -51,10 +44,10 @@ export function AriaBreadcrumb() {
           {items.map((item: string, index: number) => (
             <Fragment>
               {index > 0 && <span>/</span>}
-              <q-aria-breadcrumb-list-item>
-                <q-aria-breadcrumb-anchor className='hover:underline' current={index >= items.length - 1} href='#' target='_blank'>
+              <q-aria-breadcrumb-list-item current={index >= items.length - 1}>
+                <a className='hover:underline' href='#' target='_blank'>
                   {item}
-                </q-aria-breadcrumb-anchor>
+                </a>
               </q-aria-breadcrumb-list-item>
             </Fragment>
           ))}

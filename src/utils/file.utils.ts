@@ -1,5 +1,5 @@
-import { QueelagFile } from '../classes/queelag.file'
-import { DeserializeFileOptions } from '../definitions/interfaces'
+import { QueelagFile } from '@/classes/queelag.file'
+import { DeserializeFileOptions } from '@/definitions/interfaces'
 
 export async function deserializeFile(file: File, options?: DeserializeFileOptions): Promise<QueelagFile> {
   let item: QueelagFile = new QueelagFile(file)

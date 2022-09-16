@@ -1,9 +1,9 @@
-import { FormFieldElementCollector } from '../../collectors/form.field.element.collector'
-import { Property } from '../../decorators/property'
-import { State } from '../../decorators/state'
-import { FormFieldElementSchema, FormFieldElementTarget, FormFieldElementValidation } from '../../definitions/types'
-import { StateChangedEvent } from '../../events/state.changed.event'
-import { ElementLogger } from '../../loggers/element.logger'
+import { FormFieldElementCollector } from '@/collectors/form.field.element.collector'
+import { Property } from '@/decorators/property'
+import { State } from '@/decorators/state'
+import { FormFieldElementSchema, FormFieldElementTarget, FormFieldElementValidation } from '@/definitions/types'
+import { StateChangedEvent } from '@/events/state.changed.event'
+import { ElementLogger } from '@/loggers/element.logger'
 import { BaseElement } from './base.element'
 
 export class FormFieldElement extends BaseElement {

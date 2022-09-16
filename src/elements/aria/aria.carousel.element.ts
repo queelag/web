@@ -1,5 +1,3 @@
-import { Interval } from '@queelag/core'
-import { css } from 'lit'
 import {
   AriaCarouselController,
   AriaCarouselNextSlideControlController,
@@ -9,18 +7,20 @@ import {
   AriaCarouselSlidesController,
   AriaCarouselTabController,
   AriaCarouselTabsController
-} from '../../controllers/aria.carousel.controller'
-import { Closest } from '../../decorators/closest'
-import { CustomElement } from '../../decorators/custom.element'
-import { Internal } from '../../decorators/internal'
-import { Property } from '../../decorators/property'
-import { Query } from '../../decorators/query'
-import { QueryAll } from '../../decorators/query.all'
-import { State } from '../../decorators/state'
-import { DEFAULT_CAROUSEL_ROTATION_DURATION } from '../../definitions/constants'
-import { ElementName, KeyboardEventKey } from '../../definitions/enums'
-import { AriaLive } from '../../definitions/types'
-import { ElementLogger } from '../../loggers/element.logger'
+} from '@/controllers/aria.carousel.controller'
+import { Closest } from '@/decorators/closest'
+import { CustomElement } from '@/decorators/custom.element'
+import { Internal } from '@/decorators/internal'
+import { Property } from '@/decorators/property'
+import { Query } from '@/decorators/query'
+import { QueryAll } from '@/decorators/query.all'
+import { State } from '@/decorators/state'
+import { DEFAULT_CAROUSEL_ROTATION_DURATION } from '@/definitions/constants'
+import { ElementName, KeyboardEventKey } from '@/definitions/enums'
+import { AriaLive } from '@/definitions/types'
+import { ElementLogger } from '@/loggers/element.logger'
+import { Interval } from '@queelag/core'
+import { css } from 'lit'
 import { BaseElement } from '../core/base.element'
 import { AriaButtonElement } from './aria.button.element'
 

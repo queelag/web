@@ -2,6 +2,7 @@
   "$schema": "https://json.schemastore.org/tsconfig.json",
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src/",
     "declaration": true,
     "declarationDir": "dist/declarations",
     "emitDeclarationOnly": true,
@@ -11,6 +12,19 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "outDir": "dist",
+    "paths": {
+      "@/classes/*": ["classes/*"],
+      "@/collectors/*": ["collectors/*"],
+      "@/controllers/*": ["controllers/*"],
+      "@/decorators/*": ["decorators/*"],
+      "@/definitions/*": ["definitions/*"],
+      "@/directives/*": ["directives/*"],
+      "@/elements/*": ["elements/*"],
+      "@/events/*": ["events/*"],
+      "@/loggers/*": ["loggers/*"],
+      "@/modules/*": ["modules/*"],
+      "@/utils/*": ["utils/*"]
+    },
     "resolveJsonModule": true,
     "strict": true,
     "target": "ESNext"

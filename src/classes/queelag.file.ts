@@ -1,5 +1,5 @@
+import { ELEMENT_UID_GENERATE_OPTIONS } from '@/definitions/constants'
 import { Base64, ID, tcp } from '@queelag/core'
-import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
 
 export class QueelagFile {
   private _arrayBuffer?: ArrayBuffer

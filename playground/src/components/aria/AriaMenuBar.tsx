@@ -69,7 +69,7 @@ function AriaMenuBarItem({ item, index }: any) {
 
   return (
     <q-aria-menubar-item ref={ref} focused={element?.shallow && index <= 0}>
-      <a className='p-2 text-xs' href='#'>
+      <a className='w-full p-2 text-xs' href='#'>
         {item.label}
       </a>
       {item.children && <AriaMenuBarSubMenu item={item} />}
@@ -87,7 +87,7 @@ function AriaMenuBarSubMenu({ item }: any) {
         'w-48 flex flex-col rounded-sm border divide-y border-gray-400 divide-gray-400 bg-white',
         !element?.subMenuElement?.expanded && 'opacity-0 pointer-events-none'
       )}
-      middlewares={[offset(0)]}
+      middlewares={[offset(4)]}
       placement={element?.itemElement.deep ? 'right-start' : 'bottom-start'}
     >
       {item.children.map((child: Item, index: number) => (

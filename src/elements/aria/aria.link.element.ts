@@ -1,8 +1,8 @@
+import { AriaLinkController } from '@/controllers/aria.link.controller'
+import { CustomElement } from '@/decorators/custom.element'
+import { Property } from '@/decorators/property'
+import { ElementName, KeyboardEventKey } from '@/definitions/enums'
 import { css } from 'lit'
-import { AriaLinkController } from '../../controllers/aria.link.controller'
-import { CustomElement } from '../../decorators/custom.element'
-import { Property } from '../../decorators/property'
-import { ElementName, KeyboardEventKey } from '../../definitions/enums'
 import { BaseElement } from '../core/base.element'
 
 declare global {

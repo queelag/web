@@ -1,8 +1,8 @@
+import { CustomElement } from '@/decorators/custom.element'
+import { Property } from '@/decorators/property'
 import { getLimitedNumber, parseNumber } from '@queelag/core'
 import { css, CSSResult } from 'lit'
 import { html } from 'lit-html'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
 import { BaseElement } from './core/base.element'
 
 declare global {

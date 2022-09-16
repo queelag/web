@@ -1,8 +1,8 @@
+import { CustomElement } from '@/decorators/custom.element'
+import { Property } from '@/decorators/property'
+import { ifdef } from '@/directives/if.defined'
 import { getLimitedNumber, getNumberPercentage } from '@queelag/core'
 import { html } from 'lit-html'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
-import { ifdef } from '../directives/if.defined'
 import { BaseElement } from './core/base.element'
 
 declare global {

@@ -1,25 +1,25 @@
-import { getLimitedNumber } from '@queelag/core'
-import { css } from 'lit'
 import {
   AriaComboBoxButtonController,
   AriaComboBoxController,
   AriaComboBoxInputController,
   AriaComboBoxListController,
   AriaComboBoxOptionController
-} from '../../controllers/aria.combo.box.controller'
-import { Closest } from '../../decorators/closest'
-import { CustomElement } from '../../decorators/custom.element'
-import { Internal } from '../../decorators/internal'
-import { Property } from '../../decorators/property'
-import { Query } from '../../decorators/query'
-import { QueryAll } from '../../decorators/query.all'
-import { State } from '../../decorators/state'
-import { ElementName, KeyboardEventKey } from '../../definitions/enums'
-import { AriaComboBoxElementAutoComplete } from '../../definitions/types'
-import { StateChangedEvent } from '../../events/state.changed.event'
-import { ElementLogger } from '../../loggers/element.logger'
-import { Typeahead } from '../../modules/typeahead'
-import { scrollElementIntoView } from '../../utils/element.utils'
+} from '@/controllers/aria.combo.box.controller'
+import { Closest } from '@/decorators/closest'
+import { CustomElement } from '@/decorators/custom.element'
+import { Internal } from '@/decorators/internal'
+import { Property } from '@/decorators/property'
+import { Query } from '@/decorators/query'
+import { QueryAll } from '@/decorators/query.all'
+import { State } from '@/decorators/state'
+import { ElementName, KeyboardEventKey } from '@/definitions/enums'
+import { AriaComboBoxElementAutoComplete } from '@/definitions/types'
+import { StateChangedEvent } from '@/events/state.changed.event'
+import { ElementLogger } from '@/loggers/element.logger'
+import { Typeahead } from '@/modules/typeahead'
+import { scrollElementIntoView } from '@/utils/element.utils'
+import { getLimitedNumber } from '@queelag/core'
+import { css } from 'lit'
 import { BaseElement } from '../core/base.element'
 import { FloatingElement } from '../core/floating.element'
 
@@ -225,6 +225,9 @@ export class AriaComboBoxElement extends BaseElement {
           this.collapse()
           ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The combobox has been collapsed.`)
 
+          /**
+           * REFACTOR TO NOT USE INNERTEXT
+           */
           if (this.inputElement?.inputElement && this.selectedOptionElement) {
             this.inputElement.inputElement.value = this.selectedOptionElement.innerText
             ElementLogger.verbose(this.uid, 'onKeyDown', 'ESCAPE', `The input value has been set to the selected option inner text.`)
@@ -441,6 +444,14 @@ export class AriaComboBoxInputElement extends BaseElement {
   onBlur = (): void => {
     this.rootElement.collapse()
     ElementLogger.verbose(this.uid, 'onBlur', `The combobox has been collapsed.`)
+
+    /**
+     * REFACTOR TO NOT USE INNERTEXT
+     */
+    if (this.inputElement && this.rootElement.selectedOptionElement) {
+      this.inputElement.value = this.rootElement.selectedOptionElement.innerText
+      ElementLogger.verbose(this.uid, 'onBlur', `The value has been set to the selected option inner text.`)
+    }
   }
 
   onClick = (): void => {
@@ -549,6 +560,9 @@ export class AriaComboBoxOptionElement extends BaseElement {
       ElementLogger.verbose(this.uid, ' attributeChangedCallback', `The option has been scrolled into view.`)
     }
 
+    /**
+     * REFACTOR TO NOT USE INNERTEXT
+     */
     if (name === 'selected' && value !== null) {
       if (this.rootElement.inputElement?.inputElement) {
         this.rootElement.inputElement.inputElement.value = this.innerText

@@ -1,6 +1,6 @@
+import type { AriaDialogElement } from '@/elements/aria/aria.dialog.element'
+import { setImmutableElementAttribute } from '@/utils/element.utils'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaDialogElement } from '../elements/aria/aria.dialog.element'
-import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaDialogController implements ReactiveController {
   alert: boolean

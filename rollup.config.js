@@ -1,3 +1,4 @@
+import strip from '@rollup/plugin-strip'
 import typescript from '@rollup/plugin-typescript'
 import { defineConfig } from 'rollup'
 import minifyHTML from 'rollup-plugin-minify-html-literals'
@@ -37,5 +38,5 @@ export default defineConfig({
       format: 'esm'
     }
   ],
-  plugins: [minifyHTML(), terser(), typescript()]
+  plugins: [minifyHTML(), strip({ include: ['src/**/*.ts'], functions: ['[A-Z][a-z]+Logger.*'] }), terser(), typescript()]
 })
