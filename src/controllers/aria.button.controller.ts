@@ -1,6 +1,6 @@
-import { AriaButtonElement } from '@/elements/aria/aria.button.element'
-import { setImmutableElementAttribute } from '@/utils/element.utils'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
+import { AriaButtonElement } from '../elements/aria/aria.button.element'
+import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaButtonController implements ReactiveController {
   native?: boolean

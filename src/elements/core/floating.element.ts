@@ -1,5 +1,3 @@
-import { Internal } from '@/decorators/internal'
-import { Property } from '@/decorators/property'
 import {
   arrow,
   autoUpdate,
@@ -13,6 +11,8 @@ import {
   Strategy
 } from '@floating-ui/dom'
 import { tcp } from '@queelag/core'
+import { Internal } from '../../decorators/internal'
+import { Property } from '../../decorators/property'
 import { BaseElement } from './base.element'
 
 export class FloatingElement extends BaseElement {

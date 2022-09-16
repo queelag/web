@@ -1,11 +1,11 @@
-import { CustomElement } from '@/decorators/custom.element'
-import { Property } from '@/decorators/property'
-import { ElementName, KeyboardEventKey } from '@/definitions/enums'
-import { ButtonType, ButtonVariant } from '@/definitions/types'
-import { ifdef } from '@/directives/if.defined'
-import { ClickAsyncEvent } from '@/events/click.async.event'
-import { ElementLogger } from '@/loggers/element.logger'
 import { css, html } from 'lit'
+import { CustomElement } from '../decorators/custom.element'
+import { Property } from '../decorators/property'
+import { ElementName, KeyboardEventKey } from '../definitions/enums'
+import { ButtonType, ButtonVariant } from '../definitions/types'
+import { ifdef } from '../directives/if.defined'
+import { ClickAsyncEvent } from '../events/click.async.event'
+import { ElementLogger } from '../loggers/element.logger'
 import { AriaButtonElement } from './aria/aria.button.element'
 
 declare global {

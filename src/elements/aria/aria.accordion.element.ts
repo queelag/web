@@ -3,15 +3,15 @@ import {
   AriaAccordionHeaderController,
   AriaAccordionPanelController,
   AriaAccordionSectionController
-} from '@/controllers/aria.accordion.controller'
-import { Closest } from '@/decorators/closest'
-import { CustomElement } from '@/decorators/custom.element'
-import { Property } from '@/decorators/property'
-import { Query } from '@/decorators/query'
-import { QueryAll } from '@/decorators/query.all'
-import { ElementName, KeyboardEventKey } from '@/definitions/enums'
-import { HeadingLevel } from '@/definitions/types'
-import { ElementLogger } from '@/loggers/element.logger'
+} from '../../controllers/aria.accordion.controller'
+import { Closest } from '../../decorators/closest'
+import { CustomElement } from '../../decorators/custom.element'
+import { Property } from '../../decorators/property'
+import { Query } from '../../decorators/query'
+import { QueryAll } from '../../decorators/query.all'
+import { ElementName, KeyboardEventKey } from '../../definitions/enums'
+import { HeadingLevel } from '../../definitions/types'
+import { ElementLogger } from '../../loggers/element.logger'
 import { BaseElement } from '../core/base.element'
 
 declare global {

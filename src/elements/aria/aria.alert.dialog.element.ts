@@ -1,8 +1,8 @@
-import { AriaDialogController } from '@/controllers/aria.dialog.controller'
-import { CustomElement } from '@/decorators/custom.element'
-import { ELEMENT_UID_GENERATE_OPTIONS } from '@/definitions/constants'
-import { ElementName } from '@/definitions/enums'
 import { ID } from '@queelag/core'
+import { AriaDialogController } from '../../controllers/aria.dialog.controller'
+import { CustomElement } from '../../decorators/custom.element'
+import { ELEMENT_UID_GENERATE_OPTIONS } from '../../definitions/constants'
+import { ElementName } from '../../definitions/enums'
 import { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from './aria.dialog.element'
 
 declare global {

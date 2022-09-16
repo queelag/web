@@ -1,6 +1,6 @@
-import type { AriaBreadcrumbListItemElement } from '@/elements/aria/aria.breadcrumb.element'
-import { setImmutableElementAttribute } from '@/utils/element.utils'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
+import type { AriaBreadcrumbListItemElement } from '../elements/aria/aria.breadcrumb.element'
+import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaBreadcrumbController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & HTMLElement) {

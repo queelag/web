@@ -1,7 +1,7 @@
-import { DEFAULT_SLIDER_MAXIMUM, DEFAULT_SLIDER_MINIMUM, DEFAULT_SLIDER_ORIENTATION, DEFAULT_SLIDER_THUMB_VALUE } from '@/definitions/constants'
-import type { AriaSliderThumbElement } from '@/elements/aria/aria.slider.element'
-import { setImmutableElementAttribute } from '@/utils/element.utils'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
+import { DEFAULT_SLIDER_MAXIMUM, DEFAULT_SLIDER_MINIMUM, DEFAULT_SLIDER_ORIENTATION, DEFAULT_SLIDER_THUMB_VALUE } from '../definitions/constants'
+import type { AriaSliderThumbElement } from '../elements/aria/aria.slider.element'
+import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaSliderController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & HTMLElement) {

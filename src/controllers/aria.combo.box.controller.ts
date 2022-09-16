@@ -1,15 +1,15 @@
-import { ELEMENT_UID_GENERATE_OPTIONS } from '@/definitions/constants'
-import { ElementName } from '@/definitions/enums'
+import { ID } from '@queelag/core'
+import { ReactiveController, ReactiveControllerHost } from 'lit'
+import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
+import { ElementName } from '../definitions/enums'
 import type {
   AriaComboBoxButtonElement,
   AriaComboBoxElement,
   AriaComboBoxInputElement,
   AriaComboBoxListElement,
   AriaComboBoxOptionElement
-} from '@/elements/aria/aria.combo.box.element'
-import { removeImmutableElementAttribute, setImmutableElementAttribute } from '@/utils/element.utils'
-import { ID } from '@queelag/core'
-import { ReactiveController, ReactiveControllerHost } from 'lit'
+} from '../elements/aria/aria.combo.box.element'
+import { removeImmutableElementAttribute, setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaComboBoxController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & AriaComboBoxElement) {

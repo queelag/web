@@ -1,5 +1,5 @@
-import { setImmutableElementAttribute } from '@/utils/element.utils'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
+import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaIconController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & HTMLElement) {

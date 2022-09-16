@@ -1,4 +1,4 @@
-import { ElementAttributes, ElementAttributeValue } from '@/definitions/types'
+import { ElementAttributes, ElementAttributeValue } from '../definitions/types'
 
 export function joinElementClasses(...classes: any[]): string {
   return classes.filter(Boolean).join(' ')

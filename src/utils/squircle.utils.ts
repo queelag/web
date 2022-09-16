@@ -1,6 +1,6 @@
-import { SVG_NAMESPACE_URI } from '@/definitions/constants'
-import { SquircleOptions } from '@/definitions/interfaces'
 import { html, TemplateResult } from 'lit-html'
+import { SVG_NAMESPACE_URI } from '../definitions/constants'
+import { SquircleOptions } from '../definitions/interfaces'
 
 export function getSquircleHTML(id: string, size: number, options?: SquircleOptions): TemplateResult {
   let curvature: number, arc: number, d: string, transform: string, viewbox: string

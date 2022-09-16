@@ -1,9 +1,9 @@
-import { CustomElement } from '@/decorators/custom.element'
-import { Property } from '@/decorators/property'
-import { KeyboardEventKey } from '@/definitions/enums'
-import { ElementLogger } from '@/loggers/element.logger'
 import { css, CSSResult } from 'lit'
 import { html } from 'lit-html'
+import { CustomElement } from '../../decorators/custom.element'
+import { Property } from '../../decorators/property'
+import { KeyboardEventKey } from '../../definitions/enums'
+import { ElementLogger } from '../../loggers/element.logger'
 import { FormFieldElement } from '../core/form.field.element'
 
 declare global {

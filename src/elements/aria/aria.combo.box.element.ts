@@ -1,25 +1,25 @@
+import { getLimitedNumber } from '@queelag/core'
+import { css } from 'lit'
 import {
   AriaComboBoxButtonController,
   AriaComboBoxController,
   AriaComboBoxInputController,
   AriaComboBoxListController,
   AriaComboBoxOptionController
-} from '@/controllers/aria.combo.box.controller'
-import { Closest } from '@/decorators/closest'
-import { CustomElement } from '@/decorators/custom.element'
-import { Internal } from '@/decorators/internal'
-import { Property } from '@/decorators/property'
-import { Query } from '@/decorators/query'
-import { QueryAll } from '@/decorators/query.all'
-import { State } from '@/decorators/state'
-import { ElementName, KeyboardEventKey } from '@/definitions/enums'
-import { AriaComboBoxElementAutoComplete } from '@/definitions/types'
-import { StateChangedEvent } from '@/events/state.changed.event'
-import { ElementLogger } from '@/loggers/element.logger'
-import { Typeahead } from '@/modules/typeahead'
-import { scrollElementIntoView } from '@/utils/element.utils'
-import { getLimitedNumber } from '@queelag/core'
-import { css } from 'lit'
+} from '../../controllers/aria.combo.box.controller'
+import { Closest } from '../../decorators/closest'
+import { CustomElement } from '../../decorators/custom.element'
+import { Internal } from '../../decorators/internal'
+import { Property } from '../../decorators/property'
+import { Query } from '../../decorators/query'
+import { QueryAll } from '../../decorators/query.all'
+import { State } from '../../decorators/state'
+import { ElementName, KeyboardEventKey } from '../../definitions/enums'
+import { AriaComboBoxElementAutoComplete } from '../../definitions/types'
+import { StateChangedEvent } from '../../events/state.changed.event'
+import { ElementLogger } from '../../loggers/element.logger'
+import { Typeahead } from '../../modules/typeahead'
+import { scrollElementIntoView } from '../../utils/element.utils'
 import { BaseElement } from '../core/base.element'
 import { FloatingElement } from '../core/floating.element'
 

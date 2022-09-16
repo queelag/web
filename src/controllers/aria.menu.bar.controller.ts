@@ -1,6 +1,6 @@
-import type { AriaMenuBarItemElement, AriaMenuBarSubMenuElement } from '@/elements/aria/aria.menu.bar.element'
-import { setImmutableElementAttribute } from '@/utils/element.utils'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
+import type { AriaMenuBarItemElement, AriaMenuBarSubMenuElement } from '../elements/aria/aria.menu.bar.element'
+import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaMenuBarController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & HTMLElement) {

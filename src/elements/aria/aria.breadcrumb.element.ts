@@ -1,8 +1,8 @@
-import { AriaBreadcrumbController, AriaBreadcrumbListController, AriaBreadcrumbListItemController } from '@/controllers/aria.breadcrumb.controller'
-import { CustomElement } from '@/decorators/custom.element'
-import { Property } from '@/decorators/property'
-import { Query } from '@/decorators/query'
-import { ElementName } from '@/definitions/enums'
+import { AriaBreadcrumbController, AriaBreadcrumbListController, AriaBreadcrumbListItemController } from '../../controllers/aria.breadcrumb.controller'
+import { CustomElement } from '../../decorators/custom.element'
+import { Property } from '../../decorators/property'
+import { Query } from '../../decorators/query'
+import { ElementName } from '../../definitions/enums'
 import { BaseElement } from '../core/base.element'
 
 declare global {

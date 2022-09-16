@@ -1,6 +1,6 @@
-import { ShapeOptions } from '@/definitions/interfaces'
-import { Shape } from '@/definitions/types'
 import { StyleInfo } from 'lit-html/directives/style-map'
+import { ShapeOptions } from '../definitions/interfaces'
+import { Shape } from '../definitions/types'
 import { getElementStyleCompatibleValue } from './element.utils'
 
 export function getShapeStyleInfo(shape?: Shape, options?: ShapeOptions): StyleInfo {

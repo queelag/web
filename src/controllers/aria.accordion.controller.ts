@@ -1,9 +1,9 @@
-import { ELEMENT_UID_GENERATE_OPTIONS } from '@/definitions/constants'
-import { ElementName } from '@/definitions/enums'
-import type { AriaAccordionHeaderElement, AriaAccordionSectionElement } from '@/elements/aria/aria.accordion.element'
-import { setImmutableElementAttribute } from '@/utils/element.utils'
 import { ID } from '@queelag/core'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
+import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
+import { ElementName } from '../definitions/enums'
+import type { AriaAccordionHeaderElement, AriaAccordionSectionElement } from '../elements/aria/aria.accordion.element'
+import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaAccordionButtonController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & HTMLElement) {

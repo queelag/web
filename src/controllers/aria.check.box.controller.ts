@@ -1,6 +1,6 @@
-import type { CheckBoxElement } from '@/elements/check.box.element'
-import { setImmutableElementAttribute } from '@/utils/element.utils'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
+import type { CheckBoxElement } from '../elements/check.box.element'
+import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaCheckBoxController implements ReactiveController {
   constructor(private host: ReactiveControllerHost & CheckBoxElement) {

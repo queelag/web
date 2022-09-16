@@ -1,6 +1,6 @@
-import { DEFAULT_TYPEAHEAD_DEBOUNCE_TIME } from '@/definitions/constants'
-import { ElementLogger } from '@/loggers/element.logger'
 import { debounce, ID } from '@queelag/core'
+import { DEFAULT_TYPEAHEAD_DEBOUNCE_TIME } from '../definitions/constants'
+import { ElementLogger } from '../loggers/element.logger'
 
 type OnMatch<T extends HTMLElement> = (element: T) => any
 

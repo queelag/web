@@ -1,10 +1,10 @@
-import { AriaButtonController } from '@/controllers/aria.button.controller'
-import { CustomElement } from '@/decorators/custom.element'
-import { Property } from '@/decorators/property'
-import { ElementName, KeyboardEventKey } from '@/definitions/enums'
-import { ButtonPressed } from '@/definitions/types'
-import { ElementLogger } from '@/loggers/element.logger'
 import { css } from 'lit'
+import { AriaButtonController } from '../../controllers/aria.button.controller'
+import { CustomElement } from '../../decorators/custom.element'
+import { Property } from '../../decorators/property'
+import { ElementName, KeyboardEventKey } from '../../definitions/enums'
+import { ButtonPressed } from '../../definitions/types'
+import { ElementLogger } from '../../loggers/element.logger'
 import { BaseElement } from '../core/base.element'
 
 declare global {

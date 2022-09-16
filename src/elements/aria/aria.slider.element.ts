@@ -1,8 +1,10 @@
-import { AriaSliderController, AriaSliderThumbController } from '@/controllers/aria.slider.controller'
-import { Closest } from '@/decorators/closest'
-import { CustomElement } from '@/decorators/custom.element'
-import { Property } from '@/decorators/property'
-import { QueryAll } from '@/decorators/query.all'
+import { getLimitedNumber, isNumberMultipleOf, toFixedNumber } from '@queelag/core'
+import { css, html } from 'lit'
+import { AriaSliderController, AriaSliderThumbController } from '../../controllers/aria.slider.controller'
+import { Closest } from '../../decorators/closest'
+import { CustomElement } from '../../decorators/custom.element'
+import { Property } from '../../decorators/property'
+import { QueryAll } from '../../decorators/query.all'
 import {
   DEFAULT_SLIDER_DECIMALS,
   DEFAULT_SLIDER_MAXIMUM,
@@ -11,15 +13,13 @@ import {
   DEFAULT_SLIDER_ORIENTATION,
   DEFAULT_SLIDER_STEP,
   DEFAULT_SLIDER_THUMB_VALUE
-} from '@/definitions/constants'
-import { ElementName, KeyboardEventKey } from '@/definitions/enums'
-import { Orientation } from '@/definitions/types'
-import { AriaSliderChangeEvent } from '@/events/slider.change.event'
-import { AriaSliderThumbMoveEvent } from '@/events/slider.thumb.move.event'
-import { ElementLogger } from '@/loggers/element.logger'
-import { getAriaSliderThumbElementPercentage, getAriaSliderThumbElementStyleLeft, getAriaSliderThumbElementStyleTop } from '@/utils/slider.element.utils'
-import { getLimitedNumber, isNumberMultipleOf, toFixedNumber } from '@queelag/core'
-import { css, html } from 'lit'
+} from '../../definitions/constants'
+import { ElementName, KeyboardEventKey } from '../../definitions/enums'
+import { Orientation } from '../../definitions/types'
+import { AriaSliderChangeEvent } from '../../events/slider.change.event'
+import { AriaSliderThumbMoveEvent } from '../../events/slider.thumb.move.event'
+import { ElementLogger } from '../../loggers/element.logger'
+import { getAriaSliderThumbElementPercentage, getAriaSliderThumbElementStyleLeft, getAriaSliderThumbElementStyleTop } from '../../utils/slider.element.utils'
 import { BaseElement } from '../core/base.element'
 
 declare global {

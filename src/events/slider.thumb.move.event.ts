@@ -1,4 +1,4 @@
-import { DEFAULT_SLIDER_THUMB_VALUE } from '@/definitions/constants'
+import { DEFAULT_SLIDER_THUMB_VALUE } from '../definitions/constants'
 
 interface Detail {
   percentage: number

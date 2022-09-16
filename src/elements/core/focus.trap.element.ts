@@ -1,6 +1,7 @@
-import { CustomElement } from '@/decorators/custom.element'
-import { Property } from '@/decorators/property'
-import { ElementName } from '@/definitions/enums'
+import { createFocusTrap, FocusTarget, FocusTargetOrFalse, FocusTrap, Options } from 'focus-trap'
+import { CustomElement } from '../../decorators/custom.element'
+import { Property } from '../../decorators/property'
+import { ElementName } from '../../definitions/enums'
 import {
   FocusTrapAllowOutsideClick,
   FocusTrapCheckCanFocusTrap,
@@ -9,9 +10,8 @@ import {
   FocusTrapDisplayCheck,
   FocusTrapEscapeDeactivates,
   FocusTrapSetReturnFocus
-} from '@/definitions/types'
-import { ElementLogger } from '@/loggers/element.logger'
-import { createFocusTrap, FocusTarget, FocusTargetOrFalse, FocusTrap, Options } from 'focus-trap'
+} from '../../definitions/types'
+import { ElementLogger } from '../../loggers/element.logger'
 import { BaseElement } from './base.element'
 
 @CustomElement('q-focus-trap')
