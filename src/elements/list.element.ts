@@ -37,8 +37,8 @@ export class ListItemElement extends BaseElement {
    * PROPERTIES
    */
   headline?: string
-  image?: string
   icon?: string
+  image?: string
   text?: string
 
   get name(): ElementName {

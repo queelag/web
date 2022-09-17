@@ -335,6 +335,17 @@ export interface InputFileElementAttributes extends FormFieldElementAttributes {
   native?: boolean
 }
 
+export interface ListElementAttributes extends BaseElementAttributes {
+  items: any[]
+}
+
+export interface ListItemElementAttributes extends BaseElementAttributes {
+  headline?: string
+  icon?: string
+  image?: string
+  text?: string
+}
+
 export interface MeterElementAttributes extends BaseElementAttributes {
   low?: number
   high?: number
