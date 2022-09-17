@@ -1,13 +1,11 @@
 import { DeferredPromise, sleep } from '@queelag/core'
+import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive'
 import { StyleMapDirective } from 'lit-html/directives/style-map'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
-import { QueryShadow } from '../decorators/query.shadow'
-import { State } from '../decorators/state'
 import { CACHE_IMAGES, DEFAULT_IMAGE_SIZE, DEFAULT_IMAGE_SRC, FETCHING_IMAGES } from '../definitions/constants'
 import { ElementName } from '../definitions/enums'
+import { QueryDeclarations } from '../definitions/interfaces'
 import { ImageElementCacheType, ImageElementCrossOrigin } from '../definitions/types'
 import { ifdef } from '../directives/if.defined'
 import { styleMap } from '../directives/style.map'
@@ -23,36 +21,27 @@ declare global {
   }
 }
 
-@CustomElement('q-image')
 export class ImageElement extends BaseElement {
-  @Property({ type: String, reflect: true })
+  /**
+   * PROPERTIES
+   */
   alt?: string
-
-  @Property({ type: Boolean, reflect: true })
   cache?: boolean
-
-  @Property({ type: Number, attribute: 'cache-quality', reflect: true })
   cacheQuality?: number
-
-  @Property({ type: String, attribute: 'cache-type', reflect: true })
   cacheType?: ImageElementCacheType
-
-  @Property({ type: String, attribute: 'cross-origin', reflect: true })
   crossOrigin?: ImageElementCrossOrigin
-
-  @Property({ type: Boolean, reflect: true })
   eager?: boolean
-
-  @Property({ type: Boolean, reflect: true })
   lazy?: boolean
-
-  @Property({ type: String, reflect: true })
   src: string = DEFAULT_IMAGE_SRC
 
-  @QueryShadow('img')
+  /**
+   * QUERIES
+   */
   private imgElement!: HTMLImageElement
 
-  @State()
+  /**
+   * STATES
+   */
   private imgElementSrc: DeferredPromise<string> = new DeferredPromise()
 
   connectedCallback(): void {
@@ -191,4 +180,22 @@ export class ImageElement extends BaseElement {
   get name(): ElementName {
     return ElementName.IMAGE
   }
+
+  static properties: PropertyDeclarations = {
+    alt: { type: String, reflect: true },
+    cache: { type: Boolean, reflect: true },
+    cacheQuality: { type: Number, attribute: 'cache-quality', reflect: true },
+    cacheType: { type: String, attribute: 'cache-type', reflect: true },
+    crossOrigin: { type: String, attribute: 'cross-origin', reflect: true },
+    eager: { type: Boolean, reflect: true },
+    lazy: { type: Boolean, reflect: true },
+    src: { type: String, reflect: true },
+    imgElementSrc: { state: true }
+  }
+
+  static queries: QueryDeclarations = {
+    imgElement: { selector: 'img', shadow: true }
+  }
 }
+
+customElements.define('q-image', ImageElement)

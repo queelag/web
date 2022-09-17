@@ -1,12 +1,7 @@
-import { css } from 'lit'
+import { css, PropertyDeclarations } from 'lit'
 import { AriaListBoxController, AriaListBoxOptionController } from '../../controllers/aria.list.box.controller'
-import { Closest } from '../../decorators/closest'
-import { CustomElement } from '../../decorators/custom.element'
-import { Internal } from '../../decorators/internal'
-import { Property } from '../../decorators/property'
-import { Query } from '../../decorators/query'
-import { QueryAll } from '../../decorators/query.all'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
+import { QueryDeclarations } from '../../definitions/interfaces'
 import { ElementLogger } from '../../loggers/element.logger'
 import { Typeahead } from '../../modules/typeahead'
 import { BaseElement } from '../core/base.element'
@@ -18,29 +13,16 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-listbox')
 export class AriaListBoxElement extends BaseElement {
   protected aria: AriaListBoxController = new AriaListBoxController(this)
 
-  @Query('q-aria-listbox-option[focused]')
   focusedOptionElement?: AriaListBoxOptionElement
-
-  @Property({ type: Boolean, attribute: 'selection-follows-focus', reflect: true })
   selectionFollowsFocus?: boolean
-
-  @Property({ type: Boolean, reflect: true })
   multiple?: boolean
-
-  @QueryAll('q-aria-listbox-option')
   optionElements!: AriaListBoxOptionElement[]
-
-  @Query('q-aria-listbox-option[selected]')
   selectedOptionElement?: AriaListBoxOptionElement
-
-  @Property({ type: Boolean, attribute: 'select-first-option-on-focus', reflect: true })
   selectFirstOptionOnFocus?: boolean
 
-  @Internal()
   typeahead: Typeahead<AriaListBoxOptionElement> = new Typeahead((element: AriaListBoxOptionElement) => {
     this.blurFocusedOptionElement()
 
@@ -259,19 +241,25 @@ export class AriaListBoxElement extends BaseElement {
   get single(): boolean {
     return !this.multiple
   }
+
+  static properties: PropertyDeclarations = {
+    selectionFollowsFocus: { type: Boolean, attribute: 'selection-follows-focus', reflect: true },
+    multiple: { type: Boolean, reflect: true },
+    selectFirstOptionOnFocus: { type: Boolean, attribute: 'select-first-option-on-focus', reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    focusedOptionElement: { selector: 'q-aria-listbox-option[focused]' },
+    optionElements: { selector: 'q-aria-listbox-option', all: true },
+    selectedOptionElement: { selector: 'q-aria-listbox-option[selected]' }
+  }
 }
 
-@CustomElement('q-aria-listbox-option')
 export class AriaListBoxOptionElement extends BaseElement {
   protected aria: AriaListBoxOptionController = new AriaListBoxOptionController(this)
 
-  @Property({ type: Boolean, reflect: true })
   focused?: boolean
-
-  @Closest('q-aria-listbox')
-  listBoxElement!: AriaListBoxElement
-
-  @Property({ type: Boolean, reflect: true })
+  rootElement!: AriaListBoxElement
   selected?: boolean
 
   connectedCallback(): void {
@@ -289,13 +277,13 @@ export class AriaListBoxOptionElement extends BaseElement {
   }
 
   onClick = (): void => {
-    if (this.listBoxElement.multiple) {
+    if (this.rootElement.multiple) {
       this.selected = !this.selected
       ElementLogger.verbose(this.uid, 'onClick', `The option has been ${this.selected ? 'selected' : 'unselected'}.`)
     }
 
-    if (this.listBoxElement.single) {
-      for (let element of this.listBoxElement.optionElements) {
+    if (this.rootElement.single) {
+      for (let element of this.rootElement.optionElements) {
         element.selected = false
       }
 
@@ -303,7 +291,7 @@ export class AriaListBoxOptionElement extends BaseElement {
       ElementLogger.verbose(this.uid, 'onClick', `The option has been selected.`)
     }
 
-    this.listBoxElement.blurFocusedOptionElement()
+    this.rootElement.blurFocusedOptionElement()
 
     this.focused = true
     ElementLogger.verbose(this.uid, 'onClick', `The option has been focused.`)
@@ -317,6 +305,15 @@ export class AriaListBoxOptionElement extends BaseElement {
     return ElementName.LISTBOX_OPTION
   }
 
+  static properties: PropertyDeclarations = {
+    focused: { type: Boolean, reflect: true },
+    selected: { type: Boolean, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-aria-listbox', closest: true }
+  }
+
   static styles = [
     super.styles,
     css`
@@ -326,3 +323,6 @@ export class AriaListBoxOptionElement extends BaseElement {
     `
   ]
 }
+
+customElements.define('q-aria-listbox', AriaListBoxElement)
+customElements.define('q-aria-listbox-option', AriaListBoxOptionElement)

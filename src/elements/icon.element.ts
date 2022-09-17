@@ -1,12 +1,9 @@
 import { Fetch, FetchResponse, isStringURL, rvp, tcp } from '@queelag/core'
 import DOMPurify from 'isomorphic-dompurify'
-import { html, svg, TemplateResult } from 'lit'
+import { html, PropertyDeclarations, svg, TemplateResult } from 'lit'
 import { DirectiveResult } from 'lit-html/directive'
 import { StyleMapDirective } from 'lit-html/directives/style-map'
 import { AriaIconController } from '../controllers/aria.icon.controller'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
-import { State } from '../decorators/state'
 import { CACHE_ICONS, DEFAULT_ICON_SVG_STRING, FETCHING_ICONS, SVG_NAMESPACE_URI } from '../definitions/constants'
 import { ElementName } from '../definitions/enums'
 import { IconElementSanitizeConfig } from '../definitions/interfaces'
@@ -24,32 +21,23 @@ declare global {
   }
 }
 
-@CustomElement('q-icon')
 export class IconElement extends BaseElement {
   protected aria: AriaIconController = new AriaIconController(this)
 
-  @Property({ type: Boolean, reflect: true })
+  /**
+   * PROPERTIES
+   */
   cache?: boolean
-
-  @Property({ type: String, reflect: true })
   color?: Color
-
-  @Property({ type: String, reflect: true })
   fill?: string
-
-  @Property({ type: Object })
   sanitize: IconElementSanitizeConfig = { RETURN_DOM: false, RETURN_DOM_FRAGMENT: false }
-
-  @Property({ type: String, reflect: true })
   src!: string
-
-  @Property({ type: String, reflect: true })
   stroke?: string
-
-  @Property({ type: String, attribute: 'stroke-width', reflect: true })
   strokeWidth?: string
 
-  @State()
+  /**
+   * STATES
+   */
   private svgElement: SVGSVGElement = document.createElementNS(SVG_NAMESPACE_URI, 'svg')
 
   connectedCallback(): void {
@@ -176,4 +164,17 @@ export class IconElement extends BaseElement {
   get name(): ElementName {
     return ElementName.ICON
   }
+
+  static properties: PropertyDeclarations = {
+    cache: { type: Boolean, reflect: true },
+    color: { type: String, reflect: true },
+    fill: { type: String, reflect: true },
+    sanitize: { type: Object },
+    src: { type: String, reflect: true },
+    stroke: { type: String, reflect: true },
+    strokeWidth: { type: String, attribute: 'stroke-width', reflect: true },
+    svgElement: { state: true }
+  }
 }
+
+customElements.define('q-icon', IconElement)

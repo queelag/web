@@ -1,7 +1,5 @@
-import { css } from 'lit'
+import { css, PropertyDeclarations } from 'lit'
 import { AriaButtonController } from '../../controllers/aria.button.controller'
-import { CustomElement } from '../../decorators/custom.element'
-import { Property } from '../../decorators/property'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
 import { ButtonPressed } from '../../definitions/types'
 import { ElementLogger } from '../../loggers/element.logger'
@@ -13,14 +11,10 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-button')
 export class AriaButtonElement extends BaseElement {
   protected aria: AriaButtonController
 
-  @Property({ type: Boolean, reflect: true })
   disabled?: boolean
-
-  @Property({ type: String, reflect: true })
   pressed?: ButtonPressed
 
   constructor(native?: boolean) {
@@ -60,6 +54,11 @@ export class AriaButtonElement extends BaseElement {
     return ElementName.BUTTON
   }
 
+  static properties: PropertyDeclarations = {
+    disabled: { type: Boolean, reflect: true },
+    pressed: { type: String, reflect: true }
+  }
+
   static styles = [
     super.styles,
     css`
@@ -69,3 +68,5 @@ export class AriaButtonElement extends BaseElement {
     `
   ]
 }
+
+customElements.define('q-aria-button', AriaButtonElement)

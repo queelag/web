@@ -1,7 +1,5 @@
-import { css } from 'lit'
+import { css, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
 import { ElementName } from '../definitions/enums'
 import { BaseElement } from './core/base.element'
 
@@ -11,15 +9,9 @@ declare global {
   }
 }
 
-@CustomElement('q-avatar')
 export class AvatarElement extends BaseElement {
-  @Property({ type: String, reflect: true })
   icon?: string
-
-  @Property({ type: String, reflect: true })
   image?: string
-
-  @Property({ type: String, reflect: true })
   text?: string
 
   render() {
@@ -35,6 +27,12 @@ export class AvatarElement extends BaseElement {
     return ElementName.AVATAR
   }
 
+  static properties: PropertyDeclarations = {
+    icon: { type: String, reflect: true },
+    image: { type: String, reflect: true },
+    text: { type: String, reflect: true }
+  }
+
   static styles = [
     super.styles,
     css`
@@ -47,3 +45,5 @@ export class AvatarElement extends BaseElement {
     `
   ]
 }
+
+customElements.define('q-avatar', AvatarElement)

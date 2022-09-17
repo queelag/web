@@ -1,6 +1,5 @@
+import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
 import { Orientation } from '../definitions/types'
 import { choose } from '../directives/choose'
 import { BaseElement } from './core/base.element'
@@ -11,9 +10,10 @@ declare global {
   }
 }
 
-@CustomElement('q-divider')
 export class DividerElement extends BaseElement {
-  @Property({ type: String, reflect: true })
+  /**
+   * PROPERTIES
+   */
   orientation?: Orientation
 
   render() {
@@ -26,4 +26,10 @@ export class DividerElement extends BaseElement {
       () => html`<slot></slot>`
     )
   }
+
+  static properties: PropertyDeclarations = {
+    orientation: { type: String, reflect: true }
+  }
 }
+
+customElements.define('q-divider', DividerElement)

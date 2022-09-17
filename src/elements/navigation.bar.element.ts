@@ -1,5 +1,4 @@
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
+import { PropertyDeclarations } from 'lit'
 import { NavigationBarItemElementAttributes } from '../definitions/attributes'
 import { ElementName } from '../definitions/enums'
 import { ElementLogger } from '../loggers/element.logger'
@@ -12,12 +11,8 @@ declare global {
   }
 }
 
-@CustomElement('q-navigation-bar')
 export class NavigationBarElement extends BaseElement {
-  @Property({ type: String, attribute: 'active-item', reflect: true })
   activeItem?: string
-
-  @Property({ type: Array })
   items?: NavigationBarItemElementAttributes[]
 
   activateItem(item: string): void {
@@ -32,20 +27,28 @@ export class NavigationBarElement extends BaseElement {
   get name(): ElementName {
     return ElementName.NAVIGATION_BAR
   }
+
+  static properties: PropertyDeclarations = {
+    activeItem: { type: String, attribute: 'active-item', reflect: true },
+    items: { type: Array }
+  }
 }
 
-@CustomElement('q-navigation-bar-item')
 export class NavigationBarItemElement extends BaseElement {
-  @Property({ type: Boolean, reflect: true })
   active?: boolean
-
-  @Property({ type: String, reflect: true })
   label?: string
-
-  @Property({ type: String, reflect: true })
   icon?: string
 
   get name(): ElementName {
     return ElementName.NAVIGATION_BAR_ITEM
   }
+
+  static properties: PropertyDeclarations = {
+    active: { type: Boolean, reflect: true },
+    label: { type: String, reflect: true },
+    icon: { type: String, reflect: true }
+  }
 }
+
+customElements.define('q-navigation-bar', NavigationBarElement)
+customElements.define('q-navigation-bar-item', NavigationBarItemElement)

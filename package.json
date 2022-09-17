@@ -28,6 +28,7 @@
     "superstruct": "^0.16.0",
     "tabbable": "^6.0.0",
     "ts-jest": "^28.0.8",
+    "ts-lit-plugin": "^1.2.1",
     "ts-node": "^10.9.1",
     "tslib": "^2.4.0",
     "typedoc": "^0.23.10",
@@ -72,5 +73,6 @@
     "playground:preview": "yarn astro preview --root ./playground"
   },
   "sideEffects": false,
+  "type": "module",
   "version": "1.0.0"
 }

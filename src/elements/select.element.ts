@@ -1,8 +1,5 @@
 import { removeArrayItems } from '@queelag/core'
 import { html } from 'lit-html'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
-import { State } from '../decorators/state'
 import { ElementName } from '../definitions/enums'
 import { SelectOption } from '../definitions/interfaces'
 import { map } from '../directives/map'
@@ -16,21 +13,12 @@ declare global {
   }
 }
 
-@CustomElement('q-select')
 export class SelectElement extends FormFieldElement {
-  @Property({ type: Boolean, reflect: true })
   multiple?: boolean
-
-  @Property({ type: Boolean, reflect: true })
   native?: boolean
-
-  @Property({ type: Boolean, reflect: true })
   normalized?: boolean
-
-  @Property({ type: Array })
   options?: SelectOption[]
 
-  @State()
   private searchValue: string = ''
 
   private onChange(event: InputEvent): void {
@@ -152,4 +140,15 @@ export class SelectElement extends FormFieldElement {
   set value(value: any | any[]) {
     super.value = value
   }
+
+  static properties = {
+    ...super.properties,
+    multiple: { type: Boolean, reflect: true },
+    native: { type: Boolean, reflect: true },
+    normalized: { type: Boolean, reflect: true },
+    options: { type: Array },
+    searchValue: { state: true }
+  }
 }
+
+customElements.define('q-select', SelectElement)

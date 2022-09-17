@@ -2,10 +2,7 @@ import { removeArrayItems } from '@queelag/core'
 import { css, CSSResult } from 'lit'
 import { html } from 'lit-html'
 import { QueelagFile } from '../classes/queelag.file'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
-import { QueryShadow } from '../decorators/query.shadow'
-import { DeserializeFileOptions } from '../definitions/interfaces'
+import { DeserializeFileOptions, QueryDeclarations } from '../definitions/interfaces'
 import { ElementLogger } from '../loggers/element.logger'
 import { deserializeFile } from '../utils/file.utils'
 import { FormFieldElement } from './core/form.field.element'
@@ -16,22 +13,19 @@ declare global {
   }
 }
 
-@CustomElement('q-input-file')
 export class InputFileElement extends FormFieldElement {
-  @Property({ type: Boolean, attribute: 'deserialize-file-resolve-array-buffer', reflect: true })
+  /**
+   * PROPERTIES
+   */
   deserializeFileResolveArrayBuffer?: boolean
-
-  @Property({ type: Boolean, attribute: 'deserialize-file-resolve-text', reflect: true })
   deserializeFileResolveText?: boolean
-
-  @QueryShadow('input')
-  private inputElement!: HTMLInputElement
-
-  @Property({ type: Boolean, reflect: true })
   multiple?: boolean
-
-  @Property({ type: Boolean, reflect: true })
   native?: boolean
+
+  /**
+   * QUERIES
+   */
+  private inputElement!: HTMLInputElement
 
   private async onChange(event: any): Promise<void> {
     let files: QueelagFile[] = []
@@ -130,6 +124,18 @@ export class InputFileElement extends FormFieldElement {
     return !this.isFilesEmpty
   }
 
+  static properties = {
+    ...super.properties,
+    deserializeFileResolveArrayBuffer: { type: Boolean, attribute: 'deserialize-file-resolve-array-buffer', reflect: true },
+    deserializeFileResolveText: { type: Boolean, attribute: 'deserialize-file-resolve-text', reflect: true },
+    multiple: { type: Boolean, reflect: true },
+    native: { type: Boolean, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    inputElement: { selector: 'input', shadow: true }
+  }
+
   static styles = [
     super.styles as CSSResult,
     css`
@@ -146,3 +152,5 @@ export class InputFileElement extends FormFieldElement {
     `
   ]
 }
+
+customElements.define('q-input-file', InputFileElement)

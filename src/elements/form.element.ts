@@ -1,12 +1,9 @@
+import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
-import { QueryAssignedElements } from '../decorators/query.assigned.elements'
-import { QueryShadow } from '../decorators/query.shadow'
 import { ElementName, KeyboardEventKey } from '../definitions/enums'
+import { QueryDeclarations } from '../definitions/interfaces'
 import { SubmitAsyncEvent } from '../events/submit.async.event'
 import { ElementLogger } from '../loggers/element.logger'
-import type { AriaSwitchElement } from './aria/aria.switch.element'
 import type { CheckBoxElement } from './check.box.element'
 import { BaseElement } from './core/base.element'
 import type { FormFieldElement } from './core/form.field.element'
@@ -19,28 +16,20 @@ declare global {
   }
 }
 
-@CustomElement('q-form')
 export class FormElement extends BaseElement {
-  @Property({ type: Boolean, reflect: true })
+  /**
+   * PROPERTIES
+   */
   disabled?: boolean
-
-  @QueryShadow('form')
-  private formElement!: HTMLFormElement
-
-  @QueryAssignedElements({ selector: 'q-checkbox' })
-  private slotCheckBoxElements!: CheckBoxElement[]
-
-  @QueryAssignedElements({ selector: 'q-input' })
-  private slotInputElements!: InputElement[]
-
-  @QueryAssignedElements({ selector: 'q-input-file' })
-  private slotInputFileElements!: InputFileElement[]
-
-  @QueryAssignedElements({ selector: 'q-aria-switch' })
-  private slowAriaSwitchElements!: AriaSwitchElement[]
-
-  @Property({ type: Boolean, reflect: true })
   spinning?: boolean
+
+  /**
+   * QUERIES
+   */
+  formElement!: HTMLFormElement
+  slotCheckBoxElements!: CheckBoxElement[]
+  slotInputElements!: InputElement[]
+  slotInputFileElements!: InputFileElement[]
 
   private onKeyDown(event: KeyboardEvent): void {
     if (event.key !== KeyboardEventKey.ENTER) {
@@ -94,6 +83,20 @@ export class FormElement extends BaseElement {
   }
 
   private get slotElements(): FormFieldElement[] {
-    return [...this.slotCheckBoxElements, ...this.slotInputElements, ...this.slotInputFileElements, ...this.slowAriaSwitchElements]
+    return [...this.slotCheckBoxElements, ...this.slotInputElements, ...this.slotInputFileElements]
+  }
+
+  static properties: PropertyDeclarations = {
+    disabled: { type: Boolean, reflect: true },
+    spinning: { type: Boolean, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    formElement: { selector: 'form', shadow: true },
+    slotCheckBoxElements: { selector: 'q-checkbox', all: true },
+    slotInputElements: { selector: 'q-input', all: true },
+    slotInputFileElements: { selector: 'q-input-file', all: true }
   }
 }
+
+customElements.define('q-form', FormElement)

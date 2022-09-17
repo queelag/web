@@ -1,5 +1,7 @@
+import { ID } from '@queelag/core'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
-import type { AriaDialogElement } from '../elements/aria/aria.dialog.element'
+import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
+import type { AriaDialogDescriptionElement, AriaDialogElement, AriaDialogLabelElement } from '../elements/aria/aria.dialog.element'
 import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaDialogController implements ReactiveController {
@@ -20,16 +22,48 @@ export class AriaDialogController implements ReactiveController {
 
   setAttributes(): void {
     setImmutableElementAttribute(this.host, 'aria-modal', 'true')
-    setImmutableElementAttribute(this.host, 'aria-describedby', this.host.descriptionID)
-    setImmutableElementAttribute(this.host, 'aria-labelledby', this.host.labelID)
+    setImmutableElementAttribute(this.host, 'aria-describedby', this.host.descriptionElement?.id)
+    setImmutableElementAttribute(this.host, 'aria-labelledby', this.host.labelElement?.id)
     setImmutableElementAttribute(this.host, 'role', this.alert ? 'alertdialog' : 'dialog')
+  }
+}
 
-    if (this.host.descriptionElement) {
-      setImmutableElementAttribute(this.host.descriptionElement, 'id', this.host.descriptionID)
+export class AriaDialogDescriptionController implements ReactiveController {
+  constructor(private host: ReactiveControllerHost & AriaDialogDescriptionElement) {
+    this.host.addController(this)
+  }
+
+  hostConnected(): void {
+    this.setAttributes()
+  }
+
+  hostUpdate(): void {
+    this.setAttributes()
+  }
+
+  setAttributes(): void {
+    if (this.host.id.length <= 0) {
+      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
+  }
+}
 
-    if (this.host.labelElement) {
-      setImmutableElementAttribute(this.host.labelElement, 'id', this.host.labelID)
+export class AriaDialogLabelController implements ReactiveController {
+  constructor(private host: ReactiveControllerHost & AriaDialogLabelElement) {
+    this.host.addController(this)
+  }
+
+  hostConnected(): void {
+    this.setAttributes()
+  }
+
+  hostUpdate(): void {
+    this.setAttributes()
+  }
+
+  setAttributes(): void {
+    if (this.host.id.length <= 0) {
+      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
   }
 }

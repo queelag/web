@@ -1,34 +1,26 @@
 import { FormFieldElementCollector } from '../../collectors/form.field.element.collector'
-import { Property } from '../../decorators/property'
-import { State } from '../../decorators/state'
 import { FormFieldElementSchema, FormFieldElementTarget, FormFieldElementValidation } from '../../definitions/types'
 import { StateChangedEvent } from '../../events/state.changed.event'
 import { ElementLogger } from '../../loggers/element.logger'
 import { BaseElement } from './base.element'
 
 export class FormFieldElement extends BaseElement {
-  @Property({ type: Boolean, reflect: true })
-  disabled?: boolean
-
-  @Property({ type: Boolean, reflect: true })
-  focused?: boolean
-
-  @Property({ type: String, reflect: true })
-  path?: string
-
-  @Property({ type: Boolean, reflect: true })
-  readonly?: boolean
-
   private _schema?: FormFieldElementSchema
   private _target?: FormFieldElementTarget
 
-  @Property({ type: Boolean, reflect: true })
+  /**
+   * PROPERTIES
+   */
+  disabled?: boolean
+  focused?: boolean
+  path?: string
+  readonly?: boolean
   touched?: boolean
 
-  @State()
+  /**
+   * STATES
+   */
   validation?: FormFieldElementValidation
-
-  @State()
   private _value: any
 
   connectedCallback(): void {
@@ -67,7 +59,6 @@ export class FormFieldElement extends BaseElement {
     return this.validation[0]?.message
   }
 
-  @Property({ type: Object })
   get schema(): FormFieldElementSchema | undefined {
     return this._schema
   }
@@ -123,5 +114,16 @@ export class FormFieldElement extends BaseElement {
 
   get isValid(): boolean {
     return typeof this.error === 'undefined'
+  }
+
+  static properties = {
+    disabled: { type: Boolean, reflect: true },
+    focused: { type: Boolean, reflect: true },
+    path: { type: String, reflect: true },
+    readonly: { type: Boolean, reflect: true },
+    schema: { type: Object },
+    touched: { type: Boolean, reflect: true },
+    validation: { state: true },
+    _value: { state: true }
   }
 }

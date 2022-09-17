@@ -1,5 +1,5 @@
 import { getLimitedNumber } from '@queelag/core'
-import { css } from 'lit'
+import { css, PropertyDeclarations } from 'lit'
 import {
   AriaComboBoxButtonController,
   AriaComboBoxController,
@@ -7,14 +7,8 @@ import {
   AriaComboBoxListController,
   AriaComboBoxOptionController
 } from '../../controllers/aria.combo.box.controller'
-import { Closest } from '../../decorators/closest'
-import { CustomElement } from '../../decorators/custom.element'
-import { Internal } from '../../decorators/internal'
-import { Property } from '../../decorators/property'
-import { Query } from '../../decorators/query'
-import { QueryAll } from '../../decorators/query.all'
-import { State } from '../../decorators/state'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
+import { QueryDeclarations } from '../../definitions/interfaces'
 import { AriaComboBoxElementAutoComplete } from '../../definitions/types'
 import { StateChangedEvent } from '../../events/state.changed.event'
 import { ElementLogger } from '../../loggers/element.logger'
@@ -34,41 +28,20 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-combobox')
 export class AriaComboBoxElement extends BaseElement {
   protected aria: AriaComboBoxController = new AriaComboBoxController(this)
 
-  @Property({ type: String, reflect: true })
   autocomplete?: AriaComboBoxElementAutoComplete
-
-  @Property({ type: Boolean, reflect: true })
-  expanded?: boolean
-
-  @Query('q-aria-combobox-button')
   buttonElement?: AriaComboBoxButtonElement
-
-  @Query('q-aria-combobox-group')
+  expanded?: boolean
   groupElement!: AriaComboBoxGroupElement
-
-  @Query('q-aria-combobox-input')
   inputElement?: AriaComboBoxInputElement
-
-  @Query('q-aria-combobox-list')
   listElement?: AriaComboBoxListElement
-
-  @Query('q-aria-combobox-option[focused]')
   focusedOptionElement?: AriaComboBoxOptionElement
-
-  @QueryAll('q-aria-combobox-option')
   optionElements!: AriaComboBoxOptionElement[]
-
-  @Property({ type: Object, attribute: 'scroll-into-view-options' })
   scrollIntoViewOptions?: ScrollIntoViewOptions
-
-  @Query('q-aria-combobox-option[selected]')
   selectedOptionElement?: AriaComboBoxOptionElement
 
-  @Internal()
   typeahead: Typeahead<AriaComboBoxOptionElement> = new Typeahead((element: AriaComboBoxOptionElement) => {
     this.blurFocusedOptionElement()
 
@@ -334,6 +307,22 @@ export class AriaComboBoxElement extends BaseElement {
     return this.selectedOptionElement ? this.optionElements.indexOf(this.selectedOptionElement) : -1
   }
 
+  static properties: PropertyDeclarations = {
+    autocomplete: { type: String, reflect: true },
+    expanded: { type: Boolean, reflect: true },
+    scrollIntoViewOptions: { type: Object, attribute: 'scroll-into-view-options' }
+  }
+
+  static queries: QueryDeclarations = {
+    buttonElement: { selector: 'q-aria-combobox-button' },
+    groupElement: { selector: 'q-aria-combobox-group' },
+    inputElement: { selector: 'q-aria-combobox-input' },
+    listElement: { selector: 'q-aria-combobox-list' },
+    focusedOptionElement: { selector: 'q-aria-combobox-option[focused]' },
+    optionElements: { selector: 'q-aria-combobox-option', all: true },
+    selectOptionElement: { selector: 'q-aria-combobox-option[selected]' }
+  }
+
   static styles = [
     super.styles,
     css`
@@ -344,18 +333,15 @@ export class AriaComboBoxElement extends BaseElement {
   ]
 }
 
-@CustomElement('q-aria-combobox-group')
 export class AriaComboBoxGroupElement extends BaseElement {
   get name(): ElementName {
     return ElementName.COMBOBOX_GROUP
   }
 }
 
-@CustomElement('q-aria-combobox-button')
 export class AriaComboBoxButtonElement extends BaseElement {
   protected aria: AriaComboBoxButtonController = new AriaComboBoxButtonController(this)
 
-  @Closest('q-aria-combobox')
   rootElement!: AriaComboBoxElement
 
   connectedCallback(): void {
@@ -400,6 +386,10 @@ export class AriaComboBoxButtonElement extends BaseElement {
     return ElementName.COMBOBOX_BUTTON
   }
 
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-aria-combobox', closest: true }
+  }
+
   static styles = [
     super.styles,
     css`
@@ -410,17 +400,11 @@ export class AriaComboBoxButtonElement extends BaseElement {
   ]
 }
 
-@CustomElement('q-aria-combobox-input')
 export class AriaComboBoxInputElement extends BaseElement {
   protected aria: AriaComboBoxInputController = new AriaComboBoxInputController(this)
 
-  @Query('input')
   inputElement?: HTMLInputElement
-
-  @Closest('q-aria-combobox')
   rootElement!: AriaComboBoxElement
-
-  @State()
   value: string = ''
 
   connectedCallback(): void {
@@ -491,13 +475,20 @@ export class AriaComboBoxInputElement extends BaseElement {
   get name(): ElementName {
     return ElementName.COMBOBOX_INPUT
   }
+
+  static properties: PropertyDeclarations = {
+    value: { state: true }
+  }
+
+  static queries: QueryDeclarations = {
+    inputElement: { selector: 'input' },
+    rootElement: { selector: 'q-aria-combobox', closest: true }
+  }
 }
 
-@CustomElement('q-aria-combobox-list')
 export class AriaComboBoxListElement extends FloatingElement {
   protected aria: AriaComboBoxListController = new AriaComboBoxListController(this)
 
-  @Closest('q-aria-combobox')
   rootElement!: AriaComboBoxElement
 
   get name(): ElementName {
@@ -506,6 +497,10 @@ export class AriaComboBoxListElement extends FloatingElement {
 
   get referenceElement(): AriaComboBoxGroupElement {
     return this.rootElement.groupElement
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-aria-combobox', closest: true }
   }
 
   static styles = [
@@ -522,20 +517,12 @@ export class AriaComboBoxListElement extends FloatingElement {
   ]
 }
 
-@CustomElement('q-aria-combobox-option')
 export class AriaComboBoxOptionElement extends BaseElement {
   protected aria: AriaComboBoxOptionController = new AriaComboBoxOptionController(this)
 
-  @Property({ type: Boolean, reflect: true })
   focused?: boolean
-
-  @Closest('q-aria-combobox-list')
   listElement!: AriaComboBoxListElement
-
-  @Closest('q-aria-combobox')
   rootElement!: AriaComboBoxElement
-
-  @Property({ type: Boolean, reflect: true })
   selected?: boolean
 
   connectedCallback(): void {
@@ -597,6 +584,16 @@ export class AriaComboBoxOptionElement extends BaseElement {
     return ElementName.COMBOBOX_OPTION
   }
 
+  static properties: PropertyDeclarations = {
+    focused: { type: Boolean, reflect: true },
+    selected: { type: Boolean, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    listElement: { selector: 'q-aria-combobox-list', closest: true },
+    rootElement: { selector: 'q-aria-combobox', closest: true }
+  }
+
   static styles = [
     super.styles,
     css`
@@ -606,3 +603,10 @@ export class AriaComboBoxOptionElement extends BaseElement {
     `
   ]
 }
+
+customElements.define('q-aria-combobox', AriaComboBoxElement)
+customElements.define('q-aria-combobox-button', AriaComboBoxButtonElement)
+customElements.define('q-aria-combobox-group', AriaComboBoxGroupElement)
+customElements.define('q-aria-combobox-input', AriaComboBoxInputElement)
+customElements.define('q-aria-combobox-list', AriaComboBoxListElement)
+customElements.define('q-aria-combobox-option', AriaComboBoxOptionElement)

@@ -1,7 +1,6 @@
 import { getLimitedNumber, getNumberPercentage } from '@queelag/core'
+import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
 import { ifdef } from '../directives/if.defined'
 import { BaseElement } from './core/base.element'
 
@@ -11,27 +10,13 @@ declare global {
   }
 }
 
-@CustomElement('q-meter')
 export class MeterElement extends BaseElement {
-  @Property({ type: Number, reflect: true })
   low?: number
-
-  @Property({ type: Number, reflect: true })
   high?: number
-
-  @Property({ type: Number, reflect: true })
   maximum?: number
-
-  @Property({ type: Number, reflect: true })
   minimum?: number
-
-  @Property({ type: Boolean, reflect: true })
   native?: boolean
-
-  @Property({ type: Number, reflect: true })
   optimum?: number
-
-  @Property({ type: Boolean, reflect: true })
   round?: boolean
 
   private _value?: number
@@ -65,7 +50,6 @@ export class MeterElement extends BaseElement {
     return getNumberPercentage(this.value || 0, this.minimum, this.maximum, this.round)
   }
 
-  @Property({ type: Number, reflect: true })
   get value(): number {
     return getLimitedNumber(this._value || 0, this.minimum, this.maximum)
   }
@@ -78,4 +62,17 @@ export class MeterElement extends BaseElement {
 
     this.requestUpdate('value', old)
   }
+
+  static properties: PropertyDeclarations = {
+    low: { type: Number, reflect: true },
+    high: { type: Number, reflect: true },
+    maximum: { type: Number, reflect: true },
+    minimum: { type: Number, reflect: true },
+    native: { type: Boolean, reflect: true },
+    optimum: { type: Number, reflect: true },
+    round: { type: Boolean, reflect: true },
+    value: { type: Number, reflect: true }
+  }
 }
+
+customElements.define('q-meter', MeterElement)

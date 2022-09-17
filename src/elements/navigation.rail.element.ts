@@ -1,5 +1,4 @@
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
+import { PropertyDeclarations } from 'lit'
 import { NavigationRailItemElementAttributes } from '../definitions/attributes'
 import { ElementName } from '../definitions/enums'
 import { ElementLogger } from '../loggers/element.logger'
@@ -12,12 +11,8 @@ declare global {
   }
 }
 
-@CustomElement('q-navigation-rail')
 export class NavigationRailElement extends BaseElement {
-  @Property({ type: String, attribute: 'active-item', reflect: true })
   activeItem?: string
-
-  @Property({ type: Array })
   items?: NavigationRailItemElementAttributes[]
 
   activateItem(item: string): void {
@@ -32,14 +27,28 @@ export class NavigationRailElement extends BaseElement {
   get name(): ElementName {
     return ElementName.NAVIGATION_RAIL
   }
+
+  static properties: PropertyDeclarations = {
+    activeItem: { type: String, attribute: 'active-item', reflect: true },
+    items: { type: Array }
+  }
 }
 
-@CustomElement('q-navigation-rail-item')
 export class NavigationRailItemElement extends BaseElement {
-  @Property({ type: Boolean, reflect: true })
   active?: boolean
+  label?: string
+  icon?: string
 
   get name(): ElementName {
     return ElementName.NAVIGATION_RAIL_ITEM
   }
+
+  static properties: PropertyDeclarations = {
+    active: { type: Boolean, reflect: true },
+    label: { type: String, reflect: true },
+    icon: { type: String, reflect: true }
+  }
 }
+
+customElements.define('q-navigation-rail', NavigationRailElement)
+customElements.define('q-navigation-rail-item', NavigationRailItemElement)

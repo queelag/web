@@ -1,8 +1,7 @@
+import { PropertyDeclarations } from 'lit'
 import { AriaBreadcrumbController, AriaBreadcrumbListController, AriaBreadcrumbListItemController } from '../../controllers/aria.breadcrumb.controller'
-import { CustomElement } from '../../decorators/custom.element'
-import { Property } from '../../decorators/property'
-import { Query } from '../../decorators/query'
 import { ElementName } from '../../definitions/enums'
+import { QueryDeclarations } from '../../definitions/interfaces'
 import { BaseElement } from '../core/base.element'
 
 declare global {
@@ -13,7 +12,6 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-breadcrumb')
 export class AriaBreadcrumbElement extends BaseElement {
   protected aria: AriaBreadcrumbController = new AriaBreadcrumbController(this)
 
@@ -22,7 +20,6 @@ export class AriaBreadcrumbElement extends BaseElement {
   }
 }
 
-@CustomElement('q-aria-breadcrumb-list')
 export class AriaBreadcrumbListElement extends BaseElement {
   protected aria: AriaBreadcrumbListController = new AriaBreadcrumbListController(this)
 
@@ -31,17 +28,25 @@ export class AriaBreadcrumbListElement extends BaseElement {
   }
 }
 
-@CustomElement('q-aria-breadcrumb-list-item')
 export class AriaBreadcrumbListItemElement extends BaseElement {
   protected aria: AriaBreadcrumbListItemController = new AriaBreadcrumbListItemController(this)
 
-  @Query('a')
   anchorElement!: HTMLAnchorElement
-
-  @Property({ type: Boolean, reflect: true })
   current?: boolean
 
   get name(): ElementName {
     return ElementName.BREADCRUMB_LIST_ITEM
   }
+
+  static queries: QueryDeclarations = {
+    anchorElement: { selector: 'a' }
+  }
+
+  static properties: PropertyDeclarations = {
+    current: { type: Boolean, reflect: true }
+  }
 }
+
+customElements.define('q-aria-breadcrumb', AriaBreadcrumbElement)
+customElements.define('q-aria-breadcrumb-list', AriaBreadcrumbListElement)
+customElements.define('q-aria-breadcrumb-list-item', AriaBreadcrumbListItemElement)

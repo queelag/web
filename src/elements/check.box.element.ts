@@ -1,8 +1,6 @@
 import { css, CSSResult } from 'lit'
 import { html } from 'lit-html'
 import { AriaCheckBoxController } from '../controllers/aria.check.box.controller'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
 import { ElementName, KeyboardEventKey } from '../definitions/enums'
 import { ElementLogger } from '../loggers/element.logger'
 import { FormFieldElement } from './core/form.field.element'
@@ -13,14 +11,13 @@ declare global {
   }
 }
 
-@CustomElement('q-checkbox')
 export class CheckBoxElement extends FormFieldElement {
   protected aria: AriaCheckBoxController = new AriaCheckBoxController(this)
 
-  @Property({ type: Boolean, reflect: true })
+  /**
+   * PROPERTIES
+   */
   native?: boolean
-
-  @Property({ type: Boolean, reflect: true })
   normalized?: boolean
 
   connectedCallback(): void {
@@ -101,6 +98,12 @@ export class CheckBoxElement extends FormFieldElement {
     super.value = value
   }
 
+  static properties = {
+    ...super.properties,
+    native: { type: Boolean, reflect: true },
+    normalized: { type: Boolean, reflect: true }
+  }
+
   static styles = [
     super.styles as CSSResult,
     css`
@@ -120,3 +123,5 @@ export class CheckBoxElement extends FormFieldElement {
     `
   ]
 }
+
+customElements.define('q-checkbox', CheckBoxElement)

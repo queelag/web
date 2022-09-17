@@ -1,11 +1,7 @@
-import { css } from 'lit'
+import { css, PropertyDeclarations } from 'lit'
 import { AriaTabsController, AriaTabsPanelController, AriaTabsTabController } from '../../controllers/aria.tabs.controller'
-import { Closest } from '../../decorators/closest'
-import { CustomElement } from '../../decorators/custom.element'
-import { Property } from '../../decorators/property'
-import { Query } from '../../decorators/query'
-import { QueryAll } from '../../decorators/query.all'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
+import { QueryDeclarations } from '../../definitions/interfaces'
 import { AttributeChangedEvent } from '../../events/attribute.changed.event'
 import { ElementLogger } from '../../loggers/element.logger'
 import { BaseElement } from '../core/base.element'
@@ -18,20 +14,12 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-tabs')
 export class AriaTabsElement extends BaseElement {
   protected aria: AriaTabsController = new AriaTabsController(this)
 
-  @Property({ type: Boolean, attribute: 'automatic-activation', reflect: true })
   automaticActivation?: boolean
-
-  @Query('q-aria-tabs-panel')
   panelElement!: AriaTabsPanelElement
-
-  @Query('q-aria-tabs-tab[selected]')
   selectedTabElement?: AriaTabsTabElement
-
-  @QueryAll('q-aria-tabs-tab')
   tabElements!: AriaTabsTabElement[]
 
   connectedCallback(): void {
@@ -173,16 +161,22 @@ export class AriaTabsElement extends BaseElement {
   get selectedTabElementIndex(): number {
     return this.selectedTabElement ? this.tabElements.indexOf(this.selectedTabElement) : -1
   }
+
+  static properties: PropertyDeclarations = {
+    automaticActivation: { type: Boolean, attribute: 'automatic-activation', reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    panelElement: { selector: 'q-aria-tabs-panel' },
+    selectedTabElement: { selector: 'q-aria-tabs-tab[selected]' },
+    tabElements: { selector: 'q-aria-tabs-tab', all: true }
+  }
 }
 
-@CustomElement('q-aria-tabs-tab')
 export class AriaTabsTabElement extends BaseElement {
   protected aria: AriaTabsTabController = new AriaTabsTabController(this)
 
-  @Closest('q-aria-tabs')
   rootElement!: AriaTabsElement
-
-  @Property({ type: Boolean, reflect: true })
   selected?: boolean
 
   connectedCallback(): void {
@@ -225,6 +219,14 @@ export class AriaTabsTabElement extends BaseElement {
     return ElementName.TABS_TAB
   }
 
+  static properties: PropertyDeclarations = {
+    selected: { type: Boolean, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-aria-tabs', closest: true }
+  }
+
   static styles = [
     super.styles,
     css`
@@ -235,7 +237,6 @@ export class AriaTabsTabElement extends BaseElement {
   ]
 }
 
-@CustomElement('q-aria-tabs-panel')
 export class AriaTabsPanelElement extends BaseElement {
   protected aria: AriaTabsPanelController = new AriaTabsPanelController(this)
 
@@ -243,3 +244,7 @@ export class AriaTabsPanelElement extends BaseElement {
     return ElementName.TABS_PANEL
   }
 }
+
+customElements.define('q-aria-tabs', AriaTabsElement)
+customElements.define('q-aria-tabs-tab', AriaTabsTabElement)
+customElements.define('q-aria-tabs-panel', AriaTabsPanelElement)

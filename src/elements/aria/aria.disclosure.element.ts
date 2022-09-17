@@ -1,10 +1,7 @@
+import { PropertyDeclarations } from 'lit'
 import { AriaDisclosureButtonController, AriaDisclosurePanelController, AriaDisclosureSectionController } from '../../controllers/aria.disclosure.controller'
-import { Closest } from '../../decorators/closest'
-import { CustomElement } from '../../decorators/custom.element'
-import { Property } from '../../decorators/property'
-import { Query } from '../../decorators/query'
-import { QueryAll } from '../../decorators/query.all'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
+import { QueryDeclarations } from '../../definitions/interfaces'
 import { ElementLogger } from '../../loggers/element.logger'
 import { BaseElement } from '../core/base.element'
 
@@ -17,9 +14,7 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-disclosure')
 export class AriaDisclosureElement extends BaseElement {
-  @QueryAll('q-aria-disclosure-button')
   buttonElements!: AriaDisclosureButtonElement[]
 
   connectedCallback(): void {
@@ -51,19 +46,17 @@ export class AriaDisclosureElement extends BaseElement {
   get name(): ElementName {
     return ElementName.DISCLOSURE
   }
+
+  static queries: QueryDeclarations = {
+    buttonElements: { selector: 'q-aria-disclosure-button', all: true }
+  }
 }
 
-@CustomElement('q-aria-disclosure-section')
 export class AriaDisclosureSectionElement extends BaseElement {
   protected aria: AriaDisclosureSectionController = new AriaDisclosureSectionController(this)
 
-  @Query('q-aria-disclosure-button')
   buttonElement!: AriaDisclosureButtonElement
-
-  @Property({ type: Boolean, reflect: true })
   expanded?: boolean
-
-  @Query('q-aria-disclosure-panel')
   panelElement?: AriaDisclosurePanelElement
 
   collapse(): void {
@@ -77,13 +70,20 @@ export class AriaDisclosureSectionElement extends BaseElement {
   get name(): ElementName {
     return ElementName.DISCLOSURE_SECTION
   }
+
+  static properties: PropertyDeclarations = {
+    expanded: { type: Boolean, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    buttonElement: { selector: 'q-aria-disclosure-button' },
+    panelElement: { selector: 'q-aria-disclosure-panel' }
+  }
 }
 
-@CustomElement('q-aria-disclosure-button')
 export class AriaDisclosureButtonElement extends BaseElement {
   protected aria: AriaDisclosureButtonController = new AriaDisclosureButtonController(this)
 
-  @Closest('q-aria-disclosure-section')
   sectionElement!: AriaDisclosureSectionElement
 
   connectedCallback(): void {
@@ -104,9 +104,12 @@ export class AriaDisclosureButtonElement extends BaseElement {
   get name(): ElementName {
     return ElementName.DISCLOSURE_BUTTON
   }
+
+  static queries: QueryDeclarations = {
+    sectionElement: { selector: 'q-aria-disclosure-section', closest: true }
+  }
 }
 
-@CustomElement('q-aria-disclosure-panel')
 export class AriaDisclosurePanelElement extends BaseElement {
   protected aria: AriaDisclosurePanelController = new AriaDisclosurePanelController(this)
 
@@ -114,3 +117,8 @@ export class AriaDisclosurePanelElement extends BaseElement {
     return ElementName.DISCLOSURE_PANEL
   }
 }
+
+customElements.define('q-aria-disclosure', AriaDisclosureElement)
+customElements.define('q-aria-disclosure-button', AriaDisclosureButtonElement)
+customElements.define('q-aria-disclosure-panel', AriaDisclosurePanelElement)
+customElements.define('q-aria-disclosure-section', AriaDisclosureSectionElement)

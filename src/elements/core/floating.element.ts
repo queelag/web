@@ -11,43 +11,30 @@ import {
   Strategy
 } from '@floating-ui/dom'
 import { tcp } from '@queelag/core'
-import { Internal } from '../../decorators/internal'
-import { Property } from '../../decorators/property'
+import { PropertyDeclarations } from 'lit'
 import { BaseElement } from './base.element'
 
 export class FloatingElement extends BaseElement {
   private _arrowElement?: HTMLElement
   private _referenceElement?: HTMLElement
 
-  @Property({ type: Boolean, attribute: 'ancestor-scroll', reflect: true })
+  /**
+   * PROPERTIES
+   */
   ancestorScroll?: boolean
-
-  @Property({ type: Boolean, attribute: 'ancestor-resize', reflect: true })
   ancestorResize?: boolean
-
-  @Property({ type: Boolean, attribute: 'animation-frame', reflect: true })
   animationFrame?: boolean
-
-  @Property({ type: Number, attribute: 'arrow-padding', reflect: true })
   arrowPadding?: number
-
-  @Internal()
-  cleanup?: Function
-
-  @Property({ type: Boolean, attribute: 'element-resize', reflect: true })
   elementResize?: boolean
-
-  @Property({ type: Array })
   middlewares?: Middleware[]
-
-  @Property({ type: String, reflect: true })
   placement?: Placement
-
-  @Property({ type: Object })
   platform?: Platform
-
-  @Property({ type: String, reflect: true })
   strategy?: Strategy
+
+  /**
+   * INTERNAL
+   */
+  cleanup?: Function
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -168,5 +155,17 @@ export class FloatingElement extends BaseElement {
   set referenceElement(element: HTMLElement | undefined) {
     this._referenceElement = element
     this.computePosition()
+  }
+
+  static properties: PropertyDeclarations = {
+    ancestorScroll: { type: Boolean, attribute: 'ancestor-scroll', reflect: true },
+    ancestorResize: { type: Boolean, attribute: 'ancestor-resize', reflect: true },
+    animationFrame: { type: Boolean, attribute: 'animation-frame', reflect: true },
+    arrowPadding: { type: Number, attribute: 'arrow-padding', reflect: true },
+    elementResize: { type: Boolean, attribute: 'element-resize', reflect: true },
+    middlewares: { type: Array },
+    placement: { type: String, reflect: true },
+    platform: { type: Object },
+    strategy: { type: String, reflect: true }
   }
 }

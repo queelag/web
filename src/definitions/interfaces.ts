@@ -1,4 +1,4 @@
-import { Config as SanitizeConfig } from 'isomorphic-dompurify'
+import type { Config as SanitizeConfig } from 'isomorphic-dompurify'
 import { CanvasDataURLType } from './types'
 
 export interface DeserializeFileOptions {
@@ -17,6 +17,15 @@ export interface IconElementSanitizeConfig extends SanitizeConfig {
   RETURN_DOM?: false | undefined
   RETURN_DOM_FRAGMENT?: false | undefined
 }
+
+export interface QueryDeclaration {
+  all?: boolean
+  closest?: boolean
+  selector: keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap | string
+  shadow?: boolean
+}
+
+export interface QueryDeclarations extends Record<string, QueryDeclaration> {}
 
 export interface SelectOption {
   label?: string

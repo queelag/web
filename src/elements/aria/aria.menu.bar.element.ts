@@ -1,13 +1,8 @@
 import { debounce } from '@queelag/core'
-import { css } from 'lit'
+import { css, PropertyDeclarations } from 'lit'
 import { AriaMenuBarController, AriaMenuBarItemController, AriaMenuBarSubMenuController } from '../../controllers/aria.menu.bar.controller'
-import { Closest } from '../../decorators/closest'
-import { CustomElement } from '../../decorators/custom.element'
-import { Internal } from '../../decorators/internal'
-import { Property } from '../../decorators/property'
-import { Query } from '../../decorators/query'
-import { QueryAll } from '../../decorators/query.all'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
+import { QueryDeclarations } from '../../definitions/interfaces'
 import { ElementLogger } from '../../loggers/element.logger'
 import { Typeahead } from '../../modules/typeahead'
 import { setImmutableElementAttribute } from '../../utils/element.utils'
@@ -23,38 +18,20 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-menubar')
 export class AriaMenuBarElement extends BaseElement {
   protected aria: AriaMenuBarController = new AriaMenuBarController(this)
 
-  @Internal()
   private expanded?: boolean
-
-  @Internal()
   private focused?: boolean = true
 
-  @Query('q-aria-menubar-submenu[expanded]')
   expandedSubMenuElement?: AriaMenuBarSubMenuElement
-
-  @QueryAll('q-aria-menubar-submenu[expanded]')
   expandedSubMenuElements!: AriaMenuBarSubMenuElement[]
-
-  @Query('q-aria-menubar-item[focused]')
   focusedItemElement?: AriaMenuBarItemElement
-
-  @QueryAll('q-aria-menubar-item[focused]')
   focusedItemElements!: AriaMenuBarItemElement[]
-
-  @QueryAll('q-aria-menubar-item')
   itemElements!: AriaMenuBarItemElement[]
-
-  @Query('q-aria-menubar-item[depth="0"][focused]')
   shallowFocusedItemElement?: AriaMenuBarItemElement
-
-  @QueryAll('q-aria-menubar-item[depth="0"]')
   shallowItemElements!: AriaMenuBarItemElement[]
 
-  @Internal()
   typeahead: Typeahead<AriaMenuBarItemElement> = new Typeahead((item: AriaMenuBarItemElement) => {
     this.shallowFocusedItemElement?.blur()
 
@@ -255,25 +232,25 @@ export class AriaMenuBarElement extends BaseElement {
   get shallowFocusedItemElementIndex(): number {
     return this.shallowFocusedItemElement ? this.shallowItemElements.indexOf(this.shallowFocusedItemElement) : -1
   }
+
+  static queries: QueryDeclarations = {
+    expandedSubMenuElement: { selector: 'q-aria-menubar-submenu[expanded]' },
+    expandedSubMenuElements: { selector: 'q-aria-menubar-submenu[expanded]', all: true },
+    focusedItemElement: { selector: 'q-aria-menubar-item[focused]' },
+    focusedItemElements: { selector: 'q-aria-menubar-item[focused]', all: true },
+    itemElements: { selector: 'q-aria-menubar-item', all: true },
+    shallowFocusedItemElement: { selector: 'q-aria-menubar-item[depth="0"][focused]' },
+    shallowItemElements: { selector: 'q-aria-menubar-item[depth="0"]', all: true }
+  }
 }
 
-@CustomElement('q-aria-menubar-item')
 export class AriaMenuBarItemElement extends BaseElement {
   protected aria: AriaMenuBarItemController = new AriaMenuBarItemController(this)
 
-  @Query('a')
   anchorElement?: HTMLAnchorElement
-
-  @Property({ type: Boolean, reflect: true })
   focused?: boolean
-
-  @Internal()
   mouseEntered?: boolean
-
-  @Closest('q-aria-menubar')
   rootElement!: AriaMenuBarElement
-
-  @Query('q-aria-menubar-submenu')
   subMenuElement?: AriaMenuBarSubMenuElement
 
   connectedCallback(): void {
@@ -427,6 +404,16 @@ export class AriaMenuBarItemElement extends BaseElement {
     return this.closest('q-aria-menubar-submenu') === null
   }
 
+  static properties: PropertyDeclarations = {
+    focused: { type: Boolean, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    anchorElement: { selector: 'a' },
+    rootElement: { selector: 'q-aria-menubar', closest: true },
+    subMenuElement: { selector: 'q-aria-menubar-submenu' }
+  }
+
   static styles = [
     super.styles,
     css`
@@ -438,20 +425,13 @@ export class AriaMenuBarItemElement extends BaseElement {
   ]
 }
 
-@CustomElement('q-aria-menubar-submenu')
 export class AriaMenuBarSubMenuElement extends FloatingElement {
   protected aria: AriaMenuBarSubMenuController = new AriaMenuBarSubMenuController(this)
 
-  @Property({ type: Boolean, reflect: true })
   expanded?: boolean
-
-  @Closest('q-aria-menubar-item')
   itemElement!: AriaMenuBarItemElement
-
-  @Closest('q-aria-menubar-submenu')
   subMenuElement?: AriaMenuBarSubMenuElement
 
-  @Internal()
   typeahead: Typeahead<AriaMenuBarItemElement> = new Typeahead((item: AriaMenuBarItemElement) => {
     this.shallowFocusedItemElement?.blur()
 
@@ -627,6 +607,15 @@ export class AriaMenuBarSubMenuElement extends FloatingElement {
     return this.querySelectorAll(`q-aria-menubar-item[depth="${this.depth}"]`)
   }
 
+  static properties: PropertyDeclarations = {
+    expanded: { type: Boolean, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    itemElement: { selector: 'q-aria-menubar-item', closest: true },
+    subMenuElement: { selector: 'q-aria-menubar-submenu', closest: true }
+  }
+
   static styles = [
     super.styles,
     css`
@@ -639,3 +628,7 @@ export class AriaMenuBarSubMenuElement extends FloatingElement {
     `
   ]
 }
+
+customElements.define('q-aria-menubar', AriaMenuBarElement)
+customElements.define('q-aria-menubar-item', AriaMenuBarItemElement)
+customElements.define('q-aria-menubar-submenu', AriaMenuBarSubMenuElement)

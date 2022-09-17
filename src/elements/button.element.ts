@@ -1,6 +1,4 @@
-import { css, html } from 'lit'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
+import { css, html, PropertyDeclarations } from 'lit'
 import { ElementName, KeyboardEventKey } from '../definitions/enums'
 import { ButtonType, ButtonVariant } from '../definitions/types'
 import { ifdef } from '../directives/if.defined'
@@ -14,30 +12,17 @@ declare global {
   }
 }
 
-@CustomElement('q-button')
 export class ButtonElement extends AriaButtonElement {
-  @Property({ type: Boolean, reflect: true })
+  /**
+   * PROPERTIES
+   */
   async?: boolean
-
-  @Property({ type: String, reflect: true })
   icon?: string
-
-  @Property({ type: String, reflect: true })
   label?: string
-
-  @Property({ type: Boolean, reflect: true })
   native?: boolean
-
-  @Property({ type: Boolean, reflect: true })
   normalized?: boolean
-
-  @Property({ type: Boolean, reflect: true })
   spinning?: boolean
-
-  @Property({ type: String, reflect: true })
   type?: ButtonType
-
-  @Property({ type: String, reflect: true })
   variant?: ButtonVariant
 
   constructor() {
@@ -121,6 +106,17 @@ export class ButtonElement extends AriaButtonElement {
     return ElementName.BUTTON
   }
 
+  static properties: PropertyDeclarations = {
+    async: { type: Boolean, reflect: true },
+    icon: { type: String, reflect: true },
+    label: { type: String, reflect: true },
+    native: { type: Boolean, reflect: true },
+    normalized: { type: Boolean, reflect: true },
+    spinning: { type: Boolean, reflect: true },
+    type: { type: String, reflect: true },
+    variant: { type: String, reflect: true }
+  }
+
   static styles = [
     super.styles,
     css`
@@ -146,3 +142,5 @@ export class ButtonElement extends AriaButtonElement {
     `
   ]
 }
+
+customElements.define('q-button', ButtonElement)

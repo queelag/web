@@ -1,8 +1,6 @@
 import { getLimitedNumber, parseNumber } from '@queelag/core'
-import { css, CSSResult } from 'lit'
+import { css, CSSResult, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
 import { BaseElement } from './core/base.element'
 
 declare global {
@@ -11,17 +9,17 @@ declare global {
   }
 }
 
-@CustomElement('q-badge')
 export class BadgeElement extends BaseElement {
-  @Property({ type: Number, reflect: true })
+  /**
+   * PROPERTIES
+   */
   maximum?: number
-
-  @Property({ type: Number, reflect: true })
   minimum?: number
-
-  @Property({ type: Boolean, reflect: true })
   numeric?: boolean
 
+  /**
+   * INTERNAL
+   */
   private _value?: string
 
   render() {
@@ -31,7 +29,6 @@ export class BadgeElement extends BaseElement {
     `
   }
 
-  @Property({ type: String, reflect: true })
   get value(): string {
     if (this.numeric) {
       return getLimitedNumber(parseNumber(this._value || '0'), this.minimum, this.maximum).toString()
@@ -49,6 +46,13 @@ export class BadgeElement extends BaseElement {
     this.requestUpdate('value', old)
   }
 
+  static properties: PropertyDeclarations = {
+    maximum: { type: Number, reflect: true },
+    minimum: { type: Number, reflect: true },
+    numeric: { type: Boolean, reflect: true },
+    value: { type: String, reflect: true }
+  }
+
   static styles = [
     super.styles as CSSResult,
     css`
@@ -61,3 +65,5 @@ export class BadgeElement extends BaseElement {
     `
   ]
 }
+
+customElements.define('q-badge', BadgeElement)

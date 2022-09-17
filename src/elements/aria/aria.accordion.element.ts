@@ -1,15 +1,12 @@
+import { PropertyDeclarations } from 'lit'
 import {
   AriaAccordionButtonController,
   AriaAccordionHeaderController,
   AriaAccordionPanelController,
   AriaAccordionSectionController
 } from '../../controllers/aria.accordion.controller'
-import { Closest } from '../../decorators/closest'
-import { CustomElement } from '../../decorators/custom.element'
-import { Property } from '../../decorators/property'
-import { Query } from '../../decorators/query'
-import { QueryAll } from '../../decorators/query.all'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
+import { QueryDeclarations } from '../../definitions/interfaces'
 import { HeadingLevel } from '../../definitions/types'
 import { ElementLogger } from '../../loggers/element.logger'
 import { BaseElement } from '../core/base.element'
@@ -24,15 +21,10 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-accordion')
 export class AriaAccordionElement extends BaseElement {
-  @Property({ type: Boolean, attribute: 'allow-only-one-expanded-section', reflect: true })
   allowOnlyOneExpandedSection?: boolean
 
-  @QueryAll('q-aria-accordion-button')
   buttonElements!: AriaAccordionButtonElement[]
-
-  @QueryAll('q-aria-accordion-section[expanded]')
   expandedSectionElements!: AriaAccordionSectionElement[]
 
   connectedCallback(): void {
@@ -120,22 +112,24 @@ export class AriaAccordionElement extends BaseElement {
   get name(): ElementName {
     return ElementName.ACCORDION
   }
+
+  static queries: QueryDeclarations = {
+    buttonElements: { selector: 'q-aria-accordion-button', all: true },
+    expandedSectionElements: { selector: 'q-aria-accordion-section[expanded]', all: true }
+  }
+
+  static properties: PropertyDeclarations = {
+    allowOnlyOneExpandedSection: { type: Boolean, attribute: 'allow-only-one-expanded-section', reflect: true }
+  }
 }
 
-@CustomElement('q-aria-accordion-section')
 export class AriaAccordionSectionElement extends BaseElement {
   protected aria: AriaAccordionSectionController = new AriaAccordionSectionController(this)
 
-  @Property({ type: Boolean, reflect: true })
   collapsable?: boolean
-
-  @Property({ type: Boolean, reflect: true })
   expanded?: boolean
 
-  @Query('q-aria-accordion-button')
   buttonElement!: AriaAccordionButtonElement
-
-  @Query('q-aria-accordion-panel')
   panelElement?: AriaAccordionPanelElement
 
   collapse(): void {
@@ -157,28 +151,36 @@ export class AriaAccordionSectionElement extends BaseElement {
   get name(): ElementName {
     return ElementName.ACCORDION_SECTION
   }
+
+  static queries: QueryDeclarations = {
+    buttonElement: { selector: 'q-aria-accordion-button' },
+    panelElement: { selector: 'q-aria-accordion-panel' }
+  }
+
+  static properties: PropertyDeclarations = {
+    collapsable: { type: Boolean, reflect: true },
+    expanded: { type: Boolean, reflect: true }
+  }
 }
 
-@CustomElement('q-aria-accordion-header')
 export class AriaAccordionHeaderElement extends BaseElement {
   protected aria: AriaAccordionHeaderController = new AriaAccordionHeaderController(this)
 
-  @Property({ type: Number, reflect: true })
   level?: HeadingLevel
 
   get name(): ElementName {
     return ElementName.ACCORDION_HEADER
   }
+
+  static properties: PropertyDeclarations = {
+    level: { type: Number, reflect: true }
+  }
 }
 
-@CustomElement('q-aria-accordion-button')
 export class AriaAccordionButtonElement extends BaseElement {
   protected aria: AriaAccordionButtonController = new AriaAccordionButtonController(this)
 
-  @Closest('q-aria-accordion')
   rootElement!: AriaAccordionElement
-
-  @Closest('q-aria-accordion-section')
   sectionElement!: AriaAccordionSectionElement
 
   connectedCallback(): void {
@@ -216,9 +218,13 @@ export class AriaAccordionButtonElement extends BaseElement {
   get name(): ElementName {
     return ElementName.ACCORDION_BUTTON
   }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-aria-accordion', closest: true },
+    sectionElement: { selector: 'q-aria-accordion-section', closest: true }
+  }
 }
 
-@CustomElement('q-aria-accordion-panel')
 export class AriaAccordionPanelElement extends BaseElement {
   protected aria: AriaAccordionPanelController = new AriaAccordionPanelController(this)
 
@@ -226,3 +232,9 @@ export class AriaAccordionPanelElement extends BaseElement {
     return ElementName.ACCORDION_PANEL
   }
 }
+
+customElements.define('q-aria-accordion', AriaAccordionElement)
+customElements.define('q-aria-accordion-button', AriaAccordionButtonElement)
+customElements.define('q-aria-accordion-header', AriaAccordionHeaderElement)
+customElements.define('q-aria-accordion-panel', AriaAccordionPanelElement)
+customElements.define('q-aria-accordion-section', AriaAccordionSectionElement)

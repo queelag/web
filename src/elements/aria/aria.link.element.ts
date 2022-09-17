@@ -1,7 +1,5 @@
-import { css } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaLinkController } from '../../controllers/aria.link.controller'
-import { CustomElement } from '../../decorators/custom.element'
-import { Property } from '../../decorators/property'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
 import { BaseElement } from '../core/base.element'
 
@@ -11,14 +9,10 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-link')
 export class AriaLinkElement extends BaseElement {
   protected aria: AriaLinkController = new AriaLinkController(this)
 
-  @Property({ type: String, reflect: true })
   href?: string
-
-  @Property({ type: String, reflect: true })
   target?: string
 
   connectedCallback(): void {
@@ -55,7 +49,12 @@ export class AriaLinkElement extends BaseElement {
     return ElementName.LINK
   }
 
-  static styles = [
+  static properties: PropertyDeclarations = {
+    href: { type: String, reflect: true },
+    target: { type: String, reflect: true }
+  }
+
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       * {
@@ -64,3 +63,5 @@ export class AriaLinkElement extends BaseElement {
     `
   ]
 }
+
+customElements.define('q-aria-link', AriaLinkElement)

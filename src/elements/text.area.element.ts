@@ -2,11 +2,8 @@ import { parseNumber } from '@queelag/core'
 import { css, CSSResult } from 'lit'
 import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
-import { QueryShadow } from '../decorators/query.shadow'
-import { State } from '../decorators/state'
 import { ElementName } from '../definitions/enums'
+import { QueryDeclarations } from '../definitions/interfaces'
 import { TextAreaElementResize, TextAreaElementTouchTrigger, TextAreaElementValue } from '../definitions/types'
 import { ifdef } from '../directives/if.defined'
 import { styleMap } from '../directives/style.map'
@@ -19,46 +16,24 @@ declare global {
   }
 }
 
-@CustomElement('q-textarea')
 export class TextAreaElement extends FormFieldElement {
-  @Property({ type: Boolean, reflect: true })
   autosize?: boolean
-
-  @Property({ type: Number, reflect: true })
   cols?: number
-
-  @State()
   private computedHeight?: string
-
-  @Property({ type: Boolean, reflect: true })
   multiple?: boolean
-
-  @Property({ type: Boolean, reflect: true })
   normalized?: boolean
-
-  @Property({ type: String, reflect: true })
   padding?: string
-
-  @Property({ type: String, reflect: true })
   placeholder?: string
-
-  @Property({ type: String, reflect: true })
   resize?: TextAreaElementResize
-
-  @Property({ type: Number, reflect: true })
   rows?: number
-
-  @QueryShadow('span')
-  private spanElement!: HTMLSpanElement
-
-  @QueryShadow('textarea')
-  private textAreaElement!: HTMLTextAreaElement
-
-  @State()
   temporaryValue: string = ''
-
-  @Property({ type: String, attribute: 'touch-trigger', reflect: true })
   touchTrigger?: TextAreaElementTouchTrigger
+
+  /**
+   * QUERIES
+   */
+  private spanElement!: HTMLSpanElement
+  private textAreaElement!: HTMLTextAreaElement
 
   private onBlur(): void {
     this.focused = false
@@ -170,7 +145,7 @@ export class TextAreaElement extends FormFieldElement {
         placeholder=${ifdef(this.placeholder)}
         rows=${ifdef(this.rows)}
         style=${this.textAreaElementStyle}
-        value=${ifdef(this.textAreaElementValue)}
+        .value=${ifdef(this.textAreaElementValue)}
       ></textarea>
       <span></span>
     `
@@ -204,6 +179,26 @@ export class TextAreaElement extends FormFieldElement {
     super.value = value
   }
 
+  static properties = {
+    ...super.properties,
+    autosize: { type: Boolean, reflect: true },
+    cols: { type: Number, reflect: true },
+    computedHeight: { state: true },
+    multiple: { type: Boolean, reflect: true },
+    normalized: { type: Boolean, reflect: true },
+    padding: { type: String, reflect: true },
+    placeholder: { type: String, reflect: true },
+    resize: { type: String, reflect: true },
+    rows: { type: Number, reflect: true },
+    temporaryValue: { state: true },
+    touchTrigger: { type: String, attribute: 'touch-trigger', reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    spanElement: { selector: 'span', shadow: true },
+    textAreaElement: { selector: 'textarea', shadow: true }
+  }
+
   static styles = [
     FormFieldElement.styles as CSSResult,
     css`
@@ -229,3 +224,5 @@ export class TextAreaElement extends FormFieldElement {
     `
   ]
 }
+
+customElements.define('q-textarea', TextAreaElement)

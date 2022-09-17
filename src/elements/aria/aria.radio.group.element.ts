@@ -1,11 +1,7 @@
-import { css } from 'lit'
+import { css, PropertyDeclarations } from 'lit'
 import { AriaRadioButtonController, AriaRadioGroupController } from '../../controllers/aria.radio.group.controller'
-import { Closest } from '../../decorators/closest'
-import { CustomElement } from '../../decorators/custom.element'
-import { Property } from '../../decorators/property'
-import { Query } from '../../decorators/query'
-import { QueryAll } from '../../decorators/query.all'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
+import { QueryDeclarations } from '../../definitions/interfaces'
 import { ElementLogger } from '../../loggers/element.logger'
 import { BaseElement } from '../core/base.element'
 
@@ -16,17 +12,11 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-radio-group')
 export class AriaRadioGroupElement extends BaseElement {
   protected aria: AriaRadioGroupController = new AriaRadioGroupController(this)
 
-  @QueryAll('q-aria-radio-button')
   buttonElements!: AriaRadioButtonElement[]
-
-  @Query('q-aria-radio-button[checked]')
   checkedButtonElement?: AriaRadioButtonElement
-
-  @Query('q-aria-radio-button[focused]')
   focusedButtonElement?: AriaRadioButtonElement
 
   connectedCallback(): void {
@@ -133,19 +123,19 @@ export class AriaRadioGroupElement extends BaseElement {
   get name(): ElementName {
     return ElementName.RADIO_GROUP
   }
+
+  static queries: QueryDeclarations = {
+    buttonElements: { selector: 'q-aria-radio-button', all: true },
+    checkedButtonElement: { selector: 'q-aria-radio-button[checked]' },
+    focusedButtonElement: { selector: 'q-aria-radio-button[focused]' }
+  }
 }
 
-@CustomElement('q-aria-radio-button')
 export class AriaRadioButtonElement extends BaseElement {
   protected aria: AriaRadioButtonController = new AriaRadioButtonController(this)
 
-  @Property({ type: Boolean, reflect: true })
   checked?: boolean
-
-  @Property({ type: Boolean, reflect: true })
   focused?: boolean
-
-  @Closest('q-aria-radio-group')
   rootElement!: AriaRadioGroupElement
 
   connectedCallback(): void {
@@ -192,6 +182,15 @@ export class AriaRadioButtonElement extends BaseElement {
     return ElementName.RADIO_BUTTON
   }
 
+  static properties: PropertyDeclarations = {
+    checked: { type: Boolean, reflect: true },
+    focused: { type: Boolean, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-aria-radio-group', closest: true }
+  }
+
   static styles = [
     super.styles,
     css`
@@ -201,3 +200,6 @@ export class AriaRadioButtonElement extends BaseElement {
     `
   ]
 }
+
+customElements.define('q-aria-radio-group', AriaRadioGroupElement)
+customElements.define('q-aria-radio-button', AriaRadioButtonElement)

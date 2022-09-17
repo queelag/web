@@ -1,5 +1,5 @@
 import { Interval } from '@queelag/core'
-import { css } from 'lit'
+import { css, PropertyDeclarations } from 'lit'
 import {
   AriaCarouselController,
   AriaCarouselNextSlideControlController,
@@ -10,15 +10,9 @@ import {
   AriaCarouselTabController,
   AriaCarouselTabsController
 } from '../../controllers/aria.carousel.controller'
-import { Closest } from '../../decorators/closest'
-import { CustomElement } from '../../decorators/custom.element'
-import { Internal } from '../../decorators/internal'
-import { Property } from '../../decorators/property'
-import { Query } from '../../decorators/query'
-import { QueryAll } from '../../decorators/query.all'
-import { State } from '../../decorators/state'
 import { DEFAULT_CAROUSEL_ROTATION_DURATION } from '../../definitions/constants'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
+import { QueryDeclarations } from '../../definitions/interfaces'
 import { AriaLive } from '../../definitions/types'
 import { ElementLogger } from '../../loggers/element.logger'
 import { BaseElement } from '../core/base.element'
@@ -37,41 +31,19 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-carousel')
 export class AriaCarouselElement extends BaseElement {
   protected aria: AriaCarouselController = new AriaCarouselController(this)
 
-  @Query('q-aria-carousel-slide[active]')
   activeSlideElement?: AriaCarouselSlideElement
-
-  @Query('q-aria-carousel-tab[active]')
   activeTabElement?: AriaCarouselSlideElement
-
-  @Property({ type: Boolean, attribute: 'automatic-rotation', reflect: true })
   automaticRotation?: boolean
-
-  @Property({ type: Number, attribute: 'automatic-rotation-interval-time', reflect: true })
   automaticRotationIntervalTime?: number
-
-  @Internal()
   forceAutomaticRotation?: boolean
-
-  @Property({ type: Boolean, attribute: 'infinite-rotation', reflect: true })
   infiniteRotation?: boolean
-
-  @State()
   live?: AriaLive
-
-  @QueryAll('q-aria-carousel-slide')
   slideElements!: AriaCarouselSlideElement[]
-
-  @Query('q-aria-carousel-slides')
   slidesElement!: AriaCarouselSlidesElement
-
-  @QueryAll('q-aria-carousel-tab')
   tabElements!: AriaCarouselTabElement[]
-
-  @Query('q-aria-carousel-tabs')
   tabsElement?: AriaCarouselTabsElement
 
   connectedCallback(): void {
@@ -199,31 +171,43 @@ export class AriaCarouselElement extends BaseElement {
   get name(): ElementName {
     return ElementName.CAROUSEL
   }
+
+  static properties: PropertyDeclarations = {
+    automaticRotation: { type: Boolean, attribute: 'automatic-rotation', reflect: true },
+    automaticRotationIntervalTime: { type: Number, attribute: 'automatic-rotation-interval-time', reflect: true },
+    infiniteRotation: { type: Boolean, attribute: 'infinite-rotation', reflect: true },
+    live: { state: true }
+  }
+
+  static queries: QueryDeclarations = {
+    activeSlideElement: { selector: 'q-aria-carousel-slide[active]' },
+    activeTabElement: { selector: 'q-aria-carousel-tab[active]' },
+    slideElements: { selector: 'q-aria-carousel-slide', all: true },
+    slidesElement: { selector: 'q-aria-carousel-slides' },
+    tabElements: { selector: 'q-aria-carousel-tab', all: true },
+    tabsElement: { selector: 'q-aria-carousel-tabs' }
+  }
 }
 
-@CustomElement('q-aria-carousel-slides')
 export class AriaCarouselSlidesElement extends BaseElement {
   protected aria: AriaCarouselSlidesController = new AriaCarouselSlidesController(this)
 
-  @Closest('q-aria-carousel')
   rootElement!: AriaCarouselElement
 
   get name(): ElementName {
     return ElementName.CAROUSEL_SLIDES
   }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-aria-carousel', closest: true }
+  }
 }
 
-@CustomElement('q-aria-carousel-slide')
 export class AriaCarouselSlideElement extends BaseElement {
   protected aria: AriaCarouselSlideController = new AriaCarouselSlideController(this)
 
-  @Property({ type: Boolean, reflect: true })
   active?: boolean
-
-  @Closest('q-aria-carousel')
   rootElement!: AriaCarouselElement
-
-  @Closest('q-aria-carousel-slides')
   slidesElement!: AriaCarouselSlidesElement
 
   activate(): void {
@@ -241,13 +225,20 @@ export class AriaCarouselSlideElement extends BaseElement {
   get name(): ElementName {
     return ElementName.CAROUSEL_SLIDE
   }
+
+  static properties: PropertyDeclarations = {
+    active: { type: Boolean, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-aria-carousel', closest: true },
+    slidesElement: { selector: 'q-aria-carousel-slides', closest: true }
+  }
 }
 
-@CustomElement('q-aria-carousel-rotation-control')
 export class AriaCarouselRotationControlElement extends AriaButtonElement {
   protected aria2: AriaCarouselRotationControlController = new AriaCarouselRotationControlController(this)
 
-  @Closest('q-aria-carousel')
   rootElement!: AriaCarouselElement
 
   onClick = (): void => {
@@ -274,13 +265,15 @@ export class AriaCarouselRotationControlElement extends AriaButtonElement {
   get name(): ElementName {
     return ElementName.CAROUSEL_ROTATION_CONTROL
   }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-aria-carousel', closest: true }
+  }
 }
 
-@CustomElement('q-aria-carousel-next-slide-control')
 export class AriaCarouselNextSlideControlElement extends AriaButtonElement {
   protected aria2: AriaCarouselNextSlideControlController = new AriaCarouselNextSlideControlController(this)
 
-  @Closest('q-aria-carousel')
   rootElement!: AriaCarouselElement
 
   onClick = (): void => {
@@ -290,13 +283,15 @@ export class AriaCarouselNextSlideControlElement extends AriaButtonElement {
   get name(): ElementName {
     return ElementName.CAROUSEL_NEXT_SLIDE_CONTROL
   }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-aria-carousel', closest: true }
+  }
 }
 
-@CustomElement('q-aria-carousel-previous-slide-control')
 export class AriaCarouselPreviousSlideControlElement extends AriaButtonElement {
   protected aria2: AriaCarouselPreviousSlideControlController = new AriaCarouselPreviousSlideControlController(this)
 
-  @Closest('q-aria-carousel')
   rootElement!: AriaCarouselElement
 
   onClick = (): void => {
@@ -306,19 +301,17 @@ export class AriaCarouselPreviousSlideControlElement extends AriaButtonElement {
   get name(): ElementName {
     return ElementName.CAROUSEL_PREVIOUS_SLIDE_CONTROL
   }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-aria-carousel', closest: true }
+  }
 }
 
-@CustomElement('q-aria-carousel-tabs')
 export class AriaCarouselTabsElement extends BaseElement {
   protected aria: AriaCarouselTabsController = new AriaCarouselTabsController(this)
 
-  @Query('q-aria-carousel-tab[active]')
   activeTabElement?: AriaCarouselTabElement
-
-  @Closest('q-aria-carousel')
   rootElement!: AriaCarouselElement
-
-  @QueryAll('q-aria-carousel-tab')
   tabElements!: AriaCarouselTabElement[]
 
   connectedCallback(): void {
@@ -419,19 +412,19 @@ export class AriaCarouselTabsElement extends BaseElement {
   get name(): ElementName {
     return ElementName.CAROUSEL_TABS
   }
+
+  static queries: QueryDeclarations = {
+    activeTabElement: { selector: 'q-aria-carousel-tab[active]' },
+    rootElement: { selector: 'q-aria-carousel', closest: true },
+    tabElements: { selector: 'q-aria-carousel-tab', all: true }
+  }
 }
 
-@CustomElement('q-aria-carousel-tab')
 export class AriaCarouselTabElement extends BaseElement {
   protected aria: AriaCarouselTabController = new AriaCarouselTabController(this)
 
-  @Property({ type: Boolean, reflect: true })
   active?: boolean
-
-  @Closest('q-aria-carousel')
   rootElement!: AriaCarouselElement
-
-  @Closest('q-aria-carousel-tabs')
   tabsElement!: AriaCarouselTabsElement
 
   connectedCallback(): void {
@@ -471,6 +464,15 @@ export class AriaCarouselTabElement extends BaseElement {
     return ElementName.CAROUSEL_TAB
   }
 
+  static properties: PropertyDeclarations = {
+    active: { type: Boolean, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-aria-carousel', closest: true },
+    tabsElement: { selector: 'q-aria-carousel-tabs' }
+  }
+
   static styles = [
     super.styles,
     css`
@@ -480,3 +482,12 @@ export class AriaCarouselTabElement extends BaseElement {
     `
   ]
 }
+
+customElements.define('q-aria-carousel', AriaCarouselElement)
+customElements.define('q-aria-carousel-next-slide-control', AriaCarouselNextSlideControlElement)
+customElements.define('q-aria-carousel-previous-slide-control', AriaCarouselPreviousSlideControlElement)
+customElements.define('q-aria-carousel-rotation-control', AriaCarouselRotationControlElement)
+customElements.define('q-aria-carousel-slide', AriaCarouselSlideElement)
+customElements.define('q-aria-carousel-slides', AriaCarouselSlidesElement)
+customElements.define('q-aria-carousel-tab', AriaCarouselTabElement)
+customElements.define('q-aria-carousel-tabs', AriaCarouselTabsElement)

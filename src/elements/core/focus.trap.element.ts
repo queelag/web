@@ -1,6 +1,5 @@
 import { createFocusTrap, FocusTarget, FocusTargetOrFalse, FocusTrap, Options } from 'focus-trap'
-import { CustomElement } from '../../decorators/custom.element'
-import { Property } from '../../decorators/property'
+import { PropertyDeclarations } from 'lit'
 import { ElementName } from '../../definitions/enums'
 import {
   FocusTrapAllowOutsideClick,
@@ -14,50 +13,28 @@ import {
 import { ElementLogger } from '../../loggers/element.logger'
 import { BaseElement } from './base.element'
 
-@CustomElement('q-focus-trap')
 export class FocusTrapElement extends BaseElement {
-  @Property({ attribute: 'allow-outside-click' })
+  /**
+   * PROPERTIES
+   */
   allowOutsideClick?: FocusTrapAllowOutsideClick
-
-  @Property({ type: Object, attribute: 'check-can-focus-trap' })
   checkCanFocusTrap?: FocusTrapCheckCanFocusTrap
-
-  @Property({ type: Object, attribute: 'check-can-return-focus' })
   checkCanReturnFocus?: FocusTrapCheckCanReturnFocus
-
-  @Property({ attribute: 'click-outside-deactivates' })
   clickOutsideDeactivates?: FocusTrapClickOutsideDeactivates
-
-  @Property({ type: Boolean, attribute: 'delay-initial-focus' })
   delayInitialFocus?: boolean
-
-  @Property({ type: String, attribute: 'display-check' })
   displayCheck?: FocusTrapDisplayCheck
-
-  // @Property({ type: Object, attribute: 'document' })
   // document?: Document
-
-  @Property({ attribute: 'escape-deactivates' })
   escapeDeactivates?: FocusTrapEscapeDeactivates
-
-  @Property({ attribute: 'fallback-focus' })
   fallbackFocus?: FocusTarget
-
-  // @Property({ attribute: 'get-shadow-root' })
   // getShadowRoot?: FocusTrapGetShadowRoot
-
-  @Property({ attribute: 'initial-focus' })
   initialFocus?: FocusTargetOrFalse
-
-  @Property({ type: Boolean, attribute: 'prevent-scroll' })
   preventScroll?: boolean
-
-  @Property({ type: Boolean, attribute: 'return-focus-on-deactivate' })
   returnFocusOnDeactivate?: boolean
-
-  @Property({ attribute: 'set-return-focus' })
   setReturnFocus?: FocusTrapSetReturnFocus
 
+  /**
+   * INTERNAL
+   */
   protected focusTrap!: FocusTrap
 
   connectedCallback(): void {
@@ -144,4 +121,23 @@ export class FocusTrapElement extends BaseElement {
   get name(): ElementName {
     return ElementName.FOCUS_TRAP
   }
+
+  static properties: PropertyDeclarations = {
+    allowOutsideClick: { attribute: 'allow-outside-click' },
+    checkCanFocusTrap: { type: Object, attribute: 'check-can-focus-trap' },
+    checkCanReturnFocus: { type: Object, attribute: 'check-can-return-focus' },
+    clickOutsideDeactivates: { attribute: 'click-outside-deactivates' },
+    delayInitialFocus: { type: Boolean, attribute: 'delay-initial-focus' },
+    displayCheck: { type: String, attribute: 'display-check' },
+    // document: {type: Object, attribute: 'document'},
+    escapeDeactivates: { attribute: 'escape-deactivates' },
+    fallbackFocus: { attribute: 'fallback-focus' },
+    // getShadowRoot: {attribute: 'get-shadow-root'},
+    initialFocus: { attribute: 'initial-focus' },
+    preventScroll: { type: Boolean, attribute: 'prevent-scroll' },
+    returnFocusOnDeactivate: { type: Boolean, attribute: 'return-focus-on-deactivate' },
+    setReturnFocus: { attribute: 'set-return-focus' }
+  }
 }
+
+customElements.define('q-focus-trap', FocusTrapElement)

@@ -2,11 +2,8 @@ import { removeArrayItems, TextCodec } from '@queelag/core'
 import { css, CSSResult } from 'lit'
 import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive'
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
-import { QueryShadow } from '../decorators/query.shadow'
-import { State } from '../decorators/state'
 import { ElementName } from '../definitions/enums'
+import { QueryDeclarations } from '../definitions/interfaces'
 import { InputElementTouchTrigger, InputElementType, InputElementValue } from '../definitions/types'
 import { ifdef } from '../directives/if.defined'
 import { styleMap } from '../directives/style.map'
@@ -19,34 +16,27 @@ declare global {
   }
 }
 
-@CustomElement('q-input')
 export class InputElement extends FormFieldElement {
-  @QueryShadow('input')
+  /**
+   * PROPERTIES
+   */
+  multiple?: boolean
+  normalized?: boolean
+  obscured?: boolean
+  padding?: string
+  placeholder?: string
+  touchTrigger?: InputElementTouchTrigger
+  type: InputElementType = 'text'
+
+  /**
+   * QUERIES
+   */
   private inputElement!: HTMLInputElement
 
-  @Property({ type: Boolean, reflect: true })
-  multiple?: boolean
-
-  @Property({ type: Boolean, reflect: true })
-  normalized?: boolean
-
-  @Property({ type: Boolean, reflect: true })
-  obscured?: boolean
-
-  @Property({ type: String, reflect: true })
-  padding?: string
-
-  @Property({ type: String, reflect: true })
-  placeholder?: string
-
-  @State()
+  /**
+   * STATES
+   */
   private temporaryValue: string = ''
-
-  @Property({ type: String, attribute: 'touch-trigger', reflect: true })
-  touchTrigger?: InputElementTouchTrigger
-
-  @Property({ type: String, reflect: true })
-  type: InputElementType = 'text'
 
   private onBlur(): void {
     this.focused = false
@@ -296,6 +286,22 @@ export class InputElement extends FormFieldElement {
     super.value = value
   }
 
+  static properties = {
+    ...super.properties,
+    multiple: { type: Boolean, reflect: true },
+    normalized: { type: Boolean, reflect: true },
+    obscured: { type: Boolean, reflect: true },
+    padding: { type: String, reflect: true },
+    placeholder: { type: String, reflect: true },
+    temporaryValue: { state: true },
+    touchTrigger: { type: String, attribute: 'touch-trigger', reflect: true },
+    type: { type: String, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    inputElement: { selector: 'input', shadow: true }
+  }
+
   static styles = [
     super.styles as CSSResult,
     css`
@@ -308,3 +314,5 @@ export class InputElement extends FormFieldElement {
     `
   ]
 }
+
+customElements.define('q-input', InputElement)

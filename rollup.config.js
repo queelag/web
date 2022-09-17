@@ -35,8 +35,9 @@ export default defineConfig({
     {
       dir: 'dist',
       preserveModules: true,
+      preserveModulesRoot: 'src',
       format: 'esm'
     }
   ],
-  plugins: [minifyHTML(), strip({ include: ['src/**/*.ts'], functions: ['[A-Z][a-z]+Logger.*'] }), terser(), typescript()]
+  plugins: [minifyHTML(), strip({ include: ['src/**/*.ts'], functions: ['[A-Z][a-z]+Logger.(verbose|debug|info)'] }), terser(), typescript()]
 })

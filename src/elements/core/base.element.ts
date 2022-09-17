@@ -1,11 +1,11 @@
 import { ID, parseNumber } from '@queelag/core'
-import { css, CSSResultGroup, html, LitElement, TemplateResult } from 'lit'
+import { css, CSSResultGroup, html, LitElement, PropertyDeclarations, TemplateResult } from 'lit'
 import { DirectiveResult } from 'lit-html/directive'
 import { StyleInfo } from 'lit-html/directives/style-map'
 import { ElementCollector } from '../../collectors/element.collector'
-import { Property } from '../../decorators/property'
 import { ELEMENT_UID_GENERATE_OPTIONS } from '../../definitions/constants'
 import { ElementName } from '../../definitions/enums'
+import { QueryDeclaration, QueryDeclarations } from '../../definitions/interfaces'
 import { Layer, Shape, Size } from '../../definitions/types'
 import { styleMap } from '../../directives/style.map'
 import { AttributeChangedEvent } from '../../events/attribute.changed.event'
@@ -14,42 +14,34 @@ import { getShapeStyleInfo } from '../../utils/shape.utils'
 import { getSquircleHTML } from '../../utils/squircle.utils'
 
 export class BaseElement extends LitElement {
-  @Property({ type: String, reflect: true })
+  /**
+   * PROPERTIES
+   */
   background?: string
-
-  @Property({ type: String, reflect: true })
   height?: string
-
-  @Property({ type: Number, reflect: true })
   layer?: Layer
-
-  @Property({ type: String, reflect: true })
   shape?: Shape
-
-  @Property({ type: Number, attribute: 'shape-rectangle-radius', reflect: true })
   shapeRectangleRadius?: number
-
-  @Property({ type: Number, attribute: 'shape-square-radius', reflect: true })
   shapeSquareRadius?: number
-
-  @Property({ type: Number, attribute: 'shape-squircle-curvature', reflect: true })
   shapeSquircleCurvature?: number
-
-  @Property({ type: Number, attribute: 'shape-squircle-size', reflect: true })
   shapeSquircleSize?: number
-
-  @Property({ type: String, reflect: true })
   size?: Size
-
-  squircleID: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.SQUIRCLE })
-  uid!: string
-
-  @Property({ type: String, reflect: true })
   width?: string
+
+  /**
+   * INTERNAL
+   */
+  squircleID: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.SQUIRCLE })
+  uid: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.name })
+
+  constructor() {
+    super()
+    this.defineQueries()
+  }
 
   connectedCallback(): void {
     super.connectedCallback()
-    setImmutableElementAttribute(this, 'uid', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.name }))
+    setImmutableElementAttribute(this, 'uid', this.uid)
 
     ElementCollector.set(this)
   }
@@ -70,6 +62,34 @@ export class BaseElement extends LitElement {
   }
 
   onSlotChange(): void {}
+
+  private defineQueries(): void {
+    let declarations: QueryDeclarations = (this.constructor as any).queries
+
+    for (let key in declarations) {
+      let declaration: QueryDeclaration, get: () => any
+
+      declaration = declarations[key]
+      get = () => this.querySelector(declaration.selector) || undefined
+
+      if (declaration.all) {
+        get = () => [...this.querySelectorAll(declaration.selector)]
+        continue
+      }
+
+      if (declaration.closest) {
+        get = () => this.closest(declaration.selector) || undefined
+        continue
+      }
+
+      if (declaration.shadow) {
+        get = () => this.renderRoot.querySelector(declaration.selector) || undefined
+        continue
+      }
+
+      Object.defineProperty(this, key, { get })
+    }
+  }
 
   render(): unknown {
     return html`<slot @slotchange=${this.onSlotChange}></slot>`
@@ -120,6 +140,21 @@ export class BaseElement extends LitElement {
       default:
         return 0
     }
+  }
+
+  static queries: QueryDeclarations = {}
+
+  static properties: PropertyDeclarations = {
+    background: { type: String, reflect: true },
+    height: { type: String, reflect: true },
+    layer: { type: Number, reflect: true },
+    shape: { type: String, reflect: true },
+    shapeRectangleRadius: { type: String, attribute: 'shape-rectangle-radius', reflect: true },
+    shapeSquareRadius: { type: String, attribute: 'shape-square-radius', reflect: true },
+    shapeSquircleCurvature: { type: String, attribute: 'shape-squircle-curvature', reflect: true },
+    shapeSquircleSize: { type: String, attribute: 'shape-squircle-size', reflect: true },
+    size: { type: String, reflect: true },
+    width: { type: String, reflect: true }
   }
 
   static styles: CSSResultGroup = css`

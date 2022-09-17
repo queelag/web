@@ -1,7 +1,5 @@
 import { css, CSSResult } from 'lit'
 import { html } from 'lit-html'
-import { CustomElement } from '../../decorators/custom.element'
-import { Property } from '../../decorators/property'
 import { KeyboardEventKey } from '../../definitions/enums'
 import { ElementLogger } from '../../loggers/element.logger'
 import { FormFieldElement } from '../core/form.field.element'
@@ -12,9 +10,7 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-switch')
 export class AriaSwitchElement extends FormFieldElement {
-  @Property({ type: Boolean, reflect: true })
   native?: boolean
 
   private onChange(event: Event): void {
@@ -82,6 +78,11 @@ export class AriaSwitchElement extends FormFieldElement {
     return this.value !== true
   }
 
+  static properties = {
+    ...super.properties,
+    native: { type: Boolean, reflect: true }
+  }
+
   static styles = [
     super.styles as CSSResult,
     css`
@@ -102,3 +103,5 @@ export class AriaSwitchElement extends FormFieldElement {
     `
   ]
 }
+
+customElements.define('q-aria-switch', AriaSwitchElement)

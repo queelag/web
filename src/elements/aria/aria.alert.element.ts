@@ -1,6 +1,4 @@
-import { css, html } from 'lit'
-import { CustomElement } from '../../decorators/custom.element'
-import { Property } from '../../decorators/property'
+import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
 import { ElementName } from '../../definitions/enums'
 import { BaseElement } from '../core/base.element'
 
@@ -10,18 +8,10 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-alert')
 export class AriaAlertElement extends BaseElement {
-  @Property({ type: Boolean, reflect: true })
   closable?: boolean
-
-  @Property({ type: String, reflect: true })
   headline?: string
-
-  @Property({ type: String, reflect: true })
   icon?: string
-
-  @Property({ type: String, reflect: true })
   text?: string
 
   render() {
@@ -36,7 +26,14 @@ export class AriaAlertElement extends BaseElement {
     return ElementName.ALERT
   }
 
-  static styles = [
+  static properties: PropertyDeclarations = {
+    closable: { type: Boolean, reflect: true },
+    headline: { type: String, reflect: true },
+    icon: { type: String, reflect: true },
+    text: { type: String, reflect: true }
+  }
+
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       div {
@@ -47,3 +44,5 @@ export class AriaAlertElement extends BaseElement {
     `
   ]
 }
+
+customElements.define('q-aria-alert', AriaAlertElement)

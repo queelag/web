@@ -1,10 +1,6 @@
 import { getLimitedNumber, isNumberMultipleOf, toFixedNumber } from '@queelag/core'
-import { css, html } from 'lit'
+import { css, html, PropertyDeclarations } from 'lit'
 import { AriaSliderController, AriaSliderThumbController } from '../../controllers/aria.slider.controller'
-import { Closest } from '../../decorators/closest'
-import { CustomElement } from '../../decorators/custom.element'
-import { Property } from '../../decorators/property'
-import { QueryAll } from '../../decorators/query.all'
 import {
   DEFAULT_SLIDER_DECIMALS,
   DEFAULT_SLIDER_MAXIMUM,
@@ -15,6 +11,7 @@ import {
   DEFAULT_SLIDER_THUMB_VALUE
 } from '../../definitions/constants'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
+import { QueryDeclarations } from '../../definitions/interfaces'
 import { Orientation } from '../../definitions/types'
 import { AriaSliderChangeEvent } from '../../events/slider.change.event'
 import { AriaSliderThumbMoveEvent } from '../../events/slider.thumb.move.event'
@@ -29,32 +26,16 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-slider')
 export class AriaSliderElement extends BaseElement {
   protected aria: AriaSliderController = new AriaSliderController(this)
 
-  @Property({ type: Number, reflect: true })
   decimals?: number
-
-  @Property({ type: Boolean, attribute: 'disable-swap', reflect: true })
   disableSwap?: boolean
-
-  @Property({ type: Number, reflect: true })
   maximum?: number
-
-  @Property({ type: Number, reflect: true })
   minimum?: number
-
-  @Property({ type: Number, attribute: 'minimum-distance', reflect: true })
   minimumDistance?: number
-
-  @Property({ type: String, reflect: true })
   orientation?: Orientation
-
-  @Property({ type: Number, reflect: true })
   step?: number
-
-  @QueryAll('q-aria-slider-thumb')
   thumbElements!: AriaSliderThumbElement[]
 
   connectedCallback(): void {
@@ -112,6 +93,20 @@ export class AriaSliderElement extends BaseElement {
     return this.orientation === 'vertical'
   }
 
+  static properties: PropertyDeclarations = {
+    decimals: { type: Number, reflect: true },
+    disableSwap: { type: Boolean, attribute: 'disable-swap', reflect: true },
+    maximum: { type: Number, reflect: true },
+    minimum: { type: Number, reflect: true },
+    minimumDistance: { type: Number, attribute: 'minimum-distance', reflect: true },
+    orientation: { type: String, reflect: true },
+    step: { type: Number, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    thumbElements: { selector: 'q-aria-slider-thumb', all: true }
+  }
+
   static styles = [
     super.styles,
     css`
@@ -122,20 +117,12 @@ export class AriaSliderElement extends BaseElement {
   ]
 }
 
-@CustomElement('q-aria-slider-thumb')
 export class AriaSliderThumbElement extends BaseElement {
   protected aria: AriaSliderThumbController = new AriaSliderThumbController(this)
 
-  @Property({ type: Number, attribute: 'default-value', reflect: true })
   defaultValue?: number
-
-  @Property({ type: Boolean, attribute: 'disable-compute-position', reflect: true })
   disableComputePosition?: boolean
-
-  @Property({ type: Boolean, reflect: true })
   movable?: boolean
-
-  @Closest('q-aria-slider')
   rootElement!: AriaSliderElement
 
   private _value?: number
@@ -379,7 +366,6 @@ export class AriaSliderThumbElement extends BaseElement {
     return this._value ?? this.defaultValue
   }
 
-  @Property({ type: Number, reflect: true })
   set value(value: number | undefined) {
     let old: number | undefined
 
@@ -404,6 +390,17 @@ export class AriaSliderThumbElement extends BaseElement {
     this._value = value
 
     this.requestUpdate('value', old)
+  }
+
+  static properties: PropertyDeclarations = {
+    defaultValue: { type: Number, attribute: 'default-value', reflect: true },
+    disableComputePosition: { type: Boolean, attribute: 'disable-compute-position', reflect: true },
+    movable: { type: Boolean, reflect: true },
+    value: { type: Number, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-aria-slider', closest: true }
   }
 
   static styles = [
@@ -435,3 +432,6 @@ export class AriaSliderThumbElement extends BaseElement {
     `
   ]
 }
+
+customElements.define('q-aria-slider', AriaSliderElement)
+customElements.define('q-aria-slider-thumb', AriaSliderThumbElement)

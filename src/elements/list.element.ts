@@ -1,5 +1,4 @@
-import { CustomElement } from '../decorators/custom.element'
-import { Property } from '../decorators/property'
+import { PropertyDeclarations } from 'lit'
 import { ElementName } from '../definitions/enums'
 import { BaseElement } from './core/base.element'
 
@@ -10,9 +9,7 @@ declare global {
   }
 }
 
-@CustomElement('q-list')
 export class ListElement extends BaseElement {
-  @Property({ type: Array })
   items?: any[]
 
   get name(): ElementName {
@@ -26,23 +23,29 @@ export class ListElement extends BaseElement {
   get isItemsNotEmpty(): boolean {
     return !this.isItemsEmpty
   }
+
+  static properties: PropertyDeclarations = {
+    items: { type: Array }
+  }
 }
 
-@CustomElement('q-list-item')
 export class ListItemElement extends BaseElement {
-  @Property({ type: String, reflect: true })
   headline?: string
-
-  @Property({ type: String, reflect: true })
   image?: string
-
-  @Property({ type: String, reflect: true })
   icon?: string
-
-  @Property({ type: String, reflect: true })
   text?: string
 
   get name(): ElementName {
     return ElementName.LIST_ITEM
   }
+
+  static properties: PropertyDeclarations = {
+    headline: { type: String, reflect: true },
+    image: { type: String, reflect: true },
+    icon: { type: String, reflect: true },
+    text: { type: String, reflect: true }
+  }
 }
+
+customElements.define('q-list', ListElement)
+customElements.define('q-list-item', ListItemElement)

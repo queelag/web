@@ -1,10 +1,7 @@
-import { ID } from '@queelag/core'
-import { AriaDialogController } from '../../controllers/aria.dialog.controller'
-import { CustomElement } from '../../decorators/custom.element'
-import { Property } from '../../decorators/property'
-import { Query } from '../../decorators/query'
-import { ELEMENT_UID_GENERATE_OPTIONS } from '../../definitions/constants'
+import { PropertyDeclarations } from 'lit'
+import { AriaDialogController, AriaDialogDescriptionController, AriaDialogLabelController } from '../../controllers/aria.dialog.controller'
 import { ElementName } from '../../definitions/enums'
+import { QueryDeclarations } from '../../definitions/interfaces'
 import { ElementLogger } from '../../loggers/element.logger'
 import { BaseElement } from '../core/base.element'
 import { FocusTrapElement } from '../core/focus.trap.element'
@@ -17,29 +14,13 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-dialog')
 export class AriaDialogElement extends FocusTrapElement {
   protected aria: AriaDialogController = new AriaDialogController(this)
 
-  @Property({ type: String, reflect: true })
   description?: string
-
-  @Query('q-aria-dialog-description')
   descriptionElement?: AriaDialogDescriptionElement
-
-  @Property({ type: String, attribute: 'description-id' })
-  descriptionID: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.DIALOG_LABEL })
-
-  @Property({ type: String, reflect: true })
   label?: string
-
-  @Query('q-aria-dialog-label')
   labelElement?: AriaDialogLabelElement
-
-  @Property({ type: String, attribute: 'label-id' })
-  labelID: string = ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.DIALOG_LABEL })
-
-  @Property({ type: Boolean, reflect: true })
   visible?: boolean
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
@@ -68,18 +49,35 @@ export class AriaDialogElement extends FocusTrapElement {
   get name(): ElementName {
     return ElementName.DIALOG
   }
+
+  static properties: PropertyDeclarations = {
+    description: { type: String, reflect: true },
+    label: { type: String, reflect: true },
+    visible: { type: String, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    descriptionElement: { selector: 'q-aria-dialog-description' },
+    labelElement: { selector: 'q-aria-dialog-label' }
+  }
 }
 
-@CustomElement('q-aria-dialog-description')
 export class AriaDialogDescriptionElement extends BaseElement {
+  protected aria: AriaDialogDescriptionController = new AriaDialogDescriptionController(this)
+
   get name(): ElementName {
     return ElementName.DIALOG_DESCRIPTION
   }
 }
 
-@CustomElement('q-aria-dialog-label')
 export class AriaDialogLabelElement extends BaseElement {
+  protected aria: AriaDialogLabelController = new AriaDialogLabelController(this)
+
   get name(): ElementName {
     return ElementName.DIALOG_LABEL
   }
 }
+
+customElements.define('q-aria-dialog', AriaDialogElement)
+customElements.define('q-aria-dialog-description', AriaDialogDescriptionElement)
+customElements.define('q-aria-dialog-label', AriaDialogLabelElement)

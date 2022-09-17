@@ -1,12 +1,7 @@
-import { css } from 'lit'
+import { css, PropertyDeclarations } from 'lit'
 import { AriaMenuButtonController, AriaMenuController, AriaMenuItemController, AriaMenuListController } from '../../controllers/aria.menu.controller'
-import { Closest } from '../../decorators/closest'
-import { CustomElement } from '../../decorators/custom.element'
-import { Internal } from '../../decorators/internal'
-import { Property } from '../../decorators/property'
-import { Query } from '../../decorators/query'
-import { QueryAll } from '../../decorators/query.all'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
+import { QueryDeclarations } from '../../definitions/interfaces'
 import { ElementLogger } from '../../loggers/element.logger'
 import { Typeahead } from '../../modules/typeahead'
 import { scrollElementIntoView } from '../../utils/element.utils'
@@ -22,29 +17,16 @@ declare global {
   }
 }
 
-@CustomElement('q-aria-menu')
 export class AriaMenuElement extends BaseElement {
   protected aria: AriaMenuController = new AriaMenuController(this)
 
-  @Query('q-aria-menu-button')
   buttonElement!: AriaMenuButtonElement
-
-  @Property({ type: Boolean, reflect: true })
   expanded?: boolean
-
-  @Query('q-aria-menu-item[focused]')
   focusedItemElement?: AriaMenuItemElement
-
-  @QueryAll('q-aria-menu-item')
   itemElements!: AriaMenuItemElement[]
-
-  @Query('q-aria-menu-list')
   listElement?: AriaMenuListElement
-
-  // @Property({ type: Boolean, reflect: true })
   // navigation?: boolean
 
-  @Internal()
   typeahead: Typeahead<AriaMenuItemElement> = new Typeahead((element: AriaMenuItemElement) => {
     this.focusedItemElement?.blur()
 
@@ -204,6 +186,18 @@ export class AriaMenuElement extends BaseElement {
     return ElementName.MENU
   }
 
+  static properties: PropertyDeclarations = {
+    expanded: { type: Boolean, reflect: true }
+    // navigation: {type: Boolean, reflect: true}
+  }
+
+  static queries: QueryDeclarations = {
+    buttonElement: { selector: 'q-aria-menu-button' },
+    focusedItemElement: { selector: 'q-aria-menu-item[focused]' },
+    itemElements: { selector: 'q-aria-menu-item', all: true },
+    listElement: { selector: 'q-aria-menu-list' }
+  }
+
   static styles = [
     super.styles,
     css`
@@ -214,11 +208,9 @@ export class AriaMenuElement extends BaseElement {
   ]
 }
 
-@CustomElement('q-aria-menu-button')
 export class AriaMenuButtonElement extends BaseElement {
   protected arai: AriaMenuButtonController = new AriaMenuButtonController(this)
 
-  @Closest('q-aria-menu')
   rootElement!: AriaMenuElement
 
   connectedCallback(): void {
@@ -246,16 +238,16 @@ export class AriaMenuButtonElement extends BaseElement {
   get name(): ElementName {
     return ElementName.MENU_BUTTON
   }
+
+  static queries: QueryDeclarations = {
+    rootElement: { selector: 'q-aria-menu', closest: true }
+  }
 }
 
-@CustomElement('q-aria-menu-list')
 export class AriaMenuListElement extends FloatingElement {
   protected aria: AriaMenuListController = new AriaMenuListController(this)
 
-  @Query('q-aria-menu-item[focused]')
   focusedItemElement?: AriaMenuItemElement
-
-  @Closest('q-aria-menu')
   rootElement!: AriaMenuElement
 
   get name(): ElementName {
@@ -264,6 +256,11 @@ export class AriaMenuListElement extends FloatingElement {
 
   get referenceElement(): HTMLElement {
     return this.rootElement.buttonElement
+  }
+
+  static queries: QueryDeclarations = {
+    focusedItemElement: { selector: 'q-aria-menu-item[focused]' },
+    rootElement: { selector: 'q-aria-menu', closest: true }
   }
 
   static styles = [
@@ -280,20 +277,12 @@ export class AriaMenuListElement extends FloatingElement {
   ]
 }
 
-@CustomElement('q-aria-menu-item')
 export class AriaMenuItemElement extends BaseElement {
   protected aria: AriaMenuItemController = new AriaMenuItemController(this)
 
-  @Property({ type: Boolean, reflect: true })
-  focused?: boolean
-
-  @Query('a')
   anchorElement?: HTMLAnchorElement
-
-  @Closest('q-aria-menu-list')
+  focused?: boolean
   listElement!: AriaMenuListElement
-
-  @Closest('q-aria-menu')
   rootElement!: AriaMenuElement
 
   connectedCallback(): void {
@@ -344,6 +333,16 @@ export class AriaMenuItemElement extends BaseElement {
     return ElementName.MENU_ITEM
   }
 
+  static properties: PropertyDeclarations = {
+    focused: { type: Boolean, reflect: true }
+  }
+
+  static queries: QueryDeclarations = {
+    anchorElement: { selector: 'a' },
+    listElement: { selector: 'q-aria-menu-list', closest: true },
+    rootElement: { selector: 'q-aria-menu', closest: true }
+  }
+
   static styles = [
     super.styles,
     css`
@@ -353,3 +352,8 @@ export class AriaMenuItemElement extends BaseElement {
     `
   ]
 }
+
+customElements.define('q-aria-menu', AriaMenuElement)
+customElements.define('q-aria-menu-button', AriaMenuButtonElement)
+customElements.define('q-aria-menu-item', AriaMenuItemElement)
+customElements.define('q-aria-menu-list', AriaMenuListElement)
