@@ -179,7 +179,7 @@ export interface AriaSliderThumbElementAttributes extends BaseElementAttributes 
   value?: number
 }
 
-export interface AriaSwitchElementAttributes extends FormFieldElementAttributes {
+export interface SwitchElementAttributes extends FormFieldElementAttributes {
   native?: boolean
 }
 

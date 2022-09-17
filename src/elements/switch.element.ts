@@ -1,16 +1,16 @@
 import { css, CSSResult, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
-import { KeyboardEventKey } from '../../definitions/enums'
-import { ElementLogger } from '../../loggers/element.logger'
-import { FormFieldElement } from '../core/form.field.element'
+import { KeyboardEventKey } from '../definitions/enums'
+import { ElementLogger } from '../loggers/element.logger'
+import { FormFieldElement } from './core/form.field.element'
 
 declare global {
   interface HTMLElementTagNameMap {
-    'q-aria-switch': AriaSwitchElement
+    'q-switch': SwitchElement
   }
 }
 
-export class AriaSwitchElement extends FormFieldElement {
+export class SwitchElement extends FormFieldElement {
   /**
    * PROPERTIES
    */
@@ -107,4 +107,4 @@ export class AriaSwitchElement extends FormFieldElement {
   ]
 }
 
-customElements.define('q-aria-switch', AriaSwitchElement)
+customElements.define('q-switch', SwitchElement)

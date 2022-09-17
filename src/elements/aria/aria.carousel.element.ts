@@ -14,6 +14,7 @@ import { DEFAULT_CAROUSEL_ROTATION_DURATION } from '../../definitions/constants'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
 import { QueryDeclarations } from '../../definitions/interfaces'
 import { AriaLive } from '../../definitions/types'
+import { CarouselSlideChangeEvent } from '../../events/carousel.slide.change.event'
 import { ElementLogger } from '../../loggers/element.logger'
 import { BaseElement } from '../core/base.element'
 import { AriaButtonElement } from './aria.button.element'
@@ -128,6 +129,10 @@ export class AriaCarouselElement extends BaseElement {
   }
 
   activateNextSlide = (): void => {
+    if (this.slideElements.length <= 0) {
+      return
+    }
+
     if (this.activeSlideElementIndex >= this.slideElements.length - 1) {
       if (!this.infiniteRotation) {
         return
@@ -138,6 +143,10 @@ export class AriaCarouselElement extends BaseElement {
 
       this.slideElements[0].activate()
       ElementLogger.verbose(this.uid, 'activateNextSlide', `The first slide has been activated.`)
+
+      if (this.tabElements.length <= 0) {
+        return
+      }
 
       this.tabElements[0].activate()
       ElementLogger.verbose(this.uid, 'activateNextSlide', `The first tab has been activated.`)
@@ -151,11 +160,19 @@ export class AriaCarouselElement extends BaseElement {
     this.slideElements[this.activeSlideElementIndex + 1].activate()
     ElementLogger.verbose(this.uid, 'activateNextSlide', `The next slide has been activated.`)
 
+    if (this.tabElements.length <= 0) {
+      return
+    }
+
     this.tabElements[this.activeSlideElementIndex + 1].activate()
     ElementLogger.verbose(this.uid, 'activateNextSlide', `The next tab has been activated.`)
   }
 
   activatePreviousSlide = (): void => {
+    if (this.slideElements.length <= 0) {
+      return
+    }
+
     if (this.activeSlideElementIndex <= 0) {
       if (!this.infiniteRotation) {
         return
@@ -233,6 +250,7 @@ export class AriaCarouselSlideElement extends BaseElement {
 
   activate(): void {
     this.active = true
+    this.rootElement.dispatchEvent(new CarouselSlideChangeEvent(this, this.index))
   }
 
   deactivate(): void {
@@ -497,7 +515,7 @@ export class AriaCarouselTabElement extends BaseElement {
   }
 
   get index(): number {
-    return this.tabsElement.tabElements.indexOf(this)
+    return this.tabsElement.tabElements?.indexOf(this)
   }
 
   get name(): ElementName {
@@ -510,7 +528,7 @@ export class AriaCarouselTabElement extends BaseElement {
 
   static queries: QueryDeclarations = {
     rootElement: { selector: 'q-aria-carousel', closest: true },
-    tabsElement: { selector: 'q-aria-carousel-tabs' }
+    tabsElement: { selector: 'q-aria-carousel-tabs', closest: true }
   }
 
   static styles: CSSResultGroup = [

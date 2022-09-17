@@ -1,3 +1,4 @@
+import { tc } from '@queelag/core'
 import { createFocusTrap, FocusTarget, FocusTargetOrFalse, FocusTrap, Options } from 'focus-trap'
 import { PropertyDeclarations } from 'lit'
 import { ElementName } from '../../definitions/enums'
@@ -53,12 +54,12 @@ export class FocusTrapElement extends BaseElement {
   }
 
   activateFocusTrap(): void {
-    this.focusTrap.activate()
+    tc(() => this.focusTrap.activate())
     ElementLogger.verbose(this.uid, 'activateFocusTrap', `The focus trap has been activated.`)
   }
 
   deactivateFocusTrap(): void {
-    this.focusTrap.deactivate()
+    tc(() => this.focusTrap.deactivate())
     ElementLogger.verbose(this.uid, 'deactivateFocusTrap', `The focus trap has been deactivated.`)
   }
 

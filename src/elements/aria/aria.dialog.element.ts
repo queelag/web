@@ -60,7 +60,7 @@ export class AriaDialogElement extends FocusTrapElement {
   static properties: PropertyDeclarations = {
     description: { type: String, reflect: true },
     label: { type: String, reflect: true },
-    visible: { type: String, reflect: true }
+    visible: { type: Boolean, reflect: true }
   }
 
   static queries: QueryDeclarations = {

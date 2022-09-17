@@ -157,7 +157,7 @@ export class AriaCarouselTabController implements ReactiveController {
   }
 
   setAttributes(): void {
-    setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement.slideElements[this.host.index].id)
+    setImmutableElementAttribute(this.host, 'aria-controls', this.host.rootElement.slideElements[this.host.index]?.id)
     setImmutableElementAttribute(this.host, 'aria-label', `Slide ${this.host.index}`)
     setImmutableElementAttribute(
       this.host,

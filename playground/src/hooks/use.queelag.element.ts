@@ -34,8 +34,7 @@ export function useQueelagElement<K extends keyof HTMLElementTagNameMap>(tagName
       return
     }
 
-    if (options.attribute.whitelist && options.attribute.whitelist.includes(event.detail.name)) {
-      dispatch({})
+    if (options.attribute.whitelist && !options.attribute.whitelist.includes(event.detail.name)) {
       return
     }
 
@@ -51,8 +50,7 @@ export function useQueelagElement<K extends keyof HTMLElementTagNameMap>(tagName
       return
     }
 
-    if (options.state.whitelist && options.state.whitelist.includes(event.detail.name)) {
-      dispatch({})
+    if (options.state.whitelist && !options.state.whitelist.includes(event.detail.name)) {
       return
     }
 

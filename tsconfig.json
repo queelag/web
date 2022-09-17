@@ -19,7 +19,8 @@
     ],
     "resolveJsonModule": true,
     "strict": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "useDefineForClassFields": false
   },
   "include": ["src"]
 }

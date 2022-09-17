@@ -74,20 +74,17 @@ export class BaseElement extends LitElement {
 
       if (declaration.all) {
         get = () => [...this.querySelectorAll(declaration.selector)]
-        continue
       }
 
       if (declaration.closest) {
         get = () => this.closest(declaration.selector) || undefined
-        continue
       }
 
       if (declaration.shadow) {
         get = () => this.renderRoot.querySelector(declaration.selector) || undefined
-        continue
       }
 
-      Object.defineProperty(this, key, { get })
+      Object.defineProperty(this, key, { configurable: true, get })
     }
   }
 
