@@ -14,7 +14,8 @@ import { DEFAULT_CAROUSEL_ROTATION_DURATION } from '../../definitions/constants'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
 import { QueryDeclarations } from '../../definitions/interfaces'
 import { AriaLive } from '../../definitions/types'
-import { CarouselSlideChangeEvent } from '../../events/carousel.slide.change.event'
+import { CarouselSlideActivateEvent } from '../../events/carousel.slide.activate.event'
+import { CarouselSlideDeactivateEvent } from '../../events/carousel.slide.deactivate.event'
 import { ElementLogger } from '../../loggers/element.logger'
 import { BaseElement } from '../core/base.element'
 import { AriaButtonElement } from './aria.button.element'
@@ -249,12 +250,17 @@ export class AriaCarouselSlideElement extends BaseElement {
   slidesElement!: AriaCarouselSlidesElement
 
   activate(): void {
+    let old: AriaCarouselSlideElement | undefined
+
+    old = this.rootElement.activeSlideElement
     this.active = true
-    this.rootElement.dispatchEvent(new CarouselSlideChangeEvent(this, this.index))
+
+    this.rootElement.dispatchEvent(new CarouselSlideActivateEvent(this, old))
   }
 
   deactivate(): void {
     this.active = false
+    this.rootElement.dispatchEvent(new CarouselSlideDeactivateEvent(this))
   }
 
   get index(): number {
