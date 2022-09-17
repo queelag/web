@@ -15,6 +15,9 @@ declare global {
 }
 
 export class AriaDisclosureElement extends BaseElement {
+  /**
+   * QUERIES
+   */
   buttonElements!: AriaDisclosureButtonElement[]
 
   connectedCallback(): void {
@@ -55,8 +58,15 @@ export class AriaDisclosureElement extends BaseElement {
 export class AriaDisclosureSectionElement extends BaseElement {
   protected aria: AriaDisclosureSectionController = new AriaDisclosureSectionController(this)
 
-  buttonElement!: AriaDisclosureButtonElement
+  /**
+   * PROPERTIES
+   */
   expanded?: boolean
+
+  /**
+   * QUERIES
+   */
+  buttonElement!: AriaDisclosureButtonElement
   panelElement?: AriaDisclosurePanelElement
 
   collapse(): void {
@@ -84,6 +94,9 @@ export class AriaDisclosureSectionElement extends BaseElement {
 export class AriaDisclosureButtonElement extends BaseElement {
   protected aria: AriaDisclosureButtonController = new AriaDisclosureButtonController(this)
 
+  /**
+   * QUERIES
+   */
   sectionElement!: AriaDisclosureSectionElement
 
   connectedCallback(): void {

@@ -1,4 +1,4 @@
-import { css, PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaListBoxController, AriaListBoxOptionController } from '../../controllers/aria.list.box.controller'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
 import { QueryDeclarations } from '../../definitions/interfaces'
@@ -16,14 +16,24 @@ declare global {
 export class AriaListBoxElement extends BaseElement {
   protected aria: AriaListBoxController = new AriaListBoxController(this)
 
-  focusedOptionElement?: AriaListBoxOptionElement
+  /**
+   * PROPERTIES
+   */
   selectionFollowsFocus?: boolean
   multiple?: boolean
-  optionElements!: AriaListBoxOptionElement[]
-  selectedOptionElement?: AriaListBoxOptionElement
   selectFirstOptionOnFocus?: boolean
 
-  typeahead: Typeahead<AriaListBoxOptionElement> = new Typeahead((element: AriaListBoxOptionElement) => {
+  /**
+   * QUERIES
+   */
+  focusedOptionElement?: AriaListBoxOptionElement
+  optionElements!: AriaListBoxOptionElement[]
+  selectedOptionElement?: AriaListBoxOptionElement
+
+  /**
+   * INTERNAL
+   */
+  private typeahead: Typeahead<AriaListBoxOptionElement> = new Typeahead((element: AriaListBoxOptionElement) => {
     this.blurFocusedOptionElement()
 
     element.focused = true
@@ -258,9 +268,16 @@ export class AriaListBoxElement extends BaseElement {
 export class AriaListBoxOptionElement extends BaseElement {
   protected aria: AriaListBoxOptionController = new AriaListBoxOptionController(this)
 
+  /**
+   * PROPERTIES
+   */
   focused?: boolean
-  rootElement!: AriaListBoxElement
   selected?: boolean
+
+  /**
+   * QUERIES
+   */
+  rootElement!: AriaListBoxElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -314,7 +331,7 @@ export class AriaListBoxOptionElement extends BaseElement {
     rootElement: { selector: 'q-aria-listbox', closest: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {

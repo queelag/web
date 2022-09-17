@@ -1,4 +1,4 @@
-import { css, PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaMenuButtonController, AriaMenuController, AriaMenuItemController, AriaMenuListController } from '../../controllers/aria.menu.controller'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
 import { QueryDeclarations } from '../../definitions/interfaces'
@@ -20,14 +20,24 @@ declare global {
 export class AriaMenuElement extends BaseElement {
   protected aria: AriaMenuController = new AriaMenuController(this)
 
-  buttonElement!: AriaMenuButtonElement
+  /**
+   * PROPERTIES
+   */
   expanded?: boolean
+  // navigation?: boolean
+
+  /**
+   * QUERIES
+   */
+  buttonElement!: AriaMenuButtonElement
   focusedItemElement?: AriaMenuItemElement
   itemElements!: AriaMenuItemElement[]
   listElement?: AriaMenuListElement
-  // navigation?: boolean
 
-  typeahead: Typeahead<AriaMenuItemElement> = new Typeahead((element: AriaMenuItemElement) => {
+  /**
+   * INTERNAL
+   */
+  private typeahead: Typeahead<AriaMenuItemElement> = new Typeahead((element: AriaMenuItemElement) => {
     this.focusedItemElement?.blur()
 
     element.focus()
@@ -198,7 +208,7 @@ export class AriaMenuElement extends BaseElement {
     listElement: { selector: 'q-aria-menu-list' }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {
@@ -211,6 +221,9 @@ export class AriaMenuElement extends BaseElement {
 export class AriaMenuButtonElement extends BaseElement {
   protected arai: AriaMenuButtonController = new AriaMenuButtonController(this)
 
+  /**
+   * QUERIES
+   */
   rootElement!: AriaMenuElement
 
   connectedCallback(): void {
@@ -247,6 +260,9 @@ export class AriaMenuButtonElement extends BaseElement {
 export class AriaMenuListElement extends FloatingElement {
   protected aria: AriaMenuListController = new AriaMenuListController(this)
 
+  /**
+   * QUERIES
+   */
   focusedItemElement?: AriaMenuItemElement
   rootElement!: AriaMenuElement
 
@@ -263,7 +279,7 @@ export class AriaMenuListElement extends FloatingElement {
     rootElement: { selector: 'q-aria-menu', closest: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {
@@ -280,8 +296,15 @@ export class AriaMenuListElement extends FloatingElement {
 export class AriaMenuItemElement extends BaseElement {
   protected aria: AriaMenuItemController = new AriaMenuItemController(this)
 
-  anchorElement?: HTMLAnchorElement
+  /**
+   * PROPERTIES
+   */
   focused?: boolean
+
+  /**
+   * QUERIES
+   */
+  anchorElement?: HTMLAnchorElement
   listElement!: AriaMenuListElement
   rootElement!: AriaMenuElement
 
@@ -343,7 +366,7 @@ export class AriaMenuItemElement extends BaseElement {
     rootElement: { selector: 'q-aria-menu', closest: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {

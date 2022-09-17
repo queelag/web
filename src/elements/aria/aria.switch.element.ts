@@ -1,4 +1,4 @@
-import { css, CSSResult } from 'lit'
+import { css, CSSResult, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { KeyboardEventKey } from '../../definitions/enums'
 import { ElementLogger } from '../../loggers/element.logger'
@@ -11,6 +11,9 @@ declare global {
 }
 
 export class AriaSwitchElement extends FormFieldElement {
+  /**
+   * PROPERTIES
+   */
   native?: boolean
 
   private onChange(event: Event): void {
@@ -78,12 +81,12 @@ export class AriaSwitchElement extends FormFieldElement {
     return this.value !== true
   }
 
-  static properties = {
+  static properties: PropertyDeclarations = {
     ...super.properties,
     native: { type: Boolean, reflect: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles as CSSResult,
     css`
       * {

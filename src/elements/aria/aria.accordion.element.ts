@@ -22,8 +22,14 @@ declare global {
 }
 
 export class AriaAccordionElement extends BaseElement {
+  /**
+   * PROPERTIES
+   */
   allowOnlyOneExpandedSection?: boolean
 
+  /**
+   * QUERIES
+   */
   buttonElements!: AriaAccordionButtonElement[]
   expandedSectionElements!: AriaAccordionSectionElement[]
 
@@ -126,9 +132,15 @@ export class AriaAccordionElement extends BaseElement {
 export class AriaAccordionSectionElement extends BaseElement {
   protected aria: AriaAccordionSectionController = new AriaAccordionSectionController(this)
 
+  /**
+   * PROPERTIES
+   */
   collapsable?: boolean
   expanded?: boolean
 
+  /**
+   * QUERIES
+   */
   buttonElement!: AriaAccordionButtonElement
   panelElement?: AriaAccordionPanelElement
 
@@ -166,6 +178,9 @@ export class AriaAccordionSectionElement extends BaseElement {
 export class AriaAccordionHeaderElement extends BaseElement {
   protected aria: AriaAccordionHeaderController = new AriaAccordionHeaderController(this)
 
+  /**
+   * PROPERTIES
+   */
   level?: HeadingLevel
 
   get name(): ElementName {
@@ -180,6 +195,9 @@ export class AriaAccordionHeaderElement extends BaseElement {
 export class AriaAccordionButtonElement extends BaseElement {
   protected aria: AriaAccordionButtonController = new AriaAccordionButtonController(this)
 
+  /**
+   * QUERIES
+   */
   rootElement!: AriaAccordionElement
   sectionElement!: AriaAccordionSectionElement
 

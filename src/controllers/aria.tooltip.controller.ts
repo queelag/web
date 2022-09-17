@@ -1,8 +1,7 @@
 import { ID } from '@queelag/core'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
-import { ElementName } from '../definitions/enums'
-import type { AriaTooltipTriggerElement } from '../elements/aria/aria.tooltip.element'
+import type { AriaTooltipContentElement, AriaTooltipTriggerElement } from '../elements/aria/aria.tooltip.element'
 import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaTooltipController implements ReactiveController {
@@ -24,7 +23,7 @@ export class AriaTooltipController implements ReactiveController {
 }
 
 export class AriaTooltipContentController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & HTMLElement) {
+  constructor(private host: ReactiveControllerHost & AriaTooltipContentElement) {
     this.host.addController(this)
   }
 
@@ -41,7 +40,7 @@ export class AriaTooltipContentController implements ReactiveController {
       return
     }
 
-    setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.TOOLTIP_CONTENT }))
+    setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
   }
 }
 

@@ -1,3 +1,4 @@
+import { PropertyDeclarations } from 'lit'
 import { FormFieldElementCollector } from '../../collectors/form.field.element.collector'
 import { FormFieldElementSchema, FormFieldElementTarget, FormFieldElementValidation } from '../../definitions/types'
 import { StateChangedEvent } from '../../events/state.changed.event'
@@ -21,6 +22,10 @@ export class FormFieldElement extends BaseElement {
    * STATES
    */
   validation?: FormFieldElementValidation
+
+  /**
+   * INTERNAL
+   */
   private _value: any
 
   connectedCallback(): void {
@@ -116,7 +121,7 @@ export class FormFieldElement extends BaseElement {
     return typeof this.error === 'undefined'
   }
 
-  static properties = {
+  static properties: PropertyDeclarations = {
     disabled: { type: Boolean, reflect: true },
     focused: { type: Boolean, reflect: true },
     path: { type: String, reflect: true },
@@ -124,6 +129,6 @@ export class FormFieldElement extends BaseElement {
     schema: { type: Object },
     touched: { type: Boolean, reflect: true },
     validation: { state: true },
-    _value: { state: true }
+    value: { state: true }
   }
 }

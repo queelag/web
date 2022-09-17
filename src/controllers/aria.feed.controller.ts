@@ -1,8 +1,12 @@
 import { ID } from '@queelag/core'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
-import { ElementName } from '../definitions/enums'
-import type { AriaFeedArticleElement, AriaFeedElement } from '../elements/aria/aria.feed.element'
+import type {
+  AriaFeedArticleDescriptionElement,
+  AriaFeedArticleElement,
+  AriaFeedArticleLabelElement,
+  AriaFeedElement
+} from '../elements/aria/aria.feed.element'
 import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaFeedController implements ReactiveController {
@@ -49,7 +53,7 @@ export class AriaFeedArticleController implements ReactiveController {
 }
 
 export class AriaFeedArticleDescriptionController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & HTMLElement) {
+  constructor(private host: ReactiveControllerHost & AriaFeedArticleDescriptionElement) {
     this.host.addController(this)
   }
 
@@ -66,12 +70,12 @@ export class AriaFeedArticleDescriptionController implements ReactiveController 
       return
     }
 
-    setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.FEED_ARTICLE_DESCRIPTION }))
+    setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
   }
 }
 
 export class AriaFeedArticleLabelController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & HTMLElement) {
+  constructor(private host: ReactiveControllerHost & AriaFeedArticleLabelElement) {
     this.host.addController(this)
   }
 
@@ -88,6 +92,6 @@ export class AriaFeedArticleLabelController implements ReactiveController {
       return
     }
 
-    setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.FEED_ARTICLE_LABEL }))
+    setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
   }
 }

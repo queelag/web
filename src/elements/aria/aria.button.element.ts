@@ -1,4 +1,4 @@
-import { css, PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaButtonController } from '../../controllers/aria.button.controller'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
 import { ButtonPressed } from '../../definitions/types'
@@ -14,6 +14,9 @@ declare global {
 export class AriaButtonElement extends BaseElement {
   protected aria: AriaButtonController
 
+  /**
+   * PROPERTIES
+   */
   disabled?: boolean
   pressed?: ButtonPressed
 
@@ -59,7 +62,7 @@ export class AriaButtonElement extends BaseElement {
     pressed: { type: String, reflect: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {

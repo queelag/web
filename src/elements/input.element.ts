@@ -1,5 +1,5 @@
 import { removeArrayItems, TextCodec } from '@queelag/core'
-import { css, CSSResult } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive'
 import { ElementName } from '../definitions/enums'
@@ -286,7 +286,7 @@ export class InputElement extends FormFieldElement {
     super.value = value
   }
 
-  static properties = {
+  static properties: PropertyDeclarations = {
     ...super.properties,
     multiple: { type: Boolean, reflect: true },
     normalized: { type: Boolean, reflect: true },
@@ -302,8 +302,8 @@ export class InputElement extends FormFieldElement {
     inputElement: { selector: 'input', shadow: true }
   }
 
-  static styles = [
-    super.styles as CSSResult,
+  static styles: CSSResultGroup = [
+    super.styles,
     css`
       :host([normalized]) input {
         background: none;

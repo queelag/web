@@ -1,4 +1,4 @@
-import { css, PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { ElementName } from '../definitions/enums'
 import { BaseElement } from './core/base.element'
@@ -10,6 +10,9 @@ declare global {
 }
 
 export class AvatarElement extends BaseElement {
+  /**
+   * PROPERTIES
+   */
   icon?: string
   image?: string
   text?: string
@@ -33,7 +36,7 @@ export class AvatarElement extends BaseElement {
     text: { type: String, reflect: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       div {

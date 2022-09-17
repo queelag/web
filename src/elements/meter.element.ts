@@ -11,6 +11,9 @@ declare global {
 }
 
 export class MeterElement extends BaseElement {
+  /**
+   * PROPERTIES
+   */
   low?: number
   high?: number
   maximum?: number
@@ -19,6 +22,9 @@ export class MeterElement extends BaseElement {
   optimum?: number
   round?: boolean
 
+  /**
+   * INTERNAL
+   */
   private _value?: number
 
   render() {

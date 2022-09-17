@@ -1,5 +1,5 @@
 import { debounce } from '@queelag/core'
-import { css, PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaMenuBarController, AriaMenuBarItemController, AriaMenuBarSubMenuController } from '../../controllers/aria.menu.bar.controller'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
 import { QueryDeclarations } from '../../definitions/interfaces'
@@ -21,9 +21,9 @@ declare global {
 export class AriaMenuBarElement extends BaseElement {
   protected aria: AriaMenuBarController = new AriaMenuBarController(this)
 
-  private expanded?: boolean
-  private focused?: boolean = true
-
+  /**
+   * QUERIES
+   */
   expandedSubMenuElement?: AriaMenuBarSubMenuElement
   expandedSubMenuElements!: AriaMenuBarSubMenuElement[]
   focusedItemElement?: AriaMenuBarItemElement
@@ -32,7 +32,12 @@ export class AriaMenuBarElement extends BaseElement {
   shallowFocusedItemElement?: AriaMenuBarItemElement
   shallowItemElements!: AriaMenuBarItemElement[]
 
-  typeahead: Typeahead<AriaMenuBarItemElement> = new Typeahead((item: AriaMenuBarItemElement) => {
+  /**
+   * INTERNAL
+   */
+  private expanded?: boolean
+  private focused?: boolean = true
+  private typeahead: Typeahead<AriaMenuBarItemElement> = new Typeahead((item: AriaMenuBarItemElement) => {
     this.shallowFocusedItemElement?.blur()
 
     item.focus()
@@ -247,11 +252,22 @@ export class AriaMenuBarElement extends BaseElement {
 export class AriaMenuBarItemElement extends BaseElement {
   protected aria: AriaMenuBarItemController = new AriaMenuBarItemController(this)
 
-  anchorElement?: HTMLAnchorElement
+  /**
+   * PROPERTIES
+   */
   focused?: boolean
-  mouseEntered?: boolean
+
+  /**
+   * QUERIES
+   */
+  anchorElement?: HTMLAnchorElement
   rootElement!: AriaMenuBarElement
   subMenuElement?: AriaMenuBarSubMenuElement
+
+  /**
+   * INTERNAL
+   */
+  private mouseEntered?: boolean
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -414,7 +430,7 @@ export class AriaMenuBarItemElement extends BaseElement {
     subMenuElement: { selector: 'q-aria-menubar-submenu' }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {
@@ -428,7 +444,14 @@ export class AriaMenuBarItemElement extends BaseElement {
 export class AriaMenuBarSubMenuElement extends FloatingElement {
   protected aria: AriaMenuBarSubMenuController = new AriaMenuBarSubMenuController(this)
 
+  /**
+   * PROPERTIES
+   */
   expanded?: boolean
+
+  /**
+   * QUERIES
+   */
   itemElement!: AriaMenuBarItemElement
   subMenuElement?: AriaMenuBarSubMenuElement
 
@@ -616,7 +639,7 @@ export class AriaMenuBarSubMenuElement extends FloatingElement {
     subMenuElement: { selector: 'q-aria-menubar-submenu', closest: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {

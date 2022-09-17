@@ -1,7 +1,6 @@
 import { ID } from '@queelag/core'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
-import { ElementName } from '../definitions/enums'
 import type {
   AriaCarouselElement,
   AriaCarouselNextSlideControlElement,
@@ -117,7 +116,7 @@ export class AriaCarouselSlideController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'role', this.host.rootElement.tabsElement ? 'tabpanel' : 'group')
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.CAROUSEL_SLIDE }))
+      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
   }
 }
@@ -139,7 +138,7 @@ export class AriaCarouselSlidesController implements ReactiveController {
     // setImmutableElementAttribute(this.host, 'aria-live', this.host.rootElement.live ?? (this.host.rootElement.automaticRotation ? 'off' : 'polite'))
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.CAROUSEL_SLIDES }))
+      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
   }
 }

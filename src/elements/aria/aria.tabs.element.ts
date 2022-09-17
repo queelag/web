@@ -1,4 +1,4 @@
-import { css, PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaTabsController, AriaTabsPanelController, AriaTabsTabController } from '../../controllers/aria.tabs.controller'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
 import { QueryDeclarations } from '../../definitions/interfaces'
@@ -17,7 +17,14 @@ declare global {
 export class AriaTabsElement extends BaseElement {
   protected aria: AriaTabsController = new AriaTabsController(this)
 
+  /**
+   * PROPERTIES
+   */
   automaticActivation?: boolean
+
+  /**
+   * QUERIES
+   */
   panelElement!: AriaTabsPanelElement
   selectedTabElement?: AriaTabsTabElement
   tabElements!: AriaTabsTabElement[]
@@ -176,8 +183,15 @@ export class AriaTabsElement extends BaseElement {
 export class AriaTabsTabElement extends BaseElement {
   protected aria: AriaTabsTabController = new AriaTabsTabController(this)
 
-  rootElement!: AriaTabsElement
+  /**
+   * PROPERTIES
+   */
   selected?: boolean
+
+  /**
+   * QUERIES
+   */
+  rootElement!: AriaTabsElement
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -227,7 +241,7 @@ export class AriaTabsTabElement extends BaseElement {
     rootElement: { selector: 'q-aria-tabs', closest: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {

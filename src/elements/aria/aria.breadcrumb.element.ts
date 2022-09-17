@@ -31,8 +31,15 @@ export class AriaBreadcrumbListElement extends BaseElement {
 export class AriaBreadcrumbListItemElement extends BaseElement {
   protected aria: AriaBreadcrumbListItemController = new AriaBreadcrumbListItemController(this)
 
-  anchorElement!: HTMLAnchorElement
+  /**
+   * PROPERTIES
+   */
   current?: boolean
+
+  /**
+   * QUERIES
+   */
+  anchorElement!: HTMLAnchorElement
 
   get name(): ElementName {
     return ElementName.BREADCRUMB_LIST_ITEM

@@ -1,4 +1,4 @@
-import { css, PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaRadioButtonController, AriaRadioGroupController } from '../../controllers/aria.radio.group.controller'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
 import { QueryDeclarations } from '../../definitions/interfaces'
@@ -15,6 +15,9 @@ declare global {
 export class AriaRadioGroupElement extends BaseElement {
   protected aria: AriaRadioGroupController = new AriaRadioGroupController(this)
 
+  /**
+   * QUERIES
+   */
   buttonElements!: AriaRadioButtonElement[]
   checkedButtonElement?: AriaRadioButtonElement
   focusedButtonElement?: AriaRadioButtonElement
@@ -134,8 +137,15 @@ export class AriaRadioGroupElement extends BaseElement {
 export class AriaRadioButtonElement extends BaseElement {
   protected aria: AriaRadioButtonController = new AriaRadioButtonController(this)
 
+  /**
+   * PROPERTIES
+   */
   checked?: boolean
   focused?: boolean
+
+  /**
+   * QUERIES
+   */
   rootElement!: AriaRadioGroupElement
 
   connectedCallback(): void {
@@ -191,7 +201,7 @@ export class AriaRadioButtonElement extends BaseElement {
     rootElement: { selector: 'q-aria-radio-group', closest: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {

@@ -1,5 +1,5 @@
 import { getLimitedNumber, parseNumber } from '@queelag/core'
-import { css, CSSResult, PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { BaseElement } from './core/base.element'
 
@@ -53,8 +53,8 @@ export class BadgeElement extends BaseElement {
     value: { type: String, reflect: true }
   }
 
-  static styles = [
-    super.styles as CSSResult,
+  static styles: CSSResultGroup = [
+    super.styles,
     css`
       div {
         align-items: center;

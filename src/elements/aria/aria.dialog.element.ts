@@ -17,11 +17,18 @@ declare global {
 export class AriaDialogElement extends FocusTrapElement {
   protected aria: AriaDialogController = new AriaDialogController(this)
 
+  /**
+   * PROPERTIES
+   */
   description?: string
-  descriptionElement?: AriaDialogDescriptionElement
   label?: string
-  labelElement?: AriaDialogLabelElement
   visible?: boolean
+
+  /**
+   * QUERIES
+   */
+  descriptionElement?: AriaDialogDescriptionElement
+  labelElement?: AriaDialogLabelElement
 
   attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
     super.attributeChangedCallback(name, _old, value)

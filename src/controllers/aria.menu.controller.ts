@@ -1,7 +1,6 @@
 import { ID } from '@queelag/core'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
-import { ElementName } from '../definitions/enums'
 import type { AriaMenuButtonElement, AriaMenuElement, AriaMenuItemElement, AriaMenuListElement } from '../elements/aria/aria.menu.element'
 import { setImmutableElementAttribute } from '../utils/element.utils'
 
@@ -44,7 +43,7 @@ export class AriaMenuButtonController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'tabindex', '0')
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.MENU_BUTTON }))
+      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
   }
 }
@@ -71,7 +70,7 @@ export class AriaMenuListController implements ReactiveController {
     // }
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.MENU_LIST }))
+      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
   }
 }

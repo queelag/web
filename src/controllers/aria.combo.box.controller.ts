@@ -1,7 +1,6 @@
 import { ID } from '@queelag/core'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
-import { ElementName } from '../definitions/enums'
 import type {
   AriaComboBoxButtonElement,
   AriaComboBoxElement,
@@ -124,7 +123,7 @@ export class AriaComboBoxListController implements ReactiveController {
 
   setAttributes(): void {
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.COMBOBOX_LIST }))
+      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
 
     if (this.host.rootElement.inputElement) {
@@ -153,7 +152,7 @@ export class AriaComboBoxOptionController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'role', 'option')
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.COMBOBOX_OPTION }))
+      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
 
     if (this.host.rootElement.inputElement) {

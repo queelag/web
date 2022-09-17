@@ -1,4 +1,4 @@
-import { css, PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { AriaTooltipContentController, AriaTooltipController, AriaTooltipTriggerController } from '../../controllers/aria.tooltip.controller'
 import { ElementName, KeyboardEventKey } from '../../definitions/enums'
 import { QueryDeclarations } from '../../definitions/interfaces'
@@ -18,11 +18,18 @@ declare global {
 export class AriaTooltipElement extends BaseElement {
   protected aria: AriaTooltipController = new AriaTooltipController(this)
 
+  /**
+   * PROPERTIES
+   */
+  focusable?: boolean
+  visible?: boolean
+
+  /**
+   * QUERIES
+   */
   arrowElement?: AriaTooltipArrowElement
   contentElement?: AriaTooltipContentElement
-  focusable?: boolean
   triggerElement!: AriaTooltipTriggerElement
-  visible?: boolean
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -58,7 +65,7 @@ export class AriaTooltipElement extends BaseElement {
     triggerElement: { selector: 'q-aria-tooltip-trigger' }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {
@@ -73,7 +80,7 @@ export class AriaTooltipArrowElement extends BaseElement {
     return ElementName.TOOLTIP_ARROW
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {
@@ -88,6 +95,9 @@ export class AriaTooltipArrowElement extends BaseElement {
 export class AriaTooltipContentElement extends FloatingElement {
   protected aria: AriaTooltipContentController = new AriaTooltipContentController(this)
 
+  /**
+   * QUERIES
+   */
   rootElement!: AriaTooltipElement
 
   get arrowElement(): AriaTooltipArrowElement | undefined {
@@ -106,7 +116,7 @@ export class AriaTooltipContentElement extends FloatingElement {
     rootElement: { selector: 'q-aria-tooltip', closest: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {
@@ -121,6 +131,9 @@ export class AriaTooltipContentElement extends FloatingElement {
 export class AriaTooltipTriggerElement extends BaseElement {
   protected aria: AriaTooltipTriggerController = new AriaTooltipTriggerController(this)
 
+  /**
+   * QUERIES
+   */
   rootElement!: AriaTooltipElement
 
   connectedCallback(): void {
@@ -176,7 +189,7 @@ export class AriaTooltipTriggerElement extends BaseElement {
     rootElement: { selector: 'q-aria-tooltip', closest: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {

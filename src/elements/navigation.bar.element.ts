@@ -12,6 +12,9 @@ declare global {
 }
 
 export class NavigationBarElement extends BaseElement {
+  /**
+   * PROPERTIES
+   */
   activeItem?: string
   items?: NavigationBarItemElementAttributes[]
 
@@ -35,6 +38,9 @@ export class NavigationBarElement extends BaseElement {
 }
 
 export class NavigationBarItemElement extends BaseElement {
+  /**
+   * PROPERTIES
+   */
   active?: boolean
   label?: string
   icon?: string

@@ -1,4 +1,4 @@
-import { css, CSSResult } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { AriaCheckBoxController } from '../controllers/aria.check.box.controller'
 import { ElementName, KeyboardEventKey } from '../definitions/enums'
@@ -98,14 +98,14 @@ export class CheckBoxElement extends FormFieldElement {
     super.value = value
   }
 
-  static properties = {
+  static properties: PropertyDeclarations = {
     ...super.properties,
     native: { type: Boolean, reflect: true },
     normalized: { type: Boolean, reflect: true }
   }
 
-  static styles = [
-    super.styles as CSSResult,
+  static styles: CSSResultGroup = [
+    super.styles,
     css`
       * {
         cursor: pointer;

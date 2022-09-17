@@ -9,6 +9,7 @@ import { BaseElement } from './core/base.element'
 import type { FormFieldElement } from './core/form.field.element'
 import type { InputElement } from './input.element'
 import type { InputFileElement } from './input.file.element'
+import type { TextAreaElement } from './text.area.element'
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -27,9 +28,10 @@ export class FormElement extends BaseElement {
    * QUERIES
    */
   formElement!: HTMLFormElement
-  slotCheckBoxElements!: CheckBoxElement[]
-  slotInputElements!: InputElement[]
-  slotInputFileElements!: InputFileElement[]
+  checkBoxElements!: CheckBoxElement[]
+  inputElements!: InputElement[]
+  inputFileElements!: InputFileElement[]
+  textAreaElements!: TextAreaElement[]
 
   private onKeyDown(event: KeyboardEvent): void {
     if (event.key !== KeyboardEventKey.ENTER) {
@@ -83,7 +85,7 @@ export class FormElement extends BaseElement {
   }
 
   private get slotElements(): FormFieldElement[] {
-    return [...this.slotCheckBoxElements, ...this.slotInputElements, ...this.slotInputFileElements]
+    return [...this.checkBoxElements, ...this.inputElements, ...this.inputFileElements, ...this.textAreaElements]
   }
 
   static properties: PropertyDeclarations = {

@@ -1,5 +1,5 @@
 import { Interval } from '@queelag/core'
-import { css, PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import {
   AriaCarouselController,
   AriaCarouselNextSlideControlController,
@@ -34,17 +34,28 @@ declare global {
 export class AriaCarouselElement extends BaseElement {
   protected aria: AriaCarouselController = new AriaCarouselController(this)
 
-  activeSlideElement?: AriaCarouselSlideElement
-  activeTabElement?: AriaCarouselSlideElement
+  /**
+   * PROPERTIES
+   */
   automaticRotation?: boolean
   automaticRotationIntervalTime?: number
   forceAutomaticRotation?: boolean
   infiniteRotation?: boolean
-  live?: AriaLive
+
+  /**
+   * QUERIES
+   */
+  activeSlideElement?: AriaCarouselSlideElement
+  activeTabElement?: AriaCarouselSlideElement
   slideElements!: AriaCarouselSlideElement[]
   slidesElement!: AriaCarouselSlidesElement
   tabElements!: AriaCarouselTabElement[]
   tabsElement?: AriaCarouselTabsElement
+
+  /**
+   * STATES
+   */
+  live?: AriaLive
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -192,6 +203,9 @@ export class AriaCarouselElement extends BaseElement {
 export class AriaCarouselSlidesElement extends BaseElement {
   protected aria: AriaCarouselSlidesController = new AriaCarouselSlidesController(this)
 
+  /**
+   * QUERIES
+   */
   rootElement!: AriaCarouselElement
 
   get name(): ElementName {
@@ -206,7 +220,14 @@ export class AriaCarouselSlidesElement extends BaseElement {
 export class AriaCarouselSlideElement extends BaseElement {
   protected aria: AriaCarouselSlideController = new AriaCarouselSlideController(this)
 
+  /**
+   * PROPERTIES
+   */
   active?: boolean
+
+  /**
+   * QUERIES
+   */
   rootElement!: AriaCarouselElement
   slidesElement!: AriaCarouselSlidesElement
 
@@ -239,6 +260,9 @@ export class AriaCarouselSlideElement extends BaseElement {
 export class AriaCarouselRotationControlElement extends AriaButtonElement {
   protected aria2: AriaCarouselRotationControlController = new AriaCarouselRotationControlController(this)
 
+  /**
+   * QUERIES
+   */
   rootElement!: AriaCarouselElement
 
   onClick = (): void => {
@@ -274,6 +298,9 @@ export class AriaCarouselRotationControlElement extends AriaButtonElement {
 export class AriaCarouselNextSlideControlElement extends AriaButtonElement {
   protected aria2: AriaCarouselNextSlideControlController = new AriaCarouselNextSlideControlController(this)
 
+  /**
+   * QUERIES
+   */
   rootElement!: AriaCarouselElement
 
   onClick = (): void => {
@@ -292,6 +319,9 @@ export class AriaCarouselNextSlideControlElement extends AriaButtonElement {
 export class AriaCarouselPreviousSlideControlElement extends AriaButtonElement {
   protected aria2: AriaCarouselPreviousSlideControlController = new AriaCarouselPreviousSlideControlController(this)
 
+  /**
+   * QUERIES
+   */
   rootElement!: AriaCarouselElement
 
   onClick = (): void => {
@@ -310,6 +340,9 @@ export class AriaCarouselPreviousSlideControlElement extends AriaButtonElement {
 export class AriaCarouselTabsElement extends BaseElement {
   protected aria: AriaCarouselTabsController = new AriaCarouselTabsController(this)
 
+  /**
+   * QUERIES
+   */
   activeTabElement?: AriaCarouselTabElement
   rootElement!: AriaCarouselElement
   tabElements!: AriaCarouselTabElement[]
@@ -423,7 +456,14 @@ export class AriaCarouselTabsElement extends BaseElement {
 export class AriaCarouselTabElement extends BaseElement {
   protected aria: AriaCarouselTabController = new AriaCarouselTabController(this)
 
+  /**
+   * PROPERTIES
+   */
   active?: boolean
+
+  /**
+   * QUERIES
+   */
   rootElement!: AriaCarouselElement
   tabsElement!: AriaCarouselTabsElement
 
@@ -473,7 +513,7 @@ export class AriaCarouselTabElement extends BaseElement {
     tabsElement: { selector: 'q-aria-carousel-tabs' }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {

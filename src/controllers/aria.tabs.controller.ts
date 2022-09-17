@@ -1,8 +1,7 @@
 import { ID } from '@queelag/core'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
-import { ElementName } from '../definitions/enums'
-import type { AriaTabsElement, AriaTabsTabElement } from '../elements/aria/aria.tabs.element'
+import type { AriaTabsElement, AriaTabsPanelElement, AriaTabsTabElement } from '../elements/aria/aria.tabs.element'
 import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaTabsController implements ReactiveController {
@@ -25,7 +24,7 @@ export class AriaTabsController implements ReactiveController {
 }
 
 export class AriaTabsPanelController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & HTMLElement) {
+  constructor(private host: ReactiveControllerHost & AriaTabsPanelElement) {
     this.host.addController(this)
   }
 
@@ -42,7 +41,7 @@ export class AriaTabsPanelController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'tabindex', '0')
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.TABS_PANEL }))
+      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
   }
 }
@@ -71,7 +70,7 @@ export class AriaTabsTabController implements ReactiveController {
     }
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.TABS_TAB }))
+      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
   }
 }

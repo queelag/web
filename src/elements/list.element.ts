@@ -10,6 +10,9 @@ declare global {
 }
 
 export class ListElement extends BaseElement {
+  /**
+   * PROPERTIES
+   */
   items?: any[]
 
   get name(): ElementName {
@@ -30,6 +33,9 @@ export class ListElement extends BaseElement {
 }
 
 export class ListItemElement extends BaseElement {
+  /**
+   * PROPERTIES
+   */
   headline?: string
   image?: string
   icon?: string

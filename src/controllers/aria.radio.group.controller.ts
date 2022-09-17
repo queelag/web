@@ -1,7 +1,6 @@
 import { ID } from '@queelag/core'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
-import { ElementName } from '../definitions/enums'
 import type { AriaRadioButtonElement, AriaRadioGroupElement } from '../elements/aria/aria.radio.group.element'
 import { setImmutableElementAttribute } from '../utils/element.utils'
 
@@ -44,7 +43,7 @@ export class AriaRadioButtonController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'role', 'radio')
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.RADIO_BUTTON }))
+      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
   }
 }

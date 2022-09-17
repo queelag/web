@@ -1,5 +1,5 @@
 import { getLimitedNumber, isNumberMultipleOf, toFixedNumber } from '@queelag/core'
-import { css, html, PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
 import { AriaSliderController, AriaSliderThumbController } from '../../controllers/aria.slider.controller'
 import {
   DEFAULT_SLIDER_DECIMALS,
@@ -29,6 +29,9 @@ declare global {
 export class AriaSliderElement extends BaseElement {
   protected aria: AriaSliderController = new AriaSliderController(this)
 
+  /**
+   * PROPERTIES
+   */
   decimals?: number
   disableSwap?: boolean
   maximum?: number
@@ -36,6 +39,10 @@ export class AriaSliderElement extends BaseElement {
   minimumDistance?: number
   orientation?: Orientation
   step?: number
+
+  /**
+   * QUERIES
+   */
   thumbElements!: AriaSliderThumbElement[]
 
   connectedCallback(): void {
@@ -107,7 +114,7 @@ export class AriaSliderElement extends BaseElement {
     thumbElements: { selector: 'q-aria-slider-thumb', all: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {
@@ -120,11 +127,21 @@ export class AriaSliderElement extends BaseElement {
 export class AriaSliderThumbElement extends BaseElement {
   protected aria: AriaSliderThumbController = new AriaSliderThumbController(this)
 
+  /**
+   * PROPERTIES
+   */
   defaultValue?: number
   disableComputePosition?: boolean
   movable?: boolean
+
+  /**
+   * QUERIES
+   */
   rootElement!: AriaSliderElement
 
+  /**
+   * INTERNAL
+   */
   private _value?: number
 
   connectedCallback(): void {
@@ -403,7 +420,7 @@ export class AriaSliderThumbElement extends BaseElement {
     rootElement: { selector: 'q-aria-slider', closest: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {

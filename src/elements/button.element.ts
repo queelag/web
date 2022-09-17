@@ -1,4 +1,4 @@
-import { css, html, PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, html, PropertyDeclarations } from 'lit'
 import { ElementName, KeyboardEventKey } from '../definitions/enums'
 import { ButtonType, ButtonVariant } from '../definitions/types'
 import { ifdef } from '../directives/if.defined'
@@ -117,7 +117,7 @@ export class ButtonElement extends AriaButtonElement {
     variant: { type: String, reflect: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       * {

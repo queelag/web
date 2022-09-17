@@ -23,8 +23,15 @@ declare global {
 export class AriaFeedElement extends BaseElement {
   protected aria: AriaFeedController = new AriaFeedController(this)
 
-  articleElements!: AriaFeedArticleElement[]
+  /**
+   * PROPERTIES
+   */
   busy?: boolean
+
+  /**
+   * QUERIES
+   */
+  articleElements!: AriaFeedArticleElement[]
   focusedArticleElement?: AriaFeedArticleElement
 
   connectedCallback(): void {
@@ -118,9 +125,16 @@ export class AriaFeedElement extends BaseElement {
 export class AriaFeedArticleElement extends BaseElement {
   protected aria: AriaFeedArticleController = new AriaFeedArticleController(this)
 
+  /**
+   * PROPERTIES
+   */
+  focused?: boolean
+
+  /**
+   * QUERIES
+   */
   descriptionElement?: AriaFeedArticleDescriptionElement
   labelElement?: AriaFeedArticleLabelElement
-  focused?: boolean
   rootElement!: AriaFeedElement
 
   connectedCallback(): void {

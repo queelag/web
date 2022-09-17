@@ -1,4 +1,5 @@
 import { removeArrayItems } from '@queelag/core'
+import { PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { ElementName } from '../definitions/enums'
 import { SelectOption } from '../definitions/interfaces'
@@ -14,11 +15,17 @@ declare global {
 }
 
 export class SelectElement extends FormFieldElement {
+  /**
+   * PROPERTIES
+   */
   multiple?: boolean
   native?: boolean
   normalized?: boolean
   options?: SelectOption[]
 
+  /**
+   * STATES
+   */
   private searchValue: string = ''
 
   private onChange(event: InputEvent): void {
@@ -141,7 +148,7 @@ export class SelectElement extends FormFieldElement {
     super.value = value
   }
 
-  static properties = {
+  static properties: PropertyDeclarations = {
     ...super.properties,
     multiple: { type: Boolean, reflect: true },
     native: { type: Boolean, reflect: true },

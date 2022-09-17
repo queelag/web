@@ -12,6 +12,9 @@ declare global {
 export class AriaLinkElement extends BaseElement {
   protected aria: AriaLinkController = new AriaLinkController(this)
 
+  /**
+   * PROPERTIES
+   */
   href?: string
   target?: string
 

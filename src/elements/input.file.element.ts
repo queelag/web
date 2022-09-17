@@ -1,5 +1,5 @@
 import { removeArrayItems } from '@queelag/core'
-import { css, CSSResult } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { QueelagFile } from '../classes/queelag.file'
 import { DeserializeFileOptions, QueryDeclarations } from '../definitions/interfaces'
@@ -124,7 +124,7 @@ export class InputFileElement extends FormFieldElement {
     return !this.isFilesEmpty
   }
 
-  static properties = {
+  static properties: PropertyDeclarations = {
     ...super.properties,
     deserializeFileResolveArrayBuffer: { type: Boolean, attribute: 'deserialize-file-resolve-array-buffer', reflect: true },
     deserializeFileResolveText: { type: Boolean, attribute: 'deserialize-file-resolve-text', reflect: true },
@@ -136,8 +136,8 @@ export class InputFileElement extends FormFieldElement {
     inputElement: { selector: 'input', shadow: true }
   }
 
-  static styles = [
-    super.styles as CSSResult,
+  static styles: CSSResultGroup = [
+    super.styles,
     css`
       :host(:not([native])) {
         position: relative;

@@ -1,12 +1,16 @@
 import { ID } from '@queelag/core'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
-import { ElementName } from '../definitions/enums'
-import type { AriaAccordionHeaderElement, AriaAccordionSectionElement } from '../elements/aria/aria.accordion.element'
+import type {
+  AriaAccordionButtonElement,
+  AriaAccordionHeaderElement,
+  AriaAccordionPanelElement,
+  AriaAccordionSectionElement
+} from '../elements/aria/aria.accordion.element'
 import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaAccordionButtonController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & HTMLElement) {
+  constructor(private host: ReactiveControllerHost & AriaAccordionButtonElement) {
     this.host.addController(this)
   }
 
@@ -23,7 +27,7 @@ export class AriaAccordionButtonController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'tabindex', '0')
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.ACCORDION_BUTTON }))
+      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
   }
 }
@@ -48,7 +52,7 @@ export class AriaAccordionHeaderController implements ReactiveController {
 }
 
 export class AriaAccordionPanelController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & HTMLElement) {
+  constructor(private host: ReactiveControllerHost & AriaAccordionPanelElement) {
     this.host.addController(this)
   }
 
@@ -64,7 +68,7 @@ export class AriaAccordionPanelController implements ReactiveController {
     setImmutableElementAttribute(this.host, 'role', 'region')
 
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.ACCORDION_PANEL }))
+      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
   }
 }

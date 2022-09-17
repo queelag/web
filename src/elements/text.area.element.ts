@@ -1,5 +1,5 @@
 import { parseNumber } from '@queelag/core'
-import { css, CSSResult } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import { html } from 'lit-html'
 import { DirectiveResult } from 'lit-html/directive'
 import { ElementName } from '../definitions/enums'
@@ -17,16 +17,17 @@ declare global {
 }
 
 export class TextAreaElement extends FormFieldElement {
+  /**
+   * PROPERTIES
+   */
   autosize?: boolean
   cols?: number
-  private computedHeight?: string
   multiple?: boolean
   normalized?: boolean
   padding?: string
   placeholder?: string
   resize?: TextAreaElementResize
   rows?: number
-  temporaryValue: string = ''
   touchTrigger?: TextAreaElementTouchTrigger
 
   /**
@@ -34,6 +35,12 @@ export class TextAreaElement extends FormFieldElement {
    */
   private spanElement!: HTMLSpanElement
   private textAreaElement!: HTMLTextAreaElement
+
+  /**
+   * STATES
+   */
+  private computedHeight?: string
+  temporaryValue: string = ''
 
   private onBlur(): void {
     this.focused = false
@@ -179,7 +186,7 @@ export class TextAreaElement extends FormFieldElement {
     super.value = value
   }
 
-  static properties = {
+  static properties: PropertyDeclarations = {
     ...super.properties,
     autosize: { type: Boolean, reflect: true },
     cols: { type: Number, reflect: true },
@@ -199,8 +206,8 @@ export class TextAreaElement extends FormFieldElement {
     textAreaElement: { selector: 'textarea', shadow: true }
   }
 
-  static styles = [
-    FormFieldElement.styles as CSSResult,
+  static styles: CSSResultGroup = [
+    super.styles,
     css`
       :host([autosize]) textarea {
         overflow-y: hidden;

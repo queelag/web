@@ -1,5 +1,5 @@
 import { getLimitedNumber } from '@queelag/core'
-import { css, PropertyDeclarations } from 'lit'
+import { css, CSSResultGroup, PropertyDeclarations } from 'lit'
 import {
   AriaComboBoxButtonController,
   AriaComboBoxController,
@@ -31,18 +31,28 @@ declare global {
 export class AriaComboBoxElement extends BaseElement {
   protected aria: AriaComboBoxController = new AriaComboBoxController(this)
 
+  /**
+   * PROPERTIES
+   */
   autocomplete?: AriaComboBoxElementAutoComplete
-  buttonElement?: AriaComboBoxButtonElement
   expanded?: boolean
+  scrollIntoViewOptions?: ScrollIntoViewOptions
+
+  /**
+   * QUERIES
+   */
+  buttonElement?: AriaComboBoxButtonElement
   groupElement!: AriaComboBoxGroupElement
   inputElement?: AriaComboBoxInputElement
   listElement?: AriaComboBoxListElement
   focusedOptionElement?: AriaComboBoxOptionElement
   optionElements!: AriaComboBoxOptionElement[]
-  scrollIntoViewOptions?: ScrollIntoViewOptions
   selectedOptionElement?: AriaComboBoxOptionElement
 
-  typeahead: Typeahead<AriaComboBoxOptionElement> = new Typeahead((element: AriaComboBoxOptionElement) => {
+  /**
+   * INTERNAL
+   */
+  private typeahead: Typeahead<AriaComboBoxOptionElement> = new Typeahead((element: AriaComboBoxOptionElement) => {
     this.blurFocusedOptionElement()
 
     element.focused = true
@@ -323,7 +333,7 @@ export class AriaComboBoxElement extends BaseElement {
     selectOptionElement: { selector: 'q-aria-combobox-option[selected]' }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {
@@ -342,6 +352,9 @@ export class AriaComboBoxGroupElement extends BaseElement {
 export class AriaComboBoxButtonElement extends BaseElement {
   protected aria: AriaComboBoxButtonController = new AriaComboBoxButtonController(this)
 
+  /**
+   * QUERIES
+   */
   rootElement!: AriaComboBoxElement
 
   connectedCallback(): void {
@@ -390,7 +403,7 @@ export class AriaComboBoxButtonElement extends BaseElement {
     rootElement: { selector: 'q-aria-combobox', closest: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {
@@ -403,8 +416,15 @@ export class AriaComboBoxButtonElement extends BaseElement {
 export class AriaComboBoxInputElement extends BaseElement {
   protected aria: AriaComboBoxInputController = new AriaComboBoxInputController(this)
 
+  /**
+   * QUERIES
+   */
   inputElement?: HTMLInputElement
   rootElement!: AriaComboBoxElement
+
+  /**
+   * STATES
+   */
   value: string = ''
 
   connectedCallback(): void {
@@ -489,6 +509,9 @@ export class AriaComboBoxInputElement extends BaseElement {
 export class AriaComboBoxListElement extends FloatingElement {
   protected aria: AriaComboBoxListController = new AriaComboBoxListController(this)
 
+  /**
+   * QUERIES
+   */
   rootElement!: AriaComboBoxElement
 
   get name(): ElementName {
@@ -503,7 +526,7 @@ export class AriaComboBoxListElement extends FloatingElement {
     rootElement: { selector: 'q-aria-combobox', closest: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {
@@ -520,10 +543,17 @@ export class AriaComboBoxListElement extends FloatingElement {
 export class AriaComboBoxOptionElement extends BaseElement {
   protected aria: AriaComboBoxOptionController = new AriaComboBoxOptionController(this)
 
+  /**
+   * PROPERTIES
+   */
   focused?: boolean
+  selected?: boolean
+
+  /**
+   * QUERIES
+   */
   listElement!: AriaComboBoxListElement
   rootElement!: AriaComboBoxElement
-  selected?: boolean
 
   connectedCallback(): void {
     super.connectedCallback()
@@ -594,7 +624,7 @@ export class AriaComboBoxOptionElement extends BaseElement {
     rootElement: { selector: 'q-aria-combobox', closest: true }
   }
 
-  static styles = [
+  static styles: CSSResultGroup = [
     super.styles,
     css`
       :host {

@@ -9,6 +9,9 @@ declare global {
 }
 
 export class AriaAlertElement extends BaseElement {
+  /**
+   * PROPERTIES
+   */
   closable?: boolean
   headline?: string
   icon?: string

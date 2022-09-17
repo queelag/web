@@ -1,8 +1,7 @@
 import { ID } from '@queelag/core'
 import { ReactiveController, ReactiveControllerHost } from 'lit'
 import { ELEMENT_UID_GENERATE_OPTIONS } from '../definitions/constants'
-import { ElementName } from '../definitions/enums'
-import type { AriaDisclosureSectionElement } from '../elements/aria/aria.disclosure.element'
+import type { AriaDisclosurePanelElement, AriaDisclosureSectionElement } from '../elements/aria/aria.disclosure.element'
 import { setImmutableElementAttribute } from '../utils/element.utils'
 
 export class AriaDisclosureButtonController implements ReactiveController {
@@ -25,7 +24,7 @@ export class AriaDisclosureButtonController implements ReactiveController {
 }
 
 export class AriaDisclosurePanelController implements ReactiveController {
-  constructor(private host: ReactiveControllerHost & HTMLElement) {
+  constructor(private host: ReactiveControllerHost & AriaDisclosurePanelElement) {
     this.host.addController(this)
   }
 
@@ -39,7 +38,7 @@ export class AriaDisclosurePanelController implements ReactiveController {
 
   setAttributes(): void {
     if (this.host.id.length <= 0) {
-      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.DISCLOSURE_PANEL }))
+      setImmutableElementAttribute(this.host, 'id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: this.host.name }))
     }
   }
 }
