@@ -7,6 +7,17 @@ import { Orientation } from './types'
 export const DEFAULT_CAROUSEL_ROTATION_DURATION: number = 2500
 
 /**
+ * AriaSliderElement
+ */
+export const DEFAULT_SLIDER_DECIMALS: number = 0
+export const DEFAULT_SLIDER_MAXIMUM: number = 100
+export const DEFAULT_SLIDER_MINIMUM: number = 0
+export const DEFAULT_SLIDER_MINIMUM_DISTANCE: number = 0
+export const DEFAULT_SLIDER_ORIENTATION: Orientation = 'horizontal'
+export const DEFAULT_SLIDER_STEP: number = 1
+export const DEFAULT_SLIDER_THUMB_VALUE: number = 0
+
+/**
  * Elements
  */
 export const ELEMENT_UID_GENERATE_OPTIONS: IDGenerateOptions = { alphabet: ID_ALPHABET_HEX_LOWERCASE, size: 8 }
@@ -25,17 +36,6 @@ export const CACHE_IMAGES: Map<string, string> = new Map()
 export const DEFAULT_IMAGE_SIZE: string = '100%'
 export const DEFAULT_IMAGE_SRC: string = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
 export const FETCHING_IMAGES: Set<string> = new Set()
-
-/**
- * AriaSliderElement
- */
-export const DEFAULT_SLIDER_DECIMALS: number = 0
-export const DEFAULT_SLIDER_MAXIMUM: number = 100
-export const DEFAULT_SLIDER_MINIMUM: number = 0
-export const DEFAULT_SLIDER_MINIMUM_DISTANCE: number = 0
-export const DEFAULT_SLIDER_ORIENTATION: Orientation = 'horizontal'
-export const DEFAULT_SLIDER_STEP: number = 1
-export const DEFAULT_SLIDER_THUMB_VALUE: number = 0
 
 /**
  * Squircle

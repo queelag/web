@@ -1,12 +1,10 @@
-import type { AriaCarouselSlideElement } from '../elements/aria/aria.carousel.element'
-
-interface Detail {
-  element: AriaCarouselSlideElement
-  old?: AriaCarouselSlideElement
+interface Detail<T extends HTMLElement> {
+  element: T
+  old?: T
 }
 
-export class CarouselSlideActivateEvent extends CustomEvent<Detail> {
-  constructor(element: AriaCarouselSlideElement, old?: AriaCarouselSlideElement) {
+export class CarouselSlideActivateEvent<T extends HTMLElement> extends CustomEvent<Detail<T>> {
+  constructor(element: T, old?: T) {
     super('carousel-slide-activate', { detail: { element, old } })
   }
 }

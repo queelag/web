@@ -45,7 +45,3 @@ export interface ShapeOptions {
     size?: number
   }
 }
-
-export interface SquircleOptions {
-  curvature?: number
-}

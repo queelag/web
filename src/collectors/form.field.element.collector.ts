@@ -1,5 +1,5 @@
+import { FormFieldElement } from '../definitions/elements'
 import { FormFieldElementTarget } from '../definitions/types'
-import type { FormFieldElement } from '../elements/core/form.field.element'
 
 export class FormFieldElementCollector {
   private static mapByID: Map<string, any> = new Map()

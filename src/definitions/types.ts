@@ -1,6 +1,8 @@
 import type { FocusTargetValueOrFalse, KeyboardEventToBoolean, MouseEventToBoolean } from 'focus-trap'
 import type { Struct, StructError } from 'superstruct'
 
+export type AriaComboBoxElementAutoComplete = 'none' | 'inline' | 'list' | 'both'
+export type AriaFeedbackType = 'error' | 'information' | 'success' | 'warning'
 export type AriaLive = 'off' | 'polite' | 'assertive'
 
 export type ButtonPressed = 'false' | 'mixed' | 'true'
@@ -33,8 +35,6 @@ export type Color =
   | 'white'
   | string
 
-export type AriaComboBoxElementAutoComplete = 'none' | 'inline' | 'list' | 'both'
-
 export type Constructor<T> = new (...args: any[]) => T
 
 export type Direction = 'down' | 'left' | 'right' | 'up'
@@ -43,8 +43,6 @@ export type DirectionVertical = 'down' | 'up'
 
 export type ElementAttributeValue = string | null | undefined
 export type ElementAttributes = Record<string, ElementAttributeValue>
-
-export type AriaFeedbackType = 'error' | 'information' | 'success' | 'warning'
 
 export type FocusTrapAllowOutsideClick = boolean | MouseEventToBoolean
 export type FocusTrapCheckCanFocusTrap = (containers: Array<HTMLElement | SVGElement>) => Promise<void>
