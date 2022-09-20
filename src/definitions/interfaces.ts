@@ -1,4 +1,4 @@
-import type { Config as SanitizeConfig } from 'isomorphic-dompurify'
+import type { Config as SanitizeConfig } from 'dompurify'
 import { CanvasDataURLType } from './types'
 
 export interface DeserializeFileOptions {
