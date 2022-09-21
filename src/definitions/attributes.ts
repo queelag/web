@@ -1,7 +1,7 @@
 import type { Middleware, Placement, Platform, Strategy } from '@floating-ui/dom'
 import type { FocusTarget, FocusTargetOrFalse } from 'focus-trap'
 import type { Struct } from 'superstruct'
-import { SelectOption } from './interfaces'
+import { IconElementSanitizeConfig, SelectOption } from './interfaces'
 import {
   AriaComboBoxElementAutoComplete,
   ButtonType,
@@ -179,10 +179,6 @@ export interface AriaSliderThumbElementAttributes extends BaseElementAttributes 
   value?: number
 }
 
-export interface SwitchElementAttributes extends FormFieldElementAttributes {
-  native?: boolean
-}
-
 export interface AriaTabsElementAttributes extends BaseElementAttributes {
   'automatic-activation'?: boolean
 }
@@ -301,6 +297,7 @@ export interface FormFieldElementAttributes extends BaseElementAttributes {
 
 export interface IconElementAttributes extends BaseElementAttributes {
   fill?: string
+  sanitize?: IconElementSanitizeConfig
   src: string
   stroke?: string
   'stroke-width'?: string | number
@@ -388,6 +385,10 @@ export interface SelectElementAttributes extends FormFieldElementAttributes {
   native?: boolean
   normalized?: boolean
   options?: SelectOption[]
+}
+
+export interface SwitchElementAttributes extends FormFieldElementAttributes {
+  native?: boolean
 }
 
 export interface TextAreaElementAttributes extends Omit<InputElementAttributes, 'obscured' | 'type'> {
