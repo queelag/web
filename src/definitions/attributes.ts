@@ -297,7 +297,8 @@ export interface FormFieldElementAttributes extends BaseElementAttributes {
 
 export interface IconElementAttributes extends BaseElementAttributes {
   fill?: string
-  sanitize?: IconElementSanitizeConfig
+  sanitize?: boolean
+  'sanitize-config'?: IconElementSanitizeConfig
   src: string
   stroke?: string
   'stroke-width'?: string | number

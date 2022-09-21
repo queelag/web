@@ -1,4 +1,5 @@
 import { IDGenerateOptions, ID_ALPHABET_HEX_LOWERCASE } from '@queelag/core'
+import { IconElementSanitizeConfig } from './interfaces'
 import { Orientation } from './types'
 
 /**
@@ -27,6 +28,7 @@ export const ELEMENT_UID_GENERATE_OPTIONS: IDGenerateOptions = { alphabet: ID_AL
  */
 export const CACHE_ICONS: Map<string, string> = new Map()
 export const DEFAULT_ICON_SVG_STRING: string = '<svg viewBox="0 0 0 0"></svg>'
+export const DEFAULT_ICON_SANITIZE_CONFIG: IconElementSanitizeConfig = { RETURN_DOM: false, RETURN_DOM_FRAGMENT: false }
 export const FETCHING_ICONS: Set<string> = new Set()
 
 /**
