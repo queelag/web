@@ -4,6 +4,7 @@ import type { Struct } from 'superstruct'
 import { IconElementSanitizeConfig, SelectOption } from './interfaces'
 import {
   AriaComboBoxElementAutoComplete,
+  ButtonPressed,
   ButtonType,
   ButtonVariant,
   ChipElementVariant,
@@ -59,6 +60,11 @@ export interface AriaBreadcrumbListElementAttributes extends BaseElementAttribut
 
 export interface AriaBreadcrumbListItemElementAttributes extends BaseElementAttributes {
   current?: boolean
+}
+
+export interface AriaButtonElementAttributes extends BaseElementAttributes {
+  disabled?: boolean
+  pressed?: ButtonPressed
 }
 
 export interface AriaCarouselElementAttributes extends BaseElementAttributes {
@@ -223,14 +229,12 @@ export interface BaseElementAttributes {
   width?: number | string
 }
 
-export interface ButtonElementAttributes extends BaseElementAttributes {
+export interface ButtonElementAttributes extends AriaButtonElementAttributes {
   async?: boolean
-  disabled?: boolean
-  icon?: boolean
+  icon?: string
   label?: string
   native?: boolean
   normalized?: boolean
-  pressed?: boolean
   spinning?: boolean
   type?: ButtonType
   variant?: ButtonVariant
