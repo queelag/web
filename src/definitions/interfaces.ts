@@ -1,13 +1,6 @@
 import type { Config as SanitizeConfig } from 'dompurify'
 import { CanvasDataURLType } from './types'
 
-export interface DeserializeFileOptions {
-  resolve?: {
-    arrayBuffer?: boolean
-    text?: boolean
-  }
-}
-
 export interface GetImageElementBase64Options {
   quality?: number
   type?: CanvasDataURLType
@@ -26,6 +19,11 @@ export interface QueryDeclaration {
 }
 
 export interface QueryDeclarations extends Record<string, QueryDeclaration> {}
+
+export interface RadioButton {
+  label?: string
+  value: any
+}
 
 export interface SelectOption {
   label?: string

@@ -1,7 +1,7 @@
 import type { Middleware, Placement, Platform, Strategy } from '@floating-ui/dom'
 import type { FocusTarget, FocusTargetOrFalse } from 'focus-trap'
 import type { Struct } from 'superstruct'
-import { IconElementSanitizeConfig, SelectOption } from './interfaces'
+import { IconElementSanitizeConfig, RadioButton, SelectOption } from './interfaces'
 import {
   AriaComboBoxElementAutoComplete,
   ButtonPressed,
@@ -89,6 +89,12 @@ export interface AriaCarouselTabElementAttributes extends BaseElementAttributes 
 
 export interface AriaCarouselTabsElementAttributes extends BaseElementAttributes {}
 
+export interface AriaCheckBoxElementAttributes extends BaseElementAttributes {
+  checked?: boolean
+  disabled?: boolean
+  readonly?: boolean
+}
+
 export interface AriaComboBoxElementAttributes extends BaseElementAttributes {
   autocomplete?: AriaComboBoxElementAutoComplete
   expanded?: boolean
@@ -164,6 +170,10 @@ export interface AriaMenuBarItemElementAttributes extends BaseElementAttributes 
 
 export interface AriaMenuBarSubMenuElementAttributes extends FloatingElementAttributes {
   expanded?: boolean
+}
+
+export interface AriaRadioButtonElementAttributes extends BaseElementAttributes {
+  checked?: boolean
 }
 
 export interface AriaRadioGroupElementAttributes extends BaseElementAttributes {}
@@ -300,6 +310,8 @@ export interface FormFieldElementAttributes extends BaseElementAttributes {
 }
 
 export interface IconElementAttributes extends BaseElementAttributes {
+  cache?: boolean
+  color?: string
   fill?: string
   sanitize?: boolean
   'sanitize-config'?: IconElementSanitizeConfig
@@ -316,6 +328,7 @@ export interface ImageElementAttributes extends BaseElementAttributes {
   'cross-origin'?: string
   eager?: boolean
   lazy?: boolean
+  placeholder?: string
   src: string
 }
 
@@ -381,8 +394,9 @@ export interface NavigationRailItemElementAttributes extends BaseElementAttribut
   icon?: string
 }
 
-export interface AriaRadioButtonElementAttributes extends BaseElementAttributes {
-  checked?: boolean
+export interface RadioGroupElementAttributes extends FormFieldElementAttributes {
+  buttons?: RadioButton[]
+  native?: boolean
 }
 
 export interface SelectElementAttributes extends FormFieldElementAttributes {
@@ -390,6 +404,13 @@ export interface SelectElementAttributes extends FormFieldElementAttributes {
   native?: boolean
   normalized?: boolean
   options?: SelectOption[]
+}
+
+export interface SliderElementAttributes extends FormFieldElementAttributes {
+  max?: number
+  min?: number
+  native?: boolean
+  step?: number
 }
 
 export interface SwitchElementAttributes extends FormFieldElementAttributes {

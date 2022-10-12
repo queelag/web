@@ -95,3 +95,5 @@ export type TextAreaElementResize = 'both' | 'horizontal' | 'vertical' | 'none'
 export type Theme = 'dark' | 'light' | 'system'
 
 export type TypeaheadOnMatch<T extends HTMLElement> = (element: T) => any
+
+export type WebSocketEventData<T extends object> = T | ArrayBufferLike | ArrayBufferView | Blob | string

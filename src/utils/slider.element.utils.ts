@@ -1,8 +1,8 @@
 import { getNumberPercentage, toFixedNumber } from '@queelag/core'
 import {
   DEFAULT_SLIDER_DECIMALS,
-  DEFAULT_SLIDER_MAXIMUM,
-  DEFAULT_SLIDER_MINIMUM,
+  DEFAULT_SLIDER_MAX,
+  DEFAULT_SLIDER_MIN,
   DEFAULT_SLIDER_ORIENTATION,
   DEFAULT_SLIDER_THUMB_VALUE
 } from '../definitions/constants'
@@ -26,9 +26,9 @@ export function getAriaSliderThumbElementStyleTop(percentage: number, orientatio
 
 export function getAriaSliderThumbElementPercentage(
   value: number = DEFAULT_SLIDER_THUMB_VALUE,
-  minimum: number = DEFAULT_SLIDER_MINIMUM,
-  maximum: number = DEFAULT_SLIDER_MAXIMUM,
+  min: number = DEFAULT_SLIDER_MIN,
+  max: number = DEFAULT_SLIDER_MAX,
   decimals: number = DEFAULT_SLIDER_DECIMALS
 ): number {
-  return toFixedNumber(getNumberPercentage(value, minimum, maximum), decimals)
+  return toFixedNumber(getNumberPercentage(value, min, max), decimals)
 }
