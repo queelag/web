@@ -8,7 +8,7 @@ import { Orientation } from './types'
 export const DEFAULT_CAROUSEL_ROTATION_DURATION: number = 2500
 
 /**
- * AriaSliderElement
+ * AriaSliderElement, SliderElement
  */
 export const DEFAULT_SLIDER_DECIMALS: number = 0
 export const DEFAULT_SLIDER_MAX: number = 100
@@ -17,6 +17,12 @@ export const DEFAULT_SLIDER_MIN_DISTANCE: number = 0
 export const DEFAULT_SLIDER_ORIENTATION: Orientation = 'horizontal'
 export const DEFAULT_SLIDER_STEP: number = 1
 export const DEFAULT_SLIDER_THUMB_VALUE: number = 0
+
+/**
+ * BadgeElement
+ */
+export const DEFAULT_BADGE_MAX: number = 99
+export const DEFAULT_BADGE_MIN: number = 0
 
 /**
  * Elements

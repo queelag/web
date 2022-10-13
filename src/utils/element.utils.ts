@@ -26,6 +26,7 @@ export function setElementAttribute<T extends Element>(element: T, name: string,
 
   element.setAttribute(name, value)
 }
+
 export function setImmutableElementAttribute<T extends Element>(element: T, name: string, value: ElementAttributeValue): void {
   if (typeof element !== 'object') {
     return
@@ -35,7 +36,7 @@ export function setImmutableElementAttribute<T extends Element>(element: T, name
     return removeImmutableElementAttribute(element, name)
   }
 
-  Object.defineProperty(element, name, { configurable: true, get: () => value, set: () => undefined })
+  Object.defineProperty(element, name, { configurable: true, enumerable: false, get: () => value, set: () => undefined })
   element.setAttribute(name, value)
 }
 

@@ -64,6 +64,7 @@ export interface AriaBreadcrumbListItemElementAttributes extends BaseElementAttr
 
 export interface AriaButtonElementAttributes extends BaseElementAttributes {
   disabled?: boolean
+  native?: boolean
   pressed?: ButtonPressed
 }
 
@@ -243,18 +244,13 @@ export interface ButtonElementAttributes extends AriaButtonElementAttributes {
   async?: boolean
   icon?: string
   label?: string
-  native?: boolean
   normalized?: boolean
   spinning?: boolean
   type?: ButtonType
   variant?: ButtonVariant
 }
 
-export interface CheckBoxElementAttributes extends FormFieldElementAttributes {
-  custom?: boolean
-  native?: boolean
-  normalized?: boolean
-}
+export interface CheckBoxElementAttributes extends FormFieldElementAttributes {}
 
 export interface ChipElementAttributes extends BaseElementAttributes {
   icon?: string
@@ -302,6 +298,8 @@ export interface FormElementAttributes extends BaseElementAttributes {}
 
 export interface FormFieldElementAttributes extends BaseElementAttributes {
   disabled?: boolean
+  native?: boolean
+  normalized?: boolean
   path?: string
   readonly?: boolean
   schema?: Struct<any, any>
@@ -335,7 +333,6 @@ export interface ImageElementAttributes extends BaseElementAttributes {
 export interface InputElementAttributes extends FormFieldElementAttributes {
   autofocus?: boolean
   multiple?: boolean
-  normalized?: boolean
   obscured?: boolean
   padding?: string
   placeholder?: string
@@ -347,7 +344,6 @@ export interface InputFileElementAttributes extends FormFieldElementAttributes {
   'deserialize-file-resolve-array-buffer'?: boolean
   'deserialize-file-resolve-text'?: boolean
   multiple?: boolean
-  native?: boolean
 }
 
 export interface ListElementAttributes extends BaseElementAttributes {
@@ -396,26 +392,20 @@ export interface NavigationRailItemElementAttributes extends BaseElementAttribut
 
 export interface RadioGroupElementAttributes extends FormFieldElementAttributes {
   buttons?: RadioButton[]
-  native?: boolean
 }
 
 export interface SelectElementAttributes extends FormFieldElementAttributes {
   multiple?: boolean
-  native?: boolean
-  normalized?: boolean
   options?: SelectOption[]
 }
 
 export interface SliderElementAttributes extends FormFieldElementAttributes {
   max?: number
   min?: number
-  native?: boolean
   step?: number
 }
 
-export interface SwitchElementAttributes extends FormFieldElementAttributes {
-  native?: boolean
-}
+export interface SwitchElementAttributes extends FormFieldElementAttributes {}
 
 export interface TextAreaElementAttributes extends Omit<InputElementAttributes, 'obscured' | 'type'> {
   autosize?: boolean

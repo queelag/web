@@ -1,4 +1,4 @@
-import { Environment, noop, Storage } from '@queelag/core'
+import { Environment, isNotError, noop, Storage } from '@queelag/core'
 import { StorageName } from '../definitions/enums'
 import { Theme } from '../definitions/types'
 import { ModuleLogger } from '../loggers/module.logger'
@@ -20,34 +20,30 @@ export class Appearence {
   onChangeTheme(theme: Theme): any {}
 
   async initialize(): Promise<boolean> {
-    this.setTheme('system', false)
+    let copied: void | Error
 
-    if (Environment.isWindowDefined) {
-      let get: void | Error
+    this.setTheme('system')
 
-      get = await this.storage.copy(StorageName.APPEARENCE, this, ['theme'])
-      if (!get) return false
+    copied = await this.storage.copy(StorageName.APPEARENCE, this, ['theme'])
+    if (copied instanceof Error) return false
 
-      this.setTheme(this.theme, false)
-    }
+    this.setTheme(this.theme)
 
     return true
   }
 
-  async toggleTheme(): Promise<boolean> {
+  toggleTheme(): void {
     switch (this.theme) {
       case 'dark':
         return this.setTheme('light')
       case 'light':
         return this.setTheme('dark')
       case 'system':
-        return this.setTheme(this.themeByPrefersColorScheme === 'dark' ? 'light' : 'light')
-      default:
-        return false
+        return this.setTheme(this.themeByPrefersColorScheme === 'dark' ? 'light' : 'dark')
     }
   }
 
-  async setTheme(theme: Theme, store: boolean = true): Promise<boolean> {
+  setTheme(theme: Theme): void {
     this.theme = theme
     ModuleLogger.verbose('Appearance', 'setTheme', `The theme has been set to ${theme}.`)
 
@@ -60,17 +56,10 @@ export class Appearence {
         this.onChangeTheme(this.themeByPrefersColorScheme)
         break
     }
+  }
 
-    if (Environment.isWindowDefined && store) {
-      let storage: void | Error
-
-      storage = await this.storage.set(StorageName.APPEARENCE, this, ['theme'])
-      if (storage instanceof Error) return false
-
-      return true
-    }
-
-    return true
+  async store(): Promise<boolean> {
+    return isNotError(await this.storage.set(StorageName.APPEARENCE, this, ['theme']))
   }
 
   private registerThemeEventListener(): void {
@@ -88,7 +77,7 @@ export class Appearence {
     if (typeof media.addEventListener !== 'function')
       return ModuleLogger.warn('Appearance', 'registerThemeEventListener', `The window.matchMedia.addEventListener function is not defined.`)
 
-    media.addEventListener('change', (v: MediaQueryListEvent) => this.isThemeSystem && this.setTheme('system', false))
+    media.addEventListener('change', (v: MediaQueryListEvent) => this.isThemeSystem && this.setTheme('system'))
   }
 
   get themeByPrefersColorScheme(): Theme {

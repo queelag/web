@@ -1,114 +1,120 @@
+import { sleep } from '@queelag/core'
 import { ModuleLogger } from '../loggers/module.logger'
 
 export class VisibilityController {
-  private static data: Map<string, number> = new Map()
+  private data: Map<string, string> = new Map()
 
   /**
    * Sets name to HIDING, after delay time sets name to HIDDEN.
    */
-  static hide(name: string, delay: number = 0): void {
-    if (VisibilityController.isHidden(name)) {
+  async hide(name: string, delay: number = 0): Promise<void> {
+    if (this.isHidden(name)) {
       return ModuleLogger.warn('VisibilityController', 'hide', `The key ${name} is already hidden.`)
     }
 
-    VisibilityController.data.set(name, VisibilityController.HIDING)
+    this.data.set(name, VisibilityController.HIDING)
     ModuleLogger.verbose('VisibilityController', 'hide', `The key ${name} is hiding.`)
 
-    setTimeout(() => {
-      VisibilityController.data.set(name, VisibilityController.HIDDEN)
-      ModuleLogger.verbose('VisibilityController', 'hide', `The key ${name} is hidden.`)
-    }, delay)
+    await sleep(delay)
+
+    this.data.set(name, VisibilityController.HIDDEN)
+    ModuleLogger.verbose('VisibilityController', 'hide', `The key ${name} is hidden.`)
   }
 
   /**
    * Sets name to VISIBLE, after delay time sets name to SHOWING.
    */
-  static show(name: string, delay: number = 0): void {
-    if (VisibilityController.isVisible(name)) {
+  async show(name: string, delay: number = 0): Promise<void> {
+    if (this.isVisible(name)) {
       return ModuleLogger.warn('VisibilityController', 'show', `The key ${name} is already visible.`)
     }
 
-    VisibilityController.data.set(name, VisibilityController.SHOWING)
+    this.data.set(name, VisibilityController.SHOWING)
     ModuleLogger.verbose('VisibilityController', 'hide', `The key ${name} is showing.`)
 
-    setTimeout(() => {
-      VisibilityController.data.set(name, VisibilityController.VISIBLE)
-      ModuleLogger.verbose('VisibilityController', 'hide', `The key ${name} is visible.`)
-    }, delay)
+    await sleep(delay)
+
+    this.data.set(name, VisibilityController.VISIBLE)
+    ModuleLogger.verbose('VisibilityController', 'hide', `The key ${name} is visible.`)
   }
 
   /**
    * Shows name if it's hidden or hides it if it's shown.
    */
-  static toggle(name: string, delay: number = 0): void {
-    if (VisibilityController.isHidden(name)) {
-      return VisibilityController.show(name, delay)
+  async toggle(name: string, delay: number = 0): Promise<void> {
+    if (this.isHidden(name)) {
+      return this.show(name, delay)
     }
 
-    return VisibilityController.hide(name, delay)
+    return this.hide(name, delay)
   }
 
-  private static get(name: string): number {
-    return VisibilityController.data.get(name) || VisibilityController.HIDDEN
+  clear(): void {
+    this.data.clear()
+    ModuleLogger.verbose('VisibilityController', 'clear', `The data has been cleared.`)
+  }
+
+  private get(name: string): string {
+    return this.data.get(name) ?? VisibilityController.HIDDEN
   }
 
   /**
    * Checks if name is HIDDEN.
    */
-  static isHidden(name: string): boolean {
-    return VisibilityController.get(name) === VisibilityController.HIDDEN
+  isHidden(name: string): boolean {
+    return this.get(name) === VisibilityController.HIDDEN
   }
 
   /**
    * Checks if name is HIDING.
    */
-  static isHiding(name: string): boolean {
-    return VisibilityController.get(name) === VisibilityController.HIDING
+  isHiding(name: string): boolean {
+    return this.get(name) === VisibilityController.HIDING
   }
 
   /**
    * Checks if name is SHOWING.
    */
-  static isShowing(name: string): boolean {
-    return VisibilityController.get(name) === VisibilityController.SHOWING
+  isShowing(name: string): boolean {
+    return this.get(name) === VisibilityController.SHOWING
   }
 
   /**
    * Checks if name is VISIBLE.
    */
-  static isVisible(name: string): boolean {
-    return VisibilityController.get(name) === VisibilityController.VISIBLE
+  isVisible(name: string): boolean {
+    return this.get(name) === VisibilityController.VISIBLE
   }
 
-  static get hasHidden(): boolean {
-    return [...VisibilityController.data.values()].includes(VisibilityController.HIDDEN)
+  get hasHidden(): boolean {
+    return [...this.data.values()].includes(VisibilityController.HIDDEN)
   }
 
-  static get hasHiding(): boolean {
-    return [...VisibilityController.data.values()].includes(VisibilityController.HIDING)
+  get hasHiding(): boolean {
+    return [...this.data.values()].includes(VisibilityController.HIDING)
   }
 
-  static get hasShowing(): boolean {
-    return [...VisibilityController.data.values()].includes(VisibilityController.SHOWING)
+  get hasShowing(): boolean {
+    return [...this.data.values()].includes(VisibilityController.SHOWING)
   }
 
-  static get hasVisible(): boolean {
-    return [...VisibilityController.data.values()].includes(VisibilityController.VISIBLE)
+  get hasVisible(): boolean {
+    return [...this.data.values()].includes(VisibilityController.VISIBLE)
   }
 
-  private static get HIDDEN(): number {
-    return 0
+  private static get HIDDEN(): string {
+    return 'HIDDEN'
   }
 
-  private static get HIDING(): number {
-    return 1
+  private static get HIDING(): string {
+    return 'HIDING'
   }
 
-  private static get SHOWING(): number {
-    return 2
+  private static get SHOWING(): string {
+    return 'SHOWING'
   }
 
-  private static get VISIBLE(): number {
-    return 3
+  private static get VISIBLE(): string {
+    return 'VISIBLE'
   }
 }

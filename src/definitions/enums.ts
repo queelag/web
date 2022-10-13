@@ -100,8 +100,19 @@ export enum ElementName {
   NAVIGATION_RAIL = 'navigation_rail',
   NAVIGATION_RAIL_ITEM = 'navigation_rail_item',
 
+  RADIO_BUTTON = 'radio_button',
+  RADIO_GROUP = 'radio_group',
+
   SELECT = 'select',
+  SELECT_BUTTON = 'select_button',
+  SELECT_GROUP = 'select_group',
+  SELECT_INPUT = 'select_input',
+  SELECT_LIST = 'select_list',
+  SELECT_OPTION = 'select_option',
+
   SLIDER = 'slider',
+  SLIDER_THUMB = 'slider_thumb',
+
   SQUIRCLE = 'squircle',
   TEXTAREA = 'textarea'
 }
