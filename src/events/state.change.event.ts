@@ -4,8 +4,8 @@ interface Detail<T> {
   value: T | null
 }
 
-export class StateChangedEvent<T> extends CustomEvent<Detail<T>> {
+export class StateChangeEvent<T> extends CustomEvent<Detail<T>> {
   constructor(name: string, old: T | null, value: T | null) {
-    super('state-changed', { detail: { name, old, value } })
+    super('state-change', { detail: { name, old, value } })
   }
 }

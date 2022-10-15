@@ -27,6 +27,16 @@ export function setElementAttribute<T extends Element>(element: T, name: string,
   element.setAttribute(name, value)
 }
 
+export function setElementAttributes<T extends Element>(element: T, attributes: Record<string, ElementAttributeValue>): void {
+  for (let name in attributes) {
+    setElementAttribute(element, name, attributes[name])
+  }
+}
+
+export function removeElementAttribute<T extends Element>(element: T, name: string): void {
+  return element.removeAttribute(name)
+}
+
 export function setImmutableElementAttribute<T extends Element>(element: T, name: string, value: ElementAttributeValue): void {
   if (typeof element !== 'object') {
     return
@@ -38,6 +48,12 @@ export function setImmutableElementAttribute<T extends Element>(element: T, name
 
   Object.defineProperty(element, name, { configurable: true, enumerable: false, get: () => value, set: () => undefined })
   element.setAttribute(name, value)
+}
+
+export function setImmutableElementAttributes<T extends Element>(element: T, attributes: Record<string, ElementAttributeValue>): void {
+  for (let name in attributes) {
+    setImmutableElementAttribute(element, name, attributes[name])
+  }
 }
 
 export function removeImmutableElementAttribute<T extends Element>(element: T, name: string): void {

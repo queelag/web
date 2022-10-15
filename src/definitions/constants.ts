@@ -1,6 +1,6 @@
 import { IDGenerateOptions, ID_ALPHABET_HEX_LOWERCASE } from '@queelag/core'
 import { IconElementSanitizeConfig } from './interfaces'
-import { Orientation } from './types'
+import { InputElementType, Orientation } from './types'
 
 /**
  * AriaCarouselElement
@@ -8,7 +8,14 @@ import { Orientation } from './types'
 export const DEFAULT_CAROUSEL_ROTATION_DURATION: number = 2500
 
 /**
- * AriaSliderElement, SliderElement
+ * AriaMeterElement and MeterElement
+ */
+export const DEFAULT_METER_MAX: number = 1
+export const DEFAULT_METER_MIN: number = 0
+export const DEFAULT_METER_VALUE: number = 0
+
+/**
+ * AriaSliderElement and SliderElement
  */
 export const DEFAULT_SLIDER_DECIMALS: number = 0
 export const DEFAULT_SLIDER_MAX: number = 100
@@ -44,6 +51,11 @@ export const CACHE_IMAGES: Map<string, string> = new Map()
 export const DEFAULT_IMAGE_SIZE: string = '100%'
 export const DEFAULT_IMAGE_SRC: string = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
 export const FETCHING_IMAGES: Set<string> = new Set()
+
+/**
+ * InputElement
+ */
+export const DEFAULT_INPUT_TYPE: InputElementType = 'text'
 
 /**
  * Squircle
