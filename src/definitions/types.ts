@@ -53,6 +53,7 @@ export type FocusTrapDisplayCheck = 'full' | 'legacy-full' | 'non-zero-area' | '
 export type FocusTrapEscapeDeactivates = boolean | KeyboardEventToBoolean
 export type FocusTrapGetShadowRoot = boolean | ((node: HTMLElement | SVGElement) => ShadowRoot | boolean | undefined)
 export type FocusTrapSetReturnFocus = FocusTargetValueOrFalse | ((nodeFocusedBeforeActivation: HTMLElement | SVGElement) => FocusTargetValueOrFalse)
+export type FocusTrapElementState = 'activating' | 'activated' | 'deactivating' | 'deactivated'
 
 export type FormFieldElementSchema = Struct<any, any> | undefined
 export type FormFieldElementTarget = Record<PropertyKey, any>
@@ -64,7 +65,7 @@ export type ImageElementCacheType = CanvasDataURLType
 export type ImageElementCrossOrigin = 'anonymous' | 'use-credentials'
 export type ImageElementStatus = 'idle' | 'fetching' | 'loaded' | 'error'
 
-export type InputElementTouchTrigger = 'blur' | 'change'
+export type InputElementTouchTrigger = 'blur' | 'input'
 
 export type InputElementType =
   | 'buffer'
