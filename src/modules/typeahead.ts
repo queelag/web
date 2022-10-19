@@ -1,15 +1,15 @@
 import { debounce, ID } from '@queelag/core'
 import { DEFAULT_TYPEAHEAD_DEBOUNCE_TIME } from '../definitions/constants'
+import { TypeaheadOptions } from '../definitions/interfaces'
+import { TypeaheadOnMatch, TypeaheadPredicate } from '../definitions/types'
 import { ElementLogger } from '../loggers/element.logger'
 
-type OnMatch<T extends HTMLElement> = (element: T) => any
-
-export class Typeahead<T extends HTMLElement> {
+export class Typeahead<T> {
   private debounceID: string
   debounceTime: number
   value: string
 
-  constructor(onMatch: OnMatch<T>, debounceTime: number = DEFAULT_TYPEAHEAD_DEBOUNCE_TIME) {
+  constructor(onMatch: TypeaheadOnMatch<T>, debounceTime: number = DEFAULT_TYPEAHEAD_DEBOUNCE_TIME) {
     this.debounceID = ID.generate()
     this.debounceTime = debounceTime
     this.value = ''
@@ -17,9 +17,9 @@ export class Typeahead<T extends HTMLElement> {
     this.onMatch = onMatch
   }
 
-  onMatch(element: T): any {}
+  onMatch(item: T): any {}
 
-  handle(event: KeyboardEvent, elements: T[], debounceTime: number = this.debounceTime): void {
+  handle(event: KeyboardEvent, items: T[], predicate: TypeaheadPredicate<T>, options?: TypeaheadOptions<T>): void {
     let match: T | undefined
 
     if (event.key.length > 1) {
@@ -32,22 +32,16 @@ export class Typeahead<T extends HTMLElement> {
     this.value += event.key
     ElementLogger.verbose('Typeahead', 'handle', `The typeahead value has been updated.`, [event.key, this.value])
 
-    /**
-     * REFACTOR TO NOT USE INNERTEXT
-     */
-    match = elements.find((element: T) => element.innerText.toLowerCase().trim().startsWith(this.value.charAt(0).toLowerCase().trim()))
+    match = items.find((item: T, index: number, items: T[]) => predicate(item, this.value, index, items))
     if (match) this.onMatch(match)
 
-    debounce(this.debounceID, () => this.debouncefn(elements), debounceTime)
+    debounce(this.debounceID, () => this.debouncefn(items, predicate), options?.debounceTime ?? DEFAULT_TYPEAHEAD_DEBOUNCE_TIME)
   }
 
-  private debouncefn(elements: T[]): void {
+  private debouncefn(items: T[], predicate: TypeaheadPredicate<T>): void {
     let match: T | undefined
 
-    /**
-     * REFACTOR TO NOT USE INNERTEXT
-     */
-    match = elements.find((element: T) => element.innerText.toLowerCase().trim().startsWith(this.value.toLowerCase().trim()))
+    match = items.find((item: T, index: number, items: T[]) => predicate(item, this.value, index, items))
     if (match) this.onMatch(match)
 
     this.value = ''

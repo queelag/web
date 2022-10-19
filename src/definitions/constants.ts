@@ -1,11 +1,35 @@
 import { IDGenerateOptions, ID_ALPHABET_HEX_LOWERCASE } from '@queelag/core'
 import { IconElementSanitizeConfig } from './interfaces'
-import { InputElementType, Orientation } from './types'
+import { InputElementType, Orientation, TypeaheadPredicate } from './types'
 
 /**
  * AriaCarouselElement
  */
 export const DEFAULT_CAROUSEL_ROTATION_DURATION: number = 2500
+
+/**
+ * AriaComboBoxElement and SelectElement
+ */
+export const DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ value?: any }> = (element: { value?: any }, value: string) =>
+  String(element.value).toLowerCase().includes(value.toLowerCase().trim())
+
+/**
+ * AriaListBoxElement
+ */
+export const DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ value?: any }> = (element: { value?: any }, value: string) =>
+  String(element.value).toLowerCase().includes(value.toLowerCase().trim())
+
+/**
+ * AriaMenuElement
+ */
+export const DEFAULT_MENU_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ label?: any }> = (element: { label?: any }, value: string) =>
+  String(element.label).toLowerCase().includes(value.toLowerCase().trim())
+
+/**
+ * AriaMenuBarElement
+ */
+export const DEFAULT_MENUBAR_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ label?: any }> = (element: { label?: any }, value: string) =>
+  String(element.label).toLowerCase().includes(value.toLowerCase().trim())
 
 /**
  * AriaMeterElement and MeterElement
