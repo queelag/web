@@ -58,12 +58,8 @@ export enum ElementName {
   ARIA_MENU = 'aria_menu',
   ARIA_MENU_BUTTON = 'aria_menu_button',
   ARIA_MENU_ITEM = 'aria_menu_item',
-  ARIA_MENU_LIST = 'aria_menu_list',
-
-  ARIA_MENUBAR = 'aria_menubar',
-  ARIA_MENUBAR_ITEM = 'aria_menubar_item',
-  ARIA_MENUBAR_SUBMENU = 'aria_menubar_submenu',
-  ARIA_MENUBAR_SUBMENU_ITEM = 'aria_menubar_submenu_item',
+  ARIA_MENU_SUBMENU = 'aria_menu_submenu',
+  ARIA_MENU_SUBMENU_ITEM = 'aria_menu_submenu_item',
 
   ARIA_RADIO_BUTTON = 'aria_radio_button',
   ARIA_RADIO_GROUP = 'aria_radio_group',

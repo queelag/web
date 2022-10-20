@@ -26,12 +26,6 @@ export const DEFAULT_MENU_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ label?: any 
   String(element.label).toLowerCase().includes(value.toLowerCase().trim())
 
 /**
- * AriaMenuBarElement
- */
-export const DEFAULT_MENUBAR_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ label?: any }> = (element: { label?: any }, value: string) =>
-  String(element.label).toLowerCase().includes(value.toLowerCase().trim())
-
-/**
  * AriaMeterElement and MeterElement
  */
 export const DEFAULT_METER_MAX: number = 1

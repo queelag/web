@@ -151,25 +151,14 @@ export interface AriaListBoxOptionElementAttributes extends BaseElementAttribute
   selected?: boolean
 }
 
-export interface AriaMenuElementAttributes extends BaseElementAttributes {
-  expanded?: boolean
-  // navigation?: boolean
-}
-
+export interface AriaMenuElementAttributes extends BaseElementAttributes {}
 export interface AriaMenuButtonElementAttributes extends BaseElementAttributes {}
-export interface AriaMenuListElementAttributes extends FloatingElementAttributes {}
 
 export interface AriaMenuItemElementAttributes extends BaseElementAttributes {
-  active?: boolean
-}
-
-export interface AriaMenuBarElementAttributes extends BaseElementAttributes {}
-
-export interface AriaMenuBarItemElementAttributes extends BaseElementAttributes {
   focused?: boolean
 }
 
-export interface AriaMenuBarSubMenuElementAttributes extends FloatingElementAttributes {
+export interface AriaMenuSubMenuElementAttributes extends FloatingElementAttributes {
   expanded?: boolean
 }
 
