@@ -1,3 +1,5 @@
+import { IsomorphicEvent } from './isomorphic.event'
+
 interface Detail {
   percentage: number
   percentages: number[]
@@ -5,7 +7,7 @@ interface Detail {
   values: number[]
 }
 
-export class AriaSliderChangeEvent extends CustomEvent<Detail> {
+export class AriaSliderChangeEvent extends IsomorphicEvent<Detail> {
   constructor(values: number[], percentages: number[]) {
     super('slider-change', { detail: { percentage: percentages[0], percentages, value: values[0], values } })
   }
