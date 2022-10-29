@@ -22,6 +22,7 @@ export const DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ value?: a
 /**
  * AriaMenuElement
  */
+export const DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME: number = 200
 export const DEFAULT_MENU_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ label?: any }> = (element: { label?: any }, value: string) =>
   String(element.label).toLowerCase().includes(value.toLowerCase().trim())
 
