@@ -58,7 +58,7 @@ export interface AriaAlertDialogLabelElementAttributes extends AriaDialogLabelEl
 export interface AriaBreadcrumbElementAttributes extends BaseElementAttributes {}
 export interface AriaBreadcrumbListElementAttributes extends BaseElementAttributes {}
 
-export interface AriaBreadcrumbListItemElementAttributes extends BaseElementAttributes {
+export interface AriaBreadcrumbItemElementAttributes extends BaseElementAttributes {
   current?: boolean
 }
 

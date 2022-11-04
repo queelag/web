@@ -14,7 +14,7 @@ export enum ElementName {
   ARIA_BREADCRUMB = 'aria_breadcrumb',
   ARIA_BREADCRUMB_ANCHOR = 'aria_breadcrumb_anchor',
   ARIA_BREADCRUMB_LIST = 'aria_breadcrumb_list',
-  ARIA_BREADCRUMB_LIST_ITEM = 'aria_breadcrumb_list_item',
+  ARIA_BREADCRUMB_ITEM = 'aria_breadcrumb_list_item',
 
   ARIA_BUTTON = 'aria_button',
 
@@ -76,11 +76,53 @@ export enum ElementName {
   ARIA_TOOLTIP_CONTENT = 'aria_tooltip_content',
   ARIA_TOOLTIP_TRIGGER = 'aria_tooltip_trigger',
 
+  ACCORDION = 'accordion',
+  ACCORDION_BUTTON = 'accordion_button',
+  ACCORDION_HEADER = 'accordion_header',
+  ACCORDION_PANEL = 'accordion_panel',
+  ACCORDION_SECTION = 'accordion_section',
+
+  ALERT = 'alert',
+
+  ALERT_DIALOG = 'alert_dialog',
+  ALERT_DIALOG_DESCRIPTION = 'alert_dialog_description',
+  ALERT_DIALOG_LABEL = 'alert_dialog_label',
+
   AVATAR = 'avatar',
   BUTTON = 'button',
   BUTTON_GROUP = 'button_group',
+
+  BREADCRUMB = 'breadcrumb',
+  BREADCRUMB_ANCHOR = 'breadcrumb_anchor',
+  BREADCRUMB_LIST = 'breadcrumb_list',
+  BREADCRUMB_ITEM = 'breadcrumb_list_item',
+
+  CAROUSEL = 'carousel',
+  CAROUSEL_NEXT_SLIDE_CONTROL = 'carousel_next_slide_control',
+  CAROUSEL_PREVIOUS_SLIDE_CONTROL = 'carousel_previous_slide_control',
+  CAROUSEL_ROTATION_CONTROL = 'carousel_rotation_control',
+  CAROUSEL_SLIDE = 'carousel_slide',
+  CAROUSEL_SLIDES = 'carousel_slides',
+  CAROUSEL_TABS = 'carousel_tabs',
+  CAROUSEL_TAB = 'carousel_tab',
+
   CHECKBOX = 'checkbox',
   CHIP = 'chip',
+
+  DIALOG = 'dialog',
+  DIALOG_DESCRIPTION = 'dialog_description',
+  DIALOG_LABEL = 'dialog_label',
+
+  DISCLOSURE = 'disclosure',
+  DISCLOSURE_BUTTON = 'disclosure_button',
+  DISCLOSURE_PANEL = 'disclosure_panel',
+  DISCLOSURE_SECTION = 'disclosure_section',
+
+  FEED = 'feed',
+  FEED_ARTICLE = 'feed_article',
+  FEED_ARTICLE_DESCRIPTION = 'feed_article_description',
+  FEED_ARTICLE_LABEL = 'feed_article_label',
+
   FOCUS_TRAP = 'focus_trap',
   FORM = 'form',
   ICON = 'icon',
@@ -89,6 +131,12 @@ export enum ElementName {
   INPUT_FILE = 'input_file',
   LIST = 'list',
   LIST_ITEM = 'list-item',
+
+  MENU = 'menu',
+  MENU_BUTTON = 'menu_button',
+  MENU_ITEM = 'menu_item',
+  MENU_SUBMENU = 'menu_submenu',
+  MENU_SUBMENU_ITEM = 'menu_submenu_item',
 
   NAVIGATION_BAR = 'navigation_bar',
   NAVIGATION_BAR_ITEM = 'navigation_bar_item',
@@ -110,7 +158,17 @@ export enum ElementName {
   SLIDER_THUMB = 'slider_thumb',
 
   SQUIRCLE = 'squircle',
-  TEXTAREA = 'textarea'
+
+  TABS = 'tabs',
+  TABS_PANEL = 'tabs_panel',
+  TABS_TAB = 'tabs_tab',
+
+  TEXTAREA = 'textarea',
+
+  TOOLTIP = 'tooltip',
+  TOOLTIP_ARROW = 'tooltip_arrow',
+  TOOLTIP_CONTENT = 'tooltip_content',
+  TOOLTIP_TRIGGER = 'tooltip_trigger'
 }
 
 export enum KeyboardEventKey {
