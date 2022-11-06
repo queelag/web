@@ -3,7 +3,7 @@
   "devDependencies": {
     "@floating-ui/dom": "^1.0.4",
     "@microsoft/api-extractor": "^7.33.5",
-    "@queelag/core": "^1.1.10",
+    "@queelag/core": "^1.1.12",
     "@rollup/plugin-strip": "^3.0.1",
     "@rollup/plugin-typescript": "^9.0.2",
     "@types/dompurify": "^2.3.4",
@@ -26,10 +26,7 @@
   "module": "index.js",
   "name": "@queelag/web",
   "peerDependencies": {
-    "@queelag/core": ">= 1.1.0"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "@queelag/core": ">= 1.1.12"
   },
   "repository": "https://github.com/queelag/web",
   "scripts": {
