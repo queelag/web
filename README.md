@@ -12,6 +12,7 @@
 # Queelag Web
 
 This library contains a collection of modules and utilities to make your web development experience smoother.
+
 It is strictly related to the web-components library and contains everything except the elements, this separation was done for two reasons, context and the fact that lit elements must be bundled as ESM.
 
 ### Documentation
