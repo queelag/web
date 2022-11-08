@@ -333,9 +333,9 @@ export interface ChipElementAttributes extends BaseElementAttributes {
 }
 
 export interface FeedElementAttributes extends AriaFeedElementAttributes {}
-export interface FeedElementArticleAttributes extends AriaFeedArticleElementAttributes {}
-export interface FeedElementArticleDescriptionAttributes extends AriaFeedArticleDescriptionElementAttributes {}
-export interface FeedElementArticleLabelAttributes extends AriaFeedArticleLabelElementAttributes {}
+export interface FeedArticleElementAttributes extends AriaFeedArticleElementAttributes {}
+export interface FeedArticleDescriptionElementAttributes extends AriaFeedArticleDescriptionElementAttributes {}
+export interface FeedArticleLabelElementAttributes extends AriaFeedArticleLabelElementAttributes {}
 
 export interface IconElementAttributes extends BaseElementAttributes {
   cache?: boolean
