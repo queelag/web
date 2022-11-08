@@ -1,8 +1,8 @@
 import type { FocusTargetValueOrFalse, KeyboardEventToBoolean, MouseEventToBoolean } from 'focus-trap'
 import type { Struct, StructError } from 'superstruct'
 
-export type AriaAlertSeverity = 'error' | 'info' | 'success' | 'warning'
-export type AriaAlertVariant = 'fill' | 'fill-tonal' | 'opacity' | 'outline' | 'text'
+export type AlertSeverity = 'error' | 'info' | 'success' | 'warning'
+export type AlertVariant = 'fill' | 'fill-tonal' | 'opacity' | 'outline' | 'text'
 export type AriaComboBoxElementAutoComplete = 'none' | 'inline' | 'list' | 'both'
 export type AriaLive = 'off' | 'polite' | 'assertive'
 
