@@ -462,12 +462,12 @@ export interface SelectElementAttributes<T> extends AriaComboBoxElementAttribute
   value?: any | any[]
 }
 
-export interface SelectElementButtonAttributes extends AriaComboBoxButtonElementAttributes {}
-export interface SelectElementGroupAttributes extends AriaComboBoxGroupElementAttributes {}
-export interface SelectElementInputAttributes extends AriaComboBoxInputElementAttributes {}
-export interface SelectElementListAttributes extends AriaComboBoxListElementAttributes {}
+export interface SelectButtonElementAttributes extends AriaComboBoxButtonElementAttributes {}
+export interface SelectGroupElementAttributes extends AriaComboBoxGroupElementAttributes {}
+export interface SelectInputElementAttributes extends AriaComboBoxInputElementAttributes {}
+export interface SelectListElementAttributes extends AriaComboBoxListElementAttributes {}
 
-export interface SelectElementOptionAttributes extends AriaComboBoxOptionElementAttributes {
+export interface SelectOptionElementAttributes extends AriaComboBoxOptionElementAttributes {
   label?: string
 }
 
