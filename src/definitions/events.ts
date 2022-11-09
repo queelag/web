@@ -168,6 +168,7 @@ export interface ButtonGroupElementEventMap extends BaseElementEventMap {}
 export interface CheckBoxElementEventMap extends AriaCheckBoxElementEventMap {}
 export interface FormElementEventMap extends BaseElementEventMap {}
 export interface InputElementEventMap extends FormFieldElementEventMap {}
+export interface InputFileElementEventMap extends FormFieldElementEventMap {}
 
 export interface RadioButtonElementEventMap extends AriaRadioButtonElementEventMap {}
 export interface RadioGroupElementEventMap extends AriaRadioGroupElementEventMap {}
