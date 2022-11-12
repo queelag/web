@@ -1,4 +1,13 @@
+import { tc } from '@queelag/core'
 import { ElementAttributeValue } from '../definitions/types'
+
+export function defineCustomElement(name: string, constructor: CustomElementConstructor, options?: ElementDefinitionOptions): void | Error {
+  if (typeof customElements.get(name) !== 'undefined') {
+    return
+  }
+
+  return tc(() => customElements.define(name, constructor, options))
+}
 
 export function joinElementClasses(...classes: any[]): string {
   return classes.filter(Boolean).join(' ')
