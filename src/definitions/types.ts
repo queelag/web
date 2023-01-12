@@ -87,7 +87,7 @@ export type InputElementValue = Date | number | string | string[] | Uint8Array |
 
 export type Layer = 0 | 1 | 2 | 3
 export type Orientation = 'horizontal' | 'vertical'
-export type Shape = 'circle' | 'rectangle' | 'square' | 'squircle'
+export type Shape = 'circle' | 'pill' | 'rectangle' | 'square' | 'squircle'
 export type Size = 'small' | 'medium' | 'large' | string | number
 
 export type TextAreaElementTouchTrigger = InputElementTouchTrigger

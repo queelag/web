@@ -1,4 +1,5 @@
 import type { AttributeChangeEvent } from '../events/attribute.change.event'
+import type { FormSubmitEvent } from '../events/form.submit.event'
 import type { StateChangeEvent } from '../events/state.change.event'
 
 /**
@@ -166,7 +167,11 @@ export interface MeterElementEventMap extends AriaMeterElementEventMap {}
 export interface ButtonElementEventMap extends AriaButtonElementEventMap {}
 export interface ButtonGroupElementEventMap extends BaseElementEventMap {}
 export interface CheckBoxElementEventMap extends AriaCheckBoxElementEventMap {}
-export interface FormElementEventMap extends BaseElementEventMap {}
+
+export interface FormElementEventMap extends BaseElementEventMap {
+  'form-submit': FormSubmitEvent
+}
+
 export interface InputElementEventMap extends FormFieldElementEventMap {}
 export interface InputFileElementEventMap extends FormFieldElementEventMap {}
 
