@@ -1,4 +1,4 @@
-import { Environment, isNotError, noop, Storage } from '@queelag/core'
+import { Environment, isNotError, noop, Storage } from '@aracna/core'
 import { StorageName } from '../definitions/enums'
 import { Theme } from '../definitions/types'
 import { ModuleLogger } from '../loggers/module.logger'

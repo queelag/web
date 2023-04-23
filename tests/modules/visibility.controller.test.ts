@@ -1,4 +1,4 @@
-import { sleep } from '@queelag/core'
+import { sleep } from '@aracna/core'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { VisibilityController } from '../../src'
 

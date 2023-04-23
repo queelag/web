@@ -1,4 +1,4 @@
-import { DeferredPromise } from '@queelag/core'
+import { DeferredPromise } from '@aracna/core'
 import { CACHE_IMAGES } from '../definitions/constants'
 import { GetImageElementBase64Options } from '../definitions/interfaces'
 import { UtilLogger } from '../loggers/util.logger'

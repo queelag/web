@@ -1,4 +1,4 @@
-import { Cookie } from '@queelag/core'
+import { Cookie } from '@aracna/core'
 
 /**
  * A module to handle document.cookie CRUD operations.

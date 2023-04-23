@@ -1,4 +1,4 @@
-import { getNumberPercentage, toFixedNumber } from '@queelag/core'
+import { getNumberPercentage, toFixedNumber } from '@aracna/core'
 import {
   DEFAULT_SLIDER_DECIMALS,
   DEFAULT_SLIDER_MAX,

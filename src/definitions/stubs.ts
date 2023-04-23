@@ -1,4 +1,4 @@
-import { STUB_COOKIE_GET, STUB_COOKIE_SET, STUB_STORAGE } from '@queelag/core'
+import { STUB_COOKIE_GET, STUB_COOKIE_SET, STUB_STORAGE } from '@aracna/core'
 
 export class StubEvent implements Event {
   readonly bubbles: boolean
@@ -48,10 +48,10 @@ export class StubEvent implements Event {
   stopImmediatePropagation(): void {}
   stopPropagation(): void {}
 
-  readonly AT_TARGET: number
-  readonly BUBBLING_PHASE: number
-  readonly CAPTURING_PHASE: number
-  readonly NONE: number
+  readonly AT_TARGET: 2
+  readonly BUBBLING_PHASE: 3
+  readonly CAPTURING_PHASE: 1
+  readonly NONE: 0
 }
 
 export const STUB_DOCUMENT_COOKIE_MAP: Map<string, string> = new Map()

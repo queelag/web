@@ -1,4 +1,4 @@
-import { DeferredPromise, Interval, isStringJSON, noop, tc } from '@queelag/core'
+import { DeferredPromise, Interval, isStringJSON, noop, tc } from '@aracna/core'
 import { WebSocketEventData } from '../definitions/types'
 import { ModuleLogger } from '../loggers/module.logger'
 

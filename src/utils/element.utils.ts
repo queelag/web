@@ -1,4 +1,4 @@
-import { tc } from '@queelag/core'
+import { tc } from '@aracna/core'
 import { ElementAttributeValue } from '../definitions/types'
 
 export function defineCustomElement(name: string, constructor: CustomElementConstructor, options?: ElementDefinitionOptions): void | Error {

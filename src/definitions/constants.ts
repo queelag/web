@@ -1,4 +1,4 @@
-import { IDGenerateOptions, ID_ALPHABET_HEX_LOWERCASE } from '@queelag/core'
+import { IDGenerateOptions, ID_ALPHABET_HEX_LOWERCASE } from '@aracna/core'
 import { IconElementSanitizeConfig } from './interfaces'
 import { InputElementType, Orientation, TypeaheadPredicate } from './types'
 

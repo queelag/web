@@ -1,4 +1,4 @@
-import { Environment, Storage, StorageItem } from '@queelag/core'
+import { Environment, Storage, StorageItem } from '@aracna/core'
 
 /**
  * A module to handle local storage operations through a store.

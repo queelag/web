@@ -1,4 +1,4 @@
-import { sleep } from '@queelag/core'
+import { sleep } from '@aracna/core'
 import { ModuleLogger } from '../loggers/module.logger'
 
 export class VisibilityController {
