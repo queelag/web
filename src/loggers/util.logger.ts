@@ -1,4 +1,4 @@
-import { Logger, LoggerLevel } from '@aracna/core'
+import { Logger } from '@aracna/core'
 import { LoggerName } from '../definitions/enums'
 
-export const UtilLogger: Logger = new Logger(LoggerName.UTIL, LoggerLevel.VERBOSE)
+export const UtilLogger: Logger = new Logger(LoggerName.UTIL)
