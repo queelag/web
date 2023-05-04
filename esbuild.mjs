@@ -15,7 +15,6 @@ build({
   entryPoints: await glob('./src/**/*.ts'),
   format: 'esm',
   outdir: 'dist',
-  outExtension: { '.js': '.mjs' },
   packages: 'external',
   platform: 'neutral'
 }).catch(() => process.exit(1))
