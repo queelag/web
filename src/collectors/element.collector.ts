@@ -1,4 +1,4 @@
-import { BaseElement } from '../definitions/elements'
+import { BaseElement } from '../definitions/elements.js'
 
 export class ElementCollector {
   private static mapByID: Map<string, any> = new Map()

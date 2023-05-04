@@ -1,4 +1,5 @@
 import type { FocusTargetValueOrFalse, KeyboardEventToBoolean, MouseEventToBoolean } from 'focus-trap'
+// @ts-ignore
 import type { Struct, StructError } from 'superstruct'
 
 export type AlertSeverity = 'error' | 'info' | 'success' | 'warning'

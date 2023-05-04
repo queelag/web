@@ -1,4 +1,4 @@
-import { StubEvent } from '../definitions/stubs'
+import { StubEvent } from '../definitions/stubs.js'
 
 if (typeof Event !== 'function') {
   global.Event = StubEvent as typeof Event

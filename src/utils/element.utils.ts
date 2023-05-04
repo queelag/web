@@ -1,5 +1,5 @@
 import { tc } from '@aracna/core'
-import { ElementAttributeValue } from '../definitions/types'
+import { ElementAttributeValue } from '../definitions/types.js'
 
 export function defineCustomElement(name: string, constructor: CustomElementConstructor, options?: ElementDefinitionOptions): void | Error {
   return tc(() => customElements.define(name, constructor, options), false)

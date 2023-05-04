@@ -19,6 +19,13 @@
     "typescript": "latest",
     "vitest": "latest"
   },
+  "exports": {
+    "import": "./index.js",
+    "require": {
+      "default": "./index.cjs",
+      "types": "./index.d.ts"
+    }
+  },
   "license": "MIT",
   "main": "index.cjs",
   "module": "index.js",
@@ -34,5 +41,6 @@
     "deploy": "yarn test && yarn build && yarn tarball && yarn publish dist/*.tgz --access public"
   },
   "sideEffects": false,
+  "type": "module",
   "version": "1.0.22"
 }

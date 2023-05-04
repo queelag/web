@@ -1,5 +1,5 @@
 import type { Config as SanitizeConfig } from 'dompurify'
-import { CanvasDataURLType, TypeaheadPredicate } from './types'
+import { CanvasDataURLType, TypeaheadPredicate } from './types.js'
 
 export interface GetImageElementBase64Options {
   quality?: number

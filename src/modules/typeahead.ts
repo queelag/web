@@ -1,8 +1,8 @@
 import { debounce, ID } from '@aracna/core'
-import { DEFAULT_TYPEAHEAD_DEBOUNCE_TIME } from '../definitions/constants'
-import { TypeaheadOptions } from '../definitions/interfaces'
-import { TypeaheadOnMatch, TypeaheadPredicate } from '../definitions/types'
-import { ElementLogger } from '../loggers/element.logger'
+import { DEFAULT_TYPEAHEAD_DEBOUNCE_TIME } from '../definitions/constants.js'
+import { TypeaheadOptions } from '../definitions/interfaces.js'
+import { TypeaheadOnMatch, TypeaheadPredicate } from '../definitions/types.js'
+import { ElementLogger } from '../loggers/element.logger.js'
 
 export class Typeahead<T> {
   private debounceID: string

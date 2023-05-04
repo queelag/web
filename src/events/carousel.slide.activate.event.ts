@@ -1,4 +1,4 @@
-import { IsomorphicEvent } from './isomorphic.event'
+import { IsomorphicEvent } from './isomorphic.event.js'
 
 interface Detail<T extends HTMLElement> {
   element: T

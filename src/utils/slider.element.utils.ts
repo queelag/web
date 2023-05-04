@@ -5,8 +5,8 @@ import {
   DEFAULT_SLIDER_MIN,
   DEFAULT_SLIDER_ORIENTATION,
   DEFAULT_SLIDER_THUMB_VALUE
-} from '../definitions/constants'
-import { Orientation } from '../definitions/types'
+} from '../definitions/constants.js'
+import { Orientation } from '../definitions/types.js'
 
 export function getSliderThumbElementStyleLeft(percentage: number, orientation: Orientation = DEFAULT_SLIDER_ORIENTATION): string {
   if (orientation === 'horizontal') {

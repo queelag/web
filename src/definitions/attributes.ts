@@ -1,6 +1,6 @@
 import type { Middleware, Placement, Platform, Strategy } from '@floating-ui/dom'
 import type { FocusTarget, FocusTargetOrFalse } from 'focus-trap'
-import { IconElementSanitizeConfig, RadioButton, SelectOption } from './interfaces'
+import { IconElementSanitizeConfig, RadioButton, SelectOption } from './interfaces.js'
 import {
   AriaComboBoxElementAutoComplete,
   ButtonPressed,
@@ -28,7 +28,7 @@ import {
   TextAreaElementResize,
   TextAreaElementTouchTrigger,
   TypeaheadPredicate
-} from './types'
+} from './types.js'
 
 /**
  * ARIA Elements

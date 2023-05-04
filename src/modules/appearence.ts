@@ -1,8 +1,8 @@
 import { Environment, isNotError, noop, Storage } from '@aracna/core'
-import { StorageName } from '../definitions/enums'
-import { Theme } from '../definitions/types'
-import { ModuleLogger } from '../loggers/module.logger'
-import { LocalStorage } from './local.storage'
+import { StorageName } from '../definitions/enums.js'
+import { Theme } from '../definitions/types.js'
+import { ModuleLogger } from '../loggers/module.logger.js'
+import { LocalStorage } from './local.storage.js'
 
 export class Appearence {
   storage: Storage
