@@ -20,8 +20,8 @@
     "vitest": "latest"
   },
   "license": "MIT",
-  "main": "index.js",
-  "module": "index.mjs",
+  "main": "index.cjs",
+  "module": "index.js",
   "name": "@aracna/web",
   "peerDependencies": {
     "@aracna/core": ">= 1.1.0"
