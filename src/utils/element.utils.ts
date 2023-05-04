@@ -2,11 +2,7 @@ import { tc } from '@aracna/core'
 import { ElementAttributeValue } from '../definitions/types'
 
 export function defineCustomElement(name: string, constructor: CustomElementConstructor, options?: ElementDefinitionOptions): void | Error {
-  if (typeof customElements.get(name) !== 'undefined') {
-    return
-  }
-
-  return tc(() => customElements.define(name, constructor, options))
+  return tc(() => customElements.define(name, constructor, options), false)
 }
 
 export function joinElementClasses(...classes: any[]): string {

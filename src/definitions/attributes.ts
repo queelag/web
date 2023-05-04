@@ -346,6 +346,8 @@ export interface IconElementAttributes extends BaseElementAttributes {
   src: string
   stroke?: string
   'stroke-width'?: string | number
+  'stroke-linecap'?: string
+  'stroke-linejoin'?: string
 }
 
 export interface ImageElementAttributes extends BaseElementAttributes {
