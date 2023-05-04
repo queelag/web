@@ -4,7 +4,6 @@ import { glob } from 'glob'
 /** @type {import('esbuild').BuildOptions} */
 const OPTIONS = {
   logLevel: 'info',
-  logOverride: { 'import-is-undefined': 'silent' },
   minify: true
 }
 
@@ -26,10 +25,9 @@ build({
  */
 build({
   ...OPTIONS,
-  bundle: true,
-  entryPoints: ['src/index.ts'],
+  entryPoints: await glob('./src/**/*.ts'),
   format: 'cjs',
-  outfile: 'dist/index.js',
+  outdir: 'dist',
   packages: 'external',
   platform: 'neutral'
 }).catch(() => process.exit(1))
