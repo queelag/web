@@ -16,6 +16,7 @@ build({
   entryPoints: await glob('./src/**/*.ts'),
   format: 'esm',
   outdir: 'dist',
+  outExtension: { '.js': '.mjs' },
   packages: 'external',
   platform: 'neutral'
 }).catch(() => process.exit(1))
@@ -28,7 +29,7 @@ build({
   bundle: true,
   entryPoints: ['src/index.ts'],
   format: 'cjs',
-  outfile: 'dist/index.cjs.js',
+  outfile: 'dist/index.js',
   packages: 'external',
   platform: 'neutral'
 }).catch(() => process.exit(1))
