@@ -1,4 +1,4 @@
-import { IsomorphicEvent } from './isomorphic.event.js'
+import { IsomorphicEvent } from './isomorphic-event.js'
 
 interface Detail {
   percentage: number

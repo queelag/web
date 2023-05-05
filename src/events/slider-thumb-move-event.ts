@@ -1,5 +1,5 @@
 import { DEFAULT_SLIDER_THUMB_VALUE } from '../definitions/constants.js'
-import { IsomorphicEvent } from './isomorphic.event.js'
+import { IsomorphicEvent } from './isomorphic-event.js'
 
 interface Detail {
   percentage: number

@@ -1,6 +1,6 @@
 import { DeferredPromise, Interval, isStringJSON, noop, tc } from '@aracna/core'
 import { WebSocketEventData } from '../definitions/types.js'
-import { ModuleLogger } from '../loggers/module.logger.js'
+import { ModuleLogger } from '../loggers/module-logger.js'
 
 /**
  * A module to handle in an easier way web sockets.

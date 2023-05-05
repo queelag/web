@@ -1,6 +1,6 @@
-import type { AttributeChangeEvent } from '../events/attribute.change.event.js'
-import type { FormSubmitEvent } from '../events/form.submit.event.js'
-import type { StateChangeEvent } from '../events/state.change.event.js'
+import type { AttributeChangeEvent } from '../events/attribute-change-event.js'
+import type { FormSubmitEvent } from '../events/form-submit-event.js'
+import type { StateChangeEvent } from '../events/state-change-event.js'
 
 /**
  * ARIA Elements Events

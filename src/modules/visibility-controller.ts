@@ -1,5 +1,5 @@
 import { sleep } from '@aracna/core'
-import { ModuleLogger } from '../loggers/module.logger.js'
+import { ModuleLogger } from '../loggers/module-logger.js'
 
 export class VisibilityController {
   private data: Map<string, string> = new Map()

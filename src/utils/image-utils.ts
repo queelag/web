@@ -1,7 +1,7 @@
 import { DeferredPromise } from '@aracna/core'
 import { CACHE_IMAGES } from '../definitions/constants.js'
 import { GetImageElementBase64Options } from '../definitions/interfaces.js'
-import { UtilLogger } from '../loggers/util.logger.js'
+import { UtilLogger } from '../loggers/util-logger.js'
 
 export function cacheImageElement(image: HTMLImageElement, options?: GetImageElementBase64Options): void {
   CACHE_IMAGES.set(image.src, getImageElementBase64(image, options))

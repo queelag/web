@@ -1,29 +1,31 @@
 {
   "author": "Dario Sechi",
   "devDependencies": {
-    "@aracna/core": "latest",
-    "@floating-ui/dom": "latest",
-    "@microsoft/api-extractor": "latest",
-    "@types/dompurify": "latest",
-    "@types/react": "latest",
-    "@vitest/coverage-c8": "latest",
-    "@vitest/ui": "latest",
-    "esbuild": "latest",
-    "focus-trap": "latest",
-    "glob": "latest",
-    "jsdom": "latest",
-    "prettier": "latest",
-    "superstruct": "latest",
-    "tslib": "latest",
-    "typedoc": "latest",
-    "typescript": "latest",
-    "vitest": "latest"
+    "@aracna/core": "^1.1.25",
+    "@floating-ui/dom": "^1.2.7",
+    "@microsoft/api-extractor": "^7.34.8",
+    "@types/dompurify": "^3.0.2",
+    "@types/react": "^18.2.5",
+    "@vitest/coverage-c8": "^0.31.0",
+    "@vitest/ui": "^0.31.0",
+    "esbuild": "^0.17.18",
+    "focus-trap": "^7.4.0",
+    "glob": "^10.2.2",
+    "jsdom": "^22.0.0",
+    "prettier": "^2.8.8",
+    "superstruct": "^1.0.3",
+    "tslib": "^2.5.0",
+    "typedoc": "^0.24.6",
+    "typescript": "^5.0.4",
+    "vitest": "^0.31.0"
   },
   "exports": {
-    "import": "./index.js",
-    "require": {
-      "default": "./index.cjs.js",
-      "types": "./index.d.ts"
+    ".": {
+      "import": "./index.js",
+      "require": {
+        "default": "./index.cjs.js",
+        "types": "./index.d.ts"
+      }
     }
   },
   "license": "MIT",
