@@ -487,7 +487,7 @@ export interface TextAreaElementAttributes extends FormFieldElementAttributes {
   autosize?: boolean
   cols?: number
   multiple?: boolean
-  padding?: boolean
+  padding?: string
   placeholder?: string
   resize?: TextAreaElementResize
   rows?: number
