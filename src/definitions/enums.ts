@@ -192,7 +192,3 @@ export enum LoggerName {
   MODULE = 'WEB_MODULE',
   UTIL = 'WEB_UTIL'
 }
-
-export enum StorageName {
-  APPEARENCE = 'APPEARENCE'
-}

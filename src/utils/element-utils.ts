@@ -1,12 +1,14 @@
 import { tc } from '@aracna/core'
 import { ElementAttributeValue } from '../definitions/types.js'
+import { getWindowBoundingClientRect } from './window-utils.js'
 
 export function defineCustomElement(name: string, constructor: CustomElementConstructor, options?: ElementDefinitionOptions): void | Error {
-  return tc(() => customElements.define(name, constructor, options), false)
-}
+  let element: CustomElementConstructor | undefined | Error
 
-export function joinElementClasses(...classes: any[]): string {
-  return classes.filter(Boolean).join(' ')
+  element = tc(() => customElements.get(name), false)
+  if (element instanceof Error || !element) return element
+
+  return tc(() => customElements.define(name, constructor, options), false)
 }
 
 export function getElementStyleCompatibleValue(value: any): string | undefined {
@@ -22,6 +24,10 @@ export function getElementStyleCompatibleValue(value: any): string | undefined {
     default:
       return undefined
   }
+}
+
+export function joinElementClasses(...classes: any[]): string {
+  return classes.filter(Boolean).join(' ')
 }
 
 export function setElementAttribute<T extends Element>(element: T, name: string, value: ElementAttributeValue): void {
@@ -74,13 +80,13 @@ export function removeImmutableElementAttribute<T extends Element>(element: T, n
   element.removeAttribute(name)
 }
 
-export function scrollElementIntoView<T extends Element, U extends HTMLElement>(parent: T, element: U, options?: ScrollIntoViewOptions): void {
+export function scrollElementIntoView<T extends Element, U extends HTMLElement>(parent: T | Window, element: U, options?: ScrollIntoViewOptions): void {
   let block: ScrollLogicalPosition, inline: ScrollLogicalPosition, pstyle: DOMRect, estyle: DOMRect, left: number | undefined, top: number | undefined
 
-  block = options?.block || 'center'
-  inline = options?.block || 'center'
+  block = options?.block ?? 'center'
+  inline = options?.block ?? 'center'
 
-  pstyle = parent.getBoundingClientRect()
+  pstyle = parent instanceof Element ? parent.getBoundingClientRect() : getWindowBoundingClientRect()
   estyle = element.getBoundingClientRect()
 
   switch (block) {

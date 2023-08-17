@@ -1,3 +1,4 @@
+import type { TypeaheadPredicate } from '@aracna/core'
 import type { Middleware, Placement, Platform, Strategy } from '@floating-ui/dom'
 import type { FocusTarget, FocusTargetOrFalse } from 'focus-trap'
 import { IconElementSanitizeConfig, RadioButton, SelectOption } from './interfaces.js'
@@ -26,8 +27,7 @@ import {
   Shape,
   Size,
   TextAreaElementResize,
-  TextAreaElementTouchTrigger,
-  TypeaheadPredicate
+  TextAreaElementTouchTrigger
 } from './types.js'
 
 /**

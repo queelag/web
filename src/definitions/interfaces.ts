@@ -1,5 +1,5 @@
 import type { Config as SanitizeConfig } from 'dompurify'
-import { CanvasDataURLType, TypeaheadPredicate } from './types.js'
+import { CanvasDataURLType } from './types.js'
 
 export interface GetImageElementBase64Options {
   quality?: number
@@ -42,9 +42,4 @@ export interface ShapeOptions {
     id?: string
     size?: number
   }
-}
-
-export interface TypeaheadOptions<T> {
-  debounceTime?: number
-  predicate?: TypeaheadPredicate<T>
 }

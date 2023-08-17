@@ -1,6 +1,6 @@
-import { IDGenerateOptions, ID_ALPHABET_HEX_LOWERCASE } from '@aracna/core'
+import { IDGenerateOptions, ID_ALPHABET_HEX_LOWERCASE, TypeaheadPredicate } from '@aracna/core'
 import { IconElementSanitizeConfig } from './interfaces.js'
-import { InputElementType, Orientation, TypeaheadPredicate } from './types.js'
+import { InputElementType, Orientation } from './types.js'
 
 /**
  * AriaCarouselElement
@@ -87,8 +87,3 @@ export const SQUIRCLES_CONTAINER_ID: string = 'squircles'
  * SVG
  */
 export const SVG_NAMESPACE_URI: 'http://www.w3.org/2000/svg' = 'http://www.w3.org/2000/svg'
-
-/**
- * Typeahead
- */
-export const DEFAULT_TYPEAHEAD_DEBOUNCE_TIME: number = 100

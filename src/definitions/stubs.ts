@@ -1,5 +1,53 @@
 import { STUB_COOKIE_GET, STUB_COOKIE_SET, STUB_STORAGE } from '@aracna/core'
 
+export class StubDOMRect implements DOMRect {
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/bottom) */
+  readonly bottom: number
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/height) */
+  readonly height: number
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/left) */
+  readonly left: number
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/right) */
+  readonly right: number
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/top) */
+  readonly top: number
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/width) */
+  readonly width: number
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/x) */
+  readonly x: number
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/y) */
+  readonly y: number
+
+  constructor(x?: number, y?: number, width?: number, height?: number) {
+    this.bottom = 0
+    this.height = height ?? 0
+    this.left = 0
+    this.right = 0
+    this.top = 0
+    this.width = width ?? 0
+    this.x = x ?? 0
+    this.y = y ?? 0
+  }
+
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/fromRect) */
+  fromRect(other?: DOMRectInit): DOMRectReadOnly {
+    return new StubDOMRect(other?.x, other?.y, other?.width, other?.height)
+  }
+
+  toJSON(): any {
+    return {
+      bottom: this.bottom,
+      height: this.height,
+      left: this.left,
+      right: this.right,
+      top: this.top,
+      width: this.width,
+      x: this.x,
+      y: this.y
+    }
+  }
+}
+
 export class StubEvent implements Event {
   readonly bubbles: boolean
   cancelBubble: boolean

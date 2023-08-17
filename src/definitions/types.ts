@@ -95,9 +95,4 @@ export type TextAreaElementTouchTrigger = InputElementTouchTrigger
 export type TextAreaElementValue = string | string[] | undefined
 export type TextAreaElementResize = 'both' | 'horizontal' | 'vertical' | 'none'
 
-export type Theme = 'dark' | 'light' | 'system'
-
-export type TypeaheadOnMatch<T> = (item: T) => any
-export type TypeaheadPredicate<T> = (item: T, value: string, index: number, items: T[]) => unknown
-
 export type WebSocketEventData<T extends object> = T | ArrayBufferLike | ArrayBufferView | Blob | string
