@@ -6,7 +6,11 @@ export function defineCustomElement(name: string, constructor: CustomElementCons
   let element: CustomElementConstructor | undefined | Error
 
   element = tc(() => customElements.get(name), false)
-  if (element instanceof Error || !element) return element
+  if (element instanceof Error) return element
+
+  if (element) {
+    return new Error(`The element ${name} is already defined.`)
+  }
 
   return tc(() => customElements.define(name, constructor, options), false)
 }
