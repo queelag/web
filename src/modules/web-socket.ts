@@ -3,27 +3,13 @@ import { WebSocketEventData } from '../definitions/types.js'
 import { ModuleLogger } from '../loggers/module-logger.js'
 
 /**
- * A module to handle in an easier way web sockets.
- *
  * @category Module
  */
 // istanbul ignore next
-class InternalWebSocket {
-  /**
-   * A {@link WebSocket} instance.
-   */
+class AracnaWebSocket {
   instance: WebSocket
-  /**
-   * A string which determines the name of the web socket.
-   */
   name: string
-  /**
-   * A string or array of strings which determines the protocols of the web socket.
-   */
   protocols: string | string[] | undefined
-  /**
-   * A string which determines the URL of the web socket.
-   */
   url: string
 
   private _onClose: (event: CloseEvent) => any = noop
@@ -51,9 +37,6 @@ class InternalWebSocket {
     this.onOpen = onOpen
   }
 
-  /**
-   * Closes the connection.
-   */
   async close(): Promise<void | Error> {
     let close: void | Error, promise: DeferredPromise<void>
 
@@ -78,9 +61,6 @@ class InternalWebSocket {
     return promise.instance
   }
 
-  /**
-   * Opens the connection.
-   */
   async open(): Promise<void | Error> {
     let socket: WebSocket | Error, promise: DeferredPromise<void>
 
@@ -109,9 +89,6 @@ class InternalWebSocket {
     return promise.instance
   }
 
-  /**
-   * Sends a message.
-   */
   send<T extends object>(data: WebSocketEventData<T>): void | Error {
     let tdata: WebSocketEventData<T>, send: void | Error
 
@@ -252,4 +229,4 @@ class InternalWebSocket {
   }
 }
 
-export { InternalWebSocket as WebSocket }
+export { AracnaWebSocket as WebSocket }

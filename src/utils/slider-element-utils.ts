@@ -8,6 +8,15 @@ import {
 } from '../definitions/constants.js'
 import { Orientation } from '../definitions/types.js'
 
+export function getSliderThumbElementPercentage(
+  value: number = DEFAULT_SLIDER_THUMB_VALUE,
+  min: number = DEFAULT_SLIDER_MIN,
+  max: number = DEFAULT_SLIDER_MAX,
+  decimals: number = DEFAULT_SLIDER_DECIMALS
+): number {
+  return toFixedNumber(getNumberPercentage(value, min, max), decimals)
+}
+
 export function getSliderThumbElementStyleLeft(percentage: number, orientation: Orientation = DEFAULT_SLIDER_ORIENTATION): string {
   if (orientation === 'horizontal') {
     return percentage + '%'
@@ -22,13 +31,4 @@ export function getSliderThumbElementStyleTop(percentage: number, orientation: O
   }
 
   return '0'
-}
-
-export function getSliderThumbElementPercentage(
-  value: number = DEFAULT_SLIDER_THUMB_VALUE,
-  min: number = DEFAULT_SLIDER_MIN,
-  max: number = DEFAULT_SLIDER_MAX,
-  decimals: number = DEFAULT_SLIDER_DECIMALS
-): number {
-  return toFixedNumber(getNumberPercentage(value, min, max), decimals)
 }

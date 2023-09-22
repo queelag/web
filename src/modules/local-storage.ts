@@ -1,8 +1,6 @@
 import { Environment, Storage, StorageItem } from '@aracna/core'
 
 /**
- * A module to handle local storage operations through a store.
- *
  * @category Module
  */
 export const LocalStorage = new Storage(

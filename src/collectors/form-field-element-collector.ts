@@ -1,6 +1,9 @@
 import { FormFieldElement } from '../definitions/elements.js'
 import { FormFieldElementTarget } from '../definitions/types.js'
 
+/**
+ * @category Collector
+ */
 export class FormFieldElementCollector {
   private static mapByID: Map<string, any> = new Map()
   private static mapByTarget: Map<FormFieldElementTarget, Map<string, any>> = new Map()

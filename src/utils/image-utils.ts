@@ -1,19 +1,53 @@
-import { DeferredPromise } from '@aracna/core'
+import { DeferredPromise, tc } from '@aracna/core'
 import { CACHE_IMAGES } from '../definitions/constants.js'
-import { GetImageElementBase64Options } from '../definitions/interfaces.js'
+import { GetImageElementBase64Options, GetImageSrcBase64Options } from '../definitions/interfaces.js'
 import { UtilLogger } from '../loggers/util-logger.js'
 
-export function cacheImageElement(image: HTMLImageElement, options?: GetImageElementBase64Options): void {
-  CACHE_IMAGES.set(image.src, getImageElementBase64(image, options))
-  UtilLogger.verbose('ImageUtils', 'cacheImageSrc', `The image has been cached.`, image)
+export function cacheImageElement(image: HTMLImageElement, options?: GetImageElementBase64Options): void | Error {
+  let base64: string | Error
+
+  base64 = getImageElementBase64(image, options)
+  if (base64 instanceof Error) return base64
+
+  CACHE_IMAGES.set(image.src, base64)
+  UtilLogger.verbose('cacheImageElement', `The image has been cached.`, image)
 }
 
-export async function cacheImageSrc(src: string, options?: GetImageElementBase64Options): Promise<boolean> {
-  let promise: DeferredPromise<boolean>, element: HTMLImageElement
+export async function cacheImageSrc(src: string, options?: GetImageSrcBase64Options): Promise<void | Error> {
+  let base64: string | Error
+
+  base64 = await getImageSrcBase64(src, options)
+  if (base64 instanceof Error) return base64
+
+  CACHE_IMAGES.set(src, base64)
+  UtilLogger.verbose('cacheImageSrc', `The image has been cached.`, [src])
+}
+
+export function getImageElementBase64(image: HTMLImageElement, options?: GetImageElementBase64Options): string | Error {
+  let canvas: HTMLCanvasElement, context: CanvasRenderingContext2D | null, draw: void | Error, base64: string | Error
+
+  canvas = document.createElement('canvas')
+  canvas.height = image.naturalHeight
+  canvas.width = image.naturalWidth
+
+  context = canvas.getContext('2d')
+  if (!context) return new Error('The 2D context is null.')
+
+  draw = tc(() => context?.drawImage(image, 0, 0))
+  if (draw instanceof Error) return draw
+
+  base64 = tc(() => canvas.toDataURL(options?.type, options?.quality))
+  if (base64 instanceof Error) return base64
+
+  return base64
+}
+
+export async function getImageSrcBase64(src: string, options?: GetImageSrcBase64Options): Promise<string | Error> {
+  let promise: DeferredPromise<string | Error>, element: HTMLImageElement
 
   promise = new DeferredPromise()
   element = document.createElement('img')
-  element.crossOrigin = 'anonymous'
+  element.crossOrigin = options?.crossOrigin ?? null
   element.src = src
   element.style.opacity = '0'
   element.style.pointerEvents = 'none'
@@ -21,37 +55,24 @@ export async function cacheImageSrc(src: string, options?: GetImageElementBase64
 
   element.onerror = (event: string | Event) => {
     element.remove()
-    UtilLogger.error('ImageUtils', 'cacheImageSrc', `The image failed to load.`, event, [src])
+    UtilLogger.error('getImageSrcBase64', `The image failed to load.`, event, [src])
 
-    promise.resolve(false)
+    promise.resolve(new Error(`Failed to load the image.`))
   }
   element.onload = () => {
-    CACHE_IMAGES.set(src, getImageElementBase64(element, options))
-    UtilLogger.verbose('ImageUtils', 'cacheImageSrc', `The image has been cached.`, [src])
+    let base64: string | Error
+
+    base64 = getImageElementBase64(element, options)
+    if (base64 instanceof Error) return promise.resolve(base64)
 
     element.remove()
-    UtilLogger.verbose('ImageUtils', 'cacheImageSrc', `The element has been removed.`, [src])
+    UtilLogger.verbose('getImageSrcBase64', `The element has been removed.`, [src])
 
-    promise.resolve(true)
+    promise.resolve(base64)
   }
 
-  document.body.appendChild(element)
-  UtilLogger.verbose('ImageUtils', 'cacheImageSrc', `The element has been appended to the body.`, element)
+  document.body.append(element)
+  UtilLogger.verbose('getImageSrcBase64', `The element has been appended to the body.`, element)
 
   return promise.instance
-}
-
-export function getImageElementBase64(image: HTMLImageElement, options?: GetImageElementBase64Options): string {
-  let canvas: HTMLCanvasElement, context: CanvasRenderingContext2D | null
-
-  canvas = document.createElement('canvas')
-  canvas.height = image.naturalHeight
-  canvas.width = image.naturalWidth
-
-  context = canvas.getContext('2d')
-  if (!context) return ''
-
-  context.drawImage(image, 0, 0)
-
-  return canvas.toDataURL(options?.type, options?.quality)
 }

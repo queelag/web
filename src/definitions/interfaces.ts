@@ -6,6 +6,10 @@ export interface GetImageElementBase64Options {
   type?: CanvasDataURLType
 }
 
+export interface GetImageSrcBase64Options extends GetImageElementBase64Options {
+  crossOrigin?: 'anonymous' | 'use-credentials' | null
+}
+
 export interface IconElementSanitizeConfig extends SanitizeConfig {
   RETURN_DOM?: false | undefined
   RETURN_DOM_FRAGMENT?: false | undefined

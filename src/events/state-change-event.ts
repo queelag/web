@@ -6,6 +6,9 @@ interface Detail<T = unknown> {
   value: T | null
 }
 
+/**
+ * @category Event
+ */
 export class StateChangeEvent<T = unknown> extends IsomorphicEvent<Detail<T>> {
   constructor(name: string, old: T | null, value: T | null) {
     super('state-change', { detail: { name, old, value } })

@@ -1,5 +1,8 @@
 import { BaseElement } from '../definitions/elements.js'
 
+/**
+ * @category Collector
+ */
 export class ElementCollector {
   private static mapByID: Map<string, any> = new Map()
   private static mapByUID: Map<string, any> = new Map()

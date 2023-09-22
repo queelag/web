@@ -1,8 +1,6 @@
 import { Environment, Storage, StorageItem } from '@aracna/core'
 
 /**
- * A module to handle session storage operations through a store.
- *
  * @category Module
  */
 export const SessionStorage = new Storage(

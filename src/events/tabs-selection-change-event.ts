@@ -5,6 +5,9 @@ interface Detail<T extends HTMLElement> {
   selectedTabIndex: number
 }
 
+/**
+ * @category Event
+ */
 export class TabsSelectionChangeEvent<T extends HTMLElement> extends IsomorphicEvent<Detail<T>> {
   constructor(selectedTab: T | undefined, selectedTabIndex: number) {
     super('selection-change', { detail: { selectedTab, selectedTabIndex } })
