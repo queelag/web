@@ -1,23 +1,22 @@
 {
   "author": "Dario Sechi",
   "devDependencies": {
-    "@aracna/core": "^1.1.25",
-    "@floating-ui/dom": "^1.2.7",
-    "@microsoft/api-extractor": "^7.34.8",
+    "@aracna/core": "^1.1.41",
+    "@floating-ui/dom": "^1.5.1",
+    "@microsoft/api-extractor": "^7.36.4",
     "@types/dompurify": "^3.0.2",
-    "@types/react": "^18.2.5",
-    "@vitest/coverage-c8": "^0.31.0",
-    "@vitest/ui": "^0.31.0",
-    "esbuild": "^0.17.18",
-    "focus-trap": "^7.4.0",
-    "glob": "^10.2.2",
-    "jsdom": "^22.0.0",
-    "prettier": "^2.8.8",
+    "@types/react": "^18.2.20",
+    "@vitest/ui": "^0.34.2",
+    "esbuild": "^0.19.2",
+    "focus-trap": "^7.5.2",
+    "glob": "^10.3.3",
+    "jsdom": "^22.1.0",
+    "prettier": "^3.0.2",
     "superstruct": "^1.0.3",
-    "tslib": "^2.5.0",
-    "typedoc": "^0.24.6",
-    "typescript": "^5.0.4",
-    "vitest": "^0.31.0"
+    "tslib": "^2.6.2",
+    "typedoc": "^0.24.8",
+    "typescript": "^5.1.6",
+    "vitest": "^0.34.2"
   },
   "exports": {
     "import": "./index.js",
@@ -42,5 +41,8 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "1.0.33"
+  "version": "1.0.35",
+  "dependencies": {
+    "@vitest/coverage-v8": "^0.34.2"
+  }
 }
