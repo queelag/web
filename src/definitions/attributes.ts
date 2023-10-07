@@ -343,7 +343,7 @@ export interface IconElementAttributes extends BaseElementAttributes {
   fill?: string
   sanitize?: boolean
   'sanitize-config'?: IconElementSanitizeConfig
-  src: string
+  src?: string
   stroke?: string
   'stroke-width'?: string | number
   'stroke-linecap'?: string
