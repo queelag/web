@@ -419,8 +419,8 @@ export interface ButtonElementAttributes extends AriaButtonElementAttributes {
   variant?: ButtonVariant
 }
 
-export interface ButtonGroupElementAttributes extends BaseElementAttributes {
-  buttons?: ButtonElementAttributes[]
+export interface ButtonGroupElementAttributes<T extends ButtonElementAttributes = ButtonElementAttributes> extends BaseElementAttributes {
+  buttons?: T[]
 }
 
 export interface CheckBoxElementAttributes extends AriaCheckBoxElementAttributes {
@@ -517,9 +517,10 @@ export interface MenuButtonElementAttributes extends AriaMenuButtonElementAttrib
 export interface MenuItemElementAttributes extends AriaMenuItemElementAttributes {}
 export interface MenuSubMenuElementAttributes extends AriaMenuSubMenuElementAttributes {}
 
-export interface NavigationBarElementAttributes extends BaseElementAttributes {
+export interface NavigationBarElementAttributes<T extends NavigationBarItemElementAttributes = NavigationBarItemElementAttributes>
+  extends BaseElementAttributes {
   'active-item'?: string
-  items?: NavigationBarItemElementAttributes[]
+  items?: T[]
 }
 
 export interface NavigationBarItemElementAttributes extends BaseElementAttributes {
@@ -528,9 +529,10 @@ export interface NavigationBarItemElementAttributes extends BaseElementAttribute
   icon?: string
 }
 
-export interface NavigationRailElementAttributes extends BaseElementAttributes {
+export interface NavigationRailElementAttributes<T extends NavigationRailItemElementAttributes = NavigationRailItemElementAttributes>
+  extends BaseElementAttributes {
   'active-item'?: string
-  items?: NavigationRailItemElementAttributes[]
+  items?: T[]
 }
 
 export interface NavigationRailItemElementAttributes extends BaseElementAttributes {
