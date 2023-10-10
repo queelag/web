@@ -1,5 +1,11 @@
+import { Environment } from '@aracna/core'
+
 export function isStringSVG(string: string): boolean {
   let parser: DOMParser, document: Document, element: SVGSVGElement | null
+
+  if (Environment.isWindowNotDefined) {
+    return false
+  }
 
   parser = new DOMParser()
   document = parser.parseFromString(string, 'text/html')
