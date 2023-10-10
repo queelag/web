@@ -6,6 +6,7 @@
     "@microsoft/api-extractor": "^7.36.4",
     "@types/dompurify": "^3.0.2",
     "@types/react": "^18.2.20",
+    "@vitest/coverage-v8": "^0.34.2",
     "@vitest/ui": "^0.34.2",
     "esbuild": "^0.19.2",
     "focus-trap": "^7.5.2",
@@ -41,8 +42,5 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "1.0.38",
-  "dependencies": {
-    "@vitest/coverage-v8": "^0.34.2"
-  }
+  "version": "1.0.38"
 }
