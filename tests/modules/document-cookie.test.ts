@@ -6,16 +6,16 @@ describe('DocumentCookie', () => {
     DocumentCookie.clear()
   })
 
-  it('sets and gets', async () => {
-    await DocumentCookie.set('person', { name: 'john' })
-    expect(await DocumentCookie.get('person')).toStrictEqual({ name: 'john' })
+  it('sets and gets', () => {
+    DocumentCookie.set('person', { name: 'john' })
+    expect(DocumentCookie.get('person')).toStrictEqual({ name: 'john' })
   })
 
-  it('does not throw if window is undefined', async () => {
+  it('does not throw if document is undefined', () => {
     // @ts-ignore
-    delete global.window
+    delete global.document
 
-    expect(await DocumentCookie.set('person', { name: 'john' })).toBeUndefined()
-    expect(await DocumentCookie.get('person')).toStrictEqual({})
+    expect(DocumentCookie.set('person', { name: 'john' })).toBeUndefined()
+    expect(DocumentCookie.get('person')).toStrictEqual({})
   })
 })
