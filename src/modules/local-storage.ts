@@ -1,13 +1,13 @@
-import { Environment, Storage, StorageItem } from '@aracna/core'
+import { Environment, StorageItem, SyncStorage } from '@aracna/core'
 
 /**
  * @category Module
  */
-export const LocalStorage = new Storage(
+export const LocalStorage = new SyncStorage(
   'LocalStorage',
-  async () => (Environment.isWindowDefined ? localStorage.clear() : undefined),
-  async (key: string) => (Environment.isWindowDefined ? JSON.parse(localStorage.getItem(key) ?? '{}') : {}),
-  async (key: string) => (Environment.isWindowDefined ? localStorage.getItem(key) !== null : false),
-  async (key: string) => (Environment.isWindowDefined ? localStorage.removeItem(key) : undefined),
-  async (key: string, item: StorageItem) => (Environment.isWindowDefined ? localStorage.setItem(key, JSON.stringify(item)) : undefined)
+  () => (Environment.isWindowDefined ? localStorage.clear() : undefined),
+  (key: string) => (Environment.isWindowDefined ? JSON.parse(localStorage.getItem(key) ?? '{}') : {}),
+  (key: string) => (Environment.isWindowDefined ? localStorage.getItem(key) !== null : false),
+  (key: string) => (Environment.isWindowDefined ? localStorage.removeItem(key) : undefined),
+  (key: string, item: StorageItem) => (Environment.isWindowDefined ? localStorage.setItem(key, JSON.stringify(item)) : undefined)
 )
