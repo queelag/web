@@ -59,6 +59,9 @@ export interface AriaFeedArticleLabelElementEventMap extends BaseElementEventMap
 
 export interface AriaLinkElementEventMap extends BaseElementEventMap {}
 
+export interface AriaListElementEventMap extends BaseElementEventMap {}
+export interface AriaListItemElementEventMap extends BaseElementEventMap {}
+
 export interface AriaListBoxElementEventMap extends BaseElementEventMap {}
 export interface AriaListBoxOptionElementEventMap extends BaseElementEventMap {}
 
@@ -134,8 +137,8 @@ export interface FeedArticleLabelElementEventMap extends AriaFeedArticleLabelEle
 export interface IconElementEventMap extends BaseElementEventMap {}
 export interface ImageElementEventMap extends BaseElementEventMap {}
 
-export interface ListElementEventMap extends BaseElementEventMap {}
-export interface ListItemElementEventMap extends BaseElementEventMap {}
+export interface ListElementEventMap extends AriaListElementEventMap {}
+export interface ListItemElementEventMap extends AriaListItemElementEventMap {}
 
 export interface TooltipElementEventMap extends AriaTooltipElementEventMap {}
 export interface TooltipArrowElementEventMap extends AriaTooltipArrowElementEventMap {}

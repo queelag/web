@@ -149,6 +149,9 @@ export interface AriaLinkElementAttributes extends BaseElementAttributes {
   target?: string
 }
 
+export interface AriaListElementAttributes extends BaseElementAttributes {}
+export interface AriaListItemElementAttributes extends BaseElementAttributes {}
+
 export interface AriaListBoxElementAttributes<T> extends TypeaheadElementAttributes<T> {
   multiple?: boolean
   'select-first-option-on-focus'?: boolean
@@ -324,16 +327,31 @@ export interface CarouselTabElementAttributes extends AriaCarouselTabElementAttr
 export interface CarouselTabsElementAttributes extends AriaCarouselTabsElementAttributes {}
 
 export interface ChipElementAttributes extends BaseElementAttributes {
-  icon?: string
-  image?: string
-  label?: string
   'leading-icon'?: string
+  'leading-image'?: string
+  'leading-text'?: string
+  text?: string
   'trailing-icon'?: string
+  'trailing-image'?: string
+  'trailing-text'?: string
   variant?: ChipElementVariant
 }
 
-export interface FeedElementAttributes extends AriaFeedElementAttributes {}
-export interface FeedArticleElementAttributes extends AriaFeedArticleElementAttributes {}
+export interface FeedElementAttributes extends AriaFeedElementAttributes {
+  articles?: any[]
+}
+
+export interface FeedArticleElementAttributes extends AriaFeedArticleElementAttributes {
+  headline?: string
+  'leading-icon'?: string
+  'leading-image'?: string
+  'leading-text'?: string
+  text?: string
+  'trailing-icon'?: string
+  'trailing-image'?: string
+  'trailing-text'?: string
+}
+
 export interface FeedArticleDescriptionElementAttributes extends AriaFeedArticleDescriptionElementAttributes {}
 export interface FeedArticleLabelElementAttributes extends AriaFeedArticleLabelElementAttributes {}
 
@@ -359,18 +377,22 @@ export interface ImageElementAttributes extends BaseElementAttributes {
   eager?: boolean
   lazy?: boolean
   placeholder?: string
-  src: string
+  src?: string
 }
 
-export interface ListElementAttributes extends BaseElementAttributes {
+export interface ListElementAttributes extends AriaListElementAttributes {
   items: any[]
 }
 
-export interface ListItemElementAttributes extends BaseElementAttributes {
+export interface ListItemElementAttributes extends AriaListItemElementAttributes {
   headline?: string
-  icon?: string
-  image?: string
+  'leading-icon'?: string
+  'leading-image'?: string
+  'leading-text'?: string
   text?: string
+  'trailing-icon'?: string
+  'trailing-image'?: string
+  'trailing-text'?: string
 }
 
 export interface TooltipElementAttributes extends AriaTooltipElementAttributes {}

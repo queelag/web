@@ -52,6 +52,9 @@ export enum ElementName {
 
   ARIA_LINK = 'aria_link',
 
+  ARIA_LIST = 'aria_list',
+  ARIA_LIST_ITEM = 'aria_list_item',
+
   ARIA_LISTBOX = 'aria_listbox',
   ARIA_LISTBOX_OPTION = 'aria_listbox_option',
 
