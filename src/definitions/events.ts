@@ -1,6 +1,12 @@
 import type { AttributeChangeEvent } from '../events/attribute-change-event.js'
+import type { ButtonClickEvent } from '../events/button-click-event.js'
+import type { CarouselSlideActivateEvent } from '../events/carousel-slide-activate-event.js'
+import type { CarouselSlideDeactivateEvent } from '../events/carousel-slide-deactivate-event.js'
 import type { FormSubmitEvent } from '../events/form-submit-event.js'
+import type { SliderChangeEvent } from '../events/slider-change-event.js'
+import type { SliderThumbMoveEvent } from '../events/slider-thumb-move-event.js'
 import type { StateChangeEvent } from '../events/state-change-event.js'
+import type { TabsTabSelectionEvent } from '../events/tabs-tab-selection-event.js'
 
 /**
  * ARIA Elements Events
@@ -29,7 +35,12 @@ export interface AriaCarouselElementEventMap extends BaseElementEventMap {}
 export interface AriaCarouselNextSlideControlElementEventMap extends BaseElementEventMap {}
 export interface AriaCarouselPreviousSlideControlElementEventMap extends BaseElementEventMap {}
 export interface AriaCarouselRotationControlElementEventMap extends BaseElementEventMap {}
-export interface AriaCarouselSlideElementEventMap extends BaseElementEventMap {}
+
+export interface AriaCarouselSlideElementEventMap extends BaseElementEventMap {
+  'carousel-slide-activate': CarouselSlideActivateEvent<any>
+  'carousel-slide-deactive': CarouselSlideDeactivateEvent<any>
+}
+
 export interface AriaCarouselSlidesElementEventMap extends BaseElementEventMap {}
 export interface AriaCarouselTabElementEventMap extends BaseElementEventMap {}
 export interface AriaCarouselTabsElementEventMap extends BaseElementEventMap {}
@@ -75,14 +86,22 @@ export interface AriaMeterElementEventMap extends BaseElementEventMap {}
 export interface AriaRadioButtonElementEventMap extends BaseElementEventMap {}
 export interface AriaRadioGroupElementEventMap extends FormFieldElementEventMap {}
 
-export interface AriaSliderElementEventMap extends FormFieldElementEventMap {}
-export interface AriaSliderThumbElementEventMap extends BaseElementEventMap {}
+export interface AriaSliderElementEventMap extends FormFieldElementEventMap {
+  'slider-change': SliderChangeEvent
+}
+
+export interface AriaSliderThumbElementEventMap extends BaseElementEventMap {
+  'slider-thumb-move': SliderThumbMoveEvent
+}
 
 export interface AriaSwitchElementEventMap extends FormFieldElementEventMap {}
 
 export interface AriaTabsElementEventMap extends BaseElementEventMap {}
 export interface AriaTabsPanelElementEventMap extends BaseElementEventMap {}
-export interface AriaTabsTabElementEventMap extends BaseElementEventMap {}
+
+export interface AriaTabsTabElementEventMap extends BaseElementEventMap {
+  'tabs-tab-selection': TabsTabSelectionEvent<any>
+}
 
 export interface AriaTooltipElementEventMap extends BaseElementEventMap {}
 export interface AriaTooltipArrowElementEventMap extends BaseElementEventMap {}
@@ -167,7 +186,10 @@ export interface MeterElementEventMap extends AriaMeterElementEventMap {}
  */
 /** */
 
-export interface ButtonElementEventMap extends AriaButtonElementEventMap {}
+export interface ButtonElementEventMap extends AriaButtonElementEventMap {
+  'button-click': ButtonClickEvent
+}
+
 export interface ButtonGroupElementEventMap extends BaseElementEventMap {}
 export interface CheckBoxElementEventMap extends AriaCheckBoxElementEventMap {}
 

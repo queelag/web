@@ -8,8 +8,8 @@ interface Detail<T extends HTMLElement> {
 /**
  * @category Event
  */
-export class TabsSelectionChangeEvent<T extends HTMLElement> extends IsomorphicEvent<Detail<T>> {
+export class TabsTabSelectionEvent<T extends HTMLElement> extends IsomorphicEvent<Detail<T>> {
   constructor(selectedTab: T | undefined, selectedTabIndex: number) {
-    super('tabs-selection-change', { detail: { selectedTab, selectedTabIndex } })
+    super('tabs-tab-selection', { detail: { selectedTab, selectedTabIndex } })
   }
 }

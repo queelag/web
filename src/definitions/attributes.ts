@@ -243,6 +243,7 @@ export interface BaseElementAttributes {
   background?: string
   height?: number | string
   layer?: Layer
+  padding?: string
   shape?: Shape
   'shape-rectangle-radius'?: number
   'shape-square-radius'?: number
@@ -434,15 +435,15 @@ export interface MeterElementAttributes extends AriaMeterElementAttributes {
 export interface ButtonElementAttributes extends AriaButtonElementAttributes {
   async?: boolean
   icon?: string
-  label?: string
   normalized?: boolean
   spinning?: boolean
+  text?: string
   type?: ButtonType
   variant?: ButtonVariant
 }
 
-export interface ButtonGroupElementAttributes<T extends ButtonElementAttributes = ButtonElementAttributes> extends BaseElementAttributes {
-  buttons?: T[]
+export interface ButtonGroupElementAttributes extends BaseElementAttributes {
+  buttons?: any[]
 }
 
 export interface CheckBoxElementAttributes extends AriaCheckBoxElementAttributes {
@@ -459,7 +460,6 @@ export interface InputElementAttributes extends FormFieldElementAttributes {
   autofocus?: boolean
   multiple?: boolean
   obscured?: boolean
-  padding?: string
   placeholder?: string
   'touch-trigger'?: InputElementTouchTrigger
   type?: InputElementType
@@ -509,7 +509,6 @@ export interface TextAreaElementAttributes extends FormFieldElementAttributes {
   autosize?: boolean
   cols?: number
   multiple?: boolean
-  padding?: string
   placeholder?: string
   resize?: TextAreaElementResize
   rows?: number
