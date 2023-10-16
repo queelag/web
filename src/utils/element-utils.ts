@@ -1,4 +1,4 @@
-import { tc } from '@aracna/core'
+import { Environment, tc } from '@aracna/core'
 import { ElementAttributeValue } from '../definitions/types.js'
 import { getWindowBoundingClientRect } from './window-utils.js'
 
@@ -118,4 +118,12 @@ export function scrollElementIntoView<T extends Element, U extends HTMLElement>(
   }
 
   parent.scrollTo({ behavior: options?.behavior, left, top })
+}
+
+export function isElementFocused<T extends Element>(element: T): boolean {
+  if (Environment.isDocumentNotDefined) {
+    return false
+  }
+
+  return element === document.activeElement
 }
