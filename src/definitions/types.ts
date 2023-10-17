@@ -5,6 +5,7 @@ import type { Struct, StructError } from 'superstruct'
 export type AlertSeverity = 'error' | 'info' | 'success' | 'warning'
 export type AlertVariant = 'fill' | 'fill-tonal' | 'opacity' | 'outline' | 'text'
 export type AriaComboBoxElementAutoComplete = 'none' | 'inline' | 'list' | 'both'
+export type AriaComboBoxElementFilterOptionsPredicate<T> = (option: T, index: number, options: T[], inputElementValue: string) => boolean
 export type AriaLive = 'off' | 'polite' | 'assertive'
 
 export type ButtonPressed = 'false' | 'mixed' | 'true'

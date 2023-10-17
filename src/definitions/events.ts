@@ -2,6 +2,9 @@ import type { AttributeChangeEvent } from '../events/attribute-change-event.js'
 import type { ButtonClickEvent } from '../events/button-click-event.js'
 import type { CarouselSlideActivateEvent } from '../events/carousel-slide-activate-event.js'
 import type { CarouselSlideDeactivateEvent } from '../events/carousel-slide-deactivate-event.js'
+import type { ComboBoxCollapseEvent } from '../events/combo-box-collapse-event.js'
+import type { ComboBoxExpandEvent } from '../events/combo-box-expand-event.js'
+import type { ComboBoxOptionSelectEvent } from '../events/combo-box-option-select-event.js'
 import type { FormSubmitEvent } from '../events/form-submit-event.js'
 import type { SliderChangeEvent } from '../events/slider-change-event.js'
 import type { SliderThumbMoveEvent } from '../events/slider-thumb-move-event.js'
@@ -47,12 +50,19 @@ export interface AriaCarouselTabsElementEventMap extends BaseElementEventMap {}
 
 export interface AriaCheckBoxElementEventMap extends FormFieldElementEventMap {}
 
-export interface AriaComboBoxElementEventMap extends FormFieldElementEventMap {}
+export interface AriaComboBoxElementEventMap extends FormFieldElementEventMap {
+  'combo-box-collapse': ComboBoxCollapseEvent
+  'combo-box-expand': ComboBoxExpandEvent
+}
+
 export interface AriaComboBoxButtonElementEventMap extends BaseElementEventMap {}
 export interface AriaComboBoxGroupElementEventMap extends BaseElementEventMap {}
 export interface AriaComboBoxInputElementEventMap extends BaseElementEventMap {}
 export interface AriaComboBoxListElementEventMap extends FloatingElementEventMap {}
-export interface AriaComboBoxOptionElementEventMap extends BaseElementEventMap {}
+
+export interface AriaComboBoxOptionElementEventMap extends BaseElementEventMap {
+  'combo-box-option-select': ComboBoxOptionSelectEvent<any>
+}
 
 export interface AriaDialogElementEventMap extends FocusTrapElementEventMap {}
 export interface AriaDialogDescriptionElementEventMap extends BaseElementEventMap {}

@@ -1,6 +1,6 @@
 import { IDGenerateOptions, ID_ALPHABET_HEX_LOWERCASE, TypeaheadPredicate } from '@aracna/core'
 import { IconElementSanitizeConfig } from './interfaces.js'
-import { InputElementType, Orientation } from './types.js'
+import { AriaComboBoxElementFilterOptionsPredicate, InputElementType, Orientation } from './types.js'
 
 /**
  * AriaCarouselElement
@@ -10,6 +10,12 @@ export const DEFAULT_CAROUSEL_ROTATION_DURATION: number = 2500
 /**
  * AriaComboBoxElement and SelectElement
  */
+export const DEFAULT_COMBOBOX_FILTER_OPTIONS_PREDICATE: AriaComboBoxElementFilterOptionsPredicate<{ value?: any }> = (
+  option: { value?: any },
+  _,
+  __,
+  inputElementValue: string
+) => String(option.value).toLowerCase().includes(inputElementValue.toLowerCase().trim())
 export const DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ value?: any }> = (element: { value?: any }, value: string) =>
   String(element.value).toLowerCase().includes(value.toLowerCase().trim())
 
