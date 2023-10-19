@@ -27,7 +27,7 @@ export function getSliderThumbElementStyleLeft(percentage: number, orientation: 
 
 export function getSliderThumbElementStyleTop(percentage: number, orientation: Orientation = DEFAULT_SLIDER_ORIENTATION): string {
   if (orientation === 'vertical') {
-    return percentage + '%'
+    return 100 - percentage + '%'
   }
 
   return '0'

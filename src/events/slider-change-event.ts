@@ -1,17 +1,15 @@
 import { IsomorphicEvent } from './isomorphic-event.js'
 
 interface Detail {
-  percentage: number
-  percentages: number[]
-  value: number
-  values: number[]
+  percentage: number | number[]
+  value?: number | number[]
 }
 
 /**
  * @category Event
  */
 export class SliderChangeEvent extends IsomorphicEvent<Detail> {
-  constructor(values: number[], percentages: number[]) {
-    super('slider-change', { detail: { percentage: percentages[0], percentages, value: values[0], values } })
+  constructor(value: number | number[] | undefined, percentage: number | number[]) {
+    super('slider-change', { detail: { percentage, value } })
   }
 }
