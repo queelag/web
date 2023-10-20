@@ -10,10 +10,10 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@aracna/core@^1.1.41":
-  version "1.1.41"
-  resolved "https://registry.yarnpkg.com/@aracna/core/-/core-1.1.41.tgz#68ce854f779b7ee7691a6353a480ac56b0c12383"
-  integrity sha512-C0baeaWrPK4R1okJjevxBqUbYJIPNveA0wJWwE488BW3AiPIvYCKlQ1xxgjsKD0pEl90aB0FsSVHKJKjzm+q6Q==
+"@aracna/core@^1.1.53":
+  version "1.1.53"
+  resolved "https://registry.yarnpkg.com/@aracna/core/-/core-1.1.53.tgz#c2fd666acc3745c2a83b26ac8206db63111b4173"
+  integrity sha512-soGundNfpZ25Hu7TTGamuVOJY9lhZuAAlcIwcRMA5gymxL4rs+jsj931qyO+nERw6ufGIb3j09RL496UfUoy7A==
   dependencies:
     "@types/cookie" "^0.5.1"
     cookie "^0.5.0"
