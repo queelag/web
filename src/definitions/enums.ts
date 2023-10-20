@@ -161,6 +161,7 @@ export enum ElementName {
   SLIDER_THUMB = 'slider_thumb',
 
   SQUIRCLE = 'squircle',
+  SQUIRCLE_CLIP_PATH = 'squircle_clip_path',
 
   TABS = 'tabs',
   TABS_PANEL = 'tabs_panel',

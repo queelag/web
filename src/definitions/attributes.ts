@@ -242,15 +242,12 @@ export interface AriaTooltipTriggerElementAttributes extends BaseElementAttribut
 /** */
 
 export interface BaseElementAttributes {
-  background?: string
   height?: number | string
   layer?: Layer
-  padding?: string
   shape?: Shape
   'shape-rectangle-radius'?: number
   'shape-square-radius'?: number
   'shape-squircle-curvature'?: number
-  'shape-squircle-size'?: number
   size?: Size
   width?: number | string
 }

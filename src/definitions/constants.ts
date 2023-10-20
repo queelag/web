@@ -85,9 +85,8 @@ export const DEFAULT_INPUT_TYPE: InputElementType = 'text'
 /**
  * Squircle
  */
-export const CACHE_SQUIRCLES: Map<string, string> = new Map()
 export const DEFAULT_SQUIRCLE_CURVATURE: number = 0.75
-export const SQUIRCLES_CONTAINER_ID: string = 'squircles'
+export const SQUIRCLES_CONTAINER_ID: string = 'squircles_7d4ad1ff'
 
 /**
  * SVG

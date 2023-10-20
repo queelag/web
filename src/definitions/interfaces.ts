@@ -43,7 +43,6 @@ export interface ShapeOptions {
   }
   squircle?: {
     curvature?: number
-    id?: string
     size?: number
   }
 }
