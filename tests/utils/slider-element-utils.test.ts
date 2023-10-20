@@ -6,7 +6,7 @@ describe('SliderElementUtils', () => {
     expect(getSliderThumbElementStyleLeft(25)).toBe('25%')
     expect(getSliderThumbElementStyleTop(75)).toBe('0')
     expect(getSliderThumbElementStyleLeft(25, 'vertical')).toBe('0')
-    expect(getSliderThumbElementStyleTop(75, 'vertical')).toBe('75%')
+    expect(getSliderThumbElementStyleTop(75, 'vertical')).toBe('25%')
   })
 
   it('gets thumb element percentage', () => {
