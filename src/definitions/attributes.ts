@@ -467,6 +467,7 @@ export interface InputElementAttributes extends FormFieldElementAttributes {
   autofocus?: boolean
   multiple?: boolean
   obscured?: boolean
+  padding?: string
   placeholder?: string
   'touch-trigger'?: InputElementTouchTrigger
   type?: InputElementType
@@ -516,6 +517,7 @@ export interface TextAreaElementAttributes extends FormFieldElementAttributes {
   autosize?: boolean
   cols?: number
   multiple?: boolean
+  padding?: string
   placeholder?: string
   resize?: TextAreaElementResize
   rows?: number
