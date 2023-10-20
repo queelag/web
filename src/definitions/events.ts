@@ -5,6 +5,12 @@ import type { CarouselSlideDeactivateEvent } from '../events/carousel-slide-deac
 import type { ComboBoxCollapseEvent } from '../events/combo-box-collapse-event.js'
 import type { ComboBoxExpandEvent } from '../events/combo-box-expand-event.js'
 import type { ComboBoxOptionSelectEvent } from '../events/combo-box-option-select-event.js'
+import { DialogCloseEvent } from '../events/dialog-close-event.js'
+import { DialogOpenEvent } from '../events/dialog-open-event.js'
+import type { FocusTrapActivateEvent } from '../events/focus-trap-activate-event.js'
+import type { FocusTrapDeactivateEvent } from '../events/focus-trap-deactivate-event.js'
+import type { FocusTrapPostActivateEvent } from '../events/focus-trap-post-activate-event.js'
+import type { FocusTrapPostDeactivateEvent } from '../events/focus-trap-post-deactivate-event.js'
 import type { FormSubmitEvent } from '../events/form-submit-event.js'
 import type { SliderChangeEvent } from '../events/slider-change-event.js'
 import type { SliderThumbMoveEvent } from '../events/slider-thumb-move-event.js'
@@ -24,9 +30,9 @@ export interface AriaAccordionSectionElementEventMap extends BaseElementEventMap
 
 export interface AriaAlertElementEventMap extends BaseElementEventMap {}
 
-export interface AriaAlertDialogElementEventMap extends FocusTrapElementEventMap {}
-export interface AriaAlertDialogDescriptionElementEventMap extends BaseElementEventMap {}
-export interface AriaAlertDialogLabelElementEventMap extends BaseElementEventMap {}
+export interface AriaAlertDialogElementEventMap extends AriaDialogElementEventMap {}
+export interface AriaAlertDialogDescriptionElementEventMap extends AriaDialogDescriptionElementEventMap {}
+export interface AriaAlertDialogLabelElementEventMap extends AriaDialogLabelElementEventMap {}
 
 export interface AriaBreadcrumbElementEventMap extends BaseElementEventMap {}
 export interface AriaBreadcrumbListElementEventMap extends BaseElementEventMap {}
@@ -64,7 +70,11 @@ export interface AriaComboBoxOptionElementEventMap extends BaseElementEventMap {
   'combo-box-option-select': ComboBoxOptionSelectEvent<any>
 }
 
-export interface AriaDialogElementEventMap extends FocusTrapElementEventMap {}
+export interface AriaDialogElementEventMap extends FocusTrapElementEventMap {
+  'dialog-close': DialogCloseEvent
+  'dialog-open': DialogOpenEvent
+}
+
 export interface AriaDialogDescriptionElementEventMap extends BaseElementEventMap {}
 export interface AriaDialogLabelElementEventMap extends BaseElementEventMap {}
 
@@ -131,10 +141,10 @@ export interface BaseElementEventMap extends HTMLElementEventMap {
 export interface FloatingElementEventMap extends BaseElementEventMap {}
 
 export interface FocusTrapElementEventMap extends BaseElementEventMap {
-  'focus-trap-activate': Event
-  'focus-trap-deactivate': Event
-  'focus-trap-post-activate': Event
-  'focus-trap-post-deactivate': Event
+  'focus-trap-activate': FocusTrapActivateEvent
+  'focus-trap-deactivate': FocusTrapDeactivateEvent
+  'focus-trap-post-activate': FocusTrapPostActivateEvent
+  'focus-trap-post-deactivate': FocusTrapPostDeactivateEvent
 }
 
 export interface FormFieldElementEventMap extends BaseElementEventMap {}
@@ -181,9 +191,9 @@ export interface TooltipTriggerElementEventMap extends AriaTooltipTriggerElement
 
 export interface AlertElementEventMap extends AriaAlertElementEventMap {}
 
-export interface AlertDialogElementEventMap extends AriaAlertDialogElementEventMap {}
-export interface AlertDialogDescriptionElementEventMap extends AriaAlertDialogDescriptionElementEventMap {}
-export interface AlertDialogLabelElementEventMap extends AriaAlertDialogLabelElementEventMap {}
+export interface AlertDialogElementEventMap extends DialogElementEventMap {}
+export interface AlertDialogDescriptionElementEventMap extends DialogDescriptionElementEventMap {}
+export interface AlertDialogLabelElementEventMap extends DialogLabelElementEventMap {}
 
 export interface DialogElementEventMap extends AriaDialogElementEventMap {}
 export interface DialogDescriptionElementEventMap extends AriaDialogDescriptionElementEventMap {}

@@ -1,8 +1,10 @@
 import type { TypeaheadPredicate } from '@aracna/core'
 import type { Middleware, Placement, Platform, Strategy } from '@floating-ui/dom'
 import type { FocusTarget, FocusTargetOrFalse } from 'focus-trap'
-import { IconElementSanitizeConfig, RadioButton, SelectOption } from './interfaces.js'
-import {
+import type { IconElementSanitizeConfig, RadioButton, SelectOption } from './interfaces.js'
+import type {
+  AlertSeverity,
+  AlertVariant,
   AriaComboBoxElementAutoComplete,
   ButtonPressed,
   ButtonType,
@@ -406,15 +408,23 @@ export interface TooltipTriggerElementAttributes extends AriaTooltipTriggerEleme
  */
 /** */
 
-export interface AlertElementAttributes extends AriaAlertElementAttributes {}
+export interface AlertElementAttributes extends AriaAlertElementAttributes {
+  closable?: boolean
+  headline?: string
+  icon?: string
+  severity?: AlertSeverity
+  text?: string
+  variant?: AlertVariant
+}
 
-export interface AlertDialogElementAttributes extends AriaAlertDialogElementAttributes {}
-export interface AlertDialogDescriptionElementAttributes extends AriaAlertDialogDescriptionElementAttributes {}
-export interface AlertDialogLabelElementAttributes extends AriaAlertDialogLabelElementAttributes {}
+export interface AlertDialogElementAttributes extends DialogElementAttributes {}
+export interface AlertDialogDescriptionElementAttributes extends DialogDescriptionElementAttributes {}
+export interface AlertDialogLabelElementAttributes extends DialogLabelElementAttributes {}
 
 export interface DialogElementAttributes extends AriaDialogElementAttributes {
-  description?: string
-  label?: string
+  headline?: string
+  icon?: string
+  text?: string
 }
 
 export interface DialogDescriptionElementAttributes extends AriaDialogDescriptionElementAttributes {}
