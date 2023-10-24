@@ -61,10 +61,7 @@ export function getSquirclePathD(size: number, curvature: number): string {
     S ${size} ${arc}, ${size} ${size / 2}, ${size - arc} ${size}
       ${size / 2} ${size}, 0 ${size - arc}, 0 ${size / 2}
   `
-  d = d
-    .replace(/\n/gm, '')
-    .replace(/\s{2,8}/g, '')
-    .trim()
+  d = d.replace(/\s{2,16}/g, ' ').trim()
 
   return d
 }

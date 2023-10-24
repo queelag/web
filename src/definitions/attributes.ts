@@ -187,6 +187,7 @@ export interface AriaMeterElementAttributes extends BaseElementAttributes {
   max?: number
   min?: number
   native?: boolean
+  value?: number
 }
 
 export interface AriaRadioButtonElementAttributes extends BaseElementAttributes {
