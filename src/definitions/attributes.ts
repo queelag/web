@@ -581,13 +581,27 @@ export interface TabsTabElementAttributes extends AriaTabsTabElementAttributes {
  */
 /** */
 
-export interface AccordionElementAttributes extends AriaAccordionElementAttributes {}
+export interface AccordionElementAttributes extends AriaAccordionElementAttributes {
+  sections?: any[]
+}
+
 export interface AccordionButtonElementAttributes extends AriaAccordionButtonElementAttributes {}
 export interface AccordionHeaderElementAttributes extends AriaAccordionHeaderElementAttributes {}
 export interface AccordionPanelElementAttributes extends AriaAccordionPanelElementAttributes {}
-export interface AccordionSectionElementAttributes extends AriaAccordionSectionElementAttributes {}
 
-export interface DisclosureElementAttributes extends AriaDisclosureElementAttributes {}
+export interface AccordionSectionElementAttributes extends AriaAccordionSectionElementAttributes {
+  headline?: string
+  text?: string
+}
+
+export interface DisclosureElementAttributes extends AriaDisclosureElementAttributes {
+  sections?: any[]
+}
+
 export interface DisclosureButtonElementAttributes extends AriaDisclosureButtonElementAttributes {}
 export interface DisclosurePanelElementAttributes extends AriaDisclosurePanelElementAttributes {}
-export interface DisclosureSectionElementAttributes extends AriaDisclosureSectionElementAttributes {}
+
+export interface DisclosureSectionElementAttributes extends AriaDisclosureSectionElementAttributes {
+  headline?: string
+  text?: string
+}
