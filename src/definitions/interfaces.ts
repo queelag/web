@@ -24,16 +24,6 @@ export interface QueryDeclaration {
 
 export interface QueryDeclarations extends Record<string, QueryDeclaration> {}
 
-export interface RadioButton {
-  label?: string
-  value: any
-}
-
-export interface SelectOption {
-  label?: string
-  value: any
-}
-
 export interface ShapeOptions {
   rectangle?: {
     radius?: string | number

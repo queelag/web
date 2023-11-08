@@ -1,7 +1,7 @@
 import type { TypeaheadPredicate } from '@aracna/core'
 import type { Middleware, Placement, Platform, Strategy } from '@floating-ui/dom'
 import type { FocusTarget, FocusTargetOrFalse } from 'focus-trap'
-import type { IconElementSanitizeConfig, RadioButton, SelectOption } from './interfaces.js'
+import type { IconElementSanitizeConfig } from './interfaces.js'
 import type {
   AlertSeverity,
   AlertVariant,
@@ -318,7 +318,10 @@ export interface BadgeElementAttributes extends BaseElementAttributes {
   value?: number | string
 }
 
-export interface CarouselElementAttributes extends AriaCarouselElementAttributes {}
+export interface CarouselElementAttributes<T> extends AriaCarouselElementAttributes {
+  slides?: T[]
+}
+
 export interface CarouselNextSlideControlElementAttributes extends AriaCarouselNextSlideControlElementAttributes {}
 export interface CarouselPreviousSlideControlElementAttributes extends AriaCarouselPreviousSlideControlElementAttributes {}
 export interface CarouselRotationControlElementAttributes extends AriaCarouselRotationControlElementAttributes {}
@@ -338,8 +341,8 @@ export interface ChipElementAttributes extends BaseElementAttributes {
   variant?: ChipElementVariant
 }
 
-export interface FeedElementAttributes extends AriaFeedElementAttributes {
-  articles?: any[]
+export interface FeedElementAttributes<T> extends AriaFeedElementAttributes {
+  articles?: T[]
 }
 
 export interface FeedArticleElementAttributes extends AriaFeedArticleElementAttributes {
@@ -381,8 +384,8 @@ export interface ImageElementAttributes extends BaseElementAttributes {
   src?: string
 }
 
-export interface ListElementAttributes extends AriaListElementAttributes {
-  items: any[]
+export interface ListElementAttributes<T> extends AriaListElementAttributes {
+  items: T[]
 }
 
 export interface ListItemElementAttributes extends AriaListItemElementAttributes {
@@ -450,17 +453,18 @@ export interface ButtonElementAttributes extends AriaButtonElementAttributes {
   variant?: ButtonVariant
 }
 
-export interface ButtonGroupElementAttributes extends BaseElementAttributes {
-  buttons?: any[]
+export interface ButtonGroupElementAttributes<T> extends BaseElementAttributes {
+  buttons?: T[]
 }
 
 export interface CheckBoxElementAttributes extends AriaCheckBoxElementAttributes {
   value?: boolean
 }
 
-export interface FormElementAttributes extends BaseElementAttributes {
+export interface FormElementAttributes<T> extends BaseElementAttributes {
   async?: boolean
   disabled?: boolean
+  fields?: T[]
   spinning?: boolean
 }
 
@@ -486,12 +490,12 @@ export interface RadioButtonElementAttributes extends AriaRadioButtonElementAttr
   value?: any
 }
 
-export interface RadioGroupElementAttributes extends AriaRadioGroupElementAttributes {
-  buttons?: RadioButton[]
+export interface RadioGroupElementAttributes<T> extends AriaRadioGroupElementAttributes {
+  buttons?: T[]
 }
 
-export interface SelectElementAttributes<T> extends AriaComboBoxElementAttributes<T> {
-  options?: SelectOption[]
+export interface SelectElementAttributes<T, U> extends AriaComboBoxElementAttributes<T> {
+  options?: U[]
   value?: any | any[]
 }
 
@@ -504,7 +508,8 @@ export interface SelectOptionElementAttributes extends AriaComboBoxOptionElement
   label?: string
 }
 
-export interface SliderElementAttributes extends AriaSliderElementAttributes {
+export interface SliderElementAttributes<T> extends AriaSliderElementAttributes {
+  thumbs?: T[]
   value?: number | number[]
 }
 
@@ -539,17 +544,26 @@ export interface DividerElementAttributes extends BaseElementAttributes {
  */
 /** */
 
-export interface BreadcrumbElementAttributes extends AriaBreadcrumbElementAttributes {}
+export interface BreadcrumbElementAttributes<T> extends AriaBreadcrumbElementAttributes {
+  items?: T[]
+}
+
 export interface BreadcrumbItemElementAttributes extends AriaBreadcrumbItemElementAttributes {}
 export interface BreadcrumbListElementAttributes extends AriaBreadcrumbListElementAttributes {}
 
-export interface MenuElementAttributes<T> extends AriaMenuElementAttributes<T> {}
+export interface MenuElementAttributes<T, U> extends AriaMenuElementAttributes<T> {
+  items?: U[]
+}
+
 export interface MenuButtonElementAttributes extends AriaMenuButtonElementAttributes {}
-export interface MenuItemElementAttributes extends AriaMenuItemElementAttributes {}
+
+export interface MenuItemElementAttributes<T> extends AriaMenuItemElementAttributes {
+  items?: T[]
+}
+
 export interface MenuSubMenuElementAttributes extends AriaMenuSubMenuElementAttributes {}
 
-export interface NavigationBarElementAttributes<T extends NavigationBarItemElementAttributes = NavigationBarItemElementAttributes>
-  extends BaseElementAttributes {
+export interface NavigationBarElementAttributes<T> extends BaseElementAttributes {
   'active-item'?: string
   items?: T[]
 }
@@ -560,8 +574,7 @@ export interface NavigationBarItemElementAttributes extends BaseElementAttribute
   icon?: string
 }
 
-export interface NavigationRailElementAttributes<T extends NavigationRailItemElementAttributes = NavigationRailItemElementAttributes>
-  extends BaseElementAttributes {
+export interface NavigationRailElementAttributes<T> extends BaseElementAttributes {
   'active-item'?: string
   items?: T[]
 }
@@ -572,7 +585,10 @@ export interface NavigationRailItemElementAttributes extends BaseElementAttribut
   icon?: string
 }
 
-export interface TabsElementAttributes extends AriaTabsElementAttributes {}
+export interface TabsElementAttributes<T> extends AriaTabsElementAttributes {
+  tabs?: T[]
+}
+
 export interface TabsPanelElementAttributes extends AriaTabsPanelElementAttributes {}
 export interface TabsTabElementAttributes extends AriaTabsTabElementAttributes {}
 
@@ -581,8 +597,8 @@ export interface TabsTabElementAttributes extends AriaTabsTabElementAttributes {
  */
 /** */
 
-export interface AccordionElementAttributes extends AriaAccordionElementAttributes {
-  sections?: any[]
+export interface AccordionElementAttributes<T> extends AriaAccordionElementAttributes {
+  sections?: T[]
 }
 
 export interface AccordionButtonElementAttributes extends AriaAccordionButtonElementAttributes {}
@@ -591,11 +607,12 @@ export interface AccordionPanelElementAttributes extends AriaAccordionPanelEleme
 
 export interface AccordionSectionElementAttributes extends AriaAccordionSectionElementAttributes {
   headline?: string
+  icon?: string
   text?: string
 }
 
-export interface DisclosureElementAttributes extends AriaDisclosureElementAttributes {
-  sections?: any[]
+export interface DisclosureElementAttributes<T> extends AriaDisclosureElementAttributes {
+  sections?: T[]
 }
 
 export interface DisclosureButtonElementAttributes extends AriaDisclosureButtonElementAttributes {}
@@ -603,5 +620,6 @@ export interface DisclosurePanelElementAttributes extends AriaDisclosurePanelEle
 
 export interface DisclosureSectionElementAttributes extends AriaDisclosureSectionElementAttributes {
   headline?: string
+  icon?: string
   text?: string
 }

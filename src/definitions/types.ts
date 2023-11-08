@@ -61,6 +61,12 @@ export type FormFieldElementSchema = Struct<any, any> | undefined
 export type FormFieldElementTarget = Record<PropertyKey, any>
 export type FormFieldElementValidation = [StructError | undefined, any]
 
+export type GetRadioButtonLabel<T> = (button: T) => string
+export type GetRadioButtonValue<T> = (button: T) => any
+
+export type GetSelectOptionLabel<T> = (option: T) => string
+export type GetSelectOptionValue<T> = (option: T) => any
+
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
 
 export type ImageElementCacheType = CanvasDataURLType

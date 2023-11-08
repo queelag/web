@@ -1,9 +1,19 @@
-import { SelectOption } from '../index.js'
+import { DEFAULT_GET_SELECT_OPTION_LABEL, DEFAULT_GET_SELECT_OPTION_VALUE, GetSelectOptionLabel, GetSelectOptionValue } from '../index.js'
 
-export function findSelectOptionByValue(options: SelectOption[], value: any): SelectOption | undefined {
-  return options.find((option: SelectOption) => option.value === value)
+export function findSelectOptionByValue<T>(options: T[], value: any, getValue: GetSelectOptionValue<T> = DEFAULT_GET_SELECT_OPTION_VALUE): T | undefined {
+  return options.find((option: T) => getValue(option) === value)
 }
 
-export function findSelectOptionLabelByValue(options: SelectOption[], value: any): string | undefined {
-  return findSelectOptionByValue(options, value)?.label
+export function findSelectOptionLabelByValue<T>(
+  options: T[],
+  value: any,
+  getLabel: GetSelectOptionLabel<T> = DEFAULT_GET_SELECT_OPTION_LABEL,
+  getValue?: (option: T) => any
+): string | undefined {
+  let option: T | undefined
+
+  option = findSelectOptionByValue(options, value, getValue)
+  if (!option) return undefined
+
+  return getLabel(option)
 }

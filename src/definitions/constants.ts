@@ -1,6 +1,14 @@
-import { IDGenerateOptions, ID_ALPHABET_HEX_LOWERCASE, TypeaheadPredicate } from '@aracna/core'
+import { IDGenerateOptions, ID_ALPHABET_HEX_LOWERCASE, TypeaheadPredicate, getObjectProperty, isObject } from '@aracna/core'
 import { IconElementSanitizeConfig } from './interfaces.js'
-import { AriaComboBoxElementFilterOptionsPredicate, InputElementType, Orientation } from './types.js'
+import {
+  AriaComboBoxElementFilterOptionsPredicate,
+  GetRadioButtonLabel,
+  GetRadioButtonValue,
+  GetSelectOptionLabel,
+  GetSelectOptionValue,
+  InputElementType,
+  Orientation
+} from './types.js'
 
 /**
  * AriaCarouselElement
@@ -81,6 +89,22 @@ export const FETCHING_IMAGES: Set<string> = new Set()
  * InputElement
  */
 export const DEFAULT_INPUT_TYPE: InputElementType = 'text'
+
+/**
+ * RadioButtonElement
+ */
+export const DEFAULT_GET_RADIO_BUTTON_LABEL: GetRadioButtonLabel<unknown> = (button: unknown) =>
+  String(isObject(button) ? getObjectProperty(button, 'label') : button)
+export const DEFAULT_GET_RADIO_BUTTON_VALUE: GetRadioButtonValue<unknown> = (button: unknown) =>
+  isObject(button) ? getObjectProperty(button, 'value') : button
+
+/**
+ * SelectElement
+ */
+export const DEFAULT_GET_SELECT_OPTION_LABEL: GetSelectOptionLabel<unknown> = (option: unknown) =>
+  String(isObject(option) ? getObjectProperty(option, 'label') : option)
+export const DEFAULT_GET_SELECT_OPTION_VALUE: GetSelectOptionValue<unknown> = (option: unknown) =>
+  isObject(option) ? getObjectProperty(option, 'value') : option
 
 /**
  * Squircle
