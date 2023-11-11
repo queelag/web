@@ -10,7 +10,7 @@ interface Detail<T> {
  * @category Event
  */
 export class ComboBoxOptionSelectEvent<T extends HTMLElement> extends IsomorphicEvent<Detail<T>> {
-  constructor(element: T, label: string | undefined, value: any | undefined) {
-    super('slider-change', { detail: { element, label, value } })
+  constructor(element: T, value: any | undefined) {
+    super('slider-change', { detail: { element,  value } })
   }
 }

@@ -37,8 +37,8 @@ export const DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ value?: a
  * AriaMenuElement
  */
 export const DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME: number = 200
-export const DEFAULT_MENU_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ label?: any }> = (element: { label?: any }, value: string) =>
-  String(element.label).toLowerCase().includes(value.toLowerCase().trim())
+export const DEFAULT_MENU_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ headline?: string }> = (element: { headline?: string }, value: string) =>
+  typeof element.headline === 'string' ? element.headline.toLowerCase().includes(value.toLowerCase().trim()) : true
 
 /**
  * AriaMeterElement and MeterElement

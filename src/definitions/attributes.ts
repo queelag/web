@@ -115,6 +115,7 @@ export interface AriaComboBoxListElementAttributes extends FloatingElementAttrib
 
 export interface AriaComboBoxOptionElementAttributes extends BaseElementAttributes {
   focused?: boolean
+  headline?: string
   selected?: boolean
   value?: any
 }
@@ -176,7 +177,7 @@ export interface AriaMenuButtonElementAttributes extends BaseElementAttributes {
 
 export interface AriaMenuItemElementAttributes extends BaseElementAttributes {
   focused?: boolean
-  label?: string
+  headline?: string
 }
 
 export interface AriaMenuSubMenuElementAttributes extends FloatingElementAttributes {
@@ -192,6 +193,8 @@ export interface AriaMeterElementAttributes extends BaseElementAttributes {
 
 export interface AriaRadioButtonElementAttributes extends BaseElementAttributes {
   checked?: boolean
+  headline?: string
+  value?: any
 }
 
 export interface AriaRadioGroupElementAttributes extends BaseElementAttributes {}
@@ -486,8 +489,8 @@ export interface InputFileElementAttributes extends FormFieldElementAttributes {
 }
 
 export interface RadioButtonElementAttributes extends AriaRadioButtonElementAttributes {
-  label?: string
-  value?: any
+  icon?: string
+  text?: string
 }
 
 export interface RadioGroupElementAttributes<T = any> extends AriaRadioGroupElementAttributes {
@@ -505,7 +508,8 @@ export interface SelectInputElementAttributes extends AriaComboBoxInputElementAt
 export interface SelectListElementAttributes extends AriaComboBoxListElementAttributes {}
 
 export interface SelectOptionElementAttributes extends AriaComboBoxOptionElementAttributes {
-  label?: string
+  icon?: string
+  text?: string
 }
 
 export interface SliderElementAttributes<T = any> extends AriaSliderElementAttributes {
@@ -548,7 +552,12 @@ export interface BreadcrumbElementAttributes<T = any> extends AriaBreadcrumbElem
   items?: T[]
 }
 
-export interface BreadcrumbItemElementAttributes extends AriaBreadcrumbItemElementAttributes {}
+export interface BreadcrumbItemElementAttributes extends AriaBreadcrumbItemElementAttributes {
+  headline?: string
+  href?: string
+  icon?: string
+}
+
 export interface BreadcrumbListElementAttributes extends AriaBreadcrumbListElementAttributes {}
 
 export interface MenuElementAttributes<T, U = any> extends AriaMenuElementAttributes<T> {
@@ -558,7 +567,10 @@ export interface MenuElementAttributes<T, U = any> extends AriaMenuElementAttrib
 export interface MenuButtonElementAttributes extends AriaMenuButtonElementAttributes {}
 
 export interface MenuItemElementAttributes<T = any> extends AriaMenuItemElementAttributes {
+  href?: string
+  icon?: string
   items?: T[]
+  text?: string
 }
 
 export interface MenuSubMenuElementAttributes extends AriaMenuSubMenuElementAttributes {}
@@ -570,7 +582,7 @@ export interface NavigationBarElementAttributes<T = any> extends BaseElementAttr
 
 export interface NavigationBarItemElementAttributes extends BaseElementAttributes {
   active?: boolean
-  label?: string
+  headline?: string
   icon?: string
 }
 
@@ -581,7 +593,7 @@ export interface NavigationRailElementAttributes<T = any> extends BaseElementAtt
 
 export interface NavigationRailItemElementAttributes extends BaseElementAttributes {
   active?: boolean
-  label?: string
+  headline?: string
   icon?: string
 }
 
