@@ -57,15 +57,15 @@ export type FocusTrapGetShadowRoot = boolean | ((node: HTMLElement | SVGElement)
 export type FocusTrapSetReturnFocus = FocusTargetValueOrFalse | ((nodeFocusedBeforeActivation: HTMLElement | SVGElement) => FocusTargetValueOrFalse)
 export type FocusTrapElementState = 'activating' | 'activated' | 'deactivating' | 'deactivated'
 
-export type FormFieldElementSchema = Struct<any, any> | undefined
-export type FormFieldElementTarget = Record<PropertyKey, any>
-export type FormFieldElementValidation = [StructError | undefined, any]
+export type FormControlElementSchema = Struct<any, any> | undefined
+export type FormControlElementTarget = Record<PropertyKey, any>
+export type FormControlElementValidation = [StructError | undefined, any]
 
-export type GetRadioButtonLabel<T> = (button: T) => string
-export type GetRadioButtonValue<T> = (button: T) => any
+export type GetRadioButtonLabel<T> = (button: T) => string | undefined
+export type GetRadioButtonValue<T> = (button: T) => any | undefined
 
-export type GetSelectOptionLabel<T> = (option: T) => string
-export type GetSelectOptionValue<T> = (option: T) => any
+export type GetSelectOptionLabel<T> = (option: T) => string | undefined
+export type GetSelectOptionValue<T> = (option: T) => any | undefined
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
 

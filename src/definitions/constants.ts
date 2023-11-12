@@ -93,16 +93,30 @@ export const DEFAULT_INPUT_TYPE: InputElementType = 'text'
 /**
  * RadioButtonElement
  */
-export const DEFAULT_GET_RADIO_BUTTON_LABEL: GetRadioButtonLabel<unknown> = (button: unknown) =>
-  String(isObject(button) ? getObjectProperty(button, 'label') : button)
+export const DEFAULT_GET_RADIO_BUTTON_LABEL: GetRadioButtonLabel<unknown> = (button: unknown) => {
+  let label: string | undefined, value: unknown
+
+  label = isObject(button) ? getObjectProperty(button, 'label') : undefined
+  if (typeof label === 'string') return label
+
+  value = DEFAULT_GET_RADIO_BUTTON_VALUE(button)
+  if (typeof value === 'string') return value
+}
 export const DEFAULT_GET_RADIO_BUTTON_VALUE: GetRadioButtonValue<unknown> = (button: unknown) =>
   isObject(button) ? getObjectProperty(button, 'value') : button
 
 /**
  * SelectElement
  */
-export const DEFAULT_GET_SELECT_OPTION_LABEL: GetSelectOptionLabel<unknown> = (option: unknown) =>
-  String(isObject(option) ? getObjectProperty(option, 'label') : option)
+export const DEFAULT_GET_SELECT_OPTION_LABEL: GetSelectOptionLabel<unknown> = (option: unknown) => {
+  let label: string | undefined, value: unknown
+
+  label = isObject(option) ? getObjectProperty(option, 'label') : undefined
+  if (typeof label === 'string') return label
+
+  value = DEFAULT_GET_SELECT_OPTION_VALUE(option)
+  if (typeof value === 'string') return value
+}
 export const DEFAULT_GET_SELECT_OPTION_VALUE: GetSelectOptionValue<unknown> = (option: unknown) =>
   isObject(option) ? getObjectProperty(option, 'value') : option
 

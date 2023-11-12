@@ -100,6 +100,8 @@ export enum ElementName {
   BREADCRUMB_LIST = 'breadcrumb_list',
   BREADCRUMB_ITEM = 'breadcrumb_list_item',
 
+  CARD = 'card',
+
   CAROUSEL = 'carousel',
   CAROUSEL_NEXT_SLIDE_CONTROL = 'carousel_next_slide_control',
   CAROUSEL_PREVIOUS_SLIDE_CONTROL = 'carousel_previous_slide_control',

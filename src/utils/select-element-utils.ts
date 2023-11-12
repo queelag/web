@@ -8,7 +8,7 @@ export function findSelectOptionLabelByValue<T>(
   options: T[],
   value: any,
   getLabel: GetSelectOptionLabel<T> = DEFAULT_GET_SELECT_OPTION_LABEL,
-  getValue?: (option: T) => any
+  getValue?: GetSelectOptionValue<T>
 ): string | undefined {
   let option: T | undefined
 

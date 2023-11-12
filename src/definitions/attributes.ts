@@ -17,8 +17,8 @@ import type {
   FocusTrapDisplayCheck,
   FocusTrapEscapeDeactivates,
   FocusTrapSetReturnFocus,
-  FormFieldElementSchema,
-  FormFieldElementTarget,
+  FormControlElementSchema,
+  FormControlElementTarget,
   HeadingLevel,
   ImageElementCacheType,
   InputElementTouchTrigger,
@@ -95,13 +95,13 @@ export interface AriaCarouselTabElementAttributes extends BaseElementAttributes 
 
 export interface AriaCarouselTabsElementAttributes extends BaseElementAttributes {}
 
-export interface AriaCheckBoxElementAttributes extends FormFieldElementAttributes {
+export interface AriaCheckBoxElementAttributes extends FormControlElementAttributes {
   checked?: boolean
   disabled?: boolean
   readonly?: boolean
 }
 
-export interface AriaComboBoxElementAttributes<T> extends FormFieldElementAttributes, TypeaheadElementAttributes<T> {
+export interface AriaComboBoxElementAttributes<T> extends FormControlElementAttributes, TypeaheadElementAttributes<T> {
   autocomplete?: AriaComboBoxElementAutoComplete
   expanded?: boolean
   multiple?: boolean
@@ -115,7 +115,7 @@ export interface AriaComboBoxListElementAttributes extends FloatingElementAttrib
 
 export interface AriaComboBoxOptionElementAttributes extends BaseElementAttributes {
   focused?: boolean
-  headline?: string
+  label?: string
   selected?: boolean
   value?: any
 }
@@ -193,13 +193,12 @@ export interface AriaMeterElementAttributes extends BaseElementAttributes {
 
 export interface AriaRadioButtonElementAttributes extends BaseElementAttributes {
   checked?: boolean
-  headline?: string
   value?: any
 }
 
 export interface AriaRadioGroupElementAttributes extends BaseElementAttributes {}
 
-export interface AriaSliderElementAttributes extends FormFieldElementAttributes {
+export interface AriaSliderElementAttributes extends FormControlElementAttributes {
   decimals?: number
   'disable-swap'?: boolean
   max?: number
@@ -216,7 +215,7 @@ export interface AriaSliderThumbElementAttributes extends BaseElementAttributes 
   value?: number
 }
 
-export interface AriaSwitchElementAttributes extends FormFieldElementAttributes {
+export interface AriaSwitchElementAttributes extends FormControlElementAttributes {
   on?: boolean
 }
 
@@ -285,15 +284,15 @@ export interface FocusTrapElementAttributes extends BaseElementAttributes {
   'set-return-focus'?: FocusTrapSetReturnFocus
 }
 
-export interface FormFieldElementAttributes extends BaseElementAttributes {
+export interface FormControlElementAttributes extends BaseElementAttributes {
   disabled?: boolean
   focused?: boolean
   native?: boolean
   normalized?: boolean
   path?: string
   readonly?: boolean
-  schema?: FormFieldElementSchema
-  target?: FormFieldElementTarget
+  schema?: FormControlElementSchema
+  target?: FormControlElementTarget
   touched?: boolean
   value?: any
 }
@@ -318,7 +317,7 @@ export interface BadgeElementAttributes extends BaseElementAttributes {
   max?: number
   min?: number
   numeric?: boolean
-  value?: number | string
+  text?: string
 }
 
 export interface CarouselElementAttributes<T = any> extends AriaCarouselElementAttributes {
@@ -348,11 +347,14 @@ export interface FeedElementAttributes<T = any> extends AriaFeedElementAttribute
   articles?: T[]
 }
 
-export interface FeedArticleElementAttributes extends AriaFeedArticleElementAttributes {
+export interface FeedArticleElementAttributes<T = any> extends AriaFeedArticleElementAttributes {
+  buttons?: T[]
   headline?: string
+  image?: string
   'leading-icon'?: string
   'leading-image'?: string
   'leading-text'?: string
+  subhead?: string
   text?: string
   'trailing-icon'?: string
   'trailing-image'?: string
@@ -471,7 +473,7 @@ export interface FormElementAttributes<T = any> extends BaseElementAttributes {
   spinning?: boolean
 }
 
-export interface InputElementAttributes extends FormFieldElementAttributes {
+export interface InputElementAttributes extends FormControlElementAttributes {
   autofocus?: boolean
   multiple?: boolean
   obscured?: boolean
@@ -482,13 +484,27 @@ export interface InputElementAttributes extends FormFieldElementAttributes {
   value?: InputElementValue
 }
 
-export interface InputFileElementAttributes extends FormFieldElementAttributes {
+export interface InputFileElementAttributes extends FormControlElementAttributes {
   'deserialize-file-resolve-array-buffer'?: boolean
   'deserialize-file-resolve-text'?: boolean
   multiple?: boolean
 }
 
+export interface ListBoxElementAttributes<T = any> extends AriaListBoxElementAttributes<T> {}
+
+export interface ListBoxOptionElementAttributes extends AriaListBoxOptionElementAttributes {
+  headline?: string
+  'leading-icon'?: string
+  'leading-image'?: string
+  'leading-text'?: string
+  text?: string
+  'trailing-icon'?: string
+  'trailing-image'?: string
+  'trailing-text'?: string
+}
+
 export interface RadioButtonElementAttributes extends AriaRadioButtonElementAttributes {
+  headline?: string
   icon?: string
   text?: string
 }
@@ -508,8 +524,14 @@ export interface SelectInputElementAttributes extends AriaComboBoxInputElementAt
 export interface SelectListElementAttributes extends AriaComboBoxListElementAttributes {}
 
 export interface SelectOptionElementAttributes extends AriaComboBoxOptionElementAttributes {
-  icon?: string
+  headline?: string
+  'leading-icon'?: string
+  'leading-image'?: string
+  'leading-text'?: string
   text?: string
+  'trailing-icon'?: string
+  'trailing-image'?: string
+  'trailing-text'?: string
 }
 
 export interface SliderElementAttributes<T = any> extends AriaSliderElementAttributes {
@@ -523,7 +545,7 @@ export interface SwitchElementAttributes extends AriaSwitchElementAttributes {
   value?: boolean
 }
 
-export interface TextAreaElementAttributes extends FormFieldElementAttributes {
+export interface TextAreaElementAttributes extends FormControlElementAttributes {
   autosize?: boolean
   cols?: number
   multiple?: boolean
@@ -567,10 +589,15 @@ export interface MenuElementAttributes<T, U = any> extends AriaMenuElementAttrib
 export interface MenuButtonElementAttributes extends AriaMenuButtonElementAttributes {}
 
 export interface MenuItemElementAttributes<T = any> extends AriaMenuItemElementAttributes {
-  href?: string
-  icon?: string
+  headline?: string
   items?: T[]
+  'leading-icon'?: string
+  'leading-image'?: string
+  'leading-text'?: string
   text?: string
+  'trailing-icon'?: string
+  'trailing-image'?: string
+  'trailing-text'?: string
 }
 
 export interface MenuSubMenuElementAttributes extends AriaMenuSubMenuElementAttributes {}
@@ -582,8 +609,10 @@ export interface NavigationBarElementAttributes<T = any> extends BaseElementAttr
 
 export interface NavigationBarItemElementAttributes extends BaseElementAttributes {
   active?: boolean
-  headline?: string
+  badge?: boolean
+  'badge-text'?: string
   icon?: string
+  text?: string
 }
 
 export interface NavigationRailElementAttributes<T = any> extends BaseElementAttributes {
@@ -593,8 +622,10 @@ export interface NavigationRailElementAttributes<T = any> extends BaseElementAtt
 
 export interface NavigationRailItemElementAttributes extends BaseElementAttributes {
   active?: boolean
-  headline?: string
+  badge?: boolean
+  'badge-text'?: string
   icon?: string
+  text?: string
 }
 
 export interface TabsElementAttributes<T = any> extends AriaTabsElementAttributes {
@@ -620,6 +651,13 @@ export interface AccordionPanelElementAttributes extends AriaAccordionPanelEleme
 export interface AccordionSectionElementAttributes extends AriaAccordionSectionElementAttributes {
   headline?: string
   icon?: string
+  text?: string
+}
+
+export interface CardElementAttributes extends BaseElementAttributes {
+  headline?: string
+  image?: string
+  subhead?: string
   text?: string
 }
 

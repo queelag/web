@@ -5,8 +5,8 @@ import type { CarouselSlideDeactivateEvent } from '../events/carousel-slide-deac
 import type { ComboBoxCollapseEvent } from '../events/combo-box-collapse-event.js'
 import type { ComboBoxExpandEvent } from '../events/combo-box-expand-event.js'
 import type { ComboBoxOptionSelectEvent } from '../events/combo-box-option-select-event.js'
-import { DialogCloseEvent } from '../events/dialog-close-event.js'
-import { DialogOpenEvent } from '../events/dialog-open-event.js'
+import type { DialogCloseEvent } from '../events/dialog-close-event.js'
+import type { DialogOpenEvent } from '../events/dialog-open-event.js'
 import type { FocusTrapActivateEvent } from '../events/focus-trap-activate-event.js'
 import type { FocusTrapDeactivateEvent } from '../events/focus-trap-deactivate-event.js'
 import type { FocusTrapPostActivateEvent } from '../events/focus-trap-post-activate-event.js'
@@ -16,6 +16,7 @@ import type { SliderChangeEvent } from '../events/slider-change-event.js'
 import type { SliderThumbMoveEvent } from '../events/slider-thumb-move-event.js'
 import type { StateChangeEvent } from '../events/state-change-event.js'
 import type { TabsTabSelectionEvent } from '../events/tabs-tab-selection-event.js'
+import type { ListBoxOptionSelectEvent } from '../index.js'
 
 /**
  * ARIA Elements Events
@@ -54,9 +55,9 @@ export interface AriaCarouselSlidesElementEventMap extends BaseElementEventMap {
 export interface AriaCarouselTabElementEventMap extends BaseElementEventMap {}
 export interface AriaCarouselTabsElementEventMap extends BaseElementEventMap {}
 
-export interface AriaCheckBoxElementEventMap extends FormFieldElementEventMap {}
+export interface AriaCheckBoxElementEventMap extends FormControlElementEventMap {}
 
-export interface AriaComboBoxElementEventMap extends FormFieldElementEventMap {
+export interface AriaComboBoxElementEventMap extends FormControlElementEventMap {
   'combo-box-collapse': ComboBoxCollapseEvent
   'combo-box-expand': ComboBoxExpandEvent
 }
@@ -94,7 +95,10 @@ export interface AriaListElementEventMap extends BaseElementEventMap {}
 export interface AriaListItemElementEventMap extends BaseElementEventMap {}
 
 export interface AriaListBoxElementEventMap extends BaseElementEventMap {}
-export interface AriaListBoxOptionElementEventMap extends BaseElementEventMap {}
+
+export interface AriaListBoxOptionElementEventMap extends BaseElementEventMap {
+  'list-box-option-select': ListBoxOptionSelectEvent<any>
+}
 
 export interface AriaMenuElementEventMap extends BaseElementEventMap {}
 export interface AriaMenuButtonElementEventMap extends BaseElementEventMap {}
@@ -104,9 +108,9 @@ export interface AriaMenuSubMenuElementEventMap extends FloatingElementEventMap 
 export interface AriaMeterElementEventMap extends BaseElementEventMap {}
 
 export interface AriaRadioButtonElementEventMap extends BaseElementEventMap {}
-export interface AriaRadioGroupElementEventMap extends FormFieldElementEventMap {}
+export interface AriaRadioGroupElementEventMap extends FormControlElementEventMap {}
 
-export interface AriaSliderElementEventMap extends FormFieldElementEventMap {
+export interface AriaSliderElementEventMap extends FormControlElementEventMap {
   'slider-change': SliderChangeEvent
 }
 
@@ -114,7 +118,7 @@ export interface AriaSliderThumbElementEventMap extends BaseElementEventMap {
   'slider-thumb-move': SliderThumbMoveEvent
 }
 
-export interface AriaSwitchElementEventMap extends FormFieldElementEventMap {}
+export interface AriaSwitchElementEventMap extends FormControlElementEventMap {}
 
 export interface AriaTabsElementEventMap extends BaseElementEventMap {}
 export interface AriaTabsPanelElementEventMap extends BaseElementEventMap {}
@@ -147,7 +151,7 @@ export interface FocusTrapElementEventMap extends BaseElementEventMap {
   'focus-trap-post-deactivate': FocusTrapPostDeactivateEvent
 }
 
-export interface FormFieldElementEventMap extends BaseElementEventMap {}
+export interface FormControlElementEventMap extends BaseElementEventMap {}
 
 /**
  * Data Elements Events
@@ -217,8 +221,11 @@ export interface FormElementEventMap extends BaseElementEventMap {
   'form-submit': FormSubmitEvent
 }
 
-export interface InputElementEventMap extends FormFieldElementEventMap {}
-export interface InputFileElementEventMap extends FormFieldElementEventMap {}
+export interface InputElementEventMap extends FormControlElementEventMap {}
+export interface InputFileElementEventMap extends FormControlElementEventMap {}
+
+export interface ListBoxElementEventMap extends AriaListBoxElementEventMap {}
+export interface ListBoxOptionElementEventMap extends AriaListBoxOptionElementEventMap {}
 
 export interface RadioButtonElementEventMap extends AriaRadioButtonElementEventMap {}
 export interface RadioGroupElementEventMap extends AriaRadioGroupElementEventMap {}
@@ -234,7 +241,7 @@ export interface SliderElementEventMap extends AriaSliderElementEventMap {}
 export interface SliderThumbElementEventMap extends AriaSliderThumbElementEventMap {}
 
 export interface SwitchElementEventMap extends AriaSwitchElementEventMap {}
-export interface TextAreaElementEventMap extends FormFieldElementEventMap {}
+export interface TextAreaElementEventMap extends FormControlElementEventMap {}
 
 /**
  * Layout Elements Events
@@ -277,6 +284,8 @@ export interface AccordionButtonElementEventMap extends AriaAccordionButtonEleme
 export interface AccordionHeaderElementEventMap extends AriaAccordionHeaderElementEventMap {}
 export interface AccordionPanelElementEventMap extends AriaAccordionPanelElementEventMap {}
 export interface AccordionSectionElementEventMap extends AriaAccordionSectionElementEventMap {}
+
+export interface CardElementEventMap extends BaseElementEventMap {}
 
 export interface DisclosureElementEventMap extends AriaDisclosureElementEventMap {}
 export interface DisclosureButtonElementEventMap extends AriaDisclosureButtonElementEventMap {}

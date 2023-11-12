@@ -4,7 +4,7 @@ export interface BaseElement extends HTMLElement {
   get name(): string
 }
 
-export interface FormFieldElement extends BaseElement {
+export interface FormControlElement extends BaseElement {
   path?: string
   target?: object
 }
