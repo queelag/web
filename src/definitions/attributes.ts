@@ -515,7 +515,7 @@ export interface RadioGroupElementAttributes<T = any> extends AriaRadioGroupElem
 
 export interface SelectElementAttributes<T, U = any> extends AriaComboBoxElementAttributes<T> {
   options?: U[]
-  value?: any | any[]
+  value?: any
 }
 
 export interface SelectButtonElementAttributes extends AriaComboBoxButtonElementAttributes {}

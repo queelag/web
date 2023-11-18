@@ -16,30 +16,6 @@ export type CanvasDataURLType = 'image/jpeg' | 'image/png' | 'image/webp'
 
 export type ChipElementVariant = 'assist' | 'filter' | 'input' | 'suggestion'
 
-export type Color =
-  | 'amber'
-  | 'black'
-  | 'blue'
-  | 'cyan'
-  | 'emerald'
-  | 'fuchsia'
-  | 'gray'
-  | 'green'
-  | 'indigo'
-  | 'lime'
-  | 'orange'
-  | 'pink'
-  | 'purple'
-  | 'red'
-  | 'rose'
-  | 'teal'
-  | 'violet'
-  | 'yellow'
-  | 'white'
-  | string
-
-export type Constructor<T> = new (...args: any[]) => T
-
 export type Direction = 'down' | 'left' | 'right' | 'up'
 export type DirectionHorizontal = 'left' | 'right'
 export type DirectionVertical = 'down' | 'up'
@@ -62,14 +38,13 @@ export type FormControlElementTarget = Record<PropertyKey, any>
 export type FormControlElementValidation = [StructError | undefined, any]
 
 export type GetRadioButtonLabel<T> = (button: T) => string | undefined
-export type GetRadioButtonValue<T> = (button: T) => any | undefined
+export type GetRadioButtonValue<T> = (button: T) => any
 
 export type GetSelectOptionLabel<T> = (option: T) => string | undefined
-export type GetSelectOptionValue<T> = (option: T) => any | undefined
+export type GetSelectOptionValue<T> = (option: T) => any
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
 
-export type ImageElementCacheType = CanvasDataURLType
 export type ImageElementCrossOrigin = 'anonymous' | 'use-credentials'
 export type ImageElementStatus = 'idle' | 'fetching' | 'loaded' | 'error'
 
@@ -96,9 +71,9 @@ export type InputElementValue = Date | number | string | string[] | Uint8Array |
 export type Layer = 0 | 1 | 2 | 3
 export type Orientation = 'horizontal' | 'vertical'
 export type Shape = 'circle' | 'pill' | 'rectangle' | 'square' | 'squircle'
-export type Size = 'small' | 'medium' | 'large' | string | number
+export type Size = number | string
 
-export type TextAreaElementTouchTrigger = InputElementTouchTrigger
+export type TextAreaElementTouchTrigger = 'blur' | 'input'
 export type TextAreaElementValue = string | string[] | undefined
 export type TextAreaElementResize = 'both' | 'horizontal' | 'vertical' | 'none'
 

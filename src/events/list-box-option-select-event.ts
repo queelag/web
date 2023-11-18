@@ -10,7 +10,7 @@ interface Detail<T> {
  * @category Event
  */
 export class ListBoxOptionSelectEvent<T extends HTMLElement> extends IsomorphicEvent<Detail<T>> {
-  constructor(element: T, value: any | undefined) {
+  constructor(element: T, value: any) {
     super('list-box-option-select', { detail: { element, value } })
   }
 }

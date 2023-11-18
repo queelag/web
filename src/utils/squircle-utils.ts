@@ -67,7 +67,7 @@ export function getSquirclePathD(size: number, curvature: number): string {
 }
 
 export function getSquirclePathTransform(size: number): string {
-  return `rotate(${0}, ${size / 2}, ${size / 2}) translate(${(size - size) / 2}, ${(size - size) / 2})`
+  return `rotate(${0}, ${size / 2}, ${size / 2}) translate(${0}, ${0})`
 }
 
 export function getSquirclesContainer(): HTMLElement {

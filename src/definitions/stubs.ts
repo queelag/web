@@ -57,9 +57,7 @@ export class StubEvent implements Event {
   readonly defaultPrevented: boolean
   readonly eventPhase: number
   readonly isTrusted: boolean
-  /** @deprecated */
   returnValue: boolean
-  /** @deprecated */
   readonly srcElement: EventTarget | null
   readonly target: EventTarget | null
   readonly timeStamp: DOMHighResTimeStamp
@@ -91,10 +89,21 @@ export class StubEvent implements Event {
   }
 
   /** @deprecated */
-  initEvent(type: string, bubbles?: boolean, cancelable?: boolean): void {}
-  preventDefault(): void {}
-  stopImmediatePropagation(): void {}
-  stopPropagation(): void {}
+  initEvent(type: string, bubbles?: boolean, cancelable?: boolean): void {
+    return
+  }
+
+  preventDefault(): void {
+    return
+  }
+
+  stopImmediatePropagation(): void {
+    return
+  }
+
+  stopPropagation(): void {
+    return
+  }
 
   readonly AT_TARGET: 2
   readonly BUBBLING_PHASE: 3

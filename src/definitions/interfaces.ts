@@ -11,14 +11,14 @@ export interface GetImageSrcBase64Options extends GetImageElementBase64Options {
 }
 
 export interface IconElementSanitizeConfig extends SanitizeConfig {
-  RETURN_DOM?: false | undefined
-  RETURN_DOM_FRAGMENT?: false | undefined
+  RETURN_DOM?: false
+  RETURN_DOM_FRAGMENT?: false
 }
 
 export interface QueryDeclaration {
   all?: boolean
   closest?: boolean
-  selector: keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap | string
+  selector: keyof HTMLElementTagNameMap | keyof MathMLElementTagNameMap | keyof SVGElementTagNameMap
   shadow?: boolean
 }
 
