@@ -92,6 +92,9 @@ export enum ElementName {
   ALERT_DIALOG_LABEL = 'alert_dialog_label',
 
   AVATAR = 'avatar',
+
+  BASE = 'base',
+
   BUTTON = 'button',
   BUTTON_GROUP = 'button_group',
 
