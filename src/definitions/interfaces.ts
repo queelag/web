@@ -18,7 +18,7 @@ export interface IconElementSanitizeConfig extends SanitizeConfig {
 export interface QueryDeclaration {
   all?: boolean
   closest?: boolean
-  selector: keyof HTMLElementTagNameMap | keyof MathMLElementTagNameMap | keyof SVGElementTagNameMap
+  selector: string
   shadow?: boolean
 }
 
