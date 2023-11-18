@@ -9,6 +9,7 @@ import type {
   ButtonPressed,
   ButtonType,
   ButtonVariant,
+  CanvasDataURLType,
   ChipElementVariant,
   FocusTrapAllowOutsideClick,
   FocusTrapCheckCanFocusTrap,
@@ -20,7 +21,6 @@ import type {
   FormControlElementSchema,
   FormControlElementTarget,
   HeadingLevel,
-  ImageElementCacheType,
   InputElementTouchTrigger,
   InputElementType,
   InputElementValue,
@@ -381,7 +381,7 @@ export interface ImageElementAttributes extends BaseElementAttributes {
   alt?: string
   cache?: boolean
   'cache-quality'?: number
-  'cache-type'?: ImageElementCacheType
+  'cache-type'?: CanvasDataURLType
   'cross-origin'?: string
   eager?: boolean
   lazy?: boolean
