@@ -1,4 +1,4 @@
-import { ID } from '@aracna/core'
+import { generateRandomString } from '@aracna/core'
 import { DEFAULT_SQUIRCLE_CURVATURE, ELEMENT_UID_GENERATE_OPTIONS, SQUIRCLES_CONTAINER_ID, SVG_NAMESPACE_URI } from '../definitions/constants.js'
 import { ElementName } from '../definitions/enums.js'
 
@@ -25,7 +25,7 @@ export function createSquircleElement(size: number, curvature: number = DEFAULT_
   svg = document.createElementNS(SVG_NAMESPACE_URI, 'svg')
   svg.setAttribute('curvature', curvature.toString())
   svg.setAttribute('fill', 'black')
-  svg.setAttribute('id', ID.generate({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.SQUIRCLE }))
+  svg.setAttribute('id', generateRandomString({ ...ELEMENT_UID_GENERATE_OPTIONS, prefix: ElementName.SQUIRCLE }))
   svg.setAttribute('size', size.toString())
   svg.setAttribute('viewBox', viewbox)
   svg.setAttribute('xmlns', SVG_NAMESPACE_URI)

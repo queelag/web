@@ -1,4 +1,4 @@
-import { DeferredPromise, Interval, isStringJSON, noop, tc } from '@aracna/core'
+import { DeferredPromise, clearInterval, isStringJSON, noop, setInterval, tc } from '@aracna/core'
 import { WebSocketEventData } from '../definitions/types.js'
 import { ModuleLogger } from '../loggers/module-logger.js'
 
@@ -47,11 +47,11 @@ class AracnaWebSocket {
 
     promise = new DeferredPromise()
 
-    Interval.start(
+    setInterval(
       this.name,
       () => {
         if (this.isReadyStateClosed) {
-          Interval.stop(this.name)
+          clearInterval(this.name)
           promise.resolve()
         }
       },
@@ -75,11 +75,11 @@ class AracnaWebSocket {
 
     promise = new DeferredPromise()
 
-    Interval.start(
+    setInterval(
       this.name,
       () => {
         if (this.isReadyStateOpen) {
-          Interval.stop(this.name)
+          clearInterval(this.name)
           promise.resolve()
         }
       },

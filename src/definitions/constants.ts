@@ -1,4 +1,4 @@
-import { IDGenerateOptions, ID_ALPHABET_HEX_LOWERCASE, TypeaheadPredicate, getObjectProperty, isObject } from '@aracna/core'
+import { ALPHABET_HEX_LOWERCASE, GenerateRandomStringOptions, TypeaheadPredicate, getObjectProperty, isObject } from '@aracna/core'
 import { IconElementSanitizeConfig } from './interfaces.js'
 import {
   AriaComboBoxElementFilterOptionsPredicate,
@@ -67,7 +67,7 @@ export const DEFAULT_BADGE_MIN: number = 0
 /**
  * Elements
  */
-export const ELEMENT_UID_GENERATE_OPTIONS: IDGenerateOptions = { alphabet: ID_ALPHABET_HEX_LOWERCASE, size: 8 }
+export const ELEMENT_UID_GENERATE_OPTIONS: GenerateRandomStringOptions = { alphabet: ALPHABET_HEX_LOWERCASE, size: 8 }
 
 /**
  * IconElement
