@@ -7,7 +7,7 @@ import {
   setImmutableElementAttribute
 } from '../../src'
 
-describe('ElementUtils', () => {
+describe('Element Utils', () => {
   let element: HTMLDivElement
 
   beforeEach(() => {

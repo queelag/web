@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from 'vitest'
 import { DEFAULT_IMAGE_SRC } from '../../src'
 
-describe('ImageUtils', () => {
+describe('Image Utils', () => {
   let image: HTMLImageElement
 
   beforeEach(() => {

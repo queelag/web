@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { getSliderThumbElementPercentage, getSliderThumbElementStyleLeft, getSliderThumbElementStyleTop } from '../../src'
 
-describe('SliderElementUtils', () => {
+describe('Slider Element Utils', () => {
   it('gets thumb element styles', () => {
     expect(getSliderThumbElementStyleLeft(25)).toBe('25%')
     expect(getSliderThumbElementStyleTop(75)).toBe('0')
