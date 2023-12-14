@@ -1,4 +1,5 @@
-import { DEFAULT_GET_SELECT_OPTION_LABEL, DEFAULT_GET_SELECT_OPTION_VALUE, GetSelectOptionLabel, GetSelectOptionValue } from '../index.js'
+import { DEFAULT_GET_SELECT_OPTION_LABEL, DEFAULT_GET_SELECT_OPTION_VALUE } from '../definitions/constants.js'
+import { GetSelectOptionLabel, GetSelectOptionValue } from '../definitions/types.js'
 
 export function findSelectOptionByValue<T>(options: T[], value: any, getValue: GetSelectOptionValue<T> = DEFAULT_GET_SELECT_OPTION_VALUE): T | undefined {
   return options.find((option: T) => getValue(option) === value)

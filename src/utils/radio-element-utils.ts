@@ -1,4 +1,5 @@
-import { DEFAULT_GET_RADIO_BUTTON_LABEL, DEFAULT_GET_RADIO_BUTTON_VALUE, GetRadioButtonLabel, GetRadioButtonValue } from '../index.js'
+import { DEFAULT_GET_RADIO_BUTTON_LABEL, DEFAULT_GET_RADIO_BUTTON_VALUE } from '../definitions/constants.js'
+import { GetRadioButtonLabel, GetRadioButtonValue } from '../definitions/types.js'
 
 export function findRadioButtonByValue<T>(options: T[], value: any, getValue: GetRadioButtonValue<T> = DEFAULT_GET_RADIO_BUTTON_VALUE): T | undefined {
   return options.find((option: T) => getValue(option) === value)

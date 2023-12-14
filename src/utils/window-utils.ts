@@ -1,5 +1,5 @@
 import { Environment } from '@aracna/core'
-import { StubDOMRect } from '../index.js'
+import { StubDOMRect } from '../definitions/stubs.js'
 
 export function getWindowBoundingClientRect(): DOMRect {
   if (Environment.isWindowNotDefined) {

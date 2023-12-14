@@ -1,6 +1,6 @@
 import { DeferredPromise, EventEmitter, clearInterval, isStringJSON, setInterval, tc } from '@aracna/core'
+import { WebSocketEvents } from '../definitions/interfaces.js'
 import { WebSocketEventData } from '../definitions/types.js'
-import { WebSocketEvents } from '../index.js'
 import { ClassLogger } from '../loggers/class-logger.js'
 
 class AracnaWebSocket extends EventEmitter<WebSocketEvents> {

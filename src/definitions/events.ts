@@ -12,11 +12,11 @@ import type { FocusTrapDeactivateEvent } from '../events/focus-trap-deactivate-e
 import type { FocusTrapPostActivateEvent } from '../events/focus-trap-post-activate-event.js'
 import type { FocusTrapPostDeactivateEvent } from '../events/focus-trap-post-deactivate-event.js'
 import type { FormSubmitEvent } from '../events/form-submit-event.js'
+import type { ListBoxOptionSelectEvent } from '../events/list-box-option-select-event.js'
 import type { SliderChangeEvent } from '../events/slider-change-event.js'
 import type { SliderThumbMoveEvent } from '../events/slider-thumb-move-event.js'
 import type { StateChangeEvent } from '../events/state-change-event.js'
 import type { TabsTabSelectionEvent } from '../events/tabs-tab-selection-event.js'
-import type { ListBoxOptionSelectEvent } from '../index.js'
 
 /**
  * ARIA Elements Events
