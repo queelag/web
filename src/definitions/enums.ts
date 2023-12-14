@@ -197,7 +197,12 @@ export enum KeyboardEventKey {
 }
 
 export enum LoggerName {
+  CLASS = 'WEB_CLASS',
   ELEMENT = 'WEB_ELEMENT',
-  MODULE = 'WEB_MODULE',
   UTIL = 'WEB_UTIL'
+}
+
+export enum StorageName {
+  LOCAL = 'WEB_LOCAL',
+  SESSION = 'WEB_SESSION'
 }

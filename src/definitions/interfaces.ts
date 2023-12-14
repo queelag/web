@@ -1,3 +1,4 @@
+import { EventEmitterEvents } from '@aracna/core'
 import type { Config as SanitizeConfig } from 'dompurify'
 import { CanvasDataURLType } from './types.js'
 
@@ -35,4 +36,11 @@ export interface ShapeOptions {
     curvature?: number
     size?: number
   }
+}
+
+export interface WebSocketEvents extends EventEmitterEvents {
+  close: (event: CloseEvent) => any
+  error: (event: Event) => any
+  message: (event: MessageEvent) => any
+  open: (event: Event) => any
 }

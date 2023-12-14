@@ -1,10 +1,8 @@
 import { Environment, StorageItem, SyncStorage } from '@aracna/core'
+import { StorageName } from '../definitions/enums.js'
 
-/**
- * @category Module
- */
 export const LocalStorage = new SyncStorage(
-  'LocalStorage',
+  StorageName.LOCAL,
   () => (Environment.isWindowDefined ? localStorage.clear() : undefined),
   (key: string) => (Environment.isWindowDefined ? JSON.parse(localStorage.getItem(key) ?? '{}') : {}),
   (key: string) => (Environment.isWindowDefined ? localStorage.getItem(key) !== null : false),

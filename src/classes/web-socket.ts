@@ -1,40 +1,21 @@
-import { DeferredPromise, clearInterval, isStringJSON, noop, setInterval, tc } from '@aracna/core'
+import { DeferredPromise, EventEmitter, clearInterval, isStringJSON, setInterval, tc } from '@aracna/core'
 import { WebSocketEventData } from '../definitions/types.js'
-import { ModuleLogger } from '../loggers/module-logger.js'
+import { WebSocketEvents } from '../index.js'
+import { ClassLogger } from '../loggers/class-logger.js'
 
-/**
- * @category Module
- */
-// istanbul ignore next
-class AracnaWebSocket {
+class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
   instance: WebSocket
   name: string
   protocols: string | string[] | undefined
   url: string
 
-  private _onClose: (event: CloseEvent) => any = noop
-  private _onError: (event: Event) => any = noop
-  private _onMessage: (event: MessageEvent) => any = noop
-  private _onOpen: (event: Event) => any = noop
+  constructor(name: string, url: string, protocols?: string | string[]) {
+    super()
 
-  constructor(
-    name: string,
-    url: string,
-    protocols?: string | string[],
-    onClose: (event: CloseEvent) => any = noop,
-    onError: (event: Event) => any = noop,
-    onMessage: (event: MessageEvent) => any = noop,
-    onOpen: (event: Event) => any = noop
-  ) {
     this.instance = {} as any
     this.name = name
     this.protocols = protocols
     this.url = url
-
-    this.onClose = onClose
-    this.onError = onError
-    this.onMessage = onMessage
-    this.onOpen = onOpen
   }
 
   async close(): Promise<void | Error> {
@@ -43,7 +24,7 @@ class AracnaWebSocket {
     close = tc(() => this.instance.close())
     if (close instanceof Error) return close
 
-    ModuleLogger.debug(this.id, 'close', `The web socket is closing the connection.`)
+    ClassLogger.debug(this.id, 'close', `The web socket is closing the connection.`)
 
     promise = new DeferredPromise()
 
@@ -93,7 +74,7 @@ class AracnaWebSocket {
     let tdata: WebSocketEventData<T>, send: void | Error
 
     if (this.isReadyStateNotOpen) {
-      ModuleLogger.warn(this.id, 'send', `The web socket ready state is not open, this message can't be sent.`)
+      ClassLogger.warn(this.id, 'send', `The web socket ready state is not open, this message can't be sent.`)
       return
     }
 
@@ -101,13 +82,13 @@ class AracnaWebSocket {
       case data instanceof ArrayBuffer:
       case data instanceof Blob:
         tdata = data
-        ModuleLogger.debug(this.id, 'send', `The data is an ArrayBuffer or Blob, no transformations are needed.`, tdata)
+        ClassLogger.debug(this.id, 'send', `The data is an ArrayBuffer or Blob, no transformations are needed.`, tdata)
 
         break
       default:
         if (typeof data === 'object') {
           tdata = JSON.stringify(data)
-          ModuleLogger.debug(this.id, 'send', `The data has been JSON stringified.`, [tdata])
+          ClassLogger.debug(this.id, 'send', `The data has been JSON stringified.`, [tdata])
 
           break
         }
@@ -117,7 +98,7 @@ class AracnaWebSocket {
     }
 
     tdata = this.transformOutgoingData(data)
-    ModuleLogger.debug(this.id, 'send', `The data has been transformed.`, [tdata])
+    ClassLogger.debug(this.id, 'send', `The data has been transformed.`, [tdata])
 
     send = tc(() => this.instance.send(tdata as any))
     if (send instanceof Error) return send
@@ -133,23 +114,43 @@ class AracnaWebSocket {
 
   setBinaryType(type: BinaryType): void {
     this.instance.binaryType = type
-    ModuleLogger.debug(this.id, 'setBinaryType', `The binary type has been set to ${type}.`)
+    ClassLogger.debug(this.id, 'setBinaryType', `The binary type has been set to ${type}.`)
   }
 
-  get onClose(): (event: CloseEvent) => any {
-    return this._onClose
+  onClose = (event: CloseEvent) => {
+    ClassLogger.debug(this.id, 'onClose', `The web socket connection has been closed.`, event)
+
+    this.emit('close', event)
+    ClassLogger.verbose(this.id, 'onClose', `The close event has been emitted.`, event)
   }
 
-  get onError(): (event: Event) => any {
-    return this._onError
+  onError = (event: Event) => {
+    ClassLogger.debug(this.id, 'onError', `The web socket crashed.`, event)
+
+    this.emit('error', event)
+    ClassLogger.verbose(this.id, 'onError', `The error event has been emitted.`, event)
   }
 
-  get onMessage(): (event: MessageEvent) => any {
-    return this._onMessage
+  onMessage = (event: MessageEvent) => {
+    ClassLogger.debug(this.id, 'onMessage', `The web socket received a message.`, event)
+
+    if (isStringJSON(event.data)) {
+      event = { ...event, data: JSON.parse(event.data) }
+      ClassLogger.debug(this.id, 'onMessage', `The data has been JSON parsed.`, event.data)
+    }
+
+    event = { ...event, data: this.transformIncomingData(event.data) }
+    ClassLogger.debug(this.id, 'onMessage', `The data has been transformed.`, event.data)
+
+    this.emit('message', event)
+    ClassLogger.verbose(this.id, 'onMessage', `The message event has been emitted.`, event)
   }
 
-  get onOpen(): (event: Event) => any {
-    return this._onOpen
+  onOpen = (event: Event) => {
+    ClassLogger.debug(this.id, 'onOpen', `The web socket connection has been opened.`, event)
+
+    this.emit('open', event)
+    ClassLogger.verbose(this.id, 'onOpen', `The open event has been emitted.`, event)
   }
 
   get id(): string {
@@ -186,46 +187,6 @@ class AracnaWebSocket {
 
   get isReadyStateNotOpen(): boolean {
     return this.instance.readyState !== WebSocket.OPEN
-  }
-
-  set onClose(onClose: (event: CloseEvent) => any) {
-    this._onClose = (event: CloseEvent) => {
-      ModuleLogger.debug(this.id, 'onClose', `The web socket connection has been closed.`, event)
-
-      onClose(event)
-    }
-  }
-
-  set onError(onError: (event: Event) => any) {
-    this._onError = (event: Event) => {
-      ModuleLogger.debug(this.id, 'onError', `The web socket crashed.`, event)
-
-      onError(event)
-    }
-  }
-
-  set onMessage(onMessage: (event: MessageEvent) => any) {
-    this._onMessage = (event: MessageEvent) => {
-      ModuleLogger.debug(this.id, 'onMessage', `The web socket received a message.`, event)
-
-      if (isStringJSON(event.data)) {
-        event = { ...event, data: JSON.parse(event.data) }
-        ModuleLogger.debug(this.id, 'onMessage', `The data has been JSON parsed.`, event.data)
-      }
-
-      event = { ...event, data: this.transformIncomingData(event.data) }
-      ModuleLogger.debug(this.id, 'onMessage', `The data has been transformed.`, event.data)
-
-      onMessage(event)
-    }
-  }
-
-  set onOpen(onOpen: (event: Event) => any) {
-    this._onOpen = (event: Event) => {
-      ModuleLogger.debug(this.id, 'onOpen', `The web socket connection has been opened.`, event)
-
-      onOpen(event)
-    }
   }
 }
 

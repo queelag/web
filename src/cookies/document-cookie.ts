@@ -1,8 +1,5 @@
 import { Cookie, Environment } from '@aracna/core'
 
-/**
- * @category Module
- */
 export const DocumentCookie: Cookie = new Cookie(
   'DocumentCookie',
   () => {
