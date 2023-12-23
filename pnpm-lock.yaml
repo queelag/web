@@ -6,8 +6,8 @@ settings:
 
 devDependencies:
   '@aracna/core':
-    specifier: ^1.1.70
-    version: 1.1.70
+    specifier: ^1.1.74
+    version: 1.1.74
   '@floating-ui/dom':
     specifier: ^1.5.3
     version: 1.5.3
@@ -70,12 +70,12 @@ packages:
       '@jridgewell/trace-mapping': 0.3.20
     dev: true
 
-  /@aracna/core@1.1.70:
-    resolution: {integrity: sha512-UsBl8iLxD88sGvppccOlf7aMD1bbxEu4lchd78R0x26s3+0u8gA/VXmQ373uMeVv5gdrm0Gs6Gs/GjELLVhWNw==}
+  /@aracna/core@1.1.74:
+    resolution: {integrity: sha512-IwHNZg8cx55MxbHyRI/KmmH98yyolRMXmB94Ag+hW3poBCVcmaebKnuwoWM9QHVah3mJ+64KrraU3L+fMawkrw==}
     engines: {node: '>=20', pnpm: '>=8'}
     dependencies:
-      '@types/cookie': 0.5.4
-      cookie: 0.5.0
+      '@types/cookie': 0.6.0
+      cookie: 0.6.0
       nanoid: 3.3.7
       node-fetch: 3.3.2
       rfc4648: 1.5.3
@@ -611,8 +611,8 @@ packages:
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}
     dev: true
 
-  /@types/cookie@0.5.4:
-    resolution: {integrity: sha512-7z/eR6O859gyWIAjuvBWFzNURmf2oPBmJlfVWkwehU5nzIyjwBsTh7WMmEEV4JFnHuQ3ex4oyTvfKzcyJVDBNA==}
+  /@types/cookie@0.6.0:
+    resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
     dev: true
 
   /@types/dompurify@3.0.5:
@@ -887,8 +887,8 @@ packages:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
     dev: true
 
-  /cookie@0.5.0:
-    resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
+  /cookie@0.6.0:
+    resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
     engines: {node: '>= 0.6'}
     dev: true
 

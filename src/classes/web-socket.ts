@@ -29,14 +29,14 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
     promise = new DeferredPromise()
 
     setInterval(
-      this.name,
       () => {
         if (this.isReadyStateClosed) {
           clearInterval(this.name)
           promise.resolve()
         }
       },
-      100
+      100,
+      this.name
     )
 
     return promise.instance
@@ -57,14 +57,14 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
     promise = new DeferredPromise()
 
     setInterval(
-      this.name,
       () => {
         if (this.isReadyStateOpen) {
           clearInterval(this.name)
           promise.resolve()
         }
       },
-      100
+      100,
+      this.name
     )
 
     return promise.instance
