@@ -1,4 +1,4 @@
-import { Environment, tc } from '@aracna/core'
+import { isDocumentNotDefined, tc } from '@aracna/core'
 import { ElementAttributeValue } from '../definitions/types.js'
 import { getWindowBoundingClientRect } from './window-utils.js'
 
@@ -121,7 +121,7 @@ export function scrollElementIntoView<T extends Element, U extends HTMLElement>(
 }
 
 export function isElementFocused<T extends Element>(element: T): boolean {
-  if (Environment.isDocumentNotDefined) {
+  if (isDocumentNotDefined()) {
     return false
   }
 

@@ -6,8 +6,8 @@ settings:
 
 devDependencies:
   '@aracna/core':
-    specifier: ^1.1.74
-    version: 1.1.74
+    specifier: ^1.1.75
+    version: 1.1.75
   '@floating-ui/dom':
     specifier: ^1.5.3
     version: 1.5.3
@@ -70,8 +70,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.20
     dev: true
 
-  /@aracna/core@1.1.74:
-    resolution: {integrity: sha512-IwHNZg8cx55MxbHyRI/KmmH98yyolRMXmB94Ag+hW3poBCVcmaebKnuwoWM9QHVah3mJ+64KrraU3L+fMawkrw==}
+  /@aracna/core@1.1.75:
+    resolution: {integrity: sha512-3wMED2yRj/uUCP2CWgX89N0gI/vk2Vwj1GDzcu8WasWKZfK4TzzLzHOyQSIiWAzZEpFyuhpkzXoDPYfJl+wZ2A==}
     engines: {node: '>=20', pnpm: '>=8'}
     dependencies:
       '@types/cookie': 0.6.0

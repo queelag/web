@@ -1,4 +1,4 @@
-import { getNumberPercentage, toFixedNumber } from '@aracna/core'
+import { getFixedNumber, getNumberPercentage } from '@aracna/core'
 import {
   DEFAULT_SLIDER_DECIMALS,
   DEFAULT_SLIDER_MAX,
@@ -14,7 +14,7 @@ export function getSliderThumbElementPercentage(
   max: number = DEFAULT_SLIDER_MAX,
   decimals: number = DEFAULT_SLIDER_DECIMALS
 ): number {
-  return toFixedNumber(getNumberPercentage(value, min, max), decimals)
+  return getFixedNumber(getNumberPercentage(value, { min, max }), decimals)
 }
 
 export function getSliderThumbElementStyleLeft(percentage: number, orientation: Orientation = DEFAULT_SLIDER_ORIENTATION): string {

@@ -1,9 +1,9 @@
-import { Environment } from '@aracna/core'
+import { isWindowNotDefined } from '@aracna/core'
 
 export function isStringSVG(string: string): boolean {
   let parser: DOMParser, document: Document, element: SVGSVGElement | null
 
-  if (Environment.isWindowNotDefined) {
+  if (isWindowNotDefined()) {
     return false
   }
 

@@ -1,16 +1,16 @@
-import { Cookie, Environment } from '@aracna/core'
+import { Cookie, isDocumentNotDefined } from '@aracna/core'
 
 export const DocumentCookie: Cookie = new Cookie(
   'DocumentCookie',
   () => {
-    if (Environment.isDocumentNotDefined) {
+    if (isDocumentNotDefined()) {
       return ''
     }
 
     return document.cookie
   },
   (cookie: string) => {
-    if (Environment.isDocumentNotDefined) {
+    if (isDocumentNotDefined()) {
       return
     }
 
