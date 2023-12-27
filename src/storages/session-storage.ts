@@ -1,6 +1,11 @@
 import { StorageItem, SyncStorage, isWindowDefined } from '@aracna/core'
 import { StorageName } from '../definitions/enums.js'
 
+/**
+ * The `SessionStorage` is a `SyncStorage` that uses the `sessionStorage` API.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/storages/session-storage)
+ */
 export const SessionStorage = new SyncStorage(
   StorageName.SESSION,
   () => (isWindowDefined() ? sessionStorage.clear() : undefined),

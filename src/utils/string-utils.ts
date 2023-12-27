@@ -1,5 +1,10 @@
 import { isWindowNotDefined } from '@aracna/core'
 
+/**
+ * Checks if a string is a valid SVG.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/utils/string)
+ */
 export function isStringSVG(string: string): boolean {
   let parser: DOMParser, document: Document, element: SVGSVGElement | null
 

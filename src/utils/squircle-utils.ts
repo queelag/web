@@ -1,22 +1,47 @@
 import { generateRandomString } from '@aracna/core'
-import { DEFAULT_SQUIRCLE_CURVATURE, ELEMENT_UID_GENERATE_OPTIONS, SQUIRCLES_CONTAINER_ID, SVG_NAMESPACE_URI } from '../definitions/constants.js'
+import {
+  DEFAULT_SQUIRCLE_CURVATURE,
+  DEFAULT_SQUIRCLE_SIZE,
+  ELEMENT_UID_GENERATE_OPTIONS,
+  SQUIRCLES_CONTAINER_ID,
+  SVG_NAMESPACE_URI
+} from '../definitions/constants.js'
 import { ElementName } from '../definitions/enums.js'
+import { AppendSquircleElementOptions, CreateSquircleElementOptions, GetSquircleElementOptions } from '../index.js'
 
-export function appendSquircleElement(size: number, curvature: number = DEFAULT_SQUIRCLE_CURVATURE): void {
-  let container: HTMLElement, element: SVGSVGElement | null
+/**
+ * Appends a squircle element to the DOM.
+ * Optionally the curvature and the size can be specified.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/utils/squircle)
+ */
+export function appendSquircleElement(options?: AppendSquircleElementOptions): void {
+  let element: SVGSVGElement | null
 
-  container = getSquirclesContainer()
-
-  element = container.querySelector(`svg[size="${size}"][curvature="${curvature}"]`)
+  element = getSquircleElement(options)
   if (element) return
 
-  element = createSquircleElement(size, curvature)
-
-  container.append(element)
+  getSquirclesContainer().append(createSquircleElement(options))
 }
 
-export function createSquircleElement(size: number, curvature: number = DEFAULT_SQUIRCLE_CURVATURE): SVGSVGElement {
-  let d: string, transform: string, viewbox: string, svg: SVGSVGElement | null, clipath: SVGClipPathElement, path: SVGPathElement
+/**
+ * Creates a new squircle element.
+ * Optionally the curvature and the size can be specified.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/utils/squircle)
+ */
+export function createSquircleElement(options?: CreateSquircleElementOptions): SVGSVGElement {
+  let curvature: number,
+    size: number,
+    d: string,
+    transform: string,
+    viewbox: string,
+    svg: SVGSVGElement | null,
+    clipath: SVGClipPathElement,
+    path: SVGPathElement
+
+  curvature = options?.curvature ?? DEFAULT_SQUIRCLE_CURVATURE
+  size = options?.size ?? DEFAULT_SQUIRCLE_SIZE
 
   d = getSquirclePathD(size, curvature)
   transform = getSquirclePathTransform(size)
@@ -43,14 +68,34 @@ export function createSquircleElement(size: number, curvature: number = DEFAULT_
   return svg
 }
 
-export function getSquircleViewBox(size: number): string {
-  return `0 0 ${size} ${size}`
+/**
+ * Returns a squircle element.
+ * Optionally the curvature and the size can be specified.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/utils/squircle)
+ */
+export function getSquircleElement(options?: GetSquircleElementOptions): SVGSVGElement | null {
+  let curvature: number, size: number
+
+  curvature = options?.curvature ?? DEFAULT_SQUIRCLE_CURVATURE
+  size = options?.size ?? DEFAULT_SQUIRCLE_SIZE
+
+  return getSquirclesContainer().querySelector(`svg[size="${size}"][curvature="${curvature}"]`)
 }
 
+/**
+ * Returns the clip path ID of a squircle.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/utils/squircle)
+ */
 export function getSquircleClipPathID(size: number, curvature: number = DEFAULT_SQUIRCLE_CURVATURE): string {
   return `${ElementName.SQUIRCLE_CLIP_PATH}_${size}_${curvature}`.replace(/\./g, '')
 }
-
+/**
+ * Returns the path D of a squircle.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/utils/squircle)
+ */
 export function getSquirclePathD(size: number, curvature: number): string {
   let arc: number, d: string
 
@@ -66,10 +111,29 @@ export function getSquirclePathD(size: number, curvature: number): string {
   return d
 }
 
+/**
+ * Returns the path transform of a squircle.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/utils/squircle)
+ */
 export function getSquirclePathTransform(size: number): string {
   return `rotate(${0}, ${size / 2}, ${size / 2}) translate(${0}, ${0})`
 }
 
+/**
+ * Returns the viewbox of a squircle.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/utils/squircle)
+ */
+export function getSquircleViewBox(size: number): string {
+  return `0 0 ${size} ${size}`
+}
+
+/**
+ * Returns the squircles container element.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/utils/squircle)
+ */
 export function getSquirclesContainer(): HTMLElement {
   let element: HTMLElement | null
 

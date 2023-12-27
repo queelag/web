@@ -38,10 +38,10 @@ export type FormControlElementTarget = Record<PropertyKey, any>
 export type FormControlElementValidation = [StructError | undefined, any]
 
 export type GetRadioButtonLabel<T> = (button: T) => string | undefined
-export type GetRadioButtonValue<T> = (button: T) => any
+export type GetRadioButtonValue<T> = (button: T) => unknown
 
 export type GetSelectOptionLabel<T> = (option: T) => string | undefined
-export type GetSelectOptionValue<T> = (option: T) => any
+export type GetSelectOptionValue<T> = (option: T) => unknown
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
 
@@ -77,4 +77,6 @@ export type TextAreaElementTouchTrigger = 'blur' | 'input'
 export type TextAreaElementValue = string | string[] | undefined
 export type TextAreaElementResize = 'both' | 'horizontal' | 'vertical' | 'none'
 
-export type WebSocketEventData<T extends object> = T | ArrayBufferLike | ArrayBufferView | Blob | string
+export type WebSocketEventData<T extends object = object> = T | ArrayBufferLike | ArrayBufferView | Blob | string
+export type WebSocketTransformMessageData<T extends object = object> = (data: WebSocketEventData<T>) => WebSocketEventData<T>
+export type WebSocketTransformSendData<T extends object = object> = (data: WebSocketEventData<T>) => WebSocketEventData<T>

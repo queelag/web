@@ -2,7 +2,9 @@ import { FormControlElement } from '../definitions/elements.js'
 import { FormControlElementTarget } from '../definitions/types.js'
 
 /**
- * @category Collector
+ * The `FormControlElementCollector` class is used to store form control elements by their ID, UID  and target/path.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/collectors/form-control-element-collector)
  */
 export class FormControlElementCollector {
   private static mapByID: Map<string, any> = new Map()

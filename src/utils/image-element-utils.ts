@@ -1,10 +1,22 @@
 import { DeferredPromise, tc } from '@aracna/core'
 import { CACHE_IMAGES } from '../definitions/constants.js'
-import { GetImageElementBase64Options, GetImageSrcBase64Options } from '../definitions/interfaces.js'
+import { CacheImageElementBase64, CacheImageSrcBase64, GetImageElementBase64Options, GetImageSrcBase64Options } from '../definitions/interfaces.js'
 import { UtilLogger } from '../loggers/util-logger.js'
 
-export function cacheImageElement(image: HTMLImageElement, options?: GetImageElementBase64Options): void | Error {
+/**
+ * Caches the base64 data of an image element.
+ *
+ * - Optionally the caching can be forced even if the image has already been cached.
+ * - Optionally the quality and type of the saved data can be specified.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/utils/image-element)
+ */
+export function cacheImageElement(image: HTMLImageElement, options?: CacheImageElementBase64): void | Error {
   let base64: string | Error
+
+  if (options?.force !== true && CACHE_IMAGES.has(image.src)) {
+    return new Error('The image has already been cached.')
+  }
 
   base64 = getImageElementBase64(image, options)
   if (base64 instanceof Error) return base64
@@ -13,18 +25,40 @@ export function cacheImageElement(image: HTMLImageElement, options?: GetImageEle
   UtilLogger.verbose('cacheImageElement', `The image has been cached.`, image)
 }
 
-export async function cacheImageSrc(src: string, options?: GetImageSrcBase64Options): Promise<void | Error> {
+/**
+ * Caches the base64 data from an image src.
+ *
+ * - Optionally the caching can be forced even if the src has already been cached.
+ * - Optionally the quality and type of the saved data can be specified.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/utils/image-element)
+ */
+export async function cacheImageSrc(src: string, options?: CacheImageSrcBase64): Promise<void | Error> {
   let base64: string | Error
+
+  if (options?.force !== true && CACHE_IMAGES.has(src)) {
+    return new Error('The src has already been cached.')
+  }
 
   base64 = await getImageSrcBase64(src, options)
   if (base64 instanceof Error) return base64
 
   CACHE_IMAGES.set(src, base64)
-  UtilLogger.verbose('cacheImageSrc', `The image has been cached.`, [src])
+  UtilLogger.verbose('cacheImageSrc', `The src has been cached.`, [src])
 }
 
+/**
+ * Returns the base64 data of an image element.
+ * Optionally the quality and type of the saved data can be specified.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/utils/image-element)
+ */
 export function getImageElementBase64(image: HTMLImageElement, options?: GetImageElementBase64Options): string | Error {
   let canvas: HTMLCanvasElement, context: CanvasRenderingContext2D | null, draw: void | Error, base64: string | Error
+
+  if (options?.cache && CACHE_IMAGES.has(image.src)) {
+    return CACHE_IMAGES.get(image.src) as string
+  }
 
   canvas = document.createElement('canvas')
   canvas.height = image.naturalHeight
@@ -42,8 +76,18 @@ export function getImageElementBase64(image: HTMLImageElement, options?: GetImag
   return base64
 }
 
+/**
+ * Returns the base64 data from an image src.
+ * Optionally the quality and type of the saved data can be specified.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/utils/image-element)
+ */
 export async function getImageSrcBase64(src: string, options?: GetImageSrcBase64Options): Promise<string | Error> {
   let promise: DeferredPromise<string | Error>, element: HTMLImageElement
+
+  if (options?.cache && CACHE_IMAGES.has(src)) {
+    return CACHE_IMAGES.get(src) as string
+  }
 
   promise = new DeferredPromise()
   element = document.createElement('img')

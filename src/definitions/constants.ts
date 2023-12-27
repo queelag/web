@@ -7,17 +7,21 @@ import {
   GetSelectOptionLabel,
   GetSelectOptionValue,
   InputElementType,
-  Orientation
+  Orientation,
+  WebSocketTransformMessageData,
+  WebSocketTransformSendData
 } from './types.js'
 
 /**
  * AriaCarouselElement
  */
+/** */
 export const DEFAULT_CAROUSEL_ROTATION_DURATION: number = 2500
 
 /**
  * AriaComboBoxElement and SelectElement
  */
+/** */
 export const DEFAULT_COMBOBOX_FILTER_OPTIONS_PREDICATE: AriaComboBoxElementFilterOptionsPredicate<{ value?: any }> = (
   option: { value?: any },
   _,
@@ -30,12 +34,14 @@ export const DEFAULT_COMBOBOX_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ value?: 
 /**
  * AriaListBoxElement
  */
+/** */
 export const DEFAULT_LISTBOX_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ value?: any }> = (element: { value?: any }, value: string) =>
   String(element.value).toLowerCase().includes(value.toLowerCase().trim())
 
 /**
  * AriaMenuElement
  */
+/** */
 export const DEFAULT_MENU_COLLAPSE_DEBOUNCE_TIME: number = 200
 export const DEFAULT_MENU_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ headline?: string }> = (element: { headline?: string }, value: string) =>
   typeof element.headline === 'string' ? element.headline.toLowerCase().includes(value.toLowerCase().trim()) : true
@@ -43,6 +49,7 @@ export const DEFAULT_MENU_TYPEAHEAD_PREDICATE: TypeaheadPredicate<{ headline?: s
 /**
  * AriaMeterElement and MeterElement
  */
+/** */
 export const DEFAULT_METER_MAX: number = 1
 export const DEFAULT_METER_MIN: number = 0
 export const DEFAULT_METER_VALUE: number = 0
@@ -50,6 +57,7 @@ export const DEFAULT_METER_VALUE: number = 0
 /**
  * AriaSliderElement and SliderElement
  */
+/** */
 export const DEFAULT_SLIDER_DECIMALS: number = 0
 export const DEFAULT_SLIDER_MAX: number = 100
 export const DEFAULT_SLIDER_MIN: number = 0
@@ -61,17 +69,20 @@ export const DEFAULT_SLIDER_THUMB_VALUE: number = 0
 /**
  * BadgeElement
  */
+/** */
 export const DEFAULT_BADGE_MAX: number = 99
 export const DEFAULT_BADGE_MIN: number = 0
 
 /**
  * Elements
  */
+/** */
 export const ELEMENT_UID_GENERATE_OPTIONS: GenerateRandomStringOptions = { alphabet: ALPHABET_HEX_LOWERCASE, size: 8 }
 
 /**
  * IconElement
  */
+/** */
 export const CACHE_ICONS: Map<string, string> = new Map()
 export const DEFAULT_ICON_SVG_STRING: string = '<svg viewBox="0 0 0 0"></svg>'
 export const DEFAULT_ICON_SANITIZE_CONFIG: IconElementSanitizeConfig = { RETURN_DOM: false, RETURN_DOM_FRAGMENT: false }
@@ -80,6 +91,7 @@ export const FETCHING_ICONS: Set<string> = new Set()
 /**
  * ImageElement
  */
+/** */
 export const CACHE_IMAGES: Map<string, string> = new Map()
 export const DEFAULT_IMAGE_SIZE: string = '100%'
 export const DEFAULT_IMAGE_SRC: string = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
@@ -88,11 +100,13 @@ export const FETCHING_IMAGES: Set<string> = new Set()
 /**
  * InputElement
  */
+/** */
 export const DEFAULT_INPUT_TYPE: InputElementType = 'text'
 
 /**
  * RadioButtonElement
  */
+/** */
 export const DEFAULT_GET_RADIO_BUTTON_LABEL: GetRadioButtonLabel<unknown> = (button: unknown) => {
   let label: string | undefined, value: unknown
 
@@ -108,6 +122,7 @@ export const DEFAULT_GET_RADIO_BUTTON_VALUE: GetRadioButtonValue<unknown> = (but
 /**
  * SelectElement
  */
+/** */
 export const DEFAULT_GET_SELECT_OPTION_LABEL: GetSelectOptionLabel<unknown> = (option: unknown) => {
   let label: string | undefined, value: unknown
 
@@ -123,10 +138,21 @@ export const DEFAULT_GET_SELECT_OPTION_VALUE: GetSelectOptionValue<unknown> = (o
 /**
  * Squircle
  */
+/** */
 export const DEFAULT_SQUIRCLE_CURVATURE: number = 0.75
+export const DEFAULT_SQUIRCLE_SIZE: number = 0
 export const SQUIRCLES_CONTAINER_ID: string = 'squircles_7d4ad1ff'
 
 /**
  * SVG
  */
+/** */
 export const SVG_NAMESPACE_URI: 'http://www.w3.org/2000/svg' = 'http://www.w3.org/2000/svg' as const
+
+/**
+ * WebSocket
+ */
+/** */
+export const DEFAULT_WEB_SOCKET_BINARY_TYPE: BinaryType = 'blob'
+export const DEFAULT_WEB_SOCKET_TRANSFORM_MESSAGE_DATA: WebSocketTransformMessageData<any> = (data: any) => data
+export const DEFAULT_WEB_SOCKET_TRANSFORM_SEND_DATA: WebSocketTransformSendData<any> = (data: any) => data

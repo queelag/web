@@ -1,6 +1,11 @@
 import { StorageItem, SyncStorage, isWindowDefined } from '@aracna/core'
 import { StorageName } from '../definitions/enums.js'
 
+/**
+ * The `LocalStorage` is a `SyncStorage` that uses the `localStorage` API.
+ *
+ * [Aracna Reference](https://aracna.dariosechi.it/web/storages/local-storage)
+ */
 export const LocalStorage = new SyncStorage(
   StorageName.LOCAL,
   () => (isWindowDefined() ? localStorage.clear() : undefined),
