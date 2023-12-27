@@ -1,4 +1,4 @@
-import { STUB_COOKIE_GET, STUB_COOKIE_SET, STUB_STORAGE } from '@aracna/core'
+import { STUB_COOKIE_GET, STUB_COOKIE_SET, STUB_STORAGE, isDocumentDefined } from '@aracna/core'
 
 export class StubDOMRect implements DOMRect {
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/bottom) */
@@ -111,7 +111,7 @@ export class StubEvent implements Event {
   readonly NONE: 0
 }
 
-export class IntersectionObserverStub implements IntersectionObserver {
+export class StubIntersectionObserver implements IntersectionObserver {
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/root) */
   readonly root: Element | Document | null
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/rootMargin) */
@@ -120,7 +120,7 @@ export class IntersectionObserverStub implements IntersectionObserver {
   readonly thresholds: ReadonlyArray<number>
 
   constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
-    this.root = options?.root ?? document ?? null
+    this.root = options?.root ?? (isDocumentDefined() ? document : null)
     this.rootMargin = options?.rootMargin ?? '0px 0px 0px 0px'
     this.thresholds = typeof options?.threshold === 'number' ? [options.threshold] : options?.threshold ?? [0]
   }
