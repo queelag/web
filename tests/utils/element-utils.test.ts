@@ -1,22 +1,11 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import {
-  getElementStyleCompatibleValue,
-  joinElementClasses,
-  removeImmutableElementAttribute,
-  setElementAttribute,
-  setImmutableElementAttribute
-} from '../../src'
+import { getElementStyleCompatibleValue, removeImmutableElementAttribute, setElementAttribute, setImmutableElementAttribute } from '../../src'
 
 describe('Element Utils', () => {
   let element: HTMLDivElement
 
   beforeEach(() => {
     element = document.createElement('div')
-  })
-
-  it('joins truthy element classes', () => {
-    expect(joinElementClasses('hello', 'world')).toBe('hello world')
-    expect(joinElementClasses('hello', false, 'world')).toBe('hello world')
   })
 
   it('gets element style compatible value', () => {

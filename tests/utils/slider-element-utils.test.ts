@@ -11,6 +11,6 @@ describe('Slider Element Utils', () => {
 
   it('gets thumb element percentage', () => {
     expect(getSliderThumbElementPercentage()).toBe(0)
-    expect(getSliderThumbElementPercentage(25, 0, 100, 0)).toBe(25)
+    expect(getSliderThumbElementPercentage(25, { min: 0, max: 100, decimals: 0 })).toBe(25)
   })
 })
