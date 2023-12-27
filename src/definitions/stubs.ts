@@ -111,6 +111,41 @@ export class StubEvent implements Event {
   readonly NONE: 0
 }
 
+export class IntersectionObserverStub implements IntersectionObserver {
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/root) */
+  readonly root: Element | Document | null
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/rootMargin) */
+  readonly rootMargin: string
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/thresholds) */
+  readonly thresholds: ReadonlyArray<number>
+
+  constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
+    this.root = options?.root ?? document ?? null
+    this.rootMargin = options?.rootMargin ?? '0px 0px 0px 0px'
+    this.thresholds = typeof options?.threshold === 'number' ? [options.threshold] : options?.threshold ?? [0]
+  }
+
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/disconnect) */
+  disconnect(): void {
+    return
+  }
+
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/observe) */
+  observe(target: Element): void {
+    return
+  }
+
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/takeRecords) */
+  takeRecords(): IntersectionObserverEntry[] {
+    return []
+  }
+
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/unobserve) */
+  unobserve(target: Element): void {
+    return
+  }
+}
+
 export const STUB_DOCUMENT_COOKIE_MAP: Map<string, string> = new Map()
 export const STUB_DOCUMENT_COOKIE_ATTRIBUTES: PropertyDescriptor = {
   get: STUB_COOKIE_GET(STUB_DOCUMENT_COOKIE_MAP),
