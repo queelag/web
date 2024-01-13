@@ -1,4 +1,4 @@
-import { StorageItem, SyncStorage, isWindowDefined } from '@aracna/core'
+import { StorageItem, SyncStorage, isWindowNotDefined } from '@aracna/core'
 import { StorageName } from '../definitions/enums.js'
 
 /**
@@ -8,9 +8,47 @@ import { StorageName } from '../definitions/enums.js'
  */
 export const LocalStorage = new SyncStorage(
   StorageName.LOCAL,
-  () => (isWindowDefined() ? localStorage.clear() : undefined),
-  (key: string) => (isWindowDefined() ? JSON.parse(localStorage.getItem(key) ?? '{}') : {}),
-  (key: string) => (isWindowDefined() ? localStorage.getItem(key) !== null : false),
-  (key: string) => (isWindowDefined() ? localStorage.removeItem(key) : undefined),
-  (key: string, item: StorageItem) => (isWindowDefined() ? localStorage.setItem(key, JSON.stringify(item)) : undefined)
+  () => {
+    if (isWindowNotDefined()) {
+      return new Error('The window object is not defined.')
+    }
+
+    return localStorage.clear()
+  },
+  (key: string) => {
+    let item: string | null
+
+    if (isWindowNotDefined()) {
+      return new Error('The window object is not defined.')
+    }
+
+    item = localStorage.getItem(key)
+
+    if (item === null) {
+      return new Error(`The item "${key}" does not exist in the LocalStorage.`)
+    }
+
+    return JSON.parse(item)
+  },
+  (key: string) => {
+    if (isWindowNotDefined()) {
+      return false
+    }
+
+    return localStorage.getItem(key) !== null
+  },
+  (key: string) => {
+    if (isWindowNotDefined()) {
+      return new Error('The window object is not defined.')
+    }
+
+    return localStorage.removeItem(key)
+  },
+  (key: string, item: StorageItem) => {
+    if (isWindowNotDefined()) {
+      return new Error('The window object is not defined.')
+    }
+
+    return localStorage.setItem(key, JSON.stringify(item))
+  }
 )

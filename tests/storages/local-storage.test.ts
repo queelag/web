@@ -14,7 +14,7 @@ describe('LocalStorage', () => {
   })
 
   it('gets', () => {
-    expect(LocalStorage.get('person')).toStrictEqual({})
+    expect(LocalStorage.get('person')).toBeInstanceOf(Error)
     LocalStorage.set('person', { name: 'john' })
     expect(LocalStorage.get('person')).toStrictEqual({ name: 'john' })
   })
@@ -40,10 +40,10 @@ describe('LocalStorage', () => {
     // @ts-ignore
     delete global.window
 
-    expect(LocalStorage.clear()).toBeUndefined()
-    expect(LocalStorage.get('person')).toStrictEqual({})
+    expect(LocalStorage.clear()).toBeInstanceOf(Error)
+    expect(LocalStorage.get('person')).toBeInstanceOf(Error)
     expect(LocalStorage.has('person')).toBeFalsy()
-    expect(LocalStorage.remove('person')).toBeUndefined()
-    expect(LocalStorage.set('person', {})).toBeUndefined()
+    expect(LocalStorage.remove('person')).toBeInstanceOf(Error)
+    expect(LocalStorage.set('person', {})).toBeInstanceOf(Error)
   })
 })
