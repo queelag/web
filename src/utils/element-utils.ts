@@ -1,5 +1,5 @@
 import { isDocumentNotDefined, tc } from '@aracna/core'
-import { ElementAttributeValue } from '../definitions/types.js'
+import type { ElementAttributeValue } from '../definitions/types.js'
 import { jec } from '../functions/jec.js'
 import { getWindowBoundingClientRect } from './window-utils.js'
 

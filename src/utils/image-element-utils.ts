@@ -1,6 +1,6 @@
 import { DeferredPromise, tc } from '@aracna/core'
 import { CACHE_IMAGES } from '../definitions/constants.js'
-import { CacheImageElementBase64, CacheImageSrcBase64, GetImageElementBase64Options, GetImageSrcBase64Options } from '../definitions/interfaces.js'
+import type { CacheImageElementBase64, CacheImageSrcBase64, GetImageElementBase64Options, GetImageSrcBase64Options } from '../definitions/interfaces.js'
 import { UtilLogger } from '../loggers/util-logger.js'
 
 /**

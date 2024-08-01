@@ -1,6 +1,6 @@
 import { EventEmitter, isStringJSON, tc, wf } from '@aracna/core'
-import { WebSocketEvents, WebSocketOpenOptions, WebSocketOptions } from '../definitions/interfaces.js'
-import { WebSocketEventData, WebSocketTransformMessageData } from '../definitions/types.js'
+import type { WebSocketEvents, WebSocketOpenOptions, WebSocketOptions } from '../definitions/interfaces.js'
+import type { WebSocketEventData, WebSocketTransformMessageData } from '../definitions/types.js'
 import { DEFAULT_WEB_SOCKET_BINARY_TYPE, DEFAULT_WEB_SOCKET_TRANSFORM_MESSAGE_DATA, DEFAULT_WEB_SOCKET_TRANSFORM_SEND_DATA } from '../index.js'
 import { ClassLogger } from '../loggers/class-logger.js'
 

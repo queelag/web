@@ -1,4 +1,4 @@
-import { StorageItem, SyncStorage, isWindowNotDefined } from '@aracna/core'
+import { type StorageItem, SyncStorage, isWindowNotDefined } from '@aracna/core'
 import { StorageName } from '../definitions/enums.js'
 
 /**
