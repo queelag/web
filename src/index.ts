@@ -5,6 +5,7 @@ export { KeyboardEventKey, LoggerName as WebLoggerName, StorageName as WebStorag
 export type * from './definitions/interfaces.js'
 export * from './definitions/stubs.js'
 export type * from './definitions/types.js'
+export * from './events/isomorphic-event.js'
 export * from './functions/jec.js'
 export { ClassLogger as WebClassLogger } from './loggers/class-logger.js'
 export { UtilLogger as WebUtilLogger } from './loggers/util-logger.js'
