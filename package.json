@@ -33,6 +33,7 @@
   "main": "index.cjs",
   "module": "index.js",
   "name": "@aracna/web",
+  "packageManager": "pnpm@9.7.0",
   "peerDependencies": {
     "@aracna/core": ">= 1.1.0"
   },
