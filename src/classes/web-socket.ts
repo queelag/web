@@ -33,10 +33,6 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
    */
   protected instance?: WebSocket
   /**
-   * The name of this web socket.
-   */
-  protected readonly name: string
-  /**
    * The protocols to use.
    */
   protected protocols: string | string[] | undefined
@@ -54,11 +50,10 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
    */
   protected transformSendData: WebSocketTransformMessageData<any>
 
-  constructor(name: string, url: string, options?: WebSocketOptions) {
+  constructor(url: string, options?: WebSocketOptions) {
     super()
 
     this.binaryType = options?.binaryType ?? DEFAULT_WEB_SOCKET_BINARY_TYPE
-    this.name = name
     this.protocols = options?.protocols
     this.url = url
 
@@ -76,7 +71,7 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
     close = tc(() => this.instance?.close(code, reason))
     if (close instanceof Error) return close
 
-    ClassLogger.info(this.name, 'close', `The web socket is closing the connection.`)
+    ClassLogger.info(this.url, 'close', `The web socket is closing the connection.`)
 
     return wf(() => this.isReadyStateClosed)
   }
@@ -99,10 +94,10 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
     if (socket instanceof Error) return socket
 
     this.instance = socket
-    ClassLogger.info(this.name, 'open', `The web socket instance has been created.`, this.instance)
+    ClassLogger.info(this.url, 'open', `The web socket instance has been created.`, this.instance)
 
     this.instance.binaryType = this.binaryType
-    ClassLogger.verbose(this.name, 'open', `The binary type has been set.`, [this.binaryType])
+    ClassLogger.verbose(this.url, 'open', `The binary type has been set.`, [this.binaryType])
 
     this.instance.addEventListener('close', this.onClose)
     this.instance.addEventListener('error', this.onError)
@@ -119,11 +114,11 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
    * - The data will be JSON stringified if it is an object.
    * - The data will be transformed with the `transformSendData` method.
    */
-  send<T extends object>(data: WebSocketEventData<T>): void | Error {
+  async send<T extends object>(data: WebSocketEventData<T>): Promise<void | Error> {
     let tdata: WebSocketEventData<T>, send: void | Error
 
     if (this.isReadyStateNotOpen) {
-      ClassLogger.warn(this.name, 'send', `The web socket ready state is not open, this message can't be sent.`)
+      ClassLogger.warn(this.url, 'send', `The web socket ready state is not open, this message can't be sent.`)
       return
     }
 
@@ -131,50 +126,50 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
       case data instanceof ArrayBuffer:
       case data instanceof Blob:
         tdata = data
-        ClassLogger.verbose(this.name, 'send', `The data is an ArrayBuffer or Blob, no transformations are needed.`, tdata)
+        ClassLogger.verbose(this.url, 'send', `The data is an ArrayBuffer or Blob, no transformations are needed.`, tdata)
 
         break
       default:
         if (typeof data === 'object') {
           tdata = JSON.stringify(data)
-          ClassLogger.verbose(this.name, 'send', `The data has been JSON stringified.`, [tdata])
+          ClassLogger.verbose(this.url, 'send', `The data has been JSON stringified.`, [tdata])
 
           break
         }
 
         tdata = data
-        ClassLogger.verbose(this.name, 'send', `The data does not need any transformations.`, [tdata])
+        ClassLogger.verbose(this.url, 'send', `The data does not need any transformations.`, [tdata])
 
         break
     }
 
-    tdata = this.transformSendData(data)
-    ClassLogger.verbose(this.name, 'send', `The data has been transformed.`, [tdata])
+    tdata = await this.transformSendData(data)
+    ClassLogger.verbose(this.url, 'send', `The data has been transformed.`, [tdata])
 
     send = tc(() => this.instance?.send(tdata as any))
     if (send instanceof Error) return send
 
-    ClassLogger.info(this.name, 'send', `The data has been sent.`, [tdata])
+    ClassLogger.info(this.url, 'send', `The data has been sent.`, [tdata])
   }
 
   /**
    * Emits the `close` event.
    */
   protected onClose = (event: CloseEvent) => {
-    ClassLogger.info(this.name, 'onClose', `The web socket connection has been closed.`, event)
+    ClassLogger.info(this.url, 'onClose', `The web socket connection has been closed.`, event)
 
     this.emit('close', event)
-    ClassLogger.verbose(this.name, 'onClose', `The close event has been emitted.`, event)
+    ClassLogger.verbose(this.url, 'onClose', `The close event has been emitted.`, event)
   }
 
   /**
    * Emits the `error` event.
    */
   protected onError = (event: Event) => {
-    ClassLogger.error(this.name, 'onError', `The web socket crashed.`, event)
+    ClassLogger.error(this.url, 'onError', `The web socket crashed.`, event)
 
     this.emit('error', event)
-    ClassLogger.verbose(this.name, 'onError', `The error event has been emitted.`, event)
+    ClassLogger.verbose(this.url, 'onError', `The error event has been emitted.`, event)
   }
 
   /**
@@ -183,29 +178,29 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
    * - The data will be JSON parsed if it is a JSON string.
    * - The data will be transformed with the `transformMessageData` method.
    */
-  protected onMessage = (event: MessageEvent) => {
-    ClassLogger.info(this.name, 'onMessage', `The web socket received a message.`, event)
+  protected onMessage = async (event: MessageEvent) => {
+    ClassLogger.info(this.url, 'onMessage', `The web socket received a message.`, event)
 
     if (isStringJSON(event.data)) {
       event = { ...event, data: JSON.parse(event.data) }
-      ClassLogger.verbose(this.name, 'onMessage', `The data has been JSON parsed.`, event.data)
+      ClassLogger.verbose(this.url, 'onMessage', `The data has been JSON parsed.`, event.data)
     }
 
-    event = { ...event, data: this.transformMessageData(event.data) }
-    ClassLogger.verbose(this.name, 'onMessage', `The data has been transformed.`, event.data)
+    event = { ...event, data: await this.transformMessageData(event.data) }
+    ClassLogger.verbose(this.url, 'onMessage', `The data has been transformed.`, event.data)
 
     this.emit('message', event)
-    ClassLogger.verbose(this.name, 'onMessage', `The message event has been emitted.`, event)
+    ClassLogger.verbose(this.url, 'onMessage', `The message event has been emitted.`, event)
   }
 
   /**
    * Emits the `open` event.
    */
   protected onOpen = (event: Event) => {
-    ClassLogger.info(this.name, 'onOpen', `The web socket connection has been opened.`, event)
+    ClassLogger.info(this.url, 'onOpen', `The web socket connection has been opened.`, event)
 
     this.emit('open', event)
-    ClassLogger.verbose(this.name, 'onOpen', `The open event has been emitted.`, event)
+    ClassLogger.verbose(this.url, 'onOpen', `The open event has been emitted.`, event)
   }
 
   /**
@@ -213,13 +208,6 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
    */
   getBinaryType(): BinaryType {
     return this.binaryType
-  }
-
-  /**
-   * Returns the name.
-   */
-  getName(): string {
-    return this.name
   }
 
   /**

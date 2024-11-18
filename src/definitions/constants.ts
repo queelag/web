@@ -11,5 +11,5 @@ export const CACHE_IMAGES: Map<string, string> = new Map()
  */
 /** */
 export const DEFAULT_WEB_SOCKET_BINARY_TYPE: BinaryType = 'blob'
-export const DEFAULT_WEB_SOCKET_TRANSFORM_MESSAGE_DATA: WebSocketTransformMessageData<any> = (data: any) => data
-export const DEFAULT_WEB_SOCKET_TRANSFORM_SEND_DATA: WebSocketTransformSendData<any> = (data: any) => data
+export const DEFAULT_WEB_SOCKET_TRANSFORM_MESSAGE_DATA: WebSocketTransformMessageData<any> = async (data: any) => data
+export const DEFAULT_WEB_SOCKET_TRANSFORM_SEND_DATA: WebSocketTransformSendData<any> = async (data: any) => data
