@@ -34,5 +34,6 @@ export interface WebSocketOptions {
 }
 
 export interface WebSocketOpenOptions extends WebSocketOptions {
+  force?: boolean
   url?: string
 }

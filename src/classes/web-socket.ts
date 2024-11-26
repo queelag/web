@@ -1,4 +1,4 @@
-import { EventEmitter, isStringJSON, tc, wf } from '@aracna/core'
+import { DeferredPromise, EventEmitter, isStringJSON, Queue, QueueFunction, QueueProcess, tc } from '@aracna/core'
 import type { WebSocketEvents, WebSocketOpenOptions, WebSocketOptions } from '../definitions/interfaces.js'
 import type { WebSocketEventData, WebSocketTransformMessageData } from '../definitions/types.js'
 import { DEFAULT_WEB_SOCKET_BINARY_TYPE, DEFAULT_WEB_SOCKET_TRANSFORM_MESSAGE_DATA, DEFAULT_WEB_SOCKET_TRANSFORM_SEND_DATA } from '../index.js'
@@ -37,24 +37,20 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
    */
   protected protocols: string | string[] | undefined
   /**
+   * The connection queue.
+   */
+  protected queue: Queue
+  /**
    * The URL to connect to.
    */
   protected url: string
-
-  /**
-   * Transforms the data received in the message event.
-   */
-  protected transformMessageData: WebSocketTransformMessageData<any>
-  /**
-   * Transforms the data to send.
-   */
-  protected transformSendData: WebSocketTransformMessageData<any>
 
   constructor(url: string, options?: WebSocketOptions) {
     super()
 
     this.binaryType = options?.binaryType ?? DEFAULT_WEB_SOCKET_BINARY_TYPE
     this.protocols = options?.protocols
+    this.queue = new Queue({ autostart: true, concurrency: 1 })
     this.url = url
 
     this.transformMessageData = options?.transform?.messageData ?? DEFAULT_WEB_SOCKET_TRANSFORM_MESSAGE_DATA
@@ -66,14 +62,73 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
    * Optionally with a code and a reason.
    */
   async close(code?: number, reason?: string): Promise<void | Error> {
-    let close: void | Error
+    if (this.isReadyStateClosed) {
+      return ClassLogger.verbose(this.url, 'close', `The web socket connection is already closed.`)
+    }
 
-    close = tc(() => this.instance?.close(code, reason))
-    if (close instanceof Error) return close
+    if (this.isReadyStateClosing) {
+      let cp: DeferredPromise<Event>, ep: DeferredPromise<Event>
 
-    ClassLogger.info(this.url, 'close', `The web socket is closing the connection.`)
+      cp = new DeferredPromise()
+      ep = new DeferredPromise()
 
-    return wf(() => this.isReadyStateClosed)
+      this.instance?.addEventListener('close', cp.resolve)
+      this.instance?.addEventListener('error', ep.resolve)
+
+      await Promise.race([cp.instance, ep.instance])
+
+      this.instance?.removeEventListener('close', cp.resolve)
+      this.instance?.removeEventListener('error', ep.resolve)
+
+      ClassLogger.info(this.url, 'close', `The web socket has closed the connection.`)
+
+      return
+    }
+
+    if (this.isReadyStateConnecting) {
+      let ep: DeferredPromise<Event>, op: DeferredPromise<Event>
+
+      ep = new DeferredPromise()
+      op = new DeferredPromise()
+
+      this.instance?.addEventListener('error', ep.resolve)
+      this.instance?.addEventListener('open', op.resolve)
+
+      await Promise.race([ep.instance, op.instance])
+
+      this.instance?.removeEventListener('error', ep.resolve)
+      this.instance?.removeEventListener('open', op.resolve)
+
+      return this.close(code, reason)
+    }
+
+    if (this.isReadyStateOpen) {
+      let cp: DeferredPromise<Event>, ep: DeferredPromise<Event>, close: void | Error
+
+      cp = new DeferredPromise()
+      ep = new DeferredPromise()
+
+      this.instance?.addEventListener('close', cp.resolve, { once: true })
+      this.instance?.addEventListener('error', ep.resolve, { once: true })
+
+      ClassLogger.info(this.url, 'close', `The web socket is closing the connection...`)
+
+      close = tc(() => this.instance?.close(code, reason))
+
+      if (close instanceof Error) {
+        this.instance?.removeEventListener('close', cp.resolve)
+        this.instance?.removeEventListener('error', ep.resolve)
+
+        return close
+      }
+
+      await Promise.race([cp.instance, ep.instance])
+
+      this.instance?.removeEventListener('close', cp.resolve)
+      this.instance?.removeEventListener('error', ep.resolve)
+
+      ClassLogger.info(this.url, 'close', `The web socket has closed the connection.`)
+    }
   }
 
   /**
@@ -81,30 +136,99 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
    * Optionally the binary type, protocols, data transformers and URL can be set before opening the connection.
    */
   async open(options?: WebSocketOpenOptions): Promise<void | Error> {
-    let socket: WebSocket | Error
+    let promise: DeferredPromise<void | Error>,
+      fn: QueueFunction,
+      cf: (process: QueueProcess<void | Error>) => void,
+      rf: (process: QueueProcess) => void,
+      tf: (process: QueueProcess) => void
 
-    this.binaryType = options?.binaryType ?? this.binaryType
-    this.protocols = options?.protocols ?? this.protocols
-    this.url = options?.url ?? this.url
+    if (this.isReadyStateConnecting) {
+      let ep: DeferredPromise<Event>, op: DeferredPromise<Event>
 
-    this.transformMessageData = options?.transform?.messageData ?? this.transformMessageData
-    this.transformSendData = options?.transform?.sendData ?? this.transformSendData
+      ep = new DeferredPromise()
+      op = new DeferredPromise()
 
-    socket = tc(() => new WebSocket(this.url, this.protocols))
-    if (socket instanceof Error) return socket
+      this.instance?.addEventListener('error', ep.resolve)
+      this.instance?.addEventListener('open', op.resolve)
 
-    this.instance = socket
-    ClassLogger.info(this.url, 'open', `The web socket instance has been created.`, this.instance)
+      await Promise.race([ep.instance, op.instance])
 
-    this.instance.binaryType = this.binaryType
-    ClassLogger.verbose(this.url, 'open', `The binary type has been set.`, [this.binaryType])
+      this.instance?.removeEventListener('error', ep.resolve)
+      this.instance?.removeEventListener('open', op.resolve)
 
-    this.instance.addEventListener('close', this.onClose)
-    this.instance.addEventListener('error', this.onError)
-    this.instance.addEventListener('message', this.onMessage)
-    this.instance.addEventListener('open', this.onOpen)
+      return
+    }
 
-    return wf(() => this.isReadyStateOpen)
+    if (this.isReadyStateOpen && !options?.force) {
+      return ClassLogger.verbose(this.url, 'open', `The web socket connection is already open.`)
+    }
+
+    promise = new DeferredPromise()
+
+    fn = async () => {
+      let socket: WebSocket | Error, ep: DeferredPromise<Event>, op: DeferredPromise<Event>
+
+      this.binaryType = options?.binaryType ?? this.binaryType
+      this.protocols = options?.protocols ?? this.protocols
+      this.url = options?.url ?? this.url
+
+      this.transformMessageData = options?.transform?.messageData ?? this.transformMessageData
+      this.transformSendData = options?.transform?.sendData ?? this.transformSendData
+
+      socket = tc(() => new WebSocket(this.url, this.protocols))
+      if (socket instanceof Error) return socket
+
+      this.instance = socket
+      ClassLogger.info(this.url, 'open', `The web socket instance has been created.`, this.instance)
+
+      this.instance.binaryType = this.binaryType
+      ClassLogger.verbose(this.url, 'open', `The binary type has been set.`, [this.binaryType])
+
+      this.instance.addEventListener('close', this.onClose.bind(this))
+      this.instance.addEventListener('error', this.onError.bind(this))
+      this.instance.addEventListener('message', this.onMessage.bind(this))
+      this.instance.addEventListener('open', this.onOpen.bind(this))
+
+      ep = new DeferredPromise()
+      op = new DeferredPromise()
+
+      this.instance.addEventListener('error', ep.resolve, { once: true })
+      this.instance.addEventListener('open', op.resolve, { once: true })
+
+      await Promise.race([ep.instance, op.instance])
+    }
+
+    cf = (process: QueueProcess<void | Error>) => {
+      if (process.fn === fn) {
+        promise.resolve(process.value)
+      }
+    }
+
+    rf = (process: QueueProcess) => {
+      if (process.fn === fn) {
+        promise.reject(process.reason)
+      }
+    }
+
+    tf = (process: QueueProcess) => {
+      if (process.fn === fn) {
+        promise.reject()
+      }
+    }
+
+    this.queue.on('process-fulfill', cf)
+    this.queue.on('process-reject', rf)
+    this.queue.on('process-timeout', tf)
+
+    this.queue.push(() => this.close(), fn)
+
+    await promise.instance
+
+    this.queue.off('process-fulfill', cf)
+    this.queue.off('process-reject', rf)
+    this.queue.off('process-timeout', tf)
+
+    return promise.instance
   }
 
   /**
@@ -118,8 +242,7 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
     let tdata: WebSocketEventData<T>, send: void | Error
 
     if (this.isReadyStateNotOpen) {
-      ClassLogger.warn(this.url, 'send', `The web socket ready state is not open, this message can't be sent.`)
-      return
+      return ClassLogger.warn(this.url, 'send', `The web socket ready state is not open, this message can't be sent.`)
     }
 
     switch (true) {
@@ -152,10 +275,18 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
     ClassLogger.info(this.url, 'send', `The data has been sent.`, [tdata])
   }
 
+  protected async transformMessageData<T extends object>(data: WebSocketEventData<T>): Promise<T> {
+    return DEFAULT_WEB_SOCKET_TRANSFORM_MESSAGE_DATA(data)
+  }
+
+  protected async transformSendData<T extends object>(data: WebSocketEventData<T>): Promise<T> {
+    return DEFAULT_WEB_SOCKET_TRANSFORM_SEND_DATA(data)
+  }
+
   /**
    * Emits the `close` event.
    */
-  protected onClose = (event: CloseEvent) => {
+  protected async onClose(event: CloseEvent): Promise<void> {
     ClassLogger.info(this.url, 'onClose', `The web socket connection has been closed.`, event)
 
     this.emit('close', event)
@@ -165,7 +296,7 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
   /**
    * Emits the `error` event.
    */
-  protected onError = (event: Event) => {
+  protected async onError(event: Event): Promise<void> {
     ClassLogger.error(this.url, 'onError', `The web socket crashed.`, event)
 
     this.emit('error', event)
@@ -178,7 +309,7 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
    * - The data will be JSON parsed if it is a JSON string.
    * - The data will be transformed with the `transformMessageData` method.
    */
-  protected onMessage = async (event: MessageEvent) => {
+  protected async onMessage(event: MessageEvent): Promise<void> {
     ClassLogger.info(this.url, 'onMessage', `The web socket received a message.`, event)
 
     if (isStringJSON(event.data)) {
@@ -196,7 +327,7 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
   /**
    * Emits the `open` event.
    */
-  protected onOpen = (event: Event) => {
+  protected async onOpen(event: Event): Promise<void> {
     ClassLogger.info(this.url, 'onOpen', `The web socket connection has been opened.`, event)
 
     this.emit('open', event)
@@ -215,6 +346,18 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
    */
   getProtocols(): string | string[] | undefined {
     return this.protocols
+  }
+
+  /**
+   * Returns the ready state.
+   *
+   * 0 (CONNECTING)
+   * 1 (OPEN)
+   * 2 (CLOSING)
+   * 3 (CLOSED)
+   */
+  getReadyState(): number {
+    return this.instance?.readyState ?? WebSocket.CLOSED
   }
 
   /**
@@ -246,7 +389,7 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
   /**
    * Sets the transform message data method.
    */
-  setTransformMessageData<T extends object>(transformMessageData: WebSocketTransformMessageData<T>): this {
+  setTransformMessageData(transformMessageData: WebSocketTransformMessageData<any>): this {
     this.transformMessageData = transformMessageData
     return this
   }
@@ -254,7 +397,7 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
   /**
    * Sets the transform send data method.
    */
-  setTransformSendData<T extends object>(transformSendData: WebSocketTransformMessageData<T>): this {
+  setTransformSendData(transformSendData: WebSocketTransformMessageData<any>): this {
     this.transformSendData = transformSendData
     return this
   }
@@ -271,56 +414,56 @@ class AracnaWebSocket extends EventEmitter<WebSocketEvents> {
    * Checks if the ready state is `CLOSED`.
    */
   get isReadyStateClosed(): boolean {
-    return this.instance?.readyState === WebSocket.CLOSED
+    return this.getReadyState() === WebSocket.CLOSED
   }
 
   /**
    * Checks if the ready state is not `CLOSED`.
    */
   get isReadyStateNotClosed(): boolean {
-    return this.instance?.readyState !== WebSocket.CLOSED
+    return this.getReadyState() !== WebSocket.CLOSED
   }
 
   /**
    * Checks if the ready state is `CLOSING`.
    */
   get isReadyStateClosing(): boolean {
-    return this.instance?.readyState === WebSocket.CLOSING
+    return this.getReadyState() === WebSocket.CLOSING
   }
 
   /**
    * Checks if the ready state is not `CLOSING`.
    */
   get isReadyStateNotClosing(): boolean {
-    return this.instance?.readyState !== WebSocket.CLOSING
+    return this.getReadyState() !== WebSocket.CLOSING
   }
 
   /**
    * Checks if the ready state is `CONNECTING`.
    */
   get isReadyStateConnecting(): boolean {
-    return this.instance?.readyState === WebSocket.CONNECTING
+    return this.getReadyState() === WebSocket.CONNECTING
   }
 
   /**
    * Checks if the ready state is not `CONNECTING`.
    */
   get isReadyStateNotConnecting(): boolean {
-    return this.instance?.readyState !== WebSocket.CONNECTING
+    return this.getReadyState() !== WebSocket.CONNECTING
   }
 
   /**
    * Checks if the ready state is `OPEN`.
    */
   get isReadyStateOpen(): boolean {
-    return this.instance?.readyState === WebSocket.OPEN
+    return this.getReadyState() === WebSocket.OPEN
   }
 
   /**
    * Checks if the ready state is not `OPEN`.
    */
   get isReadyStateNotOpen(): boolean {
-    return this.instance?.readyState !== WebSocket.OPEN
+    return this.getReadyState() !== WebSocket.OPEN
   }
 }
 
