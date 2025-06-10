@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@aracna/core':
-        specifier: ^1.3.0
-        version: 1.3.0
+        specifier: ^1.3.1
+        version: 1.3.1
       '@floating-ui/dom':
         specifier: ^1.7.1
         version: 1.7.1
@@ -67,8 +67,8 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@aracna/core@1.3.0':
-    resolution: {integrity: sha512-d1KVQFkmDgIFnKExNooqIFwQydm1dAUkO6JL4HyXYkc49T1lA55snHKdfxm2XsVhpRyihvg6uWQEP+kgODbcVA==}
+  '@aracna/core@1.3.1':
+    resolution: {integrity: sha512-t8n7lU29Eq/Z/fXVOKaU8F+KVMusqxrM40MVqrXn/6u6KIuI44oK5BjV9VeDjF+Ck5YxRWvfluKGAIrEfWF3uQ==}
     engines: {node: '>=18', pnpm: '>=10'}
 
   '@asamuzakjp/css-color@3.2.0':
@@ -1302,7 +1302,7 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@aracna/core@1.3.0':
+  '@aracna/core@1.3.1':
     dependencies:
       cookie: 1.0.2
       nanoid: 5.1.5
