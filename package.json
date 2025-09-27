@@ -41,8 +41,8 @@
   },
   "repository": "https://github.com/queelag/web",
   "scripts": {
-    "build": "node esbuild.mjs && pnpm tsc && pnpm api-extractor run --local",
-    "prepublish": "pnpm test && pnpm build && node scripts/pre-publish.mjs",
+    "build": "node scripts/build.mjs",
+    "prepublish": "vitest run && node scripts/build.mjs",
     "test": "vitest run"
   },
   "sideEffects": false,
