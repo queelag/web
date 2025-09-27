@@ -1,4 +1,4 @@
-import { STUB_COOKIE_GET, STUB_COOKIE_SET, STUB_STORAGE, isDocumentDefined } from '@aracna/core'
+import { type CookieObject, STUB_STORAGE, deserializeCookie, isDocumentDefined, serializeCookieValue } from '@aracna/core'
 
 export class StubDOMRect implements DOMRect {
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMRectReadOnly/bottom) */
@@ -122,7 +122,7 @@ export class StubIntersectionObserver implements IntersectionObserver {
   constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
     this.root = options?.root ?? (isDocumentDefined() ? document : null)
     this.rootMargin = options?.rootMargin ?? '0px 0px 0px 0px'
-    this.thresholds = typeof options?.threshold === 'number' ? [options.threshold] : options?.threshold ?? [0]
+    this.thresholds = typeof options?.threshold === 'number' ? [options.threshold] : (options?.threshold ?? [0])
   }
 
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/disconnect) */
@@ -147,9 +147,36 @@ export class StubIntersectionObserver implements IntersectionObserver {
 }
 
 export const STUB_DOCUMENT_COOKIE_MAP: Map<string, string> = new Map()
+
+export const STUB_DOCUMENT_COOKIE_GET: (map: Map<string, string>) => () => string = (map: Map<string, string>) => () =>
+  [...map.entries()].map(([k, v]) => [k, v].join('=')).join(';')
+
+export const STUB_DOCUMENT_COOKIE_SET: (map: Map<string, string>, deserialize?: Function) => (cookie: string) => void =
+  (map: Map<string, string | undefined>, deserialize: Function = deserializeCookie) =>
+  (cookie: string) => {
+    let object: CookieObject | Error
+
+    object = deserialize(cookie)
+    if (object instanceof Error) return
+
+    for (let k in object) {
+      let v: string | Error
+
+      if (cookie.includes('Expires=Thu, 01 Jan 1970 00:00:00 GMT')) {
+        map.delete(k)
+        continue
+      }
+
+      v = serializeCookieValue(object[k])
+      if (v instanceof Error) continue
+
+      map.set(k, v)
+    }
+  }
+
 export const STUB_DOCUMENT_COOKIE_ATTRIBUTES: PropertyDescriptor = {
-  get: STUB_COOKIE_GET(STUB_DOCUMENT_COOKIE_MAP),
-  set: STUB_COOKIE_SET(STUB_DOCUMENT_COOKIE_MAP)
+  get: STUB_DOCUMENT_COOKIE_GET(STUB_DOCUMENT_COOKIE_MAP),
+  set: STUB_DOCUMENT_COOKIE_SET(STUB_DOCUMENT_COOKIE_MAP)
 }
 
 export const STUB_LOCAL_STORAGE_MAP: Map<string, string> = new Map()
