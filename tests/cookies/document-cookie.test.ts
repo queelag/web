@@ -1,3 +1,4 @@
+import { CoreConfiguration } from '@aracna/core'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { DocumentCookie } from '../../src/cookies/document-cookie'
 
@@ -37,6 +38,8 @@ describe('DocumentCookie', () => {
   })
 
   it('does not throw if document is undefined', () => {
+    CoreConfiguration.functions.tc.log = false
+
     // @ts-ignore
     delete global.document
 
@@ -45,5 +48,7 @@ describe('DocumentCookie', () => {
     expect(DocumentCookie.has('person')).toBeFalsy()
     expect(DocumentCookie.remove('person')).toBeInstanceOf(Error)
     expect(DocumentCookie.set('person', {})).toBeInstanceOf(Error)
+
+    CoreConfiguration.functions.tc.log = true
   })
 })
