@@ -40,7 +40,7 @@ export async function bundle() {
       bundle: true,
       entryPoints: ['src/index.ts'],
       format: 'iife',
-      globalName: 'AracnaCore',
+      globalName: 'AracnaWeb',
       outfile: 'dist/index.iife.js',
       platform: 'browser',
       treeShaking: true
