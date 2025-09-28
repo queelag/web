@@ -1,13 +1,24 @@
-import { CookieItem, CookieObject, SyncCookie, deserializeCookie, isDocumentNotDefined, serializeCookie } from '@aracna/core'
+import {
+  CookieItem,
+  CookieObject,
+  CookieOptions,
+  DeserializeCookieOptions,
+  KeyOf,
+  SerializeCookieOptions,
+  SyncCookie,
+  deserializeCookie,
+  isDocumentNotDefined,
+  serializeCookie
+} from '@aracna/core'
 
 /**
  * The `DocumentCookie` class is a `Cookie` that uses the `document.cookie` API.
  *
  * [Aracna Reference](https://aracna.dariosechi.it/web/cookies/document-cookie)
  */
-export const DocumentCookie: SyncCookie = new SyncCookie(
+export const DocumentCookie: SyncCookie<CookieOptions, DeserializeCookieOptions, SerializeCookieOptions> = new SyncCookie(
   'DocumentCookie',
-  () => {
+  (options?: SerializeCookieOptions) => {
     let object: CookieObject | Error
 
     if (isDocumentNotDefined()) {
@@ -17,16 +28,16 @@ export const DocumentCookie: SyncCookie = new SyncCookie(
     object = deserializeCookie(document.cookie)
     if (object instanceof Error) throw object
 
-    for (let k in object) {
+    for (let [k, v] of Object.entries(object)) {
       let cookie: string | Error
 
-      cookie = serializeCookie(k, '', { expires: new Date(0) })
+      cookie = serializeCookie(k, v, { ...options, expires: new Date(0) })
       if (cookie instanceof Error) throw cookie
 
       document.cookie = cookie
     }
   },
-  <T extends CookieItem>(key: string) => {
+  <T extends CookieItem>(key: string, options?: DeserializeCookieOptions) => {
     let item: T, object: CookieObject | Error
 
     // @ts-expect-error
@@ -36,7 +47,7 @@ export const DocumentCookie: SyncCookie = new SyncCookie(
       throw new Error('Document is not defined.')
     }
 
-    object = deserializeCookie(document.cookie)
+    object = deserializeCookie(document.cookie, options)
     if (object instanceof Error) throw object
 
     for (let [k, v] of Object.entries(object)) {
@@ -48,14 +59,14 @@ export const DocumentCookie: SyncCookie = new SyncCookie(
 
     return item
   },
-  (key: string) => {
+  (key: string, options?: DeserializeCookieOptions) => {
     let object: CookieObject | Error
 
     if (isDocumentNotDefined()) {
       throw new Error('Document is not defined.')
     }
 
-    object = deserializeCookie(document.cookie)
+    object = deserializeCookie(document.cookie, options)
     if (object instanceof Error) throw object
 
     for (let k in object) {
@@ -66,7 +77,7 @@ export const DocumentCookie: SyncCookie = new SyncCookie(
 
     return false
   },
-  (key: string) => {
+  <T extends CookieItem>(key: string, keys?: KeyOf.Shallow<T>[], options?: SerializeCookieOptions) => {
     let object: CookieObject | Error
 
     if (isDocumentNotDefined()) {
@@ -76,18 +87,34 @@ export const DocumentCookie: SyncCookie = new SyncCookie(
     object = deserializeCookie(document.cookie)
     if (object instanceof Error) throw object
 
-    for (let k in object) {
+    if (keys?.length) {
+      for (let k1 of keys) {
+        let entry: [string, any] | undefined, cookie: string | Error
+
+        entry = Object.entries(object).find(([k2]) => k2.startsWith(key + DocumentCookie.getSeparator() + k1.toString()))
+        if (!entry) continue
+
+        cookie = serializeCookie(...entry, { ...options, expires: new Date(0) })
+        if (cookie instanceof Error) throw cookie
+
+        document.cookie = cookie
+      }
+
+      return
+    }
+
+    for (let [k, v] of Object.entries(object)) {
       if (k.startsWith(key + DocumentCookie.getSeparator())) {
         let cookie: string | Error
 
-        cookie = serializeCookie(k, '', { expires: new Date(0) })
+        cookie = serializeCookie(k, v, { ...options, expires: new Date(0) })
         if (cookie instanceof Error) throw cookie
 
         document.cookie = cookie
       }
     }
   },
-  <T extends CookieItem>(key: string, item: T) => {
+  <T extends CookieItem>(key: string, item: T, options?: SerializeCookieOptions) => {
     if (isDocumentNotDefined()) {
       throw new Error('Document is not defined.')
     }
@@ -95,7 +122,7 @@ export const DocumentCookie: SyncCookie = new SyncCookie(
     for (let [k, v] of Object.entries(item)) {
       let cookie: string | Error
 
-      cookie = serializeCookie(key + DocumentCookie.getSeparator() + k, v)
+      cookie = serializeCookie(key + DocumentCookie.getSeparator() + k, v, options)
       if (cookie instanceof Error) throw cookie
 
       document.cookie = cookie
