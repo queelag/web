@@ -87,31 +87,31 @@ export const DocumentCookie: SyncCookie<CookieOptions, DeserializeCookieOptions,
     object = deserializeCookie(document.cookie)
     if (object instanceof Error) throw object
 
-    if (keys?.length) {
-      for (let k1 of keys) {
-        let entry: [string, any] | undefined, cookie: string | Error
+    if (typeof keys === 'undefined') {
+      for (let [k, v] of Object.entries(object)) {
+        if (k.startsWith(key + DocumentCookie.getSeparator())) {
+          let cookie: string | Error
 
-        entry = Object.entries(object).find(([k2]) => k2.startsWith(key + DocumentCookie.getSeparator() + k1.toString()))
-        if (!entry) continue
+          cookie = serializeCookie(k, v, { ...options, expires: new Date(0) })
+          if (cookie instanceof Error) throw cookie
 
-        cookie = serializeCookie(...entry, { ...options, expires: new Date(0) })
-        if (cookie instanceof Error) throw cookie
-
-        document.cookie = cookie
+          document.cookie = cookie
+        }
       }
 
       return
     }
 
-    for (let [k, v] of Object.entries(object)) {
-      if (k.startsWith(key + DocumentCookie.getSeparator())) {
-        let cookie: string | Error
+    for (let k1 of keys) {
+      let entry: [string, any] | undefined, cookie: string | Error
 
-        cookie = serializeCookie(k, v, { ...options, expires: new Date(0) })
-        if (cookie instanceof Error) throw cookie
+      entry = Object.entries(object).find(([k2]) => k2.startsWith(key + DocumentCookie.getSeparator() + k1.toString()))
+      if (!entry) continue
 
-        document.cookie = cookie
-      }
+      cookie = serializeCookie(...entry, { ...options, expires: new Date(0) })
+      if (cookie instanceof Error) throw cookie
+
+      document.cookie = cookie
     }
   },
   <T extends CookieItem>(key: string, item: T, options?: SerializeCookieOptions) => {
