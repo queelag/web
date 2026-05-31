@@ -1,6 +1,5 @@
 import { isDocumentNotDefined, tc } from '@aracna/core'
 import type { ElementAttributeValue } from '../definitions/types.js'
-import { jec } from '../functions/jec.js'
 import { getWindowBoundingClientRect } from './window-utils.js'
 
 /**
@@ -40,13 +39,6 @@ export function getElementStyleCompatibleValue(value: any): string | undefined {
     default:
       return undefined
   }
-}
-
-/**
- * @deprecated
- */
-export function joinElementClasses(...classes: any[]): string {
-  return jec()
 }
 
 /**

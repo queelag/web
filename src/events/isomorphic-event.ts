@@ -8,9 +8,6 @@ interface IsomorphicEventInit<T = any> extends EventInit {
   detail?: T
 }
 
-/**
- * @category Event
- */
 export class IsomorphicEvent<T = any> extends Event {
   readonly detail?: T
 

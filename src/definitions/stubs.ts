@@ -88,7 +88,7 @@ export class StubEvent implements Event {
     return []
   }
 
-  /** @deprecated */
+  /** @deprecated [MDN Reference](https://developer.mozilla.org/docs/Web/API/Event/initEvent) */
   initEvent(type: string, bubbles?: boolean, cancelable?: boolean): void {
     return
   }
@@ -116,12 +116,15 @@ export class StubIntersectionObserver implements IntersectionObserver {
   readonly root: Element | Document | null
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/rootMargin) */
   readonly rootMargin: string
+  /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/scrollMargin) */
+  readonly scrollMargin: string
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/IntersectionObserver/thresholds) */
   readonly thresholds: ReadonlyArray<number>
 
   constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
     this.root = options?.root ?? (isDocumentDefined() ? document : null)
     this.rootMargin = options?.rootMargin ?? '0px 0px 0px 0px'
+    this.scrollMargin = options?.scrollMargin ?? '0px 0px 0px 0px'
     this.thresholds = typeof options?.threshold === 'number' ? [options.threshold] : (options?.threshold ?? [0])
   }
 
